@@ -1,0 +1,44 @@
+Scope: all 3 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+[WARN] Failed to create bin at /workspace/HomeDash/node_modules/.bin/tsserver. ENOENT: no such file or directory, chmod '/workspace/HomeDash/node_modules/.bin/tsserver'
+[WARN] Failed to create bin at /workspace/HomeDash/node_modules/.bin/eslint. ENOENT: no such file or directory, chmod '/workspace/HomeDash/node_modules/.bin/eslint'
+[WARN] Failed to create bin at /workspace/HomeDash/node_modules/.bin/prettier. ENOENT: no such file or directory, chmod '/workspace/HomeDash/node_modules/.bin/prettier'
+[WARN] Failed to create bin at /workspace/HomeDash/node_modules/.bin/tsc. ENOENT: no such file or directory, chmod '/workspace/HomeDash/node_modules/.bin/tsc'
+[WARN] Failed to create bin at /workspace/HomeDash/backend/node_modules/.bin/tsc. ENOENT: no such file or directory, chmod '/workspace/HomeDash/backend/node_modules/.bin/tsc'
+[WARN] Failed to create bin at /workspace/HomeDash/backend/node_modules/.bin/openapi. ENOENT: no such file or directory, chmod '/workspace/HomeDash/backend/node_modules/.bin/openapi'
+[WARN] Failed to create bin at /workspace/HomeDash/backend/node_modules/.bin/redocly. ENOENT: no such file or directory, chmod '/workspace/HomeDash/backend/node_modules/.bin/redocly'
+[WARN] Failed to create bin at /workspace/HomeDash/backend/node_modules/.bin/tsup-node. ENOENT: no such file or directory, chmod '/workspace/HomeDash/backend/node_modules/.bin/tsup-node'
+[WARN] Failed to create bin at /workspace/HomeDash/backend/node_modules/.bin/pino-pretty. ENOENT: no such file or directory, chmod '/workspace/HomeDash/backend/node_modules/.bin/pino-pretty'
+[WARN] Failed to create bin at /workspace/HomeDash/backend/node_modules/.bin/tsx. ENOENT: no such file or directory, chmod '/workspace/HomeDash/backend/node_modules/.bin/tsx'
+[WARN] Failed to create bin at /workspace/HomeDash/backend/node_modules/.bin/pino. ENOENT: no such file or directory, chmod '/workspace/HomeDash/backend/node_modules/.bin/pino'
+
+Done in 726ms using pnpm v11.1.3
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+tests/integration/backup.test.ts(111,12): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(112,24): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(126,27): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(141,27): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(155,35): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(156,40): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(157,37): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(158,36): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(159,43): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(160,45): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(161,39): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(162,42): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(163,42): error TS2532: Object is possibly 'undefined'.
+tests/integration/restore.test.ts(38,29): error TS4111: Property 'data' comes from an index signature, so it must be accessed with ['data'].
+tests/integration/restore.test.ts(41,8): error TS4111: Property 'users' comes from an index signature, so it must be accessed with ['users'].
+tests/integration/restore.test.ts(41,16): error TS18048: 'data.users' is possibly 'undefined'.
+tests/integration/restore.test.ts(41,21): error TS4111: Property 'users' comes from an index signature, so it must be accessed with ['users'].
+tests/integration/restore.test.ts(42,8): error TS4111: Property 'oauthAccounts' comes from an index signature, so it must be accessed with ['oauthAccounts'].
+tests/integration/restore.test.ts(42,24): error TS18048: 'data.oauthAccounts' is possibly 'undefined'.
+tests/integration/restore.test.ts(42,29): error TS4111: Property 'oauthAccounts' comes from an index signature, so it must be accessed with ['oauthAccounts'].
+tests/integration/restore.test.ts(48,8): error TS4111: Property 'caldavAccounts' comes from an index signature, so it must be accessed with ['caldavAccounts'].
+tests/integration/restore.test.ts(48,25): error TS18048: 'data.caldavAccounts' is possibly 'undefined'.
+tests/integration/restore.test.ts(48,30): error TS4111: Property 'caldavAccounts' comes from an index signature, so it must be accessed with ['caldavAccounts'].
+tests/unit/publicWidgetSnapshotCache.test.ts(46,36): error TS18046: 'value.data' is of type 'unknown'.
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] backend@0.1.0 typecheck: `tsc --noEmit && tsc --project tsconfig.test.json --noEmit`
+Exit status 2

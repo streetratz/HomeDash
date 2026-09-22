@@ -1,0 +1,1 @@
+ALTER TABLE `placeholder_widgets` ADD `child_layout` text DEFAULT 'stacked' NOT NULL;

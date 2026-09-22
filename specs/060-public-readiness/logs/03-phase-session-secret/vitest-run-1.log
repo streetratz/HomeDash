@@ -1,0 +1,120 @@
+# Command: pnpm --filter backend exec vitest run tests/unit/env.test.ts
+# Phase:   03 - Session Secret Migration
+# Run:     1
+# Time:    2026-09-22 20:41 UTC
+# Exit:    1
+---
+Scope: all 3 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+Done in 541ms using pnpm v11.1.3
+
+   ╭──────────────────────────────────────────────╮
+   │                                              │
+   │      Update available! 11.1.3 → 12.4.2.      │
+   │     Changelog: https://pnpm.io/v/12.4.2      │
+   │   To update, run: corepack use pnpm@12.4.2   │
+   │                                              │
+   ╰──────────────────────────────────────────────╯
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ❯ tests/unit/env.test.ts  (6 tests | 4 failed) 8ms
+   ❯ tests/unit/env.test.ts > session secret environment configuration > uses HOMEDASH_SESSION_SECRET as the canonical variable
+     → expected 'change-me-in-production-at-least-32-c…' to be 'canonical-session-secret-at-least-32-…' // Object.is equality
+   ❯ tests/unit/env.test.ts > session secret environment configuration > rejects conflicting variables without including either value
+     → expected [Function] to throw an error
+   ❯ tests/unit/env.test.ts > session secret environment configuration > rejects production startup when neither variable is configured
+     → expected [Function] to throw an error
+   ❯ tests/unit/env.test.ts > session secret environment configuration > generates a stable process-local secret outside production
+     → expected 'change-me-in-production-at-least-32-c…' to have a length of 64 but got 43
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/env.test.ts > session secret environment configuration > uses HOMEDASH_SESSION_SECRET as the canonical variable
+AssertionError: expected 'change-me-in-production-at-least-32-c…' to be 'canonical-session-secret-at-least-32-…' // Object.is equality
+
+- Expected
++ Received
+
+- canonical-session-secret-at-least-32-characters
++ [REDACTED KNOWN DEFAULT]
+
+ ❯ tests/unit/env.test.ts:40:37
+     38|     process.env['HOMEDASH_SESSION_SECRET'] = CANONICAL_SECRET;
+     39|
+     40|     expect(getEnv().SESSION_SECRET).toBe(CANONICAL_SECRET);
+       |                                     ^
+     41|   });
+     42|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/unit/env.test.ts > session secret environment configuration > rejects conflicting variables without including either value
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ tests/unit/env.test.ts:60:28
+     58|     process.env['SESSION_SECRET'] = LEGACY_SECRET;
+     59|
+     60|     expect(() => getEnv()).toThrow(
+       |                            ^
+     61|       'HOMEDASH_SESSION_SECRET and SESSION_SECRET must match when both…
+     62|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/unit/env.test.ts > session secret environment configuration > rejects production startup when neither variable is configured
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ tests/unit/env.test.ts:74:28
+     72|
+     73|   it('rejects production startup when neither variable is configured',…
+     74|     expect(() => getEnv()).toThrow(
+       |                            ^
+     75|       'HOMEDASH_SESSION_SECRET is required in production',
+     76|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/unit/env.test.ts > session secret environment configuration > generates a stable process-local secret outside production
+AssertionError: expected 'change-me-in-production-at-least-32-c…' to have a length of 64 but got 43
+
+- Expected
++ Received
+
+- 64
++ 43
+
+ ❯ tests/unit/env.test.ts:85:19
+     83|     const second = getEnv().SESSION_SECRET;
+     84|
+     85|     expect(first).toHaveLength(64);
+       |                   ^
+     86|     expect(second).toBe(first);
+     87|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 2 passed (6)
+   Start at  06:35:20
+   Duration  426ms (transform 51ms, setup 264ms, collect 6ms, tests 8ms, environment 0ms, prepare 47ms)
+
+undefined
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/env.test.ts

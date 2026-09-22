@@ -1,0 +1,2 @@
+ALTER TABLE `app_widget_instances` ADD `public_visibility` text DEFAULT 'hidden' NOT NULL;--> statement-breakpoint
+ALTER TABLE `app_widget_instances` ADD `public_source_user_id` text REFERENCES users(id);

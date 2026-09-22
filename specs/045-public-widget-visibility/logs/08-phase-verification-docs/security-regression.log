@@ -1,0 +1,40 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+stdout | tests/integration/widgetDataPermissions.test.ts > Widget data is readable by non-admins (#100)
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/widgetDataPermissions.test.ts > Widget data is readable by non-admins (#100)
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/widgetDataPermissions.test.ts  (56 tests) 650ms
+stdout | tests/integration/publicWidgets.test.ts > GET /api/public/widgets/:widgetId
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicWidgets.test.ts > GET /api/public/widgets/:widgetId
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicWidgets.test.ts  (3 tests) 382ms
+stdout | tests/integration/publicBootstrapProjection.test.ts > GET /api/public/bootstrap widget projection
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicBootstrapProjection.test.ts > GET /api/public/bootstrap widget projection
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicBootstrapProjection.test.ts  (3 tests) 285ms
+
+ Test Files  3 passed (3)
+      Tests  62 passed (62)
+   Start at  15:25:16
+   Duration  2.97s (transform 457ms, setup 339ms, collect 989ms, tests 1.32s, environment 0ms, prepare 46ms)
+

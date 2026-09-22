@@ -1,0 +1,15 @@
+# Command: pnpm test:release-version
+# Phase:   02 - Validation
+# Run:     1
+# Time:    2026-09-20
+# Exit:    0
+---
+TAP version 13
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0

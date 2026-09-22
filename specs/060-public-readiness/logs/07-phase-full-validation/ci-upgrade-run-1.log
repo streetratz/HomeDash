@@ -1,0 +1,12 @@
+# Command: GitHub Actions database upgrade compatibility job
+# Phase:   07 - Full Validation Gates
+# Run:     1
+# Time:    2026-09-22 21:08 UTC
+# Exit:    1
+---
+fatal: not a valid object name: main
+Building baseline image from main...
+ERROR: failed to build: failed to solve: failed to read dockerfile: no local sources enabled
+
+Root cause: pull-request checkout is detached and did not provide a local main ref.
+Fix: fetch full refs and run the gate with --base-ref origin/main.

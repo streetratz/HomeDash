@@ -1,0 +1,1 @@
+ALTER TABLE `app_shell_settings` ADD `body_font` text DEFAULT 'system' NOT NULL;

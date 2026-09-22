@@ -1,0 +1,10 @@
+Command:
+PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/integration/migrationIntegrity.test.ts tests/integration/restore.test.ts
+
+Outcome: FAIL
+
+Restore tests: 7 passed.
+Migration integrity suite failed before tests because its handwritten migration-0026
+fixture omitted the widget_conn_pk index created by migration 0013. Migration 0031
+correctly attempted to replace that historical index and SQLite reported that the
+fixture's missing index did not exist.

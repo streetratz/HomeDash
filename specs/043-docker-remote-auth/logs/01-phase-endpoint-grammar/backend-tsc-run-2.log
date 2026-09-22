@@ -1,0 +1,11 @@
+$ pnpm -r run typecheck
+Scope: 2 of 3 workspace projects
+backend typecheck$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+frontend typecheck$ tsc --noEmit
+backend typecheck: src/lib/validation.ts(430,5): error TS2322: Type 'number' is not assignable to type '22 | 2375 | 2376'.
+backend typecheck: Failed
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] backend@0.1.0 typecheck: `tsc --noEmit && tsc --project tsconfig.test.json --noEmit`
+Exit status 2
+[ELIFECYCLE] Command failed with exit code 2.
+exit=2

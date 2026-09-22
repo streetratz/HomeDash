@@ -1,0 +1,29 @@
+# Commands:
+#   docker build -t homedash:046-local .
+#   docker run -d --name homedash-046-test -p 3300:3000 \
+#     -v homedash-046-test-data:/data homedash:046-local
+#   curl/API and SQLite smoke checks
+# Phase:   01 — Implementation
+# Run:     1
+# Time:    2026-09-19 22:08 UTC
+# Exit:    0
+---
+Production image build: PASS
+Container status: running
+Container health: healthy
+Frontend GET /: 200
+Liveness GET /healthz: 200 {"status":"ok"}
+Database migrations: 30 applied
+calendar_sources columns: type, ics_content, file_name
+Static ICS create: 201, type=ical_file
+Static ICS response redaction: PASS (icsContent omitted)
+Static ICS persistence: PASS
+Static ICS re-import: 200, lastSyncError=null
+Parsed event:
+  title: Docker Re-imported Birthday
+  startAt: 2026-10-06T00:00:00.000Z
+  isAllDay: true
+
+Note: an initial build forced to registry.npmjs.org failed with ECONNRESET under
+the local network policy. Rebuilding with the Dockerfile's default Microsoft
+package feed proxy succeeded.

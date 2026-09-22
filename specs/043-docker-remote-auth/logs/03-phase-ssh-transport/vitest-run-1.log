@@ -1,0 +1,112 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ❯ tests/unit/dockerSshTransport.test.ts  (36 tests | 5 failed) 16896ms
+   ❯ tests/unit/dockerSshTransport.test.ts > sshDockerRequest against the stub > classifies stub failure mode host-key
+     → expected Error: socket hang up { code: 'ECONN…' } to match object { code: 'DOCKER_SSH_HOST_KEY_FAILED' }
+   ❯ tests/unit/dockerSshTransport.test.ts > sshDockerRequest against the stub > classifies stub failure mode auth
+     → expected Error: socket hang up { code: 'ECONN…' } to match object { code: 'DOCKER_SSH_AUTH_FAILED' }
+   ❯ tests/unit/dockerSshTransport.test.ts > sshDockerRequest against the stub > classifies stub failure mode unreachable
+     → expected Error: socket hang up { code: 'ECONN…' } to match object { code: 'DOCKER_ENDPOINT_UNREACHABLE' }
+   ❯ tests/unit/dockerSshTransport.test.ts > sshDockerRequest against the stub > classifies stub failure mode no-docker
+     → expected Error: socket hang up { code: 'ECONN…' } to match object { code: 'DOCKER_REMOTE_UNAVAILABLE' }
+   ❯ tests/unit/dockerSshTransport.test.ts > sshDockerRequest against the stub > classifies stub failure mode socket-denied
+     → expected Error: socket hang up { code: 'ECONN…' } to match object { code: 'DOCKER_REMOTE_UNAVAILABLE' }
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/dockerSshTransport.test.ts > sshDockerRequest against the stub > classifies stub failure mode host-key
+AssertionError: expected Error: socket hang up { code: 'ECONN…' } to match object { code: 'DOCKER_SSH_HOST_KEY_FAILED' }
+
+- Expected
++ Received
+
+  Object {
+-   "code": "DOCKER_SSH_HOST_KEY_FAILED",
++   "code": "ECONNRESET",
+  }
+
+ ❯ tests/unit/dockerSshTransport.test.ts:235:5
+    233|   ])('classifies stub failure mode %s', async (mode, expected) => {
+    234|     process.env['SSH_STUB_MODE'] = mode;
+    235|     await expect(
+       |     ^
+    236|       sshDockerRequest(sshEndpoint('ssh://dockerhost'), 'ssh://dockerh…
+    237|     ).rejects.toMatchObject({ code: expected });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/unit/dockerSshTransport.test.ts > sshDockerRequest against the stub > classifies stub failure mode auth
+AssertionError: expected Error: socket hang up { code: 'ECONN…' } to match object { code: 'DOCKER_SSH_AUTH_FAILED' }
+
+- Expected
++ Received
+
+  Object {
+-   "code": "DOCKER_SSH_AUTH_FAILED",
++   "code": "ECONNRESET",
+  }
+
+ ❯ tests/unit/dockerSshTransport.test.ts:235:5
+    233|   ])('classifies stub failure mode %s', async (mode, expected) => {
+    234|     process.env['SSH_STUB_MODE'] = mode;
+    235|     await expect(
+       |     ^
+    236|       sshDockerRequest(sshEndpoint('ssh://dockerhost'), 'ssh://dockerh…
+    237|     ).rejects.toMatchObject({ code: expected });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/unit/dockerSshTransport.test.ts > sshDockerRequest against the stub > classifies stub failure mode unreachable
+AssertionError: expected Error: socket hang up { code: 'ECONN…' } to match object { code: 'DOCKER_ENDPOINT_UNREACHABLE' }
+
+- Expected
++ Received
+
+  Object {
+-   "code": "DOCKER_ENDPOINT_UNREACHABLE",
++   "code": "ECONNRESET",
+  }
+
+ ❯ tests/unit/dockerSshTransport.test.ts:235:5
+    233|   ])('classifies stub failure mode %s', async (mode, expected) => {
+    234|     process.env['SSH_STUB_MODE'] = mode;
+    235|     await expect(
+       |     ^
+    236|       sshDockerRequest(sshEndpoint('ssh://dockerhost'), 'ssh://dockerh…
+    237|     ).rejects.toMatchObject({ code: expected });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/unit/dockerSshTransport.test.ts > sshDockerRequest against the stub > classifies stub failure mode no-docker
+ FAIL  tests/unit/dockerSshTransport.test.ts > sshDockerRequest against the stub > classifies stub failure mode socket-denied
+AssertionError: expected Error: socket hang up { code: 'ECONN…' } to match object { code: 'DOCKER_REMOTE_UNAVAILABLE' }
+
+- Expected
++ Received
+
+  Object {
+-   "code": "DOCKER_REMOTE_UNAVAILABLE",
++   "code": "ECONNRESET",
+  }
+
+ ❯ tests/unit/dockerSshTransport.test.ts:235:5
+    233|   ])('classifies stub failure mode %s', async (mode, expected) => {
+    234|     process.env['SSH_STUB_MODE'] = mode;
+    235|     await expect(
+       |     ^
+    236|       sshDockerRequest(sshEndpoint('ssh://dockerhost'), 'ssh://dockerh…
+    237|     ).rejects.toMatchObject({ code: expected });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 31 passed (36)
+   Start at  10:14:17
+   Duration  17.30s (transform 70ms, setup 254ms, collect 31ms, tests 16.90s, environment 0ms, prepare 32ms)
+
+undefined
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/dockerSshTransport.test.ts
+exit=1

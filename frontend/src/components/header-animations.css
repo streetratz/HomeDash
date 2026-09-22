@@ -1,0 +1,381 @@
+/* ─── Header Animation Styles ─────────────────────────────────────────────── */
+
+/* Gradient Shift — slow-moving multicolor gradient */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.header-anim-gradient-shift-bg {
+  background: linear-gradient(
+    270deg,
+    hsl(var(--primary)),
+    hsl(var(--accent)),
+    hsl(280 60% 50%),
+    hsl(var(--primary))
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 12s linear infinite;
+}
+
+.header-anim-gradient-shift-title {
+  background: linear-gradient(
+    270deg,
+    hsl(var(--primary)),
+    hsl(var(--accent)),
+    hsl(280 60% 50%),
+    hsl(var(--primary))
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 8s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Aurora — subtle northern-lights shimmer */
+@keyframes aurora {
+  0%,
+  100% {
+    background-position: 0% 50%;
+    opacity: 0.8;
+  }
+  25% {
+    background-position: 50% 0%;
+    opacity: 1;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.9;
+  }
+  75% {
+    background-position: 50% 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes aurora-stars {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes aurora-star-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes aurora-curtain-drift {
+  0%,
+  100% {
+    opacity: var(--aurora-opacity-low, 0.62);
+    transform: translate3d(-4%, -2%, 0) scale(1.04) rotate(-2deg);
+  }
+  50% {
+    opacity: var(--aurora-opacity-high, 0.9);
+    transform: translate3d(5%, 3%, 0) scale(1.12) rotate(2deg);
+  }
+}
+
+.header-anim-aurora-bg,
+.header-anim-aurora-australis-bg {
+  --aurora-opacity-low: 0.62;
+  --aurora-opacity-high: 0.9;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.header-anim-aurora-bg {
+  background: linear-gradient(115deg, hsl(222 48% 9% / 0.96), hsl(205 52% 12% / 0.92));
+}
+
+.header-anim-aurora-bg > *,
+.header-anim-aurora-australis-bg > * {
+  position: relative;
+  z-index: 2;
+}
+
+.header-anim-aurora-bg::after,
+.header-anim-aurora-australis-bg::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: -130% -12%;
+  filter: blur(22px) saturate(1.25);
+  animation: aurora-curtain-drift 18s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  pointer-events: none;
+}
+
+.header-anim-aurora-bg::after {
+  background:
+    radial-gradient(ellipse at 12% 48%, hsl(155 86% 52% / 0.78) 0 9%, transparent 34%),
+    radial-gradient(ellipse at 48% 58%, hsl(187 88% 55% / 0.68) 0 10%, transparent 36%),
+    radial-gradient(ellipse at 84% 42%, hsl(267 78% 64% / 0.62) 0 8%, transparent 32%);
+}
+
+/* Stars overlay for aurora */
+.header-anim-aurora-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 30%, white 100%, transparent),
+    radial-gradient(1.5px 1.5px at 25% 60%, white 100%, transparent),
+    radial-gradient(1px 1px at 40% 20%, white 100%, transparent),
+    radial-gradient(1.5px 1.5px at 55% 70%, white 100%, transparent),
+    radial-gradient(1px 1px at 70% 40%, white 100%, transparent),
+    radial-gradient(1.5px 1.5px at 85% 25%, white 100%, transparent),
+    radial-gradient(1px 1px at 90% 55%, white 100%, transparent),
+    radial-gradient(1px 1px at 15% 80%, white 100%, transparent),
+    radial-gradient(1.5px 1.5px at 60% 45%, white 100%, transparent),
+    radial-gradient(1px 1px at 35% 85%, white 100%, transparent),
+    radial-gradient(1px 1px at 78% 75%, white 100%, transparent),
+    radial-gradient(1.5px 1.5px at 5% 50%, white 100%, transparent);
+  animation: aurora-stars 4s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.header-anim-aurora-title {
+  background: linear-gradient(
+    135deg,
+    hsl(160 80% 60%),
+    hsl(200 80% 65%),
+    hsl(270 60% 60%),
+    hsl(160 80% 60%)
+  );
+  background-size: 300% 300%;
+  animation: aurora 10s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Aurora Australis — southern-lights shimmer (reds, magentas, violets) */
+@keyframes aurora-australis {
+  0%,
+  100% {
+    background-position: 0% 50%;
+    opacity: 0.8;
+  }
+  25% {
+    background-position: 50% 0%;
+    opacity: 1;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.9;
+  }
+  75% {
+    background-position: 50% 100%;
+    opacity: 1;
+  }
+}
+
+.header-anim-aurora-australis-bg {
+  background: linear-gradient(115deg, hsl(224 48% 9% / 0.96), hsl(282 44% 12% / 0.92));
+}
+
+.header-anim-aurora-australis-bg::after {
+  background:
+    radial-gradient(ellipse at 12% 48%, hsl(338 86% 60% / 0.72) 0 9%, transparent 34%),
+    radial-gradient(ellipse at 48% 58%, hsl(298 76% 60% / 0.68) 0 10%, transparent 36%),
+    radial-gradient(ellipse at 84% 42%, hsl(258 82% 68% / 0.64) 0 8%, transparent 32%);
+}
+
+/* Stars overlay for aurora australis */
+.header-anim-aurora-australis-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 30%, white 100%, transparent),
+    radial-gradient(1.5px 1.5px at 25% 60%, white 100%, transparent),
+    radial-gradient(1px 1px at 40% 20%, white 100%, transparent),
+    radial-gradient(1.5px 1.5px at 55% 70%, white 100%, transparent),
+    radial-gradient(1px 1px at 70% 40%, white 100%, transparent),
+    radial-gradient(1.5px 1.5px at 85% 25%, white 100%, transparent),
+    radial-gradient(1px 1px at 90% 55%, white 100%, transparent),
+    radial-gradient(1px 1px at 15% 80%, white 100%, transparent),
+    radial-gradient(1.5px 1.5px at 60% 45%, white 100%, transparent),
+    radial-gradient(1px 1px at 35% 85%, white 100%, transparent),
+    radial-gradient(1px 1px at 78% 75%, white 100%, transparent),
+    radial-gradient(1.5px 1.5px at 5% 50%, white 100%, transparent);
+  animation: aurora-stars 4s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.header-anim-aurora-australis-title {
+  background: linear-gradient(
+    135deg,
+    hsl(340 75% 65%),
+    hsl(300 65% 60%),
+    hsl(270 65% 65%),
+    hsl(340 75% 65%)
+  );
+  background-size: 300% 300%;
+  animation: aurora-australis 10s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glass Glow — pulsing glow effect */
+@keyframes glass-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 15px hsl(var(--primary) / 0.2),
+      inset 0 0 15px hsl(var(--primary) / 0.05);
+  }
+  50% {
+    box-shadow:
+      0 0 30px hsl(var(--primary) / 0.35),
+      inset 0 0 25px hsl(var(--primary) / 0.1);
+  }
+}
+
+@keyframes glass-glow-text {
+  0%,
+  100% {
+    text-shadow: 0 0 8px hsl(var(--primary) / 0.4);
+  }
+  50% {
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.7);
+  }
+}
+
+.header-anim-glass-glow-bg {
+  animation: glass-glow 4s ease-in-out infinite;
+  background: hsl(var(--primary) / 0.08);
+}
+
+.header-anim-glass-glow-title {
+  animation: glass-glow-text 4s ease-in-out infinite;
+}
+
+/* Gradient Underline — animated underline */
+@keyframes underline-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.header-anim-gradient-underline-bg {
+  border-bottom: 2px solid transparent;
+  background-image:
+    linear-gradient(hsl(var(--background)), hsl(var(--background))),
+    linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)));
+  background-clip: padding-box, border-box;
+  background-origin: border-box;
+}
+
+.header-anim-gradient-underline-title {
+  position: relative;
+}
+
+.header-anim-gradient-underline-title::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)));
+  animation: underline-sweep 3s ease-in-out infinite;
+}
+
+/* Glass effect overlay */
+.header-glass-effect {
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  background: hsl(var(--background) / 0.5) !important;
+}
+
+.header-glass-effect.header-anim-gradient-shift-bg,
+.header-glass-effect.header-anim-aurora-bg,
+.header-glass-effect.header-anim-aurora-australis-bg,
+.header-glass-effect.header-anim-glass-glow-bg {
+  background: none !important;
+}
+
+.header-glass-effect.header-anim-gradient-shift-bg {
+  background: linear-gradient(
+    270deg,
+    hsl(var(--primary) / 0.3),
+    hsl(var(--accent) / 0.3),
+    hsl(280 60% 50% / 0.3),
+    hsl(var(--primary) / 0.3)
+  ) !important;
+  background-size: 400% 400% !important;
+  animation: gradient-shift 12s linear infinite;
+}
+
+.header-glass-effect.header-anim-aurora-bg {
+  background: hsl(222 48% 9% / 0.48) !important;
+}
+
+.header-glass-effect.header-anim-aurora-australis-bg {
+  background: hsl(282 44% 10% / 0.48) !important;
+}
+
+:root:not(.dark) .header-anim-aurora-bg,
+:root:not(.dark) .header-anim-aurora-australis-bg {
+  --aurora-opacity-low: 0.24;
+  --aurora-opacity-high: 0.42;
+}
+
+:root:not(.dark) .header-anim-aurora-bg {
+  background: linear-gradient(115deg, hsl(166 62% 94%), hsl(196 70% 92%));
+}
+
+:root:not(.dark) .header-anim-aurora-australis-bg {
+  background: linear-gradient(115deg, hsl(330 66% 95%), hsl(276 64% 94%));
+}
+
+:root:not(.dark) .header-glass-effect.header-anim-aurora-bg {
+  background: hsl(166 62% 94% / 0.68) !important;
+}
+
+:root:not(.dark) .header-glass-effect.header-anim-aurora-australis-bg {
+  background: hsl(330 66% 95% / 0.68) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-anim-aurora-bg::before,
+  .header-anim-aurora-australis-bg::before,
+  .header-anim-aurora-bg::after,
+  .header-anim-aurora-australis-bg::after,
+  .header-anim-aurora-title,
+  .header-anim-aurora-australis-title {
+    animation: none;
+  }
+
+  .header-anim-aurora-bg::after,
+  .header-anim-aurora-australis-bg::after {
+    opacity: 0.72;
+    transform: none;
+  }
+}

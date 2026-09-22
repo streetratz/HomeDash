@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Widen rootDir to cover both src/ and tests/
+    "rootDir": ".",
+    // No output — tests are only type-checked, not compiled
+    "noEmit": true,
+    "types": ["vitest/globals"]
+  },
+  "include": ["src/**/*", "tests/**/*", "drizzle.config.ts", "vitest.config.ts"],
+  "exclude": ["node_modules", "dist"]
+}

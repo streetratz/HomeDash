@@ -1,0 +1,9 @@
+# Command: bash .github/skills/pre-pr-upgrade-gate/run.sh --base-ref origin/release
+# Phase:   07 - Full Validation Gates
+# Run:     1
+# Time:    2026-09-22 21:27 UTC
+# Exit:    0
+---
+Building baseline image from origin/release...
+Building candidate image from current worktree...
+Upgrade gate passed: migrations 32 -> 32; 28 tables preserved; 0 FK violations.

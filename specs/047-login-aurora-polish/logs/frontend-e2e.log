@@ -1,0 +1,13 @@
+
+Running 8 tests using 1 worker
+
+  ✓  1 [chromium] › tests/e2e/auroraEffects.spec.ts:33:1 › Aurora surfaces use layered animated curtain gradients (433ms)
+  ✓  2 [chromium] › tests/e2e/auroraEffects.spec.ts:56:3 › reduced motion › Aurora curtain movement is disabled (181ms)
+  ✓  3 [chromium] › tests/e2e/unauthView.spec.ts:44:3 › Unauthenticated view › shows read-only dashboard shell without redirecting to first-run (161ms)
+  ✓  4 [chromium] › tests/e2e/unauthView.spec.ts:66:3 › Unauthenticated view › login page is accessible from the login link (320ms)
+  ✓  5 [mobile-safari] › tests/e2e/auroraEffects.spec.ts:33:1 › Aurora surfaces use layered animated curtain gradients (1.2s)
+  ✓  6 [mobile-safari] › tests/e2e/auroraEffects.spec.ts:56:3 › reduced motion › Aurora curtain movement is disabled (777ms)
+  ✓  7 [mobile-safari] › tests/e2e/unauthView.spec.ts:44:3 › Unauthenticated view › shows read-only dashboard shell without redirecting to first-run (696ms)
+  ✓  8 [mobile-safari] › tests/e2e/unauthView.spec.ts:66:3 › Unauthenticated view › login page is accessible from the login link (1.0s)
+
+  8 passed (5.9s)

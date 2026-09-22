@@ -1,0 +1,7 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm lint
+# Phase:   01 — Implementation
+# Run:     6
+# Time:    2026-09-19 09:10 AEST
+# Exit:    0
+---
+$ eslint . --max-warnings=0

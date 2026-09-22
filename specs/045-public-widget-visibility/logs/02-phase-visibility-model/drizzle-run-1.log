@@ -1,0 +1,43 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend db:generate
+# Phase:   02 — Visibility Model
+# Run:     1
+# Time:    2026-09-18 15:00
+# Exit:    0
+---
+$ drizzle-kit generate
+No config path provided, using default 'drizzle.config.ts'
+Reading config file '/workspace/HomeDash/backend/drizzle.config.ts'
+31 tables
+app_shell_settings 31 columns 0 indexes 3 fks
+app_shortcuts 12 columns 2 indexes 4 fks
+app_widget_instances 9 columns 1 indexes 2 fks
+caldav_accounts 8 columns 1 indexes 1 fks
+calendar_events 17 columns 2 indexes 1 fks
+calendar_sources 13 columns 2 indexes 2 fks
+dashboard_access_rules 4 columns 2 indexes 2 fks
+dashboards 9 columns 1 indexes 1 fks
+docker_connections 5 columns 0 indexes 0 fks
+group_permissions 4 columns 2 indexes 1 fks
+groups 7 columns 2 indexes 0 fks
+icon_cache_entries 8 columns 0 indexes 1 fks
+integration_configs 4 columns 1 indexes 0 fks
+links_list_items 7 columns 1 indexes 1 fks
+oauth_accounts 13 columns 2 indexes 1 fks
+photo_sources 7 columns 0 indexes 0 fks
+pihole_instances 8 columns 0 indexes 1 fks
+placeholder_breakpoint_layouts 9 columns 1 indexes 1 fks
+placeholder_widgets 19 columns 1 indexes 1 fks
+scheduled_jobs 13 columns 0 indexes 0 fks
+sessions 6 columns 2 indexes 1 fks
+shortcut_groups 6 columns 1 indexes 1 fks
+shortcut_ping_results 5 columns 0 indexes 1 fks
+todo_items 12 columns 2 indexes 1 fks
+todo_lists 11 columns 1 indexes 2 fks
+unifi_instances 10 columns 0 indexes 1 fks
+uploaded_assets 8 columns 0 indexes 0 fks
+user_group_memberships 4 columns 2 indexes 2 fks
+user_preferences 5 columns 0 indexes 3 fks
+users 8 columns 1 indexes 0 fks
+widget_connections 3 columns 2 indexes 1 fks
+
+No schema changes, nothing to migrate 😴

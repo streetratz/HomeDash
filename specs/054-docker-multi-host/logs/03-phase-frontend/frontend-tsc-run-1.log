@@ -1,0 +1,9 @@
+# Command: pnpm --filter frontend typecheck
+# Phase:   03 - Frontend
+# Run:     1
+# Time:    2026-09-20 18:56 AEST
+# Exit:    2
+---
+DockerConnectionPicker could not import useReplaceDockerWidgetConnections because the
+export was accidentally nested inside useTestDockerConnection.
+Existing useDocker hook tests still called the old single-host signatures.

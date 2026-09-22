@@ -1,0 +1,185 @@
+$ eslint . --max-warnings=0
+
+/workspace/HomeDash/backend/src/api/admin-backup.ts
+  17:5  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+  32:5  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+
+/workspace/HomeDash/backend/src/api/sonos.ts
+  161:5  error  Unexpected `await` of a non-Promise (non-"Thenable") value  @typescript-eslint/await-thenable
+
+/workspace/HomeDash/backend/src/api/system.ts
+  12:11  error  Unsafe assignment of an `any` value              @typescript-eslint/no-unsafe-assignment
+  13:5   error  Unsafe return of a value of type `any`           @typescript-eslint/no-unsafe-return
+  13:16  error  Unsafe member access .version on an `any` value  @typescript-eslint/no-unsafe-member-access
+  33:40  error  Async arrow function has no 'await' expression   @typescript-eslint/require-await
+
+/workspace/HomeDash/backend/src/server.ts
+  123:19  error  Unsafe argument of type `any` assigned to a parameter of type `FastifyBaseLogger | undefined`                 @typescript-eslint/no-unsafe-argument
+  125:18  error  Unsafe argument of type `any` assigned to a parameter of type `{ info: (msg: string) => void; } | undefined`  @typescript-eslint/no-unsafe-argument
+  132:5   error  Unsafe call of an `any` typed value                                                                           @typescript-eslint/no-unsafe-call
+  132:13  error  Unsafe member access .error on an `any` value                                                                 @typescript-eslint/no-unsafe-member-access
+  139:3   error  Unsafe call of an `any` typed value                                                                           @typescript-eslint/no-unsafe-call
+  139:11  error  Unsafe member access .info on an `any` value                                                                  @typescript-eslint/no-unsafe-member-access
+  151:21  error  Unsafe argument of type `any` assigned to a parameter of type `FastifyBaseLogger | undefined`                 @typescript-eslint/no-unsafe-argument
+  152:20  error  Unsafe argument of type `any` assigned to a parameter of type `{ info: (msg: string) => void; } | undefined`  @typescript-eslint/no-unsafe-argument
+  156:7   error  Unsafe call of an `any` typed value                                                                           @typescript-eslint/no-unsafe-call
+  156:15  error  Unsafe member access .error on an `any` value                                                                 @typescript-eslint/no-unsafe-member-access
+
+/workspace/HomeDash/backend/src/services/artCacheService.ts
+  210:19  error  Unsafe object destructuring of a property with an `any` value                                    @typescript-eslint/no-unsafe-assignment
+  220:17  error  Unsafe argument of type `Buffer<any>` assigned to a parameter of type `Buffer<ArrayBufferLike>`  @typescript-eslint/no-unsafe-argument
+
+/workspace/HomeDash/backend/src/services/backupService.ts
+   40:10  error    This assertion is unnecessary since the receiver accepts the original type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+  151:3   warning  Unexpected console statement. Only these console methods are allowed: warn, error             no-console
+  173:3   warning  Unexpected console statement. Only these console methods are allowed: warn, error             no-console
+  188:3   warning  Unexpected console statement. Only these console methods are allowed: warn, error             no-console
+  234:3   warning  Unexpected console statement. Only these console methods are allowed: warn, error             no-console
+  244:15  error    Unsafe assignment of an `any` value                                                           @typescript-eslint/no-unsafe-assignment
+  252:15  error    Unsafe assignment of an `any` value                                                           @typescript-eslint/no-unsafe-assignment
+  256:9   warning  Unexpected console statement. Only these console methods are allowed: warn, error             no-console
+  260:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error             no-console
+
+/workspace/HomeDash/backend/src/services/scheduledJobService.ts
+   61:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+   82:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+  106:7   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+  201:3   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+  209:3   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+  232:9   error    Unsafe assignment of an `any` value                                                @typescript-eslint/no-unsafe-assignment
+  274:11  error    Unsafe assignment of an `any` value                                                @typescript-eslint/no-unsafe-assignment
+  331:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+  347:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+  357:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+  373:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+  383:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+  399:5   warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+
+/workspace/HomeDash/backend/src/services/sonos-local-service.ts
+    41:20  warning  Unexpected console statement. Only these console methods are allowed: warn, error         no-console
+   297:42  warning  Unexpected any. Specify a different type                                                  @typescript-eslint/no-explicit-any
+   297:53  error    Unsafe member access .Invisible on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+   297:68  error    Unsafe member access .Invisible on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+   298:44  warning  Unexpected any. Specify a different type                                                  @typescript-eslint/no-explicit-any
+   298:54  error    Unsafe member access .Invisible on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+   298:78  error    Unsafe member access .Invisible on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+   961:5   warning  Unused eslint-disable directive (no problems were reported from 'no-constant-condition')
+  1177:30  error    This assertion is unnecessary since it does not change the type of the expression         @typescript-eslint/no-unnecessary-type-assertion
+  1179:28  error    This assertion is unnecessary since it does not change the type of the expression         @typescript-eslint/no-unnecessary-type-assertion
+  1402:46  warning  Unexpected any. Specify a different type                                                  @typescript-eslint/no-explicit-any
+  1402:57  error    Unsafe member access .Invisible on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+  1403:48  warning  Unexpected any. Specify a different type                                                  @typescript-eslint/no-explicit-any
+  1403:58  error    Unsafe member access .Invisible on an `any` value                                         @typescript-eslint/no-unsafe-member-access
+
+/workspace/HomeDash/backend/tests/unit/sonosDiscovery.test.ts
+   50:11  error  'mod' is assigned a value but only used as a type  @typescript-eslint/no-unused-vars
+  295:11  error  '_members' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  348:11  error  '_member' is assigned a value but never used       @typescript-eslint/no-unused-vars
+
+/workspace/HomeDash/frontend/src/components/ShellLayout.tsx
+  109:6  warning  React Hook useEffect has a missing dependency: 'FONT_STACKS'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/workspace/HomeDash/frontend/src/components/settings/AppearanceTab.tsx
+  573:21  error  This assertion is unnecessary since the receiver accepts the original type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+
+/workspace/HomeDash/frontend/src/components/settings/BackupRestoreSection.tsx
+   44:13  error  Unsafe assignment of an `any` value                                                @typescript-eslint/no-unsafe-assignment
+   46:18  error  Unsafe member access .format on an `any` value                                     @typescript-eslint/no-unsafe-member-access
+  127:26  error  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+  246:23  error  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
+
+/workspace/HomeDash/frontend/src/components/settings/TimezoneSelector.tsx
+  38:9  warning  The 'timezones' logical expression could make the dependencies of useMemo Hook (at line 45) change on every render. Move it inside the useMemo callback. Alternatively, wrap the initialization of 'timezones' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/workspace/HomeDash/frontend/src/components/settings/UsersTab.tsx
+  8:10  error  'toast' is defined but never used  @typescript-eslint/no-unused-vars
+
+/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx
+  437:20  error  '_offsetX' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/workspace/HomeDash/frontend/src/components/widgets/AppShortcutsWidget.tsx
+   8:54  error  'useCallback' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+  56:21  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/workspace/HomeDash/frontend/src/components/widgets/AppShortcutsWidget.tsx:56:21
+  54 |
+  55 |   useEffect(() => {
+> 56 |     if (isMobile) { setMode('all'); return; }
+     |                     ^^^^^^^ Avoid calling setState() directly within an effect
+  57 |
+  58 |     const el = containerRef.current;
+  59 |     if (!el || typeof ResizeObserver === 'undefined') return;                                                                                                                                  react-hooks/set-state-in-effect
+  81:5   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/workspace/HomeDash/frontend/src/components/widgets/AppShortcutsWidget.tsx:81:5
+  79 |     if (typeof window === 'undefined') return;
+  80 |     const mql = window.matchMedia('(max-width: 767px)');
+> 81 |     setMobile(mql.matches);
+     |     ^^^^^^^^^ Avoid calling setState() directly within an effect
+  82 |     const handler = (e: MediaQueryListEvent) => setMobile(e.matches);
+  83 |     mql.addEventListener('change', handler);
+  84 |     return () => mql.removeEventListener('change', handler);  react-hooks/set-state-in-effect
+
+/workspace/HomeDash/frontend/src/components/widgets/CalendarWidget.tsx
+  57:30  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/workspace/HomeDash/frontend/src/components/widgets/CalendarWidget.tsx:57:30
+  55 |     if (syncTimes.length === 0) return null;
+  56 |     const latest = Math.max(...syncTimes);
+> 57 |     const mins = Math.round((Date.now() - latest) / 60000);
+     |                              ^^^^^^^^^^ Cannot call impure function
+  58 |     if (mins < 1) return 'just now';
+  59 |     if (mins < 60) return `${mins}m ago`;
+  60 |     const hrs = Math.floor(mins / 60);  react-hooks/purity
+
+/workspace/HomeDash/frontend/src/components/widgets/PiholeWidget.tsx
+   45:7  error  'ALL_SECTIONS' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  242:9  error  'hasAnyStats' is assigned a value but never used   @typescript-eslint/no-unused-vars
+
+/workspace/HomeDash/frontend/src/hooks/useIdleDetection.ts
+  36:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/workspace/HomeDash/frontend/src/hooks/useIdleDetection.ts:36:7
+  34 |   useEffect(() => {
+  35 |     if (!enabled && isIdle) {
+> 36 |       setIsIdle(false);
+     |       ^^^^^^^^^ Avoid calling setState() directly within an effect
+  37 |     }
+  38 |   }, [enabled, isIdle]);
+  39 |  react-hooks/set-state-in-effect
+
+/workspace/HomeDash/frontend/src/state/backupHooks.ts
+  37:15  error  Unsafe assignment of an `any` value                                                 @typescript-eslint/no-unsafe-assignment
+  38:25  error  Unsafe argument of type `any` assigned to a parameter of type `string | undefined`  @typescript-eslint/no-unsafe-argument
+  38:29  error  Unsafe member access .message on an `any` value                                     @typescript-eslint/no-unsafe-member-access
+  63:15  error  Unsafe assignment of an `any` value                                                 @typescript-eslint/no-unsafe-assignment
+  64:25  error  Unsafe argument of type `any` assigned to a parameter of type `string | undefined`  @typescript-eslint/no-unsafe-argument
+  64:29  error  Unsafe member access .message on an `any` value                                     @typescript-eslint/no-unsafe-member-access
+
+/workspace/HomeDash/frontend/src/state/settings.ts
+  14:15  error  'ApiRequestError' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 81 problems (54 errors, 27 warnings)
+  4 errors and 1 warning potentially fixable with the `--fix` option.
+
+[ELIFECYCLE] Command failed with exit code 1.

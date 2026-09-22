@@ -1,0 +1,17 @@
+# Command: pnpm --filter backend exec vitest run tests/integration/backup.test.ts tests/integration/restore.test.ts
+# Phase:   01 — Implementation
+# Run:     1
+# Time:    2026-09-19 08:25 AEST
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/integration/restore.test.ts  (7 tests) 1623ms
+ ✓ tests/integration/backup.test.ts  (7 tests) 336ms
+
+ Test Files  2 passed (2)
+      Tests  14 passed (14)
+   Start at  08:22:52
+   Duration  4.55s (transform 754ms, setup 602ms, collect 1.73s, tests 1.96s, environment 0ms, prepare 76ms)

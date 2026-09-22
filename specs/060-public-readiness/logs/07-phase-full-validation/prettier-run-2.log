@@ -1,0 +1,30 @@
+# Command: Prettier write/check changed supported files
+# Phase:   07 - Full Validation Gates
+# Run:     2
+# Time:    2026-09-22 21:20 UTC
+# Exit:    0
+---
+.github/workflows/docker-publish.yml 10ms (unchanged)
+.github/workflows/promote-release.yml 4ms (unchanged)
+.github/workflows/pull-request.yml 4ms (unchanged)
+README.md 37ms
+backend/src/config/env.ts 38ms
+backend/src/lib/token-encryption.ts 6ms (unchanged)
+backend/src/services/sonos-local-service.ts 104ms (unchanged)
+backend/tests/integration/backup.test.ts 10ms
+backend/tests/integration/restore.test.ts 17ms
+backend/tests/unit/dockerEndpoint.test.ts 6ms (unchanged)
+backend/tests/unit/publicWidgetSnapshotCache.test.ts 3ms (unchanged)
+backend/tests/unit/sonosLibrary.test.ts 5ms
+backend/tests/unit/url-validator.test.ts 3ms (unchanged)
+deploy/docker-compose.yml 2ms
+docker-compose.example.yml 2ms
+docs/getting-started.md 19ms
+frontend/src/components/sonos/__tests__/BrowsePanel.test.tsx 13ms (unchanged)
+versions.json 4ms (unchanged)
+.github/workflows/codeql.yml 2ms (unchanged)
+CONTRIBUTING.md 2ms (unchanged)
+SECURITY.md 1ms (unchanged)
+backend/tests/unit/env.test.ts 3ms
+Checking formatting...
+All matched files use Prettier code style!

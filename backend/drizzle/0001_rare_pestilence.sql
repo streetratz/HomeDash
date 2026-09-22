@@ -1,0 +1,1 @@
+ALTER TABLE `app_shell_settings` ADD `clock_strip_alignment` text DEFAULT 'center' NOT NULL;

@@ -1,0 +1,13 @@
+Backend discovery validation
+
+- Focused Sonos tests: 101 passed after the final parser and deduplication fixes.
+- Backend production TypeScript: passed.
+- Full backend suite: 54 files, 724 tests passed.
+- Anonymous access matrix includes GET /api/sonos/services and returns 401.
+- Live LAN result:
+  - completeness: observed
+  - warning: firmware_account_inventory_unavailable
+  - Sonos Radio: sid=303, sn=1, source=favorite
+  - Spotify: sid=12, sn=5, source=favorite
+  - YouTube Music: sid=284, sn=4, source=favorite
+- No usernames, keys, OAuth device IDs, tokens, or raw account XML were printed.

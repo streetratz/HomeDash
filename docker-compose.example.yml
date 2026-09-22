@@ -1,0 +1,61 @@
+# HomeDash — Example Docker Compose with GHCR + Watchtower auto-update
+#
+# Copy this file to your NAS and adjust paths/settings for your environment.
+# See: .github/workflows/docker-publish.yml for the CI that builds the image.
+#
+# Deployment flow:
+#   1. Develop on main
+#   2. Actions → "Promote to Release" → builds & pushes image to GHCR
+#   3. Watchtower auto-pulls new image on NAS within 5 min
+
+services:
+  homedash:
+    image: ghcr.io/streetratz/homedash:latest
+    container_name: homedash
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      - homedash-data:/app/data
+      # Mount your photos directory (read-only):
+      # - /path/to/photos:/photos:ro
+      # Mount Docker socket for container management widget:
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+      - PORT=3100
+      - TZ=UTC
+      - HOMEDASH_DATA_DIR=/app/data
+      - HOMEDASH_SESSION_SECRET=${HOMEDASH_SESSION_SECRET:?set a persistent secret}
+      - COOKIE_SECURE=false
+      - LOG_LEVEL=info
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3100/api/health').then(r => process.exit(r.ok ? 0 : 1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  # Watchtower — auto-pulls new images from GHCR and recreates containers
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower-homedash
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # GHCR credentials file — create with:
+      #   echo '{"auths":{"ghcr.io":{"auth":"'$(echo -n "USERNAME:PAT" | base64)'"}}}' > /path/to/docker-config.json
+      - ./docker-config.json:/config.json:ro
+    environment:
+      - TZ=UTC
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=300
+      - WATCHTOWER_LABEL_ENABLE=true
+      - DOCKER_CONFIG=/
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
+
+volumes:
+  homedash-data:
+    driver: local

@@ -1,0 +1,25 @@
+# Command: pnpm exec prettier --write <changed files>
+# Phase:   01 — Implementation
+# Run:     1
+# Time:    2026-09-19 07:25 AEST
+# Exit:    0
+---
+backend/src/api/admin-calendar.ts 65ms
+backend/src/db/schema/index.ts 62ms
+backend/src/lib/validation.ts 47ms
+backend/src/services/calendar-sync-service.ts 9ms (unchanged)
+backend/src/services/ical-service.ts 8ms
+backend/tests/integration/ical-parser.test.ts 24ms
+frontend/src/components/DashboardGrid.tsx 23ms
+frontend/src/components/PlaceholderWidget.tsx 6ms
+frontend/src/components/calendar/AgendaView.tsx 12ms
+frontend/src/components/calendar/FullScreenCalendar.tsx 12ms
+frontend/src/components/settings/CalendarSourceList.tsx 11ms
+frontend/src/components/settings/ICalFileSourceForm.tsx 5ms
+frontend/src/components/widgets/PiholeWidget.tsx 18ms
+frontend/src/components/widgets/StocksConfigForm.tsx 24ms
+frontend/src/components/widgets/StocksWidget.tsx 13ms
+frontend/src/components/widgets/__tests__/StocksConfigForm.test.ts 1ms (unchanged)
+frontend/src/index.css 29ms
+frontend/src/state/calendarHooks.ts 6ms (unchanged)
+README.md 31ms

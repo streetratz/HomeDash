@@ -1,0 +1,13 @@
+Final validation
+
+- Node: v22.22.3
+- pnpm lint: passed with zero errors and zero warnings.
+- pnpm build: passed.
+- Backend tests: 54 files, 724 tests passed.
+- Frontend tests: 18 files, 89 tests passed.
+- Live Sonos discovery: Spotify, Sonos Radio, and YouTube Music account references
+  returned with observed completeness.
+- Docker upgrade gate with homedash-backup-2026-09-19.json:
+  migrations 30 -> 30; 27 tables preserved; 0 foreign-key violations.
+- git diff --check: passed.
+- Pull request: #221.

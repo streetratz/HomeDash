@@ -1,0 +1,9 @@
+Command:
+PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/integration/migrationIntegrity.test.ts tests/integration/restore.test.ts
+
+Outcome: FAIL
+
+Tests: 17 passed, 1 failed.
+The migration test's idempotency assertion still expected the original single
+widget-connection row after the new multi-link test intentionally inserted a second
+row. The assertion was updated to verify both rows survive the no-op rerun.

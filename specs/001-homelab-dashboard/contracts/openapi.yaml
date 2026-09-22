@@ -1,0 +1,912 @@
+openapi: 3.0.3
+info:
+  title: HomeDash API
+  version: 0.1.0
+  description: |
+    API contracts for HomeDash.
+
+    Notes:
+    - Cookie-based sessions are used for authentication.
+    - CSRF protection is required for state-changing requests.
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: public
+  - name: auth
+  - name: user
+  - name: admin
+  - name: ops
+
+paths:
+  /healthz:
+    get:
+      tags: [ops]
+      summary: Liveness check
+      responses:
+        '200':
+          description: OK
+
+  /readyz:
+    get:
+      tags: [ops]
+      summary: Readiness check (DB reachable + migrations applied)
+      responses:
+        '200':
+          description: Ready
+        '503':
+          description: Not ready
+
+  /api/public/bootstrap:
+    get:
+      tags: [public]
+      summary: Public bootstrap data (shell + default dashboards)
+      description: |
+        Returns only explicitly public, read-only information required to render
+        the unauthenticated experience. Must not include admin-only settings or
+        any user data.
+      responses:
+        '200':
+          description: Public bootstrap payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicBootstrap'
+
+  /api/first-run/admin:
+    post:
+      tags: [auth]
+      summary: Create the initial admin user (first run only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FirstRunAdminCreateRequest'
+      responses:
+        '201':
+          description: Created and authenticated
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthMe'
+        '409':
+          description: Users already exist (first-run disabled)
+
+  /api/auth/login:
+    post:
+      tags: [auth]
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Authenticated
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthMe'
+        '401':
+          description: Invalid credentials
+
+  /api/auth/logout:
+    post:
+      tags: [auth]
+      summary: Logout
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      responses:
+        '204':
+          description: Logged out
+
+  /api/auth/me:
+    get:
+      tags: [auth]
+      summary: Current authenticated user
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Authenticated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthMe'
+        '401':
+          description: Not authenticated
+
+  /api/user/preferences:
+    get:
+      tags: [user]
+      summary: Get user preferences
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Preferences
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferences'
+        '401':
+          description: Not authenticated
+    put:
+      tags: [user]
+      summary: Update user preferences
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPreferencesUpdateRequest'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferences'
+
+  /api/admin/shell:
+    get:
+      tags: [admin]
+      summary: Get global shell settings
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Shell settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShellSettings'
+        '403':
+          description: Forbidden
+    put:
+      tags: [admin]
+      summary: Update global shell settings
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShellSettingsUpdateRequest'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShellSettings'
+
+  /api/admin/assets/logo:
+    post:
+      tags: [admin]
+      summary: Upload logo (also used as favicon source)
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+
+  /api/admin/dashboards:
+    get:
+      tags: [admin]
+      summary: List dashboards
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Dashboards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dashboard'
+    post:
+      tags: [admin]
+      summary: Create dashboard
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DashboardCreateRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+
+  /api/admin/dashboards/{dashboardId}:
+    parameters:
+      - name: dashboardId
+        in: path
+        required: true
+        schema:
+          type: string
+    put:
+      tags: [admin]
+      summary: Update dashboard (name, applicability, background)
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DashboardUpdateRequest'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+    delete:
+      tags: [admin]
+      summary: Delete dashboard
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      responses:
+        '204':
+          description: Deleted
+
+  /api/admin/dashboards/{dashboardId}/layout:
+    put:
+      tags: [admin]
+      summary: Replace dashboard layout (placeholders + widget instances)
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: dashboardId
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DashboardLayoutUpdateRequest'
+      responses:
+        '200':
+          description: Updated
+
+  /api/admin/icons/refresh:
+    post:
+      tags: [admin]
+      summary: Admin-controlled icon refresh (best-effort fetch + cache)
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      responses:
+        '202':
+          description: Refresh started
+
+  # ── Docker (043-docker-remote-auth) ─────────────────────────────────────────
+  # No route here accepts an endpoint from the caller: it is resolved
+  # server-side from the widget's stored connection. The former
+  # POST /api/docker/ping is deliberately absent — it was unauthenticated.
+  /api/docker/hosts:
+    get:
+      operationId: listDockerWidgetHosts
+      tags: [docker]
+      summary: List the ordered Docker hosts linked to a widget
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: widgetInstanceId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ordered host identifiers and display names
+        '401':
+          description: Not authenticated
+        '422':
+          description: Malformed query
+
+  /api/docker/containers:
+    get:
+      operationId: listDockerContainers
+      tags: [docker]
+      summary: List containers for one of a widget's linked Docker connections
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: widgetInstanceId
+          in: query
+          required: true
+          description: Identifies the widget that owns the selected connection.
+          schema:
+            type: string
+        - name: connectionId
+          in: query
+          required: true
+          description: Opaque Docker connection ID linked to the widget.
+          schema:
+            type: string
+        - name: all
+          in: query
+          required: false
+          description: Include non-running containers. Defaults to true.
+          schema:
+            type: string
+            enum: [  'true', 'false' ]
+      responses:
+        '200':
+          description: Container list
+        '400':
+          description: The stored endpoint is not a valid Docker endpoint
+        '401':
+          description: Not authenticated
+        '409':
+          description: The widget has no Docker connection configured
+        '502':
+          description: The endpoint is configured but the daemon did not answer
+
+  /api/docker/action:
+    post:
+      operationId: dockerContainerAction
+      tags: [docker]
+      summary: Start, stop or restart a container
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [widgetInstanceId, connectionId, containerId, action]
+              properties:
+                widgetInstanceId:
+                  type: string
+                connectionId:
+                  type: string
+                containerId:
+                  type: string
+                  maxLength: 64
+                action:
+                  type: string
+                  enum: [start, stop, restart]
+      responses:
+        '200':
+          description: Action accepted
+        '401':
+          description: Not authenticated
+        '403':
+          description: Not an admin, or CSRF token missing or invalid
+        '409':
+          description: The widget has no Docker connection configured
+        '422':
+          description: Malformed body
+        '502':
+          description: The endpoint is configured but the daemon did not answer
+
+  /api/admin/connections/docker-links:
+    put:
+      operationId: replaceDockerWidgetConnections
+      tags: [admin, docker]
+      summary: Replace the ordered Docker connections linked to a widget
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        required: true
+        content:
+         application/json:
+           schema:
+             type: object
+             required: [widgetInstanceId, connectionIds]
+             properties:
+               widgetInstanceId:
+                 type: string
+               connectionIds:
+                 type: array
+                 maxItems: 50
+                 uniqueItems: true
+                 items:
+                   type: string
+      responses:
+        '200':
+         description: Ordered Docker host links
+        '401':
+         description: Not authenticated
+        '403':
+         description: Not an admin, or CSRF token missing or invalid
+        '404':
+         description: Widget or Docker connection not found
+        '422':
+         description: Malformed body
+
+  /api/admin/connections/docker/test:
+    post:
+      operationId: testDockerEndpoint
+      tags: [admin, docker]
+      summary: Test an unsaved Docker endpoint
+      description: >-
+        One of the only two routes that accept a caller-supplied endpoint, so an
+        admin can validate a destination before saving it. Admin-guarded, and
+        the endpoint is validated against the grammar and the address allowlist
+        before anything is dialled.
+      security:
+        - cookieAuth: []
+      parameters:
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [dockerUrl]
+              properties:
+                dockerUrl:
+                  type: string
+      responses:
+        '200':
+          description: Connectivity result
+        '400':
+          description: Endpoint rejected before any outbound connection
+        '401':
+          description: Not authenticated
+        '403':
+          description: Not an admin, or CSRF token missing or invalid
+
+  /api/admin/connections/docker/{id}/test:
+    post:
+      operationId: testStoredDockerConnection
+      tags: [admin, docker]
+      summary: Test a stored Docker connection, or an override endpoint
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/CsrfToken'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dockerUrl:
+                  type: string
+                  description: Overrides the stored value for this test only.
+      responses:
+        '200':
+          description: Connectivity result
+        '400':
+          description: Endpoint rejected before any outbound connection
+        '401':
+          description: Not authenticated
+        '403':
+          description: Not an admin, or CSRF token missing or invalid
+        '404':
+          description: No such Docker connection
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: homedash_session
+
+  parameters:
+    CsrfToken:
+      name: X-CSRF-Token
+      in: header
+      required: true
+      schema:
+        type: string
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+
+    PublicBootstrap:
+      type: object
+      required: [firstRunRequired, shell, deviceContext, dashboard]
+      properties:
+        firstRunRequired:
+          type: boolean
+        deviceContext:
+          type: string
+          enum: [web, mobile]
+        shell:
+          $ref: '#/components/schemas/PublicShell'
+        dashboard:
+          $ref: '#/components/schemas/DashboardView'
+
+    PublicShell:
+      type: object
+      required: [titleText, headerHeightPx, clockStripEnabled]
+      properties:
+        titleText:
+          type: string
+        headerHeightPx:
+          type: integer
+        logoUrl:
+          type: string
+          nullable: true
+        clockStripEnabled:
+          type: boolean
+        clocks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Clock'
+        footerText:
+          type: string
+          nullable: true
+        repoUrl:
+          type: string
+          nullable: true
+
+    Clock:
+      type: object
+      required: [timezone, label, isHome]
+      properties:
+        timezone:
+          type: string
+        label:
+          type: string
+        isHome:
+          type: boolean
+
+    FirstRunAdminCreateRequest:
+      type: object
+      required: [username, displayName, password]
+      properties:
+        username:
+          type: string
+        displayName:
+          type: string
+        password:
+          type: string
+          format: password
+
+    LoginRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+
+    AuthMe:
+      type: object
+      required: [user]
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+
+    User:
+      type: object
+      required: [id, username, displayName, role]
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        displayName:
+          type: string
+        role:
+          type: string
+          enum: [admin, standard]
+
+    UserPreferences:
+      type: object
+      required: [themeMode]
+      properties:
+        themeMode:
+          type: string
+          enum: [light, dark]
+        webDashboardId:
+          type: string
+          nullable: true
+        mobileDashboardId:
+          type: string
+          nullable: true
+
+    UserPreferencesUpdateRequest:
+      type: object
+      properties:
+        themeMode:
+          type: string
+          enum: [light, dark]
+        webDashboardId:
+          type: string
+          nullable: true
+        mobileDashboardId:
+          type: string
+          nullable: true
+
+    ShellSettings:
+      type: object
+      required: [titleText, headerHeightPx, clockStripEnabled]
+      properties:
+        titleText:
+          type: string
+        titleFont:
+          type: string
+          nullable: true
+        titleFontSizePx:
+          type: integer
+          nullable: true
+        headerHeightPx:
+          type: integer
+        clockStripEnabled:
+          type: boolean
+        homeTimezone:
+          type: string
+          nullable: true
+        timezones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Clock'
+        footerText:
+          type: string
+          nullable: true
+        repoUrl:
+          type: string
+          nullable: true
+        unauthWebDashboardId:
+          type: string
+          nullable: true
+        unauthMobileDashboardId:
+          type: string
+          nullable: true
+
+    ShellSettingsUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/ShellSettings'
+
+    Asset:
+      type: object
+      required: [id, kind, url, contentType, byteSize]
+      properties:
+        id:
+          type: string
+        kind:
+          type: string
+          enum: [logo, background, icon]
+        url:
+          type: string
+        contentType:
+          type: string
+        byteSize:
+          type: integer
+
+    Dashboard:
+      type: object
+      required: [id, name, applicability]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        applicability:
+          type: string
+          enum: [web, mobile, both]
+        backgroundType:
+          type: string
+          enum: [solid, image]
+          nullable: true
+        backgroundColor:
+          type: string
+          nullable: true
+        backgroundAssetId:
+          type: string
+          nullable: true
+        backgroundDisplayMode:
+          type: string
+          enum: [fill, stretch]
+          nullable: true
+
+    DashboardCreateRequest:
+      type: object
+      required: [name, applicability]
+      properties:
+        name:
+          type: string
+        applicability:
+          type: string
+          enum: [web, mobile, both]
+
+    DashboardUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        applicability:
+          type: string
+          enum: [web, mobile, both]
+        backgroundType:
+          type: string
+          enum: [solid, image]
+        backgroundColor:
+          type: string
+          nullable: true
+        backgroundAssetId:
+          type: string
+          nullable: true
+        backgroundDisplayMode:
+          type: string
+          enum: [fill, stretch]
+          nullable: true
+
+    DashboardView:
+      type: object
+      required: [dashboardId, placeholders]
+      properties:
+        dashboardId:
+          type: string
+        placeholders:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaceholderView'
+
+    PlaceholderView:
+      type: object
+      required: [id, stableKey, x, y, w, h, borderColor, opacity, widgets]
+      properties:
+        id:
+          type: string
+        stableKey:
+          type: string
+        title:
+          type: string
+          nullable: true
+        x:
+          type: integer
+        y:
+          type: integer
+        w:
+          type: integer
+        h:
+          type: integer
+        borderColor:
+          type: string
+        opacity:
+          type: number
+        widgets:
+          type: array
+          items:
+            $ref: '#/components/schemas/WidgetInstanceView'
+
+    WidgetInstanceView:
+      type: object
+      required: [id, type, orderIndex, config]
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        orderIndex:
+          type: integer
+        config:
+          type: object
+          additionalProperties: true
+
+    DashboardLayoutUpdateRequest:
+      type: object
+      required: [placeholders]
+      properties:
+        placeholders:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaceholderLayoutInput'
+
+    PlaceholderLayoutInput:
+      type: object
+      required: [stableKey, x, y, w, h, borderColor, opacity, widgets]
+      properties:
+        stableKey:
+          type: string
+        title:
+          type: string
+          nullable: true
+        x:
+          type: integer
+        y:
+          type: integer
+        w:
+          type: integer
+        h:
+          type: integer
+        borderColor:
+          type: string
+        opacity:
+          type: number
+        widgets:
+          type: array
+          items:
+            $ref: '#/components/schemas/WidgetInstanceInput'
+
+    WidgetInstanceInput:
+      type: object
+      required: [type, orderIndex, config]
+      properties:
+        type:
+          type: string
+        orderIndex:
+          type: integer
+        config:
+          type: object
+          additionalProperties: true

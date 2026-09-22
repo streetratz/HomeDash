@@ -1,0 +1,6 @@
+2026-09-20
+pnpm --filter frontend test:unit
+PASS: 16 files, 63 tests
+
+pnpm --filter frontend typecheck
+PASS

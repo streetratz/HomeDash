@@ -1,0 +1,15 @@
+2026-09-20
+pnpm --filter backend test
+PASS: 56 files, 737 tests
+
+pnpm --filter frontend test:unit
+PASS: 16 files, 63 tests
+
+pnpm build
+PASS
+
+PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm lint
+PASS: 0 errors, 0 warnings
+
+bash .github/skills/pre-pr-upgrade-gate/run.sh --backup /Users/developer/Downloads/homedash-backup-2026-09-19.json
+PASS: migrations 30 -> 31; 27 tables preserved; 0 FK violations

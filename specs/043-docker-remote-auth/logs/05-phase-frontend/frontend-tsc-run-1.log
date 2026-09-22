@@ -1,0 +1,23 @@
+$ tsc --noEmit
+src/hooks/__tests__/useDocker.test.ts(38,5): error TS2322: Type 'MockInstance<[path: string, options?: RequestInit | undefined], Promise<unknown>>' is not assignable to type 'MockInstance<unknown[], unknown>'.
+  The types returned by 'getMockImplementation()' are incompatible between these types.
+    Type '((path: string, options?: RequestInit | undefined) => Promise<unknown>) | undefined' is not assignable to type '((...args: unknown[]) => unknown) | undefined'.
+      Type '(path: string, options?: RequestInit | undefined) => Promise<unknown>' is not assignable to type '(...args: unknown[]) => unknown'.
+        Types of parameters 'path' and 'args' are incompatible.
+          Type 'unknown' is not assignable to type 'string'.
+src/hooks/__tests__/useDocker.test.ts(39,5): error TS2322: Type 'MockInstance<[path: string, body?: unknown, options?: RequestInit | undefined], Promise<unknown>>' is not assignable to type 'MockInstance<unknown[], unknown>'.
+  The types returned by 'getMockImplementation()' are incompatible between these types.
+    Type '((path: string, body?: unknown, options?: RequestInit | undefined) => Promise<unknown>) | undefined' is not assignable to type '((...args: unknown[]) => unknown) | undefined'.
+      Type '(path: string, body?: unknown, options?: RequestInit | undefined) => Promise<unknown>' is not assignable to type '(...args: unknown[]) => unknown'.
+        Types of parameters 'path' and 'args' are incompatible.
+          Type 'unknown' is not assignable to type 'string'.
+src/hooks/__tests__/useDocker.test.ts(40,5): error TS2322: Type 'MockInstance<[input: string | URL | Request, init?: RequestInit | undefined], Promise<Response>>' is not assignable to type 'MockInstance<unknown[], unknown>'.
+  The types returned by 'getMockImplementation()' are incompatible between these types.
+    Type '((input: string | URL | Request, init?: RequestInit | undefined) => Promise<Response>) | undefined' is not assignable to type '((...args: unknown[]) => unknown) | undefined'.
+      Type '(input: string | URL | Request, init?: RequestInit | undefined) => Promise<Response>' is not assignable to type '(...args: unknown[]) => unknown'.
+        Types of parameters 'input' and 'args' are incompatible.
+          Type 'unknown' is not assignable to type 'string | URL | Request'.
+/workspace/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] frontend@0.1.0 typecheck: `tsc --noEmit`
+Exit status 2
+exit=2

@@ -1,0 +1,41 @@
+# Command: pnpm --filter backend typecheck
+# Phase:   03 - Session Secret Migration
+# Run:     3
+# Time:    2026-09-22 20:55 UTC
+# Exit:    2
+---
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+tests/integration/backup.test.ts(151,12): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(152,24): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(166,27): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(182,27): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(206,12): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(207,12): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(208,12): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(220,35): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(221,40): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(222,37): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(223,36): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(224,43): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(225,45): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(226,39): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(227,42): error TS2532: Object is possibly 'undefined'.
+tests/integration/backup.test.ts(228,42): error TS2532: Object is possibly 'undefined'.
+tests/integration/restore.test.ts(159,12): error TS2532: Object is possibly 'undefined'.
+tests/integration/restore.test.ts(160,12): error TS2532: Object is possibly 'undefined'.
+tests/integration/restore.test.ts(161,12): error TS2532: Object is possibly 'undefined'.
+tests/integration/restore.test.ts(165,12): error TS2532: Object is possibly 'undefined'.
+tests/integration/restore.test.ts(166,12): error TS2532: Object is possibly 'undefined'.
+tests/integration/restore.test.ts(167,12): error TS2532: Object is possibly 'undefined'.
+tests/integration/restore.test.ts(181,5): error TS2532: Object is possibly 'undefined'.
+tests/integration/restore.test.ts(414,5): error TS2532: Object is possibly 'undefined'.
+tests/unit/publicWidgetSnapshotCache.test.ts(46,36): error TS18046: 'value.data' is of type 'unknown'.
+tests/unit/sonosLibrary.test.ts(35,29): error TS2344: Type '() => Promise<ReadResult>' does not satisfy the constraint 'any[]'.
+tests/unit/sonosLibrary.test.ts(37,11): error TS2344: Type '() => Promise<ReadResult>' does not satisfy the constraint 'any[]'.
+tests/unit/sonosLibrary.test.ts(56,11): error TS2344: Type '() => Promise<ReadResult>' does not satisfy the constraint 'any[]'.
+tests/unit/sonosLibrary.test.ts(58,30): error TS2344: Type '() => Promise<ReadResult>' does not satisfy the constraint 'any[]'.
+tests/unit/sonosLibrary.test.ts(75,11): error TS2344: Type '() => Promise<ReadResult>' does not satisfy the constraint 'any[]'.
+tests/unit/sonosLibrary.test.ts(77,31): error TS2344: Type '() => Promise<ReadResult>' does not satisfy the constraint 'any[]'.
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] backend@0.1.0 typecheck: `tsc --noEmit && tsc --project tsconfig.test.json --noEmit`
+Exit status 2

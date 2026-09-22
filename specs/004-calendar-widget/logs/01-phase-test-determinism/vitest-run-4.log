@@ -1,0 +1,17 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/integration/calendar-phase7.test.ts
+# Phase:   01 — Calendar test determinism
+# Run:     4
+# Time:    2026-09-18 22:49 AEST
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/integration/calendar-phase7.test.ts  (22 tests) 859ms
+
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+   Start at  22:41:08
+   Duration  1.98s (transform 307ms, setup 258ms, collect 718ms, tests 859ms, environment 0ms, prepare 40ms)
+

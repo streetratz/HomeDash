@@ -1,0 +1,1107 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/unit/sonosLibrary.test.ts && pnpm --filter frontend exec vitest run src/components/sonos/__tests__/BrowsePanel.test.tsx src/components/sonos/__tests__/FullScreenSonos.test.tsx
+# Phase:   02 - Implementation
+# Run:     1
+# Time:    2026-09-20
+# Exit:    expected failure before implementation
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ❯ tests/unit/sonosLibrary.test.ts  (7 tests | 7 failed) 3ms
+   ❯ tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > falls back to the next discovered device after a UPnP failure
+     → readFromFirstResponsiveDevice is not a function
+   ❯ tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > treats a successful empty response as valid without trying another device
+     → readFromFirstResponsiveDevice is not a function
+   ❯ tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > throws a classified error after every discovered device fails
+     → readFromFirstResponsiveDevice is not a function
+   ❯ tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > normalizes x-rincon-playlist:RINCON_TEST#A:ALBUM/Family to A:ALBUM/Family
+     → normalizeSonosObjectId is not a function
+   ❯ tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > normalizes x-file-cifs://media.home.arpa/music/Family to S://media.home.arpa/music/Family
+     → normalizeSonosObjectId is not a function
+   ❯ tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > normalizes S://media.home.arpa/music/Family to S://media.home.arpa/music/Family
+     → normalizeSonosObjectId is not a function
+   ❯ tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > normalizes S: to S:
+     → normalizeSonosObjectId is not a function
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > falls back to the next discovered device after a UPnP failure
+TypeError: readFromFirstResponsiveDevice is not a function
+ ❯ tests/unit/sonosLibrary.test.ts:28:26
+     26|     const secondRead = vi.fn().mockResolvedValue({ items: [{ title: 'M…
+     27|
+     28|     const result = await readFromFirstResponsiveDevice(
+       |                          ^
+     29|       [
+     30|         { name: 'Stale speaker', uuid: 'RINCON_STALE', device: { read:…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > treats a successful empty response as valid without trying another device
+TypeError: readFromFirstResponsiveDevice is not a function
+ ❯ tests/unit/sonosLibrary.test.ts:46:26
+     44|     const secondRead = vi.fn();
+     45|
+     46|     const result = await readFromFirstResponsiveDevice(
+       |                          ^
+     47|       [
+     48|         { name: 'Living room', uuid: 'RINCON_LIVING', device: { read: …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > throws a classified error after every discovered device fails
+TypeError: readFromFirstResponsiveDevice is not a function
+ ❯ tests/unit/sonosLibrary.test.ts:61:7
+     59|   it('throws a classified error after every discovered device fails', …
+     60|     await expect(
+     61|       readFromFirstResponsiveDevice(
+       |       ^
+     62|         [
+     63|           {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > normalizes x-rincon-playlist:RINCON_TEST#A:ALBUM/Family to A:ALBUM/Family
+ FAIL  tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > normalizes x-file-cifs://media.home.arpa/music/Family to S://media.home.arpa/music/Family
+ FAIL  tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > normalizes S://media.home.arpa/music/Family to S://media.home.arpa/music/Family
+ FAIL  tests/unit/sonosLibrary.test.ts > Sonos ContentDirectory reads > normalizes S: to S:
+TypeError: normalizeSonosObjectId is not a function
+ ❯ tests/unit/sonosLibrary.test.ts:86:12
+     84|     ['S:', 'S:'],
+     85|   ])('normalizes %s to %s', (input, expected) => {
+     86|     expect(normalizeSonosObjectId(input)).toBe(expected);
+       |            ^
+     87|   });
+     88| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ Test Files  1 failed (1)
+      Tests  7 failed (7)
+   Start at  07:10:18
+   Duration  509ms (transform 96ms, setup 289ms, collect 62ms, tests 3ms, environment 0ms, prepare 47ms)
+
+undefined
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/sonosLibrary.test.ts
+
+ RUN  v1.6.1 /workspace/HomeDash/frontend
+
+stderr | src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps primary navigation on one four-column row
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+stderr | src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps secondary playback controls collapsed until requested
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+TypeError: window.matchMedia is not a function
+    at usePrefersReducedMotion (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:12:17)
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:31:25)
+    at renderWithHooks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/workspace/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+ ❯ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (2 tests | 2 failed) 82ms
+   ❯ src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps primary navigation on one four-column row
+     → window.matchMedia is not a function
+   ❯ src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps secondary playback controls collapsed until requested
+     → window.matchMedia is not a function
+ ❯ src/components/sonos/__tests__/BrowsePanel.test.tsx  (6 tests | 2 failed) 171ms
+   ❯ src/components/sonos/__tests__/BrowsePanel.test.tsx > BrowsePanel > normalizes CIFS folder URIs before queueing them
+     → expected "spy" to be called with arguments: [ { groupId: 'group-1', …(1) } ]
+
+Received:
+
+  1st spy call:
+
+  Array [
+    Object {
+      "groupId": "group-1",
+-     "objectId": "S://media.home.arpa/music/Family",
++     "objectId": "x-file-cifs://media.home.arpa/music/Family",
+    },
+  ]
+
+
+Number of calls: 1
+
+   ❯ src/components/sonos/__tests__/BrowsePanel.test.tsx > BrowsePanel > shows a retryable error instead of an empty library state
+     → Unable to find an element with the text: Could not load Folders from Sonos.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex flex-col h-full"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex flex-wrap gap-2 mb-2"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"false"[39m
+          [33mclass[39m=[32m"flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-colors active:scale-[0.97] text-white/50 bg-white/[0.05] hover:text-white/70 hover:bg-white/[0.08]"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-radio h-3.5 w-3.5"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16.247 7.761a6 6 0 0 1 0 8.478"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M19.075 4.933a10 10 0 0 1 0 14.134"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M4.925 19.067a10 10 0 0 1 0-14.134"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M7.753 16.239a6 6 0 0 1 0-8.478"[39m
+            [36m/>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"12"[39m
+              [33mcy[39m=[32m"12"[39m
+              [33mr[39m=[32m"2"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span>[39m
+            [0mRadio[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"false"[39m
+          [33mclass[39m=[32m"flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-colors active:scale-[0.97] text-white/50 bg-white/[0.05] hover:text-white/70 hover:bg-white/[0.08]"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-tag h-3.5 w-3.5"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"[39m
+            [36m/>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"7.5"[39m
+              [33mcy[39m=[32m"7.5"[39m
+              [33mfill[39m=[32m"currentColor"[39m
+              [33mr[39m=[32m".5"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span>[39m
+            [0mFamily YouTube[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"true"[39m
+          [33mclass[39m=[32m"flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-colors active:scale-[0.97] text-orange-400 bg-white/[0.10] ring-1 ring-white/[0.15]"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-disc3 lucide-disc-3 h-3.5 w-3.5"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"12"[39m
+              [33mcy[39m=[32m"12"[39m
+              [33mr[39m=[32m"10"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M6 12c0-1.7.7-3.2 1.8-4.2"[39m
+            [36m/>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"12"[39m
+              [33mcy[39m=[32m"12"[39m
+              [33mr[39m=[32m"2"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M18 12c0 1.7-.7 3.2-1.8 4.2"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span>[39m
+            [0mLibrary[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mb-3 text-[10px] text-white/30"[39m
+      [36m>[39m
+        [0mServices are inferred from Sonos favorites and recent playback.[0m
+      [36m</p>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex-1 overflow-y-auto scrollbar-hide"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"space-y-2"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex gap-1 flex-wrap"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-orange-400 bg-white/[0.08]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-folder-open h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mFolders[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-user h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"7"[39m
+                  [33mr[39m=[32m"4"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mArtists[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-disc h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"12"[39m
+                  [33mr[39m=[32m"10"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"12"[39m
+                  [33mr[39m=[32m"2"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mAlbums[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-tag h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"7.5"[39m
+                  [33mcy[39m=[32m"7.5"[39m
+                  [33mfill[39m=[32m"currentColor"[39m
+                  [33mr[39m=[32m".5"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mGenres[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-music h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M9 18V5l12-2v13"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"6"[39m
+                  [33mcy[39m=[32m"18"[39m
+                  [33mr[39m=[32m"3"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"18"[39m
+                  [33mcy[39m=[32m"16"[39m
+                  [33mr[39m=[32m"3"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mTracks[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-list-music h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M16 5H3"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M11 12H3"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M11 19H3"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M21 16V5"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"18"[39m
+                  [33mcy[39m=[32m"16"[39m
+                  [33mr[39m=[32m"3"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mPlaylists[0m
+            [36m</button>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"relative"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-search absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-white/30"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m21 21-4.34-4.34"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"11"[39m
+                [33mcy[39m=[32m"11"[39m
+                [33mr[39m=[32m"8"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<input[39m
+              [33mclass[39m=[32m"w-full pl-8 pr-3 py-1.5 rounded-lg bg-white/[0.06] border border-white/[0.08] text-xs text-white placeholder:text-white/30 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"[39m
+              [33mplaceholder[39m=[32m"Search Folders…"[39m
+              [33mtype[39m=[32m"text"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+          [36m</div>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"text-xs text-white/30 italic text-center py-8"[39m
+            [36m>[39m
+              [0mNo share found[0m
+            [36m</p>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/components/sonos/__tests__/BrowsePanel.test.tsx > BrowsePanel > normalizes CIFS folder URIs before queueing them
+AssertionError: expected "spy" to be called with arguments: [ { groupId: 'group-1', …(1) } ]
+
+Received:
+
+  1st spy call:
+
+  Array [
+    Object {
+      "groupId": "group-1",
+-     "objectId": "S://media.home.arpa/music/Family",
++     "objectId": "x-file-cifs://media.home.arpa/music/Family",
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ src/components/sonos/__tests__/BrowsePanel.test.tsx:234:33
+    232|     fireEvent.click(screen.getByRole('button', { name: 'Add to End' })…
+    233|
+    234|     expect(addContainerToQueue).toHaveBeenCalledWith({
+       |                                 ^
+    235|       groupId: 'group-1',
+    236|       objectId: 'S://media.home.arpa/music/Family',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/components/sonos/__tests__/BrowsePanel.test.tsx > BrowsePanel > shows a retryable error instead of an empty library state
+TestingLibraryElementError: Unable to find an element with the text: Could not load Folders from Sonos.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex flex-col h-full"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex flex-wrap gap-2 mb-2"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"false"[39m
+          [33mclass[39m=[32m"flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-colors active:scale-[0.97] text-white/50 bg-white/[0.05] hover:text-white/70 hover:bg-white/[0.08]"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-radio h-3.5 w-3.5"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M16.247 7.761a6 6 0 0 1 0 8.478"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M19.075 4.933a10 10 0 0 1 0 14.134"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M4.925 19.067a10 10 0 0 1 0-14.134"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M7.753 16.239a6 6 0 0 1 0-8.478"[39m
+            [36m/>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"12"[39m
+              [33mcy[39m=[32m"12"[39m
+              [33mr[39m=[32m"2"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span>[39m
+            [0mRadio[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"false"[39m
+          [33mclass[39m=[32m"flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-colors active:scale-[0.97] text-white/50 bg-white/[0.05] hover:text-white/70 hover:bg-white/[0.08]"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-tag h-3.5 w-3.5"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"[39m
+            [36m/>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"7.5"[39m
+              [33mcy[39m=[32m"7.5"[39m
+              [33mfill[39m=[32m"currentColor"[39m
+              [33mr[39m=[32m".5"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span>[39m
+            [0mFamily YouTube[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-pressed[39m=[32m"true"[39m
+          [33mclass[39m=[32m"flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-colors active:scale-[0.97] text-orange-400 bg-white/[0.10] ring-1 ring-white/[0.15]"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-disc3 lucide-disc-3 h-3.5 w-3.5"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"12"[39m
+              [33mcy[39m=[32m"12"[39m
+              [33mr[39m=[32m"10"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M6 12c0-1.7.7-3.2 1.8-4.2"[39m
+            [36m/>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"12"[39m
+              [33mcy[39m=[32m"12"[39m
+              [33mr[39m=[32m"2"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M18 12c0 1.7-.7 3.2-1.8 4.2"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span>[39m
+            [0mLibrary[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mb-3 text-[10px] text-white/30"[39m
+      [36m>[39m
+        [0mServices are inferred from Sonos favorites and recent playback.[0m
+      [36m</p>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex-1 overflow-y-auto scrollbar-hide"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"space-y-2"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex gap-1 flex-wrap"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-orange-400 bg-white/[0.08]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-folder-open h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mFolders[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-user h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"7"[39m
+                  [33mr[39m=[32m"4"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mArtists[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-disc h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"12"[39m
+                  [33mr[39m=[32m"10"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"12"[39m
+                  [33mr[39m=[32m"2"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mAlbums[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-tag h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"7.5"[39m
+                  [33mcy[39m=[32m"7.5"[39m
+                  [33mfill[39m=[32m"currentColor"[39m
+                  [33mr[39m=[32m".5"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mGenres[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-music h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M9 18V5l12-2v13"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"6"[39m
+                  [33mcy[39m=[32m"18"[39m
+                  [33mr[39m=[32m"3"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"18"[39m
+                  [33mcy[39m=[32m"16"[39m
+                  [33mr[39m=[32m"3"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mTracks[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium transition-colors text-white/40 hover:text-white/60 hover:bg-white/[0.04]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-list-music h-3 w-3"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M16 5H3"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M11 12H3"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M11 19H3"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M21 16V5"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"18"[39m
+                  [33mcy[39m=[32m"16"[39m
+                  [33mr[39m=[32m"3"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mPlaylists[0m
+            [36m</button>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"relative"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-search absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-white/30"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m21 21-4.34-4.34"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"11"[39m
+                [33mcy[39m=[32m"11"[39m
+                [33mr[39m=[32m"8"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<input[39m
+              [33mclass[39m=[32m"w-full pl-8 pr-3 py-1.5 rounded-lg bg-white/[0.06] border border-white/[0.08] text-xs text-white placeholder:text-white/30 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"[39m
+              [33mplaceholder[39m=[32m"Search Folders…"[39m
+              [33mtype[39m=[32m"text"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+          [36m</div>[39m
+          [36m<div>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"text-xs text-white/30 italic text-center py-8"[39m
+            [36m>[39m
+              [0mNo share found[0m
+            [36m</p>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/sonos/__tests__/BrowsePanel.test.tsx:246:19
+    244|
+    245|     fireEvent.click(screen.getByRole('button', { name: 'Library' }));
+    246|     expect(screen.getByText('Could not load Folders from Sonos.')).not…
+       |                   ^
+    247|     expect(screen.queryByText('No folders found')).toBeNull();
+    248|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps primary navigation on one four-column row
+ FAIL  src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps secondary playback controls collapsed until requested
+TypeError: window.matchMedia is not a function
+ ❯ usePrefersReducedMotion src/components/sonos/MarqueeText.tsx:12:17
+     10| function usePrefersReducedMotion(): boolean {
+     11|   if (typeof window === 'undefined') return false;
+     12|   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+       |                 ^
+     13| }
+     14|
+ ❯ MarqueeText src/components/sonos/MarqueeText.tsx:31:25
+ ❯ renderWithHooks ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18
+ ❯ mountIndeterminateComponent ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:20103:13
+ ❯ beginWork ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21626:16
+ ❯ beginWork$1 ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27465:14
+ ❯ performUnitOfWork ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26599:12
+ ❯ workLoopSync ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26505:5
+ ❯ renderRootSync ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26473:7
+ ❯ recoverFromConcurrentError ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:25889:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ Test Files  2 failed (2)
+      Tests  4 failed | 4 passed (8)
+   Start at  07:10:19
+   Duration  1.23s (transform 170ms, setup 1ms, collect 507ms, tests 253ms, environment 952ms, prepare 88ms)
+
+undefined
+/workspace/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run src/components/sonos/__tests__/BrowsePanel.test.tsx src/components/sonos/__tests__/FullScreenSonos.test.tsx

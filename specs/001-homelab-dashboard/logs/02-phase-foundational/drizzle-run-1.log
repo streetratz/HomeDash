@@ -1,0 +1,7 @@
+# Command: cd backend && npx drizzle-kit generate:sqlite
+# Phase:   02 — Foundational (Blocking Prerequisites)
+# Run:     1
+# Time:    2026-02-21 14:20
+# Exit:    1
+---
+Err: This command is deprecated, please use updated 'generate' command

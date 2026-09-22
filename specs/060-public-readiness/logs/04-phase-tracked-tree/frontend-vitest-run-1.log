@@ -1,0 +1,15 @@
+# Command: pnpm --filter frontend exec vitest run src/components/sonos/__tests__/BrowsePanel.test.tsx
+# Phase:   04 - Tracked Tree Sanitization
+# Run:     1
+# Time:    2026-09-22 20:55 UTC
+# Exit:    0
+---
+
+ RUN  v1.6.1 /workspace/HomeDash/frontend
+
+ ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (12 tests) 205ms
+
+ Test Files  1 passed (1)
+      Tests  12 passed (12)
+   Start at  06:40:33
+   Duration  1.27s (transform 67ms, setup 0ms, collect 201ms, tests 205ms, environment 528ms, prepare 102ms)

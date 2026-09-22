@@ -1,0 +1,134 @@
+# Promote main → release branch (manual trigger only)
+# Promotes the exact versions.json Main Version, commits to main, then fast-forwards release.
+# This triggers the docker-publish workflow to build & push with the new version tag.
+
+name: Promote to Release
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: promote-release
+  cancel-in-progress: false
+
+jobs:
+  release-upgrade-preflight:
+    if: github.actor == github.repository_owner
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout proposed main
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Verify upgrade from current release
+        run: bash .github/skills/pre-pr-upgrade-gate/run.sh --base-ref origin/release
+
+  promote:
+    if: github.actor == github.repository_owner
+    needs: release-upgrade-preflight
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+
+      - name: Read previous release tag
+        id: previous
+        run: |
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 --match 'v[0-9]*' 2>/dev/null || true)
+          echo "tag=$PREVIOUS_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Promote Main Version
+        id: version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          NEW_VERSION=$(node scripts/version-state.mjs promote)
+          if git rev-parse --verify --quiet "refs/tags/v${NEW_VERSION}"; then
+            echo "::error::Tag v${NEW_VERSION} already exists"
+            exit 1
+          fi
+
+          echo "version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Promoting exact Main Version v$NEW_VERSION"
+
+      - name: Commit promoted version to main
+        run: |
+          git add versions.json package.json README.md
+          git commit -m "release: v${{ steps.version.outputs.version }}"
+          git push origin main
+
+      - name: Fast-forward release to main
+        run: |
+          # Create release branch if it doesn't exist
+          if ! git rev-parse --verify origin/release >/dev/null 2>&1; then
+            git checkout -b release
+          else
+            git checkout release
+            git merge --ff-only main
+          fi
+
+          git push origin release
+
+      - name: Create git tag
+        run: |
+          git tag "v${{ steps.version.outputs.version }}"
+          git push origin "v${{ steps.version.outputs.version }}"
+
+      - name: Extract changelog for this version
+        id: changelog
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          # Extract the section between this version header and the next version header
+          NOTES=$(awk "/^## \[${VERSION}\]/{found=1; next} /^## \[/{if(found) exit} found{print}" CHANGELOG.md)
+
+          if [ -z "$NOTES" ]; then
+            echo "⚠️  No CHANGELOG.md entry found for v${VERSION}, falling back to auto-generated notes"
+            echo "fallback=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "fallback=false" >> "$GITHUB_OUTPUT"
+            echo "$NOTES" > /tmp/release-notes.md
+            PREVIOUS_TAG="${{ steps.previous.outputs.tag }}"
+            if [ -n "$PREVIOUS_TAG" ]; then
+              echo "" >> /tmp/release-notes.md
+              echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...v${VERSION}" >> /tmp/release-notes.md
+            fi
+          fi
+
+      - name: Create GitHub Release
+        run: |
+          if [ "${{ steps.changelog.outputs.fallback }}" = "true" ]; then
+            gh release create "v${{ steps.version.outputs.version }}" \
+              --generate-notes \
+              --target release \
+              --title "v${{ steps.version.outputs.version }}"
+          else
+            gh release create "v${{ steps.version.outputs.version }}" \
+              --notes-file /tmp/release-notes.md \
+              --target release \
+              --title "v${{ steps.version.outputs.version }}"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger Docker build
+        run: gh workflow run "Build & Push to GHCR" --ref release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

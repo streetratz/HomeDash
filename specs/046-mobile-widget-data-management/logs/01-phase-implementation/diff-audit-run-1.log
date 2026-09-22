@@ -1,0 +1,36 @@
+# Command: git diff --check; git diff --stat; rg hard-coded black surfaces
+# Phase:   01 — Implementation
+# Run:     1
+# Time:    2026-09-19 07:25 AEST
+# Exit:    0
+---
+
+--- diff stat ---
+ .github/copilot-instructions.md                    |   2 +-
+ README.md                                          |  80 ++--
+ backend/drizzle/meta/_journal.json                 |   7 +
+ backend/src/api/admin-calendar.ts                  | 225 ++++++++---
+ backend/src/db/schema/index.ts                     |  82 ++--
+ backend/src/lib/validation.ts                      |  17 +-
+ backend/src/services/calendar-sync-service.ts      |  11 +-
+ backend/src/services/ical-service.ts               |  40 +-
+ backend/tests/integration/ical-parser.test.ts      | 138 ++++++-
+ frontend/src/components/DashboardGrid.tsx          | 165 +++++---
+ frontend/src/components/PlaceholderWidget.tsx      |  48 ++-
+ frontend/src/components/calendar/AgendaView.tsx    |  33 +-
+ .../src/components/calendar/FullScreenCalendar.tsx | 276 +++++++------
+ .../src/components/settings/CalendarSourceList.tsx |  78 +++-
+ frontend/src/components/widgets/PiholeWidget.tsx   | 212 ++++++++--
+ .../src/components/widgets/StocksConfigForm.tsx    | 446 ++++++++++++++++++---
+ frontend/src/components/widgets/StocksWidget.tsx   | 257 +++++++-----
+ frontend/src/index.css                             | 203 +++++++---
+ frontend/src/state/calendarHooks.ts                |  26 +-
+ 19 files changed, 1720 insertions(+), 626 deletions(-)
+
+--- remaining hard-coded black surfaces ---
+frontend/src/components/sonos/FullScreenSonos.tsx:467:    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
+frontend/src/components/calendar/FullScreenCalendar.tsx:178:    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+frontend/src/components/widgets/SonosWidget.tsx:350:            <div className="absolute inset-0 bg-black/40" />
+frontend/src/components/widgets/SonosWidget.tsx:429:          <div className="absolute inset-0 bg-black/40" />
+frontend/src/components/widgets/SpotifyWidget.tsx:625:            <div className="absolute inset-0 bg-black/40" />
+frontend/src/components/widgets/SpotifyWidget.tsx:707:          <div className="absolute inset-0 bg-black/40" />

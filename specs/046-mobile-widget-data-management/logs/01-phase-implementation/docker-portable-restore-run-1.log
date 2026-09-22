@@ -1,0 +1,35 @@
+# Commands:
+#   docker build -t homedash:046-local .
+#   POST /api/admin/backup/preview
+#   POST /api/admin/backup/restore
+#   GET /api/auth/login
+#   PRAGMA foreign_key_check
+# Phase:   01 — Implementation
+# Run:     1
+# Time:    2026-09-19 08:25 AEST
+# Exit:    0
+---
+Input: /Users/developer/Downloads/homedash-backup-2026-09-19.json
+Backup type: portable JSON ("Download Backup")
+Restore HTTP status: 200
+Restoring administrator login preserved: PASS
+Container health: healthy
+
+Restored summary:
+  users: 1
+  dashboards: 1
+  widgets: 10
+  groups: 3
+  scheduledJobs: 3
+  calendarSources: 1
+  todoLists: 0
+  integrations: 4
+  photoSources: 1
+
+Credential handling:
+  password hashes absent from portable file
+  restoring administrator credentials preserved from target installation
+  OAuth credentials cleared and account marked for re-authentication
+
+Database integrity:
+  PRAGMA foreign_key_check violations: 0

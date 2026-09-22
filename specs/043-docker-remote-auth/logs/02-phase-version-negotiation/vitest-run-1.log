@@ -1,0 +1,62 @@
+$ vitest run tests/unit
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/unit/sonosDiscovery.test.ts  (15 tests) 23ms
+ ❯ tests/unit/dockerApiVersion.test.ts  (16 tests | 1 failed) 31ms
+   ❯ tests/unit/dockerApiVersion.test.ts > version negotiation against a daemon > raises api_version_unsupported naming the range when negotiation cannot succeed
+     → expected [Function] to throw error matching /supports API 1\.30–1\.40; HomeDash re…/ but got 'The Docker daemon at tcp://127.0.0.1:…'
+ ✓ tests/unit/dockerEndpoint.test.ts  (44 tests) 3ms
+ ✓ tests/unit/detectService.test.ts  (22 tests) 2ms
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback 1x1 PNG on fetch failure
+[artCache] Art fetch error: https://example.com/broken.jpg Error: network
+    at /workspace/HomeDash/backend/tests/unit/artCacheService.test.ts:68:53
+    at file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:781:17)
+    at runSuite (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:958:5)
+    at startTests (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:967:3)
+    at file:///workspace/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+    at withEnv (file:///workspace/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback on non-200 response
+[artCache] Art fetch failed: https://example.com/missing.jpg (404)
+
+ ✓ tests/unit/artCacheService.test.ts  (9 tests) 94ms
+ ✓ tests/unit/url-validator.test.ts  (17 tests) 10ms
+ ✓ tests/unit/sonosLabels.test.ts  (11 tests) 2ms
+ ✓ tests/unit/timezone-validation.test.ts  (4 tests) 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/dockerApiVersion.test.ts > version negotiation against a daemon > raises api_version_unsupported naming the range when negotiation cannot succeed
+AssertionError: expected [Function] to throw error matching /supports API 1\.30–1\.40; HomeDash re…/ but got 'The Docker daemon at tcp://127.0.0.1:…'
+
+- Expected: 
+/supports API 1\.30–1\.40; HomeDash requested 1\.40/
+
++ Received: 
+"The Docker daemon at tcp://127.0.0.1:63575 supports API 1.30–1.40; HomeDash requested 1.30. Upgrade HomeDash or the daemon so the ranges overlap."
+
+ ❯ tests/unit/dockerApiVersion.test.ts:209:5
+    207|     });
+    208| 
+    209|     await expect(listContainers(daemon.url)).rejects.toThrowError(
+       |     ^
+    210|       /supports API 1\.30–1\.40; HomeDash requested 1\.40/,
+    211|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  1 failed | 137 passed (138)
+   Start at  10:09:00
+   Duration  917ms (transform 139ms, setup 358ms, collect 139ms, tests 166ms, environment 0ms, prepare 69ms)
+
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] backend@0.1.0 test:unit: `vitest run tests/unit`
+Exit status 1
+exit=1

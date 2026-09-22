@@ -1,0 +1,492 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Shell CSS variables — overridden at runtime by shell settings */
+    --shell-header-height: 64px;
+    --shell-font-family:
+      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --shell-font-size: 1rem;
+    --shell-accent-color: #6366f1;
+
+    /* Widget layer tokens — semantic colors for dark-bg widgets */
+    --widget-fg: 0 0% 100%;
+    --widget-fg-muted: 0 0% 100% / 0.6;
+    --widget-fg-dim: 0 0% 100% / 0.4;
+    --widget-bg-subtle: 0 0% 100% / 0.06;
+    --widget-bg-hover: 0 0% 100% / 0.08;
+    --widget-border: 0 0% 100% / 0.08;
+
+    /* shadcn/ui design tokens — zinc palette, light mode */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 5% 34%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+
+    /* Semantic status colors — light mode (darker for contrast on white) */
+    --status-info: 212 92% 45%;
+    --status-success: 135 53% 33%;
+    --status-warning: 35 84% 40%;
+    --status-danger: 3 80% 50%;
+    --status-purple: 262 60% 50%;
+    --status-cyan: 152 56% 36%;
+
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+
+    /* Semantic status colors — dark mode (brighter for contrast on dark) */
+    --status-info: 211 100% 67%;
+    --status-success: 130 55% 48%;
+    --status-warning: 39 72% 49%;
+    --status-danger: 3 94% 63%;
+    --status-purple: 262 100% 77%;
+    --status-cyan: 135 63% 53%;
+
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: var(--shell-font-family);
+    font-size: var(--shell-font-size);
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .shell-header-height {
+    height: var(--shell-header-height);
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Pulse animation for live status indicators */
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Photo frame fade-in for crossfade transitions */
+@keyframes photo-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: photo-fade-in 1.2s ease-in-out;
+}
+
+/* Ken Burns slow zoom effect for screensaver */
+@keyframes ken-burns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.15) translate(-2%, -1%);
+  }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 30s ease-in-out alternate infinite;
+}
+
+/* ── Screensaver transition effects ────────────────────────────────────────── */
+
+/* Fade: simple opacity fade-in */
+.ss-transition-fade {
+  animation: ss-fade 1.5s ease-in-out;
+}
+
+@keyframes ss-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Slide: slide in from right */
+.ss-transition-slide {
+  animation: ss-slide 1s ease-out;
+}
+
+@keyframes ss-slide {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Ken Burns: fade-in + slow zoom pan */
+.ss-kenburns {
+  animation:
+    ss-fade 1.5s ease-in-out,
+    ken-burns 30s ease-in-out alternate infinite;
+}
+
+/* Crossfade: slower fade for layered crossfade */
+.ss-transition-crossfade {
+  animation: ss-fade 2s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in {
+    animation: none;
+  }
+  .animate-ken-burns {
+    animation: none;
+  }
+  .animate-marquee {
+    animation: none;
+  }
+  [class*='animate-eq-'] {
+    animation: none;
+  }
+  .ss-transition-fade {
+    animation: none;
+  }
+  .ss-transition-slide {
+    animation: none;
+  }
+  .ss-kenburns {
+    animation: none;
+  }
+  .ss-transition-crossfade {
+    animation: none;
+  }
+}
+
+/* Equalizer bar animations for now-playing */
+@keyframes eq-bounce-1 {
+  0%,
+  100% {
+    height: 30%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+@keyframes eq-bounce-2 {
+  0%,
+  100% {
+    height: 60%;
+  }
+  50% {
+    height: 20%;
+  }
+}
+@keyframes eq-bounce-3 {
+  0%,
+  100% {
+    height: 45%;
+  }
+  50% {
+    height: 90%;
+  }
+}
+@keyframes eq-bounce-4 {
+  0%,
+  100% {
+    height: 80%;
+  }
+  50% {
+    height: 35%;
+  }
+}
+.animate-eq-1 {
+  animation: eq-bounce-1 0.8s ease-in-out infinite;
+}
+.animate-eq-2 {
+  animation: eq-bounce-2 0.6s ease-in-out infinite;
+}
+.animate-eq-3 {
+  animation: eq-bounce-3 0.9s ease-in-out infinite;
+}
+.animate-eq-4 {
+  animation: eq-bounce-4 0.7s ease-in-out infinite;
+}
+
+/* Light-mode card readability — boosts backdrop-blur and enforces minimum
+   opacity on card backgrounds so text stays readable against dark bg images.
+   Also forces light card color to override any user-configured dark bg. */
+:root:not(.dark) .light-card-readability {
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  opacity: 0.88;
+  background-color: hsl(var(--card));
+}
+
+/* Shared inner widget surfaces. Keep enough translucency for configured dashboard
+   backgrounds to remain visible without sacrificing text contrast. */
+.widget-panel,
+.light-panel-card {
+  background-color: hsl(var(--card) / 0.58);
+  border-color: hsl(var(--border) / 0.55);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+}
+
+.widget-panel-header,
+.light-panel-header {
+  background-color: hsl(var(--card) / 0.68);
+  border-bottom-color: hsl(var(--border) / 0.55);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+}
+
+:root:not(.dark) .widget-panel,
+:root:not(.dark) .light-panel-card {
+  background-color: hsl(var(--card) / 0.84);
+  border-color: hsl(var(--border) / 0.8);
+}
+
+:root:not(.dark) .widget-panel-header,
+:root:not(.dark) .light-panel-header {
+  background-color: hsl(var(--muted) / 0.9);
+  border-bottom-color: hsl(var(--border) / 0.8);
+}
+
+/* Source badges: themed border in light mode */
+:root:not(.dark) .light-badge-border {
+  border-color: currentColor !important;
+  opacity: 0.8;
+}
+
+/* Stocks portfolio header: a slightly richer light-mode treatment */
+:root:not(.dark) .stocks-widget .widget-panel-header {
+  background-color: hsl(230 40% 96% / 0.92);
+  border-bottom-color: hsl(230 30% 88% / 0.9);
+}
+
+/* Theme-adaptive text for widgets that use white text in dark mode */
+.light-text-primary {
+  color: rgb(255 255 255 / 0.9);
+}
+.light-text-secondary {
+  color: rgb(255 255 255 / 0.5);
+}
+:root:not(.dark) .light-text-primary {
+  color: hsl(var(--foreground));
+}
+:root:not(.dark) .light-text-secondary {
+  color: hsl(var(--muted-foreground));
+}
+
+/* In light mode, darken inner widget containers that use dark bg + white text
+   (Pi-Hole stats, Stocks groups) — only targets elements with .widget-dark-panel */
+:root:not(.dark) .widget-dark-panel {
+  background-color: rgb(0 0 0 / 0.7);
+}
+:root:not(.dark) .widget-dark-header {
+  background-color: rgb(30 27 75 / 0.85);
+}
+
+/* Stocks widget: establishes local sizing for future detail-density rules. */
+.stocks-widget {
+  container-type: inline-size;
+}
+
+/* Layered Aurora curtains for placeholder and screensaver surfaces. */
+@keyframes aurora-surface-drift {
+  0%,
+  100% {
+    opacity: var(--aurora-opacity-low, 0.66);
+    transform: translate3d(-5%, -3%, 0) scale(1.04) rotate(-3deg);
+  }
+  50% {
+    opacity: var(--aurora-opacity-high, 0.92);
+    transform: translate3d(5%, 4%, 0) scale(1.14) rotate(3deg);
+  }
+}
+
+.ss-aurora-bg,
+.ss-aurora-australis-bg {
+  --aurora-opacity-low: 0.66;
+  --aurora-opacity-high: 0.92;
+  isolation: isolate;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.ss-aurora-bg:not(.absolute),
+.ss-aurora-australis-bg:not(.absolute) {
+  position: relative;
+}
+
+.ss-aurora-bg {
+  background: linear-gradient(125deg, rgba(9, 18, 38, 0.9), rgba(8, 35, 45, 0.82));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ss-aurora-australis-bg {
+  background: linear-gradient(125deg, rgba(28, 8, 34, 0.9), rgba(37, 10, 50, 0.84));
+  border: 1px solid rgba(255, 200, 220, 0.08);
+}
+
+.ss-aurora-bg::before,
+.ss-aurora-australis-bg::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: -60% -24%;
+  filter: blur(18px) saturate(1.2);
+  animation: aurora-surface-drift 16s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  pointer-events: none;
+}
+
+.ss-aurora-bg::before {
+  background:
+    radial-gradient(ellipse at 14% 48%, rgba(42, 245, 169, 0.72) 0 9%, transparent 33%),
+    radial-gradient(ellipse at 50% 58%, rgba(42, 205, 233, 0.65) 0 10%, transparent 36%),
+    radial-gradient(ellipse at 86% 44%, rgba(157, 104, 255, 0.62) 0 8%, transparent 32%);
+}
+
+.ss-aurora-australis-bg::before {
+  background:
+    radial-gradient(ellipse at 14% 48%, rgba(255, 70, 145, 0.7) 0 9%, transparent 33%),
+    radial-gradient(ellipse at 50% 58%, rgba(220, 72, 245, 0.66) 0 10%, transparent 36%),
+    radial-gradient(ellipse at 86% 44%, rgba(145, 105, 255, 0.64) 0 8%, transparent 32%);
+}
+
+.ss-aurora-bg > *,
+.ss-aurora-australis-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+:root:not(.dark) .ss-aurora-bg,
+:root:not(.dark) .ss-aurora-australis-bg {
+  --aurora-opacity-low: 0.22;
+  --aurora-opacity-high: 0.4;
+}
+
+:root:not(.dark) .ss-aurora-bg {
+  background: linear-gradient(125deg, rgba(229, 250, 244, 0.94), rgba(224, 247, 250, 0.9));
+  border-color: rgba(15, 118, 110, 0.16);
+}
+
+:root:not(.dark) .ss-aurora-australis-bg {
+  background: linear-gradient(125deg, rgba(253, 236, 245, 0.94), rgba(243, 232, 255, 0.9));
+  border-color: rgba(147, 51, 234, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-aurora-bg::before,
+  .ss-aurora-australis-bg::before {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* ── Touch-friendly range inputs ────────────────────────────────────────── */
+@media (pointer: coarse) {
+  input[type='range'] {
+    min-height: 2.75rem; /* 44px touch target */
+  }
+  input[type='range']::-webkit-slider-thumb {
+    width: 1.25rem !important; /* 20px */
+    height: 1.25rem !important;
+  }
+  input[type='range']::-moz-range-thumb {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}

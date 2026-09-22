@@ -1,0 +1,11 @@
+# Command: pnpm --filter backend typecheck
+# Phase:   02 - Schema and Backend
+# Run:     1
+# Time:    2026-09-20 18:55 AEST
+# Exit:    2
+---
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+tests/integration/backup.test.ts: existing Object is possibly 'undefined' findings
+tests/integration/restore.test.ts: existing Object is possibly 'undefined' findings
+tests/unit/publicWidgetSnapshotCache.test.ts: existing unknown cache value finding
+backend source typecheck completed before the test-project failure.

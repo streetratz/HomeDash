@@ -1,0 +1,28 @@
+Research summary
+
+Issues:
+- #82 requires linked service and multi-account discovery.
+- #83 depends on #82 and replaces hardcoded browse choices.
+- #84 requests speaker metadata, much of which is already retrieved.
+
+Pinned package:
+- sonos@1.14.3
+- Services.MusicServices.ListAvailableServices() is available.
+- The Sonos class does not expose a convenience musicServicesService() accessor.
+
+Sanitized LAN probe:
+- Service catalog count: 94.
+- /status/accounts HTTP status: 200.
+- /status/accounts body: empty ZPSupportInfo; no account records exposed.
+- Favorites count: 7.
+- Observed favorite references:
+  - sid=12, sn=5 (Spotify)
+  - sid=303, sn=1 (Sonos Radio)
+  - sid=284, sn=4 (YouTube Music)
+- Current groups: 4.
+- No active playback account references at probe time.
+
+Security boundary:
+- Never return or log UN, Key, OADevID, tokens, or raw account XML.
+- Only expose provider identity, opaque account serial, safe nickname/label,
+  capabilities, discovery source, and completeness.

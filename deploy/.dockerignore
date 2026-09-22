@@ -1,0 +1,11 @@
+node_modules
+.git
+*.md
+specs
+deploy
+.env*
+data
+*.db
+*.sqlite
+.vscode
+.idea

@@ -1,0 +1,11 @@
+# Command: cd frontend && npx tsc --noEmit
+# Phase:   02 — Foundational (Blocking Prerequisites)
+# Run:     1
+# Time:    2026-02-21 14:30
+# Exit:    1
+---
+src/lib/apiClient.ts(59,7): error TS2769: No overload matches this call.
+  Argument of type '{ method: string; credentials: "same-origin"; headers: Record<string, string>; body: BodyInit | undefined; }' is not assignable to parameter of type 'RequestInit'.
+  Type 'BodyInit | undefined' is not assignable to type 'BodyInit | null'.
+    Type 'undefined' is not assignable to type 'BodyInit | null'.
+src/app/router.tsx(25,14): error TS2742: The inferred type of 'router' cannot be named without a reference to '../../node_modules/@remix-run/router/dist/router'. This is likely not portable. A type annotation is necessary.

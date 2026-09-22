@@ -1,0 +1,29 @@
+# Command: focused Sonos tests and source typechecks
+# Phase:   02 - Implementation
+# Run:     4
+# Time:    2026-09-20
+# Exit:    recorded below
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/unit/sonosLibrary.test.ts  (7 tests) 9ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  07:14:10
+   Duration  534ms (transform 96ms, setup 288ms, collect 58ms, tests 9ms, environment 0ms, prepare 47ms)
+
+
+ RUN  v1.6.1 /workspace/HomeDash/frontend
+
+ ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (6 tests) 218ms
+ ✓ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (2 tests) 202ms
+
+ Test Files  2 passed (2)
+      Tests  8 passed (8)
+   Start at  07:14:11
+   Duration  1.17s (transform 172ms, setup 0ms, collect 445ms, tests 420ms, environment 733ms, prepare 160ms)
+
+$ tsc --noEmit

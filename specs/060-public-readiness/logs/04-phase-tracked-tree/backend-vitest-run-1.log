@@ -1,0 +1,20 @@
+# Command: targeted backend public-readiness tests
+# Phase:   04 - Tracked Tree Sanitization
+# Run:     1
+# Time:    2026-09-22 20:55 UTC
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/unit/dockerEndpoint.test.ts  (44 tests) 6ms
+ ✓ tests/unit/sonosLibrary.test.ts  (9 tests) 1ms
+ ✓ tests/unit/url-validator.test.ts  (17 tests) 37ms
+ ✓ tests/unit/env.test.ts  (6 tests) 2ms
+ ✓ tests/integration/tokenEncryption.test.ts  (6 tests) 2ms
+
+ Test Files  5 passed (5)
+      Tests  82 passed (82)
+   Start at  06:40:33
+   Duration  762ms (transform 154ms, setup 394ms, collect 108ms, tests 48ms, environment 0ms, prepare 74ms)

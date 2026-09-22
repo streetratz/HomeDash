@@ -1,0 +1,27 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/unit/sonosLibrary.test.ts && pnpm --filter frontend exec vitest run src/components/sonos/__tests__/BrowsePanel.test.tsx src/components/sonos/__tests__/FullScreenSonos.test.tsx
+# Phase:   02 - Implementation
+# Run:     3
+# Time:    2026-09-20
+# Exit:    recorded below
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/unit/sonosLibrary.test.ts  (7 tests) 4ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  07:13:39
+   Duration  821ms (transform 165ms, setup 430ms, collect 140ms, tests 4ms, environment 0ms, prepare 59ms)
+
+
+ RUN  v1.6.1 /workspace/HomeDash/frontend
+
+ ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (6 tests) 391ms
+ ✓ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (2 tests) 387ms
+
+ Test Files  2 passed (2)
+      Tests  8 passed (8)
+   Start at  07:13:41
+   Duration  2.46s (transform 383ms, setup 0ms, collect 999ms, tests 778ms, environment 1.89s, prepare 173ms)

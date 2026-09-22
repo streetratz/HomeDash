@@ -1,0 +1,14 @@
+# Command: pnpm test:upgrade
+# Phase:   01 — Implementation
+# Run:     1
+# Time:    2026-09-19 09:06 AEST
+# Exit:    0
+---
+Upgrade gate passed:
+  migrations: 29 -> 30
+  pre-existing tables preserved: 27
+  foreign-key violations: 0
+
+The first attempt stopped during a transient quiet candidate-image build. Rebuilding
+the identical image with diagnostic output succeeded, and the complete gate then
+passed.

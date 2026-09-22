@@ -1,0 +1,552 @@
+openapi: 3.1.0
+info:
+  title: HomeDash App Shortcuts Widget API
+  version: 1.0.0
+  description: |
+    API contracts for the App Shortcuts widget (feature 013).
+    All endpoints require admin authentication + CSRF token unless noted otherwise.
+
+servers:
+  - url: /api
+    description: Local API
+
+tags:
+  - name: Shortcuts
+    description: App shortcut CRUD operations
+  - name: Groups
+    description: Shortcut group management
+  - name: Ping
+    description: Health check / status ping
+  - name: Icons
+    description: Shortcut icon management
+
+paths:
+  # ── Shortcut CRUD ─────────────────────────────────────────────────
+
+  /admin/app-shortcuts/{widgetId}/shortcuts:
+    get:
+      tags: [Shortcuts]
+      summary: List all shortcuts for a widget instance
+      operationId: listShortcuts
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+      responses:
+        '200':
+          description: Shortcuts with their groups and ping status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortcutListResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+    post:
+      tags: [Shortcuts]
+      summary: Create a new shortcut
+      operationId: createShortcut
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShortcutInput'
+      responses:
+        '201':
+          description: Created shortcut
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortcutView'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /admin/app-shortcuts/{widgetId}/shortcuts/{shortcutId}:
+    put:
+      tags: [Shortcuts]
+      summary: Update a shortcut
+      operationId: updateShortcut
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+        - $ref: '#/components/parameters/shortcutId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateShortcutInput'
+      responses:
+        '200':
+          description: Updated shortcut
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortcutView'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+    delete:
+      tags: [Shortcuts]
+      summary: Delete a shortcut
+      operationId: deleteShortcut
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+        - $ref: '#/components/parameters/shortcutId'
+      responses:
+        '204':
+          description: Shortcut deleted
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /admin/app-shortcuts/{widgetId}/shortcuts/reorder:
+    post:
+      tags: [Shortcuts]
+      summary: Reorder shortcuts within a group (or ungrouped)
+      operationId: reorderShortcuts
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderInput'
+      responses:
+        '200':
+          description: Updated shortcut list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortcutListResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  # ── Icon Upload ───────────────────────────────────────────────────
+
+  /admin/app-shortcuts/{widgetId}/shortcuts/{shortcutId}/icon:
+    post:
+      tags: [Icons]
+      summary: Upload a custom icon for a shortcut
+      operationId: uploadShortcutIcon
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+        - $ref: '#/components/parameters/shortcutId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 'Icon image (PNG, JPEG, SVG, ICO, WebP; max 512 KB)'
+      responses:
+        '200':
+          description: Icon uploaded; shortcut updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortcutView'
+        '400':
+          description: Invalid file format or size
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+    delete:
+      tags: [Icons]
+      summary: Remove custom icon (reverts to auto-fetched favicon or placeholder)
+      operationId: deleteShortcutIcon
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+        - $ref: '#/components/parameters/shortcutId'
+      responses:
+        '200':
+          description: Custom icon removed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortcutView'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  # ── Favicon Re-fetch ──────────────────────────────────────────────
+
+  /admin/app-shortcuts/{widgetId}/shortcuts/{shortcutId}/fetch-icon:
+    post:
+      tags: [Icons]
+      summary: Trigger a re-fetch of the favicon from the shortcut URL
+      operationId: refetchShortcutIcon
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+        - $ref: '#/components/parameters/shortcutId'
+      responses:
+        '200':
+          description: Favicon re-fetched (or failed gracefully)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortcutView'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  # ── Group CRUD ────────────────────────────────────────────────────
+
+  /admin/app-shortcuts/{widgetId}/groups:
+    get:
+      tags: [Groups]
+      summary: List all groups for a widget instance
+      operationId: listGroups
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+      responses:
+        '200':
+          description: List of groups ordered by orderIndex
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupView'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+    post:
+      tags: [Groups]
+      summary: Create a new group
+      operationId: createGroup
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupInput'
+      responses:
+        '201':
+          description: Created group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupView'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /admin/app-shortcuts/{widgetId}/groups/{groupId}:
+    put:
+      tags: [Groups]
+      summary: Rename a group
+      operationId: updateGroup
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+        - $ref: '#/components/parameters/groupId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGroupInput'
+      responses:
+        '200':
+          description: Updated group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupView'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+    delete:
+      tags: [Groups]
+      summary: Delete a group (shortcuts become ungrouped)
+      operationId: deleteGroup
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+        - $ref: '#/components/parameters/groupId'
+      responses:
+        '204':
+          description: Group deleted; shortcuts moved to ungrouped
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /admin/app-shortcuts/{widgetId}/groups/reorder:
+    post:
+      tags: [Groups]
+      summary: Reorder groups within the widget
+      operationId: reorderGroups
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderInput'
+      responses:
+        '200':
+          description: Updated group list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupView'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  # ── Ping Results ──────────────────────────────────────────────────
+
+  /admin/app-shortcuts/{widgetId}/ping-results:
+    get:
+      tags: [Ping]
+      summary: Get cached ping results for all ping-enabled shortcuts
+      operationId: getPingResults
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+      responses:
+        '200':
+          description: Map of shortcutId → ping result
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PingResultView'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /admin/app-shortcuts/{widgetId}/ping-results/refresh:
+    post:
+      tags: [Ping]
+      summary: Trigger an immediate ping cycle for this widget
+      operationId: refreshPingResults
+      parameters:
+        - $ref: '#/components/parameters/widgetId'
+      responses:
+        '200':
+          description: Fresh ping results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PingResultView'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+components:
+  parameters:
+    widgetId:
+      name: widgetId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Widget instance ID
+
+    shortcutId:
+      name: shortcutId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Shortcut ID
+
+    groupId:
+      name: groupId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Group ID
+
+  schemas:
+    # ── Shortcut ────────────────────────────────────────────────────
+
+    ShortcutView:
+      type: object
+      required: [id, widgetInstanceId, name, url, pingEnabled, orderIndex, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        widgetInstanceId:
+          type: string
+        groupId:
+          type: string
+          nullable: true
+        name:
+          type: string
+        url:
+          type: string
+        iconUrl:
+          type: string
+          nullable: true
+          description: Resolved icon URL (override > fetched > null)
+        pingEnabled:
+          type: boolean
+        pingStatus:
+          $ref: '#/components/schemas/PingResultView'
+          nullable: true
+        orderIndex:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ShortcutListResponse:
+      type: object
+      required: [groups, shortcuts]
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupView'
+        shortcuts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShortcutView'
+
+    CreateShortcutInput:
+      type: object
+      required: [name, url]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        url:
+          type: string
+          maxLength: 2048
+        groupId:
+          type: string
+          nullable: true
+        pingEnabled:
+          type: boolean
+          default: false
+
+    UpdateShortcutInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        url:
+          type: string
+          maxLength: 2048
+        groupId:
+          type: string
+          nullable: true
+        pingEnabled:
+          type: boolean
+
+    # ── Group ───────────────────────────────────────────────────────
+
+    GroupView:
+      type: object
+      required: [id, widgetInstanceId, name, orderIndex, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+        widgetInstanceId:
+          type: string
+        name:
+          type: string
+        orderIndex:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateGroupInput:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+
+    UpdateGroupInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+
+    # ── Reorder ─────────────────────────────────────────────────────
+
+    ReorderInput:
+      type: object
+      required: [orderedIds]
+      properties:
+        orderedIds:
+          type: array
+          items:
+            type: string
+          description: IDs in desired display order
+
+    # ── Ping ────────────────────────────────────────────────────────
+
+    PingResultView:
+      type: object
+      required: [shortcutId, status, checkedAt]
+      properties:
+        shortcutId:
+          type: string
+        status:
+          type: string
+          enum: [up, down, unknown]
+        responseTimeMs:
+          type: integer
+          nullable: true
+        checkedAt:
+          type: string
+          format: date-time
+        error:
+          type: string
+          nullable: true
+
+    # ── Common ──────────────────────────────────────────────────────
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+        details:
+          type: object
+
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

@@ -1,0 +1,6 @@
+Speaker detail validation
+
+- DiscoveredSpeaker type tests cover optional partnerName.
+- Frontend TypeScript and production build passed.
+- Design review found no blocking hierarchy, spacing, iconography, motion, or
+  touch-target issues after replacing the emoji pair marker and hover-only new actions.

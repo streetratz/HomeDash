@@ -1,0 +1,3 @@
+2026-09-20
+pnpm --filter backend exec vitest run tests/unit/birthdayCalendar.test.ts tests/integration/birthdayCalendar.test.ts
+PASS: 2 files, 13 tests

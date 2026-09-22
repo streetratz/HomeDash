@@ -1,0 +1,1 @@
+ALTER TABLE `placeholder_widgets` ADD `background_color` text;

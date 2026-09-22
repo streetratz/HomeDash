@@ -1,0 +1,13 @@
+# Command: inventory tracked and ignored runtime artifact paths
+# Phase:   02 - Runtime Artifact Sanitization
+# Run:     1
+# Time:    2026-09-22 20:33 UTC
+# Exit:    0
+---
+Tracked runtime database placeholders: 1
+Ignored runtime databases present: 3
+Runtime backup directories present: 0
+Runtime SSH directories present: 0
+Runtime upload directories present: 0
+Generated test-result directories present: 0
+Generated Playwright-report directories present: 0

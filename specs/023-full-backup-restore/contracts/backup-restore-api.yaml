@@ -1,0 +1,515 @@
+openapi: 3.0.3
+info:
+  title: HomeDash Backup, Restore & Settings API
+  description: API contracts for full backup/restore, timezone settings, remember-me login, and scheduled jobs management.
+  version: 1.0.0
+
+paths:
+  # ─── Backup & Restore ─────────────────────────────────────────────────────
+  /api/admin/backup:
+    get:
+      summary: Download full system backup
+      description: Generates and downloads a JSON backup file containing all HomeDash state (excluding secrets and transient data). Admin-only.
+      operationId: downloadBackup
+      tags: [Backup]
+      security:
+        - sessionCookie: []
+      responses:
+        '200':
+          description: Backup file download
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+                example: 'attachment; filename="homedash-backup-2025-07-17.json"'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupFile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/admin/backup/preview:
+    post:
+      summary: Preview backup file contents
+      description: Uploads a backup file and returns a summary of its contents without performing a restore. Admin-only.
+      operationId: previewRestore
+      tags: [Backup]
+      security:
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackupFile'
+      responses:
+        '200':
+          description: Backup preview summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestorePreview'
+        '400':
+          description: Invalid backup file format or version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/admin/backup/restore:
+    post:
+      summary: Restore system from backup
+      description: |
+        Restores entire system state from a backup file. Requires admin auth and a confirmation word.
+        Replaces ALL current data atomically. On success, all sessions are invalidated.
+      operationId: restoreBackup
+      tags: [Backup]
+      security:
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [backup, confirmationWord]
+              properties:
+                backup:
+                  $ref: '#/components/schemas/BackupFile'
+                confirmationWord:
+                  type: string
+                  description: Must be "RESTORE" to confirm the destructive operation
+                  example: RESTORE
+      responses:
+        '200':
+          description: Restore completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  summary:
+                    $ref: '#/components/schemas/BackupSummary'
+        '400':
+          description: Invalid backup, wrong confirmation word, or version mismatch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Another restore is already in progress
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  # ─── Auth (modified) ───────────────────────────────────────────────────────
+  /api/auth/login:
+    post:
+      summary: User login (extended with rememberMe)
+      operationId: login
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                rememberMe:
+                  type: boolean
+                  default: false
+                  description: When true, session persists for 30 days. When false, session cookie expires on browser close.
+      responses:
+        '200':
+          description: Login successful
+          headers:
+            Set-Cookie:
+              description: Session cookie with variable maxAge based on rememberMe
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthMe'
+        '401':
+          description: Invalid credentials
+
+  # ─── Timezone ──────────────────────────────────────────────────────────────
+  /api/admin/timezones:
+    get:
+      summary: List available IANA timezones
+      description: Returns all supported IANA timezone identifiers. No internet required (bundled with runtime).
+      operationId: listTimezones
+      tags: [Settings]
+      security:
+        - sessionCookie: []
+      responses:
+        '200':
+          description: List of timezone identifiers
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timezones:
+                    type: array
+                    items:
+                      type: string
+                    example: ["America/New_York", "Europe/London", "Asia/Tokyo"]
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ─── Scheduled Jobs ────────────────────────────────────────────────────────
+  /api/admin/scheduled-jobs:
+    get:
+      summary: List all scheduled jobs
+      description: Returns all scheduled jobs (system and user-created). Admin-only.
+      operationId: listScheduledJobs
+      tags: [ScheduledJobs]
+      security:
+        - sessionCookie: []
+      responses:
+        '200':
+          description: List of scheduled jobs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ScheduledJob'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    post:
+      summary: Create a new scheduled job
+      description: Creates a user-defined scheduled job. Admin-only.
+      operationId: createScheduledJob
+      tags: [ScheduledJobs]
+      security:
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateScheduledJobRequest'
+      responses:
+        '201':
+          description: Job created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledJob'
+        '400':
+          description: Validation error (invalid cron, missing params, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/admin/scheduled-jobs/{jobId}:
+    parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    put:
+      summary: Update a scheduled job
+      description: Updates an existing scheduled job. System jobs can be enabled/disabled but not have their action type changed.
+      operationId: updateScheduledJob
+      tags: [ScheduledJobs]
+      security:
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateScheduledJobRequest'
+      responses:
+        '200':
+          description: Job updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledJob'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Job not found
+    delete:
+      summary: Delete a scheduled job
+      description: Deletes a user-created job. System jobs cannot be deleted (returns 403).
+      operationId: deleteScheduledJob
+      tags: [ScheduledJobs]
+      security:
+        - sessionCookie: []
+      responses:
+        '204':
+          description: Job deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Cannot delete system jobs
+        '404':
+          description: Job not found
+
+  /api/admin/scheduled-jobs/{jobId}/run:
+    parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      summary: Trigger a job immediately
+      description: Runs a scheduled job on demand, regardless of its schedule. Useful for testing.
+      operationId: runScheduledJob
+      tags: [ScheduledJobs]
+      security:
+        - sessionCookie: []
+      responses:
+        '200':
+          description: Job triggered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [success, failure]
+                  error:
+                    type: string
+                    nullable: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Job not found
+
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: homedash_session
+
+  responses:
+    Unauthorized:
+      description: Not authenticated
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Insufficient permissions (admin required)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+        details:
+          type: string
+
+    AuthMe:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        displayName:
+          type: string
+        role:
+          type: string
+          enum: [admin, standard]
+        csrfToken:
+          type: string
+
+    BackupSummary:
+      type: object
+      properties:
+        users:
+          type: integer
+        dashboards:
+          type: integer
+        widgets:
+          type: integer
+        groups:
+          type: integer
+        scheduledJobs:
+          type: integer
+        calendarSources:
+          type: integer
+        todoLists:
+          type: integer
+        integrations:
+          type: integer
+        photoSources:
+          type: integer
+
+    BackupFile:
+      type: object
+      required: [format, version, appVersion, exportedAt, summary, data]
+      properties:
+        format:
+          type: string
+          enum: [homedash-backup]
+        version:
+          type: integer
+          enum: [1]
+        appVersion:
+          type: string
+        exportedAt:
+          type: string
+          format: date-time
+        summary:
+          $ref: '#/components/schemas/BackupSummary'
+        data:
+          type: object
+          description: Per-table data arrays (see data-model.md for full structure)
+
+    RestorePreview:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        version:
+          type: integer
+        appVersion:
+          type: string
+        exportedAt:
+          type: string
+        summary:
+          $ref: '#/components/schemas/BackupSummary'
+        warnings:
+          type: array
+          items:
+            type: string
+          description: e.g., "OAuth tokens excluded — integrations will need re-authentication"
+
+    ScheduledJob:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        actionType:
+          type: string
+          enum: [calendar_sync, sonos_playback]
+        actionParams:
+          type: object
+          description: Action-specific parameters (schema varies by actionType)
+        cronExpression:
+          type: string
+          description: Standard 5-field cron expression
+        enabled:
+          type: boolean
+        isSystem:
+          type: boolean
+        lastRunAt:
+          type: string
+          format: date-time
+          nullable: true
+        lastRunStatus:
+          type: string
+          enum: [success, failure]
+          nullable: true
+        lastRunError:
+          type: string
+          nullable: true
+        disabledReason:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateScheduledJobRequest:
+      type: object
+      required: [name, actionType, cronExpression]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        actionType:
+          type: string
+          enum: [calendar_sync, sonos_playback]
+        actionParams:
+          type: object
+          default: {}
+        cronExpression:
+          type: string
+        enabled:
+          type: boolean
+          default: true
+
+    UpdateScheduledJobRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        actionParams:
+          type: object
+        cronExpression:
+          type: string
+        enabled:
+          type: boolean

@@ -1,0 +1,261 @@
+$ vitest run
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/integration/dashboardImport.test.ts  (22 tests) 818ms
+ ✓ tests/integration/dashboards.test.ts  (43 tests) 1415ms
+stderr | tests/integration/calendar-phase7.test.ts > Private events
+[calendar-sync] Failed to update error status for source e6d6dfa8-a1de-4b44-8926-c47cdafb9e9d: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source e6d6dfa8-a1de-4b44-8926-c47cdafb9e9d: iCal fetch failed: HTTP 404
+
+stderr | tests/integration/calendar-phase7.test.ts > Calendar security
+[calendar-sync] Failed to update error status for source 2d7c4f66-344a-45af-b9dd-3a6e5728806b: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 2d7c4f66-344a-45af-b9dd-3a6e5728806b: iCal fetch failed: HTTP 404
+
+stderr | tests/integration/calendar-phase7.test.ts > iCal source sync E2E > re-sync updates existing events and removes deleted ones
+[calendar-sync] Error syncing source 58225d2b-b2d0-4fcf-b118-922934bb85eb: iCal fetch failed: HTTP 404
+
+stderr | tests/integration/calendar-phase7.test.ts > Calendar config validation
+[calendar-sync] Failed to update error status for source 9f7676ea-7b21-4a00-8e07-2615c3d87afb: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 9f7676ea-7b21-4a00-8e07-2615c3d87afb: iCal fetch failed: HTTP 404
+
+stderr | tests/integration/calendar-phase7.test.ts > Calendar config validation
+[calendar-sync] Failed to update error status for source 89b176b9-b482-4119-ad6e-d86c090ca1b9: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 89b176b9-b482-4119-ad6e-d86c090ca1b9: iCal fetch failed: HTTP 404
+
+ ❯ tests/integration/calendar-phase7.test.ts  (22 tests | 3 failed) 931ms
+   ❯ tests/integration/calendar-phase7.test.ts > iCal source sync E2E > creates source → syncs → events appear in DB and API
+     → expected { …(4) } to have property "eventsUpserted" with value 2
+   ❯ tests/integration/calendar-phase7.test.ts > iCal source sync E2E > sync with private events preserves isPrivate flag in DB
+     → expected +0 to be 3 // Object.is equality
+   ❯ tests/integration/calendar-phase7.test.ts > iCal source sync E2E > re-sync updates existing events and removes deleted ones
+     → expected +0 to be 2 // Object.is equality
+stderr | Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:172:15)
+[calendar-sync] Failed to update error status for source 3fcef8b6-141b-4d05-93d8-f1a96ade7dbd: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+
+stderr | Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:178:13)
+[calendar-sync] Error syncing source 3fcef8b6-141b-4d05-93d8-f1a96ade7dbd: iCal fetch failed: HTTP 404
+
+stderr | Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:172:15)
+[calendar-sync] Failed to update error status for source b78ac42b-e7cd-4ce3-82d3-3d90c549f207: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+
+stderr | Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:178:13)
+[calendar-sync] Error syncing source b78ac42b-e7cd-4ce3-82d3-3d90c549f207: iCal fetch failed: HTTP 404
+
+ ✓ tests/integration/todoSyncMicrosoft.test.ts  (16 tests) 575ms
+ ✓ tests/integration/appShortcuts.test.ts  (24 tests) 751ms
+ ✓ tests/integration/rbac.test.ts  (23 tests) 309ms
+stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+[calendar-sync] Failed to update error status for source b5c280a8-0e65-4ccf-adcf-37083ea5950d: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source b5c280a8-0e65-4ccf-adcf-37083ea5950d: iCal fetch failed: HTTP 404
+[calendar-sync] Failed to update error status for source 0bf3352c-e626-4f3d-972c-67a58ae9e641: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 0bf3352c-e626-4f3d-972c-67a58ae9e641: iCal fetch failed: HTTP 404
+
+ ✓ tests/integration/ical-parser.test.ts  (18 tests) 441ms
+ ✓ tests/integration/oauth-flow.test.ts  (15 tests) 1169ms
+ ✓ tests/unit/sonosDiscovery.test.ts  (15 tests) 2ms
+stderr | tests/unit/dockerSshTransport.test.ts > process cleanup (FR-037, SC-011) > kills a hung dial and leaves no child process
+[calendar-sync] Failed to update error status for source 2e32b842-cf1f-4bf9-8c3a-916192dbe235: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 2e32b842-cf1f-4bf9-8c3a-916192dbe235: fetch failed
+
+ ✓ tests/unit/dockerSshTransport.test.ts  (36 tests) 16797ms
+ ✓ tests/integration/dashboardExport.test.ts  (8 tests) 333ms
+ ✓ tests/integration/todoItems.test.ts  (17 tests) 333ms
+stderr | tests/integration/microsoft-calendar.test.ts > syncSource (Microsoft) > sets lastSyncError on fetch failure
+[calendar-sync] Error syncing source aac609c2-46b5-4766-a7eb-c7bb1f619c63: Microsoft Graph API error 500: Internal Server Error
+
+ ✓ tests/integration/microsoft-calendar.test.ts  (8 tests) 159ms
+stderr | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – valid upload > updates logoAssetId in shell settings after upload
+[assetService] Failed to generate favicon variants: Error: Input buffer has corrupt header: VipsJpeg: premature end of JPEG image
+    at Sharp.toFile (/workspace/HomeDash/node_modules/.pnpm/sharp@0.34.5/node_modules/sharp/lib/output.js:90:19)
+    at generateFaviconVariants (/workspace/HomeDash/backend/src/services/assetService.ts:302:8)
+    at Module.uploadLogo (/workspace/HomeDash/backend/src/services/assetService.ts:196:3)
+    at Object.<anonymous> (/workspace/HomeDash/backend/src/api/admin.ts:127:19)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+
+ ✓ tests/integration/logoUpload.test.ts  (9 tests) 1217ms
+ ✓ tests/integration/widgetDataPermissions.test.ts  (56 tests) 592ms
+ ✓ tests/integration/todoSecurity.test.ts  (24 tests) 478ms
+ ✓ tests/unit/dockerApiVersion.test.ts  (16 tests) 16ms
+ ✓ tests/integration/adminShell.test.ts  (14 tests) 1664ms
+ ✓ tests/unit/dockerEndpoint.test.ts  (44 tests) 2ms
+ ✓ tests/integration/google-calendar.test.ts  (5 tests) 154ms
+ ✓ tests/contract/openapi.test.ts  (25 tests) 74ms
+ ✓ tests/integration/dockerAuth.test.ts  (15 tests) 607ms
+ ✓ tests/integration/todoLists.test.ts  (12 tests) 301ms
+ ✓ tests/unit/detectService.test.ts  (22 tests) 1ms
+ ✓ tests/integration/userPreferences.test.ts  (11 tests) 1387ms
+ ✓ tests/integration/auth.test.ts  (13 tests) 1095ms
+ ✓ tests/integration/restore.test.ts  (5 tests) 565ms
+ ✓ tests/integration/statusCheck.test.ts  (7 tests) 311ms
+ ✓ tests/integration/publicWidgets.test.ts  (3 tests) 418ms
+ ✓ tests/integration/publicBootstrapProjection.test.ts  (3 tests) 319ms
+ ✓ tests/integration/backup.test.ts  (7 tests) 298ms
+ ✓ tests/integration/dockerAdoption.test.ts  (7 tests) 29ms
+ ✓ tests/integration/scheduledJobs.test.ts  (8 tests) 303ms
+ ✓ tests/integration/publicVisibility.test.ts  (4 tests) 306ms
+ ✓ tests/integration/dockerContainers.test.ts  (9 tests) 322ms
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback 1x1 PNG on fetch failure
+[artCache] Art fetch error: https://example.com/broken.jpg Error: network
+    at /workspace/HomeDash/backend/tests/unit/artCacheService.test.ts:68:53
+    at file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:781:17)
+    at runSuite (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:958:5)
+    at startTests (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:967:3)
+    at file:///workspace/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+    at withEnv (file:///workspace/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback on non-200 response
+[artCache] Art fetch failed: https://example.com/missing.jpg (404)
+
+ ✓ tests/unit/artCacheService.test.ts  (9 tests) 71ms
+ ✓ tests/unit/url-validator.test.ts  (17 tests) 11ms
+ ✓ tests/integration/sonosArtProxy.test.ts  (5 tests) 297ms
+ ✓ tests/unit/sonosLabels.test.ts  (11 tests) 2ms
+ ✓ tests/integration/firstRun.test.ts  (5 tests) 180ms
+ ✓ tests/integration/dockerAction.test.ts  (7 tests) 559ms
+ ✓ tests/integration/rememberMe.test.ts  (4 tests) 641ms
+ ✓ tests/integration/publicBootstrap.test.ts  (8 tests) 221ms
+ ✓ tests/integration/restorePreview.test.ts  (4 tests) 318ms
+ ✓ tests/integration/dockerConnectionUpgrade.test.ts  (7 tests) 34ms
+ ✓ tests/integration/scheduledJobService.test.ts  (6 tests) 31ms
+ ✓ tests/unit/publicWidgetSnapshotCache.test.ts  (3 tests) 3ms
+ ✓ tests/integration/rateLimit.test.ts  (2 tests) 1489ms
+ ✓ tests/integration/timezone.test.ts  (4 tests) 296ms
+ ✓ tests/integration/tokenEncryption.test.ts  (6 tests) 1ms
+ ✓ tests/unit/timezone-validation.test.ts  (4 tests) 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/calendar-phase7.test.ts > iCal source sync E2E > creates source → syncs → events appear in DB and API
+AssertionError: expected { …(4) } to have property "eventsUpserted" with value 2
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ tests/integration/calendar-phase7.test.ts:486:26
+    484| 
+    485|     expect(syncRes.status).toBe(200);
+    486|     expect(syncRes.body).toHaveProperty('eventsUpserted', 2);
+       |                          ^
+    487|     expect(syncRes.body).toHaveProperty('error', null);
+    488| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/integration/calendar-phase7.test.ts > iCal source sync E2E > sync with private events preserves isPrivate flag in DB
+AssertionError: expected +0 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 0
+
+ ❯ tests/integration/calendar-phase7.test.ts:540:41
+    538| 
+    539|     expect(syncRes.status).toBe(200);
+    540|     expect(syncRes.body.eventsUpserted).toBe(3);
+       |                                         ^
+    541| 
+    542|     // Check isPrivate via public events API
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/integration/calendar-phase7.test.ts > iCal source sync E2E > re-sync updates existing events and removes deleted ones
+AssertionError: expected +0 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ tests/integration/calendar-phase7.test.ts:614:43
+    612|     expect(resyncRes.status).toBe(200);
+    613|     // pub-1 updated, new-1 inserted = 2 upserted; pub-2 removed = 1 d…
+    614|     expect(resyncRes.body.eventsUpserted).toBe(2);
+       |                                           ^
+    615|     expect(resyncRes.body.eventsDeleted).toBe(1);
+    616| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+ Test Files  1 failed | 50 passed (51)
+      Tests  3 failed | 685 passed (688)
+   Start at  21:42:59
+   Duration  41.82s (transform 580ms, setup 521ms, collect 2.39s, tests 38.65s, environment 0ms, prepare 49ms)
+
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] backend@0.1.0 test: `vitest run`
+Exit status 1

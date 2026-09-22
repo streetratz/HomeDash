@@ -1,0 +1,55 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/integration/publicBootstrap.test.ts tests/integration/publicBootstrapProjection.test.ts tests/integration/publicWidgets.test.ts
+# Phase:   05 — Bootstrap Pruning
+# Run:     2
+# Time:    2026-09-18 15:20
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+stdout | tests/integration/publicWidgets.test.ts > GET /api/public/widgets/:widgetId
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicWidgets.test.ts > GET /api/public/widgets/:widgetId
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicWidgets.test.ts  (3 tests) 462ms
+stdout | tests/integration/publicBootstrapProjection.test.ts > GET /api/public/bootstrap widget projection
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicBootstrapProjection.test.ts > GET /api/public/bootstrap widget projection
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicBootstrapProjection.test.ts  (3 tests) 303ms
+stdout | tests/integration/publicBootstrap.test.ts > GET /api/public/bootstrap
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicBootstrap.test.ts > GET /api/public/bootstrap > includes firstRunRequired=false after admin is created
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicBootstrap.test.ts > GET /api/public/bootstrap > includes firstRunRequired=false after admin is created
+[scheduler] All jobs stopped
+
+stdout | tests/integration/publicBootstrap.test.ts > GET /api/public/bootstrap
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicBootstrap.test.ts  (8 tests) 176ms
+
+ Test Files  3 passed (3)
+      Tests  14 passed (14)
+   Start at  15:05:29
+   Duration  2.09s (transform 336ms, setup 269ms, collect 734ms, tests 941ms, environment 0ms, prepare 35ms)
+

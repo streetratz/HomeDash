@@ -1,0 +1,6 @@
+# Command: cd backend && npx tsc --noEmit
+# Phase:   01 — Setup (Shared Infrastructure)
+# Run:     1
+# Time:    2026-02-21 09:00
+# Exit:    0
+---

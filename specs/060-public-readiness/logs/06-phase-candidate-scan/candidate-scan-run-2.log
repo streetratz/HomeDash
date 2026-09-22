@@ -1,0 +1,11 @@
+# Command: re-export candidate after generated-log path sanitization and repeat scans
+# Phase:   06 - Candidate Export and Scanning
+# Run:     2
+# Time:    2026-09-22 21:13 UTC
+# Exit:    0
+---
+Candidate files: 1201
+Gitleaks exit: 0
+Runtime artifacts: 0
+Known private-pattern files: 0
+Git metadata directories: 0

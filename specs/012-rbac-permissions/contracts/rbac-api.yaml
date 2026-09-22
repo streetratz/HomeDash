@@ -1,0 +1,593 @@
+openapi: "3.1.0"
+info:
+  title: HomeDash RBAC API
+  version: "1.0.0"
+  description: |
+    API contracts for RBAC: User Groups and Granular Permissions.
+    All endpoints require authentication via `homedash_session` cookie.
+    State-changing endpoints require CSRF token in `x-csrf-token` header.
+
+servers:
+  - url: /api
+
+paths:
+  # ── Group Management ─────────────────────────────────────────────
+  /admin/groups:
+    get:
+      operationId: listGroups
+      summary: List all groups
+      tags: [Groups]
+      security: [{ session: [] }]
+      description: |
+        Returns all groups. Requires `users:view` or `users:manage` permission.
+      responses:
+        "200":
+          description: Group list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  groups:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/GroupWithPermissions"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+    post:
+      operationId: createGroup
+      summary: Create a custom group
+      tags: [Groups]
+      security: [{ session: [], csrf: [] }]
+      description: Requires `users:manage` permission.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateGroupInput"
+      responses:
+        "201":
+          description: Group created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GroupWithPermissions"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          description: Group name already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorBody"
+
+  /admin/groups/{groupId}:
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+
+    get:
+      operationId: getGroup
+      summary: Get a single group with its permissions
+      tags: [Groups]
+      security: [{ session: [] }]
+      description: Requires `users:view` or `users:manage` permission.
+      responses:
+        "200":
+          description: Group detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GroupWithPermissions"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    patch:
+      operationId: updateGroup
+      summary: Update a group's name, description, or permissions
+      tags: [Groups]
+      security: [{ session: [], csrf: [] }]
+      description: |
+        Requires `users:manage` permission.
+        Built-in "Administrators" group permissions cannot be changed.
+        Built-in "Users" and "Viewers" groups can have permissions edited.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateGroupInput"
+      responses:
+        "200":
+          description: Group updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GroupWithPermissions"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    delete:
+      operationId: deleteGroup
+      summary: Delete a custom group
+      tags: [Groups]
+      security: [{ session: [], csrf: [] }]
+      description: |
+        Requires `users:manage` permission.
+        Built-in groups cannot be deleted (returns 403).
+        Returns the count of affected members.
+      responses:
+        "200":
+          description: Group deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  affectedMembers:
+                    type: integer
+                    description: Number of users who were in this group
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # ── Group Membership ─────────────────────────────────────────────
+  /admin/groups/{groupId}/members:
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+
+    get:
+      operationId: listGroupMembers
+      summary: List members of a group
+      tags: [Group Membership]
+      security: [{ session: [] }]
+      description: Requires `users:view` or `users:manage` permission.
+      responses:
+        "200":
+          description: Member list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  members:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/GroupMember"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    post:
+      operationId: addGroupMember
+      summary: Add a user to a group
+      tags: [Group Membership]
+      security: [{ session: [], csrf: [] }]
+      description: Requires `users:manage` permission.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId]
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+      responses:
+        "201":
+          description: Member added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GroupMember"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          description: User already in group
+
+  /admin/groups/{groupId}/members/{userId}:
+    parameters:
+      - $ref: "#/components/parameters/GroupId"
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+
+    delete:
+      operationId: removeGroupMember
+      summary: Remove a user from a group
+      tags: [Group Membership]
+      security: [{ session: [], csrf: [] }]
+      description: |
+        Requires `users:manage` permission.
+        Prevents removing the last member from the Administrators group (FR-013).
+      responses:
+        "204":
+          description: Member removed
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          description: Forbidden — last admin cannot be removed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorBody"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # ── User Groups (for a specific user) ────────────────────────────
+  /admin/users/{userId}/groups:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+
+    get:
+      operationId: listUserGroups
+      summary: List groups a user belongs to
+      tags: [Group Membership]
+      security: [{ session: [] }]
+      description: Requires `users:view`/`users:manage` permission, or own user ID.
+      responses:
+        "200":
+          description: User's groups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  groups:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/GroupSummary"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  # ── Dashboard Access Control (P2) ────────────────────────────────
+  /admin/dashboards/{dashboardId}/access:
+    parameters:
+      - name: dashboardId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+
+    get:
+      operationId: getDashboardAccess
+      summary: Get access rules for a dashboard
+      tags: [Dashboard Access]
+      security: [{ session: [] }]
+      description: Requires `dashboards:manage` permission.
+      responses:
+        "200":
+          description: Access rules
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardAccessConfig"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+    put:
+      operationId: setDashboardAccess
+      summary: Set access rules for a dashboard (replace all)
+      tags: [Dashboard Access]
+      security: [{ session: [], csrf: [] }]
+      description: |
+        Requires `dashboards:manage` permission.
+        Send an empty `rules` array to make the dashboard accessible to all groups.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetDashboardAccessInput"
+      responses:
+        "200":
+          description: Access rules updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardAccessConfig"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  # ── Current User Permissions (P3) ────────────────────────────────
+  /auth/me:
+    get:
+      operationId: getMe
+      summary: Get current user profile with permissions
+      tags: [Auth]
+      security: [{ session: [] }]
+      description: |
+        Extended to include `groups` and `permissions` in response.
+        This is the existing `/api/auth/me` endpoint, enhanced.
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MeResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+components:
+  securitySchemes:
+    session:
+      type: apiKey
+      in: cookie
+      name: homedash_session
+    csrf:
+      type: apiKey
+      in: header
+      name: x-csrf-token
+
+  parameters:
+    GroupId:
+      name: groupId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    # ── Group schemas ──────────────────────────────────────────────
+    GroupWithPermissions:
+      type: object
+      required: [id, name, isBuiltIn, permissions, memberCount, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        description:
+          type: string
+          maxLength: 200
+          nullable: true
+        isBuiltIn:
+          type: boolean
+        permissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/PermissionEntry"
+        memberCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    GroupSummary:
+      type: object
+      required: [id, name, isBuiltIn]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        isBuiltIn:
+          type: boolean
+
+    PermissionEntry:
+      type: object
+      required: [category, level]
+      properties:
+        category:
+          type: string
+          enum: [dashboards, widgets, settings, users, integrations]
+        level:
+          type: string
+          enum: [view, manage]
+
+    CreateGroupInput:
+      type: object
+      required: [name, permissions]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        description:
+          type: string
+          maxLength: 200
+        permissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/PermissionEntry"
+
+    UpdateGroupInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        description:
+          type: string
+          maxLength: 200
+          nullable: true
+        permissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/PermissionEntry"
+
+    # ── Membership schemas ─────────────────────────────────────────
+    GroupMember:
+      type: object
+      required: [userId, username, displayName, joinedAt]
+      properties:
+        userId:
+          type: string
+          format: uuid
+        username:
+          type: string
+        displayName:
+          type: string
+        joinedAt:
+          type: string
+          format: date-time
+
+    # ── Dashboard Access schemas ───────────────────────────────────
+    DashboardAccessConfig:
+      type: object
+      required: [dashboardId, rules]
+      properties:
+        dashboardId:
+          type: string
+          format: uuid
+        rules:
+          type: array
+          items:
+            type: object
+            required: [groupId, groupName, accessLevel]
+            properties:
+              groupId:
+                type: string
+                format: uuid
+              groupName:
+                type: string
+              accessLevel:
+                type: string
+                enum: [view, edit]
+
+    SetDashboardAccessInput:
+      type: object
+      required: [rules]
+      properties:
+        rules:
+          type: array
+          items:
+            type: object
+            required: [groupId, accessLevel]
+            properties:
+              groupId:
+                type: string
+                format: uuid
+              accessLevel:
+                type: string
+                enum: [view, edit]
+
+    # ── Auth schemas (enhanced) ────────────────────────────────────
+    MeResponse:
+      type: object
+      required: [id, username, displayName, role, groups, permissions, isAdmin]
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        displayName:
+          type: string
+        role:
+          type: string
+          enum: [admin, standard]
+          description: Legacy role field, preserved for compatibility
+        groups:
+          type: array
+          items:
+            $ref: "#/components/schemas/GroupSummary"
+        permissions:
+          type: array
+          items:
+            type: string
+            description: "Permission string in format 'category:level'"
+          example: ["dashboards:manage", "widgets:view", "settings:view"]
+        isAdmin:
+          type: boolean
+          description: true if user is a member of the Administrators group
+
+    # ── Error schemas ──────────────────────────────────────────────
+    ErrorBody:
+      type: object
+      required: [error, message]
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+
+  responses:
+    Unauthorized:
+      description: Not authenticated
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorBody"
+    Forbidden:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorBody"
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorBody"
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorBody"

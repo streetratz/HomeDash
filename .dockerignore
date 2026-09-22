@@ -1,0 +1,12 @@
+**/node_modules
+.git
+*.md
+!CHANGELOG.md
+specs
+deploy
+.env*
+data
+*.db
+*.sqlite
+.vscode
+.idea

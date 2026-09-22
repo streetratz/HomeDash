@@ -1,0 +1,23 @@
+# Command: cd backend && pnpm test
+# Phase:   04 — Shell Customization + Theme
+# Run:     1
+# Time:    2026-02-21 18:10
+# Exit:    0
+---
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/integration/logoUpload.test.ts (9 tests) 521ms
+   [assetService] Failed to generate favicon variants: Error: pngload_buffer: libspng read error
+   [assetService] Failed to generate favicon variants: Error: Input buffer has corrupt header: VipsJpeg: premature end of JPEG image
+ ✓ tests/integration/adminShell.test.ts (14 tests) 318ms
+ ✓ tests/integration/userPreferences.test.ts (11 tests) 203ms
+ ✓ tests/integration/auth.test.ts (13 tests) 247ms
+ ✓ tests/contract/openapi.test.ts (11 tests) 312ms
+ ✓ tests/integration/firstRun.test.ts (5 tests) 98ms
+ ✓ tests/integration/publicBootstrap.test.ts (8 tests) 134ms
+ ✓ tests/integration/rateLimit.test.ts (2 tests) 56ms
+
+ Test Files  8 passed (8)
+      Tests  73 passed (73)
+   Start at  18:10:40
+   Duration  6.50s (transform 62ms, setup 1ms, collect 892ms, tests 1.89s)

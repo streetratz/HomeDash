@@ -1,0 +1,10 @@
+
+Running 4 tests using 1 worker
+
+  ✓  1 [chromium] › tests/e2e/dockerConnection.spec.ts:58:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input (2.4s)
+  ✓  2 [chromium] › tests/e2e/dockerConnection.spec.ts:70:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted (946ms)
+  ✓  3 [chromium] › tests/e2e/dockerConnection.spec.ts:80:3 › Docker connection form — endpoint formats › rejects a bare host:port (1.0s)
+  ✓  4 [chromium] › tests/e2e/dockerConnection.spec.ts:90:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error (945ms)
+
+  4 passed (5.7s)
+exit=0

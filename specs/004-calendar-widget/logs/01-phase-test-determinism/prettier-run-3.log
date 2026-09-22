@@ -1,0 +1,9 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm exec prettier --check backend/tests/integration/calendar-phase7.test.ts
+# Phase:   01 — Calendar test determinism
+# Run:     3
+# Time:    2026-09-18 23:03 AEST
+# Exit:    1
+---
+Checking formatting...
+[warn] backend/tests/integration/calendar-phase7.test.ts
+[warn] Code style issues found in the above file. Run Prettier with --write to fix.

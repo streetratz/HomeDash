@@ -1,0 +1,35 @@
+$ vitest run tests/unit
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/unit/sonosDiscovery.test.ts  (15 tests) 21ms
+ ✓ tests/unit/dockerEndpoint.test.ts  (44 tests) 3ms
+ ✓ tests/unit/detectService.test.ts  (22 tests) 1ms
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback 1x1 PNG on fetch failure
+[artCache] Art fetch error: https://example.com/broken.jpg Error: network
+    at /workspace/HomeDash/backend/tests/unit/artCacheService.test.ts:68:53
+    at file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:781:17)
+    at runSuite (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:958:5)
+    at startTests (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:967:3)
+    at file:///workspace/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+    at withEnv (file:///workspace/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback on non-200 response
+[artCache] Art fetch failed: https://example.com/missing.jpg (404)
+
+ ✓ tests/unit/artCacheService.test.ts  (9 tests) 192ms
+ ✓ tests/unit/url-validator.test.ts  (17 tests) 79ms
+ ✓ tests/unit/sonosLabels.test.ts  (11 tests) 3ms
+ ✓ tests/unit/timezone-validation.test.ts  (4 tests) 2ms
+
+ Test Files  7 passed (7)
+      Tests  122 passed (122)
+   Start at  10:04:40
+   Duration  821ms (transform 109ms, setup 268ms, collect 111ms, tests 301ms, environment 0ms, prepare 40ms)
+
+exit=0

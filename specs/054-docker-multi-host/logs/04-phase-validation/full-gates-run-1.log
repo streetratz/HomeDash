@@ -1,0 +1,21 @@
+Commands:
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend test
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter frontend test:unit
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm typecheck
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm build
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm lint
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm format:check
+
+Outcomes:
+- Frontend unit tests: PASS, 27 files / 85 tests.
+- Build: PASS for backend and frontend.
+- Backend tests: 747 passed; two unrelated cross-file full-suite failures
+  (Docker auth session invalidated by concurrent restore coverage and a birthday
+  export socket reset). Both require isolated reruns.
+- Typecheck: frontend and backend source passed; backend test typecheck reported
+  its existing strict indexed-access baseline plus one new optional-array access
+  in restore coverage. The new access was corrected.
+- Lint: two new no-unsafe-assignment findings in the picker tests. Typed mock-call
+  assertions replaced the unsafe asymmetric matchers.
+- Format check: repository-wide baseline failed across 288 files, including
+  generated and unchanged files. Changed files will be checked directly.

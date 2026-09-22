@@ -1,0 +1,40 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 [chromium] › tests/e2e/publicWidgetVisibility.spec.ts:26:3 › Public widget visibility › renders through the public namespace and disappears after revocation (5.7s)
+
+
+  1) [chromium] › tests/e2e/publicWidgetVisibility.spec.ts:26:3 › Public widget visibility › renders through the public namespace and disappears after revocation 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('link', { name: 'Public Home Assistant' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('link', { name: 'Public Home Assistant' })[22m
+
+
+       98 |       await page.goto('/');
+       99 |
+    > 100 |       await expect(page.getByRole('link', { name: 'Public Home Assistant' })).toBeVisible();
+          |                                                                               ^
+      101 |       expect(requestedPaths).toContain(`/api/public/widgets/${widgetId}`);
+      102 |       expect(requestedPaths).not.toContain(`/api/app-shortcuts/${widgetId}/shortcuts`);
+      103 |       expect(requestedPaths.some((path) => path.startsWith('/api/admin/'))).toBe(false);
+        at /workspace/HomeDash/frontend/tests/e2e/publicWidgetVisibility.spec.ts:100:79
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/publicWidgetVisibility-Pub-96ef4-disappears-after-revocation-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/publicWidgetVisibility-Pub-96ef4-disappears-after-revocation-chromium/error-context.md
+
+  1 failed
+    [chromium] › tests/e2e/publicWidgetVisibility.spec.ts:26:3 › Public widget visibility › renders through the public namespace and disappears after revocation 
+undefined
+/workspace/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test tests/e2e/publicWidgetVisibility.spec.ts '--project=chromium'

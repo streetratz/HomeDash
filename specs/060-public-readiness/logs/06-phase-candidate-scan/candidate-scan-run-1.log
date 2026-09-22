@@ -1,0 +1,11 @@
+# Command: export candidate and run Gitleaks 8.30.1 plus artifact checks
+# Phase:   06 - Candidate Export and Scanning
+# Run:     1
+# Time:    2026-09-22 21:10 UTC
+# Exit:    0
+---
+Candidate files: 1200
+Gitleaks exit: 0
+Runtime artifacts: 0
+Known private-pattern files: 4
+Git metadata directories: 0

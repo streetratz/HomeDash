@@ -1,0 +1,110 @@
+# Date: 2026-09-20
+# Scope: Sonos live-network and Docker preview validation
+
+Docker image:
+  homedash:059-sonos-preview
+  Build result: PASS
+
+Docker container:
+  homedash-sonos-preview
+  Bind: 127.0.0.1:3101 -> 3000/tcp
+  Health: PASS {"status":"ok"}
+
+Responsive browser checks:
+  Widths: 360, 390, 412, 430 px
+  Now Playing document overflow: NONE
+  Library document overflow: NONE
+  Browser page errors: NONE
+
+Live host-network Sonos check:
+  Discovery: PASS (multiple devices)
+  Preferred library device: fixed-speaker candidate
+  Preferred library model: redacted
+  Request: GET /api/sonos/library/share?start=0&total=50
+  Response: HTTP 200
+  Result: sanitized LAN library share
+  Backend operation time: approximately 22 ms
+
+Broader backend Sonos suites:
+  Test files: 5 passed
+  Tests: 45 passed
+
+Production build:
+  Backend: PASS
+  Frontend: PASS
+---
+Follow-up validation: 2026-09-20
+
+Spotify search before fix:
+  track                         -> HTTP 200
+  album                         -> HTTP 200
+  playlist                      -> HTTP 500
+  track,album,playlist          -> HTTP 500
+
+Observed upstream Spotify payload:
+  tracks:    12 items, 0 null
+  albums:    12 items, 0 null
+  playlists: 12 items, 7 null
+
+Spotify search after fix:
+  HTTP 200
+  tracks:    12
+  albums:    12
+  playlists: 5
+
+Sonos favorite radio stations:
+  HTTP 200
+  items: 0
+
+General Sonos Favorites service labels:
+  Sonos:        4
+  Spotify:      1
+  TuneIn:       1
+  YouTube Music: 1
+
+Focused backend tests:
+  tests/unit/spotifySearch.test.ts
+  tests/unit/sonosLibrary.test.ts
+  10 passed
+
+Focused frontend tests:
+  BrowsePanel.test.tsx
+  FullScreenSonos.test.tsx
+  13 passed
+
+Frontend production build:
+  passed
+
+Dynamic provider fallback:
+  - Mobile exposes the first three services actually available.
+  - Spotify is omitted when not connected.
+  - Discovered providers move into the primary row when space is available.
+  - Remaining services move under More.
+
+Focused frontend Sonos tests:
+  14 passed
+
+Frontend production build:
+  passed
+
+Repository-wide observations:
+  - Full frontend unit suite passed: 97 tests.
+  - Backend full run passed 765 tests and retained one unrelated
+    publicBootstrap deviceContext failure.
+  - Repository typecheck retained pre-existing strictness failures in backup,
+    restore, and public-widget-cache tests.
+
+---
+Follow-up service ordering: 2026-09-20
+
+Browse order:
+  1. Spotify
+  2. Library
+  3. Saved Stations
+  4. Discovered Sonos providers
+
+Focused frontend Sonos tests:
+  13 passed
+
+Frontend production build:
+  passed

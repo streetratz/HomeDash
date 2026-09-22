@@ -1,0 +1,9 @@
+# Command: pnpm --filter backend db:generate
+# Phase:   02 - Schema and Backend
+# Run:     1
+# Time:    2026-09-20 18:57 AEST
+# Exit:    0
+---
+32 tables
+widget_connections 4 columns 2 indexes 1 fks
+[OK] Generated drizzle/0031_material_mandarin.sql

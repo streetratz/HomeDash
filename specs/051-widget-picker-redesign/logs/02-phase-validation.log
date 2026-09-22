@@ -1,0 +1,18 @@
+2026-09-20
+pnpm --filter frontend exec vitest run src/components/widgets/__tests__/WidgetPicker.test.ts
+PASS: 1 file, 3 tests
+
+pnpm --filter frontend exec vitest run src/components/widgets/__tests__/WidgetPicker.ui.test.tsx
+PASS: 1 file, 1 test
+
+pnpm --filter frontend test:unit
+PASS: 18 files, 67 tests
+
+pnpm --filter frontend build
+PASS
+
+PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm lint
+PASS: 0 errors, 0 warnings
+
+pnpm test:upgrade
+PASS: migrations 31 -> 31; 28 tables preserved; 0 FK violations

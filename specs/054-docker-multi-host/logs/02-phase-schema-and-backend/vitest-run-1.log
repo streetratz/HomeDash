@@ -1,0 +1,10 @@
+# Command: pnpm --filter backend exec vitest run tests/integration/dockerContainers.test.ts tests/integration/dockerAction.test.ts tests/integration/dockerAuth.test.ts tests/integration/dockerMultiHost.test.ts
+# Phase:   02 - Schema and Backend
+# Run:     1
+# Time:    2026-09-20 18:54 AEST
+# Exit:    1
+---
+All four suites failed during setup before tests ran.
+better_sqlite3.node was compiled for NODE_MODULE_VERSION 127 while the active Node
+runtime required NODE_MODULE_VERSION 147.
+Root cause: the command did not use the repository's required Node 22 PATH.

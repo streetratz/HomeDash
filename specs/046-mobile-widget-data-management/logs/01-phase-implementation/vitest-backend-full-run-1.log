@@ -1,0 +1,11 @@
+# Command: pnpm --filter backend test
+# Phase:   01 — Implementation
+# Run:     1
+# Time:    2026-09-19 09:02 AEST
+# Exit:    0
+---
+Test Files  53 passed (53)
+Tests       716 passed (716)
+
+Expected error-path stderr was emitted by calendar, artwork, Microsoft Graph, and
+favicon fallback tests. No test failed.

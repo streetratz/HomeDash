@@ -1,0 +1,1064 @@
+$ vitest run
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+stdout | tests/integration/dashboardImport.test.ts > Dashboard Import
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboardImport.test.ts > Dashboard Import
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboardImport.test.ts > Dashboard Import — Security (T024)
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboardImport.test.ts > Dashboard Import — Security (T024)
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboardImport.test.ts > Import/Export Round-Trip
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboardImport.test.ts > Import/Export Round-Trip
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/dashboardImport.test.ts  (22 tests) 751ms
+stdout | tests/integration/dashboards.test.ts > Dashboard CRUD
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Dashboard CRUD
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Placeholder CRUD
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Placeholder CRUD
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Widget CRUD
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Widget CRUD
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Link CRUD
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Link CRUD
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Layout Update
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Layout Update
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > GET /api/dashboards/:id (authenticated)
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > GET /api/dashboards/:id (authenticated)
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Icon Cache
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Icon Cache
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Widget config validation in layout save
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Widget config validation in layout save
+[scheduler] All jobs stopped
+
+ ❯ tests/integration/dashboards.test.ts  (43 tests | 1 failed) 1433ms
+   ❯ tests/integration/dashboards.test.ts > Widget CRUD > POST creates a widget
+     → expected undefined to be null
+stdout | tests/integration/calendar-phase7.test.ts > Public calendar endpoints
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/calendar-phase7.test.ts > Public calendar endpoints
+[scheduler] All jobs stopped
+
+stdout | tests/integration/calendar-phase7.test.ts > Private events
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/calendar-phase7.test.ts > Private events
+<empty line>
+stderr | tests/integration/calendar-phase7.test.ts > Private events
+[calendar-sync] Failed to update error status for source 1cb139c7-8c92-48e0-ba9d-447bdb9c6ac3: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 1cb139c7-8c92-48e0-ba9d-447bdb9c6ac3: iCal fetch failed: HTTP 404
+
+stderr | tests/integration/calendar-phase7.test.ts > Private events
+<empty line>
+stdout | tests/integration/calendar-phase7.test.ts > Private events
+[scheduler] All jobs stopped
+
+stdout | tests/integration/calendar-phase7.test.ts > Calendar security
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/calendar-phase7.test.ts > Calendar security
+<empty line>
+stderr | tests/integration/calendar-phase7.test.ts > Calendar security
+[calendar-sync] Failed to update error status for source 4fa20c05-e18f-4427-a7c2-37e4c7b79fec: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 4fa20c05-e18f-4427-a7c2-37e4c7b79fec: iCal fetch failed: HTTP 404
+
+stderr | tests/integration/calendar-phase7.test.ts > Calendar security
+<empty line>
+stdout | tests/integration/calendar-phase7.test.ts > Calendar security
+[scheduler] All jobs stopped
+
+stdout | tests/integration/calendar-phase7.test.ts > iCal source sync E2E
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/calendar-phase7.test.ts > iCal source sync E2E
+[scheduler] All jobs stopped
+
+stdout | tests/integration/calendar-phase7.test.ts > Calendar config validation
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stderr | tests/integration/calendar-phase7.test.ts > Calendar config validation
+[calendar-sync] Failed to update error status for source d1d91f21-bc1a-444d-80f1-4c1b515fab2c: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source d1d91f21-bc1a-444d-80f1-4c1b515fab2c: iCal fetch failed: HTTP 404
+
+stdout | tests/integration/calendar-phase7.test.ts > Calendar config validation
+<empty line>
+stderr | tests/integration/calendar-phase7.test.ts > Calendar config validation
+[calendar-sync] Failed to update error status for source 4aa072b3-1e9c-4534-bceb-882710724584: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 4aa072b3-1e9c-4534-bceb-882710724584: iCal fetch failed: HTTP 404
+[calendar-sync] Failed to update error status for source 6e141d00-ce4e-4aee-bd6b-9aa2ff14ff88: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 6e141d00-ce4e-4aee-bd6b-9aa2ff14ff88: iCal fetch failed: HTTP 404
+
+stderr | tests/integration/calendar-phase7.test.ts > Calendar config validation
+<empty line>
+stdout | tests/integration/calendar-phase7.test.ts > Calendar config validation
+[scheduler] All jobs stopped
+
+ ❯ tests/integration/calendar-phase7.test.ts  (22 tests | 3 failed) 879ms
+   ❯ tests/integration/calendar-phase7.test.ts > iCal source sync E2E > creates source → syncs → events appear in DB and API
+     → expected { …(4) } to have property "eventsUpserted" with value 2
+   ❯ tests/integration/calendar-phase7.test.ts > iCal source sync E2E > sync with private events preserves isPrivate flag in DB
+     → expected +0 to be 3 // Object.is equality
+   ❯ tests/integration/calendar-phase7.test.ts > iCal source sync E2E > re-sync updates existing events and removes deleted ones
+     → expected +0 to be 2 // Object.is equality
+stderr | Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:172:15)
+[calendar-sync] Failed to update error status for source 7c08d592-8b14-4a63-9616-cd8293adbfc3: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+
+stderr | Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:178:13)
+[calendar-sync] Error syncing source 7c08d592-8b14-4a63-9616-cd8293adbfc3: iCal fetch failed: HTTP 404
+
+stderr | Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:172:15)
+[calendar-sync] Failed to update error status for source 9fc225b3-bf31-42ce-880c-7bebdbb22696: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+
+stderr | Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:178:13)
+[calendar-sync] Error syncing source 9fc225b3-bf31-42ce-880c-7bebdbb22696: iCal fetch failed: HTTP 404
+
+stdout | tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Service
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Service
+[scheduler] All jobs stopped
+
+stdout | tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Sync Service
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Sync Service
+[scheduler] All jobs stopped
+
+stdout | tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Sync Routes
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Sync Routes
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/todoSyncMicrosoft.test.ts  (16 tests) 523ms
+stdout | tests/integration/appShortcuts.test.ts > App Shortcut CRUD
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/appShortcuts.test.ts > App Shortcut CRUD
+[scheduler] All jobs stopped
+
+stdout | tests/integration/appShortcuts.test.ts > App Shortcut Group CRUD
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/appShortcuts.test.ts > App Shortcut Group CRUD
+[scheduler] All jobs stopped
+
+stdout | tests/integration/appShortcuts.test.ts > App Shortcut Reorder
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/appShortcuts.test.ts > App Shortcut Reorder
+[scheduler] All jobs stopped
+
+stdout | tests/integration/appShortcuts.test.ts > App Shortcut Auth Guards
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/appShortcuts.test.ts > App Shortcut Auth Guards
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/appShortcuts.test.ts  (24 tests) 710ms
+stdout | tests/integration/rbac.test.ts > RBAC integration tests
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/rbac.test.ts > RBAC integration tests
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/rbac.test.ts  (23 tests) 293ms
+stdout | tests/integration/ical-parser.test.ts > Calendar source CRUD routes
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/ical-parser.test.ts > Calendar source CRUD routes
+[scheduler] All jobs stopped
+
+stdout | tests/integration/ical-parser.test.ts > Calendar events read route
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/ical-parser.test.ts > Calendar events read route
+<empty line>
+stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+[calendar-sync] Failed to update error status for source e7cf6be2-6d47-4b1b-a7a1-4d10740109c4: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source e7cf6be2-6d47-4b1b-a7a1-4d10740109c4: iCal fetch failed: HTTP 404
+
+stdout | tests/integration/ical-parser.test.ts > Calendar events read route
+<empty line>
+stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+[calendar-sync] Failed to update error status for source 47343252-6aaa-4602-9b4a-6f830118706b: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 47343252-6aaa-4602-9b4a-6f830118706b: iCal fetch failed: HTTP 404
+
+stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+<empty line>
+stdout | tests/integration/ical-parser.test.ts > Calendar events read route
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/ical-parser.test.ts  (18 tests) 415ms
+stdout | tests/integration/oauth-flow.test.ts > OAuth route auth guards
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/oauth-flow.test.ts > OAuth route auth guards
+[scheduler] All jobs stopped
+
+stdout | tests/integration/oauth-flow.test.ts > GET /api/user/oauth/accounts
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/oauth-flow.test.ts > GET /api/user/oauth/accounts
+[scheduler] All jobs stopped
+
+stdout | tests/integration/oauth-flow.test.ts > GET /api/user/oauth/providers
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/oauth-flow.test.ts > GET /api/user/oauth/providers
+[scheduler] All jobs stopped
+
+stdout | tests/integration/oauth-flow.test.ts > DELETE /api/admin/oauth/accounts/:id
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/oauth-flow.test.ts > DELETE /api/admin/oauth/accounts/:id
+[scheduler] All jobs stopped
+
+stdout | tests/integration/oauth-flow.test.ts > OAuth service with mocked fetch
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/oauth-flow.test.ts > OAuth service with mocked fetch
+[scheduler] All jobs stopped
+
+stdout | tests/integration/oauth-flow.test.ts > OAuth callback routes
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/oauth-flow.test.ts > OAuth callback routes
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/oauth-flow.test.ts  (15 tests) 1055ms
+ ✓ tests/unit/sonosDiscovery.test.ts  (15 tests) 5ms
+stderr | tests/unit/dockerSshTransport.test.ts > process cleanup (FR-037, SC-011) > kills a hung dial and leaves no child process
+[calendar-sync] Failed to update error status for source 3c6bf653-6ca3-4a79-bfa7-277a892fdd9f: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 3c6bf653-6ca3-4a79-bfa7-277a892fdd9f: fetch failed
+
+ ✓ tests/unit/dockerSshTransport.test.ts  (36 tests) 16828ms
+stdout | tests/integration/dashboardExport.test.ts > Dashboard Export
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboardExport.test.ts > Dashboard Export
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/dashboardExport.test.ts  (8 tests) 297ms
+stdout | tests/integration/todoItems.test.ts > Todo item CRUD
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/todoItems.test.ts > Todo item CRUD
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/todoItems.test.ts  (17 tests) 301ms
+stdout | tests/integration/microsoft-calendar.test.ts > syncSource (Microsoft)
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stderr | tests/integration/microsoft-calendar.test.ts > syncSource (Microsoft) > sets lastSyncError on fetch failure
+[calendar-sync] Error syncing source d8b095a8-03be-4514-b64e-342aa9652791: Microsoft Graph API error 500: Internal Server Error
+
+stdout | tests/integration/microsoft-calendar.test.ts > syncSource (Microsoft)
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/microsoft-calendar.test.ts  (8 tests) 141ms
+stdout | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – authorization
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – authorization
+[scheduler] All jobs stopped
+
+stdout | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – valid upload
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stderr | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – valid upload > updates logoAssetId in shell settings after upload
+[assetService] Failed to generate favicon variants: Error: Input buffer has corrupt header: VipsJpeg: premature end of JPEG image
+    at Sharp.toFile (/workspace/HomeDash/node_modules/.pnpm/sharp@0.34.5/node_modules/sharp/lib/output.js:90:19)
+    at generateFaviconVariants (/workspace/HomeDash/backend/src/services/assetService.ts:302:8)
+    at Module.uploadLogo (/workspace/HomeDash/backend/src/services/assetService.ts:196:3)
+    at Object.<anonymous> (/workspace/HomeDash/backend/src/api/admin.ts:127:19)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+
+stdout | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – valid upload
+[scheduler] All jobs stopped
+
+stdout | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – validation
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – validation
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/logoUpload.test.ts  (9 tests) 1069ms
+stdout | tests/integration/widgetDataPermissions.test.ts > Widget data is readable by non-admins (#100)
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/widgetDataPermissions.test.ts > Widget data is readable by non-admins (#100)
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/widgetDataPermissions.test.ts  (56 tests) 524ms
+stdout | tests/integration/todoSecurity.test.ts > Todo security — auth enforcement
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/todoSecurity.test.ts > Todo security — auth enforcement
+[scheduler] All jobs stopped
+
+stdout | tests/integration/todoSecurity.test.ts > Todo security — CSRF enforcement
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/todoSecurity.test.ts > Todo security — CSRF enforcement
+[scheduler] All jobs stopped
+
+stdout | tests/integration/todoSecurity.test.ts > Todo security — input validation
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/todoSecurity.test.ts > Todo security — input validation
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/todoSecurity.test.ts  (24 tests) 450ms
+ ✓ tests/unit/dockerApiVersion.test.ts  (16 tests) 16ms
+stdout | tests/integration/adminShell.test.ts > GET /api/admin/shell
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/adminShell.test.ts > GET /api/admin/shell
+[scheduler] All jobs stopped
+
+stdout | tests/integration/adminShell.test.ts > PUT /api/admin/shell
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/adminShell.test.ts > PUT /api/admin/shell
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/adminShell.test.ts  (14 tests) 1629ms
+stdout | tests/integration/google-calendar.test.ts > syncSource (Google)
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/google-calendar.test.ts > syncSource (Google)
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/google-calendar.test.ts  (5 tests) 139ms
+stdout | tests/contract/openapi.test.ts > Runtime contract spot-checks
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/contract/openapi.test.ts > Runtime contract spot-checks
+[scheduler] All jobs stopped
+
+stdout | tests/contract/openapi.test.ts > Backup & restore endpoint spot-checks
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/contract/openapi.test.ts > Backup & restore endpoint spot-checks
+[scheduler] All jobs stopped
+
+ ✓ tests/contract/openapi.test.ts  (25 tests) 73ms
+stdout | tests/integration/dockerAuth.test.ts > Docker routes — authorization (#189)
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dockerAuth.test.ts > Docker routes — authorization (#189)
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/dockerAuth.test.ts  (15 tests) 459ms
+ ✓ tests/unit/dockerEndpoint.test.ts  (44 tests) 2ms
+stdout | tests/integration/todoLists.test.ts > Todo list CRUD
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/todoLists.test.ts > Todo list CRUD
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/todoLists.test.ts  (12 tests) 248ms
+ ✓ tests/unit/detectService.test.ts  (22 tests) 1ms
+stdout | tests/integration/userPreferences.test.ts > GET /api/user/preferences
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/userPreferences.test.ts > GET /api/user/preferences
+[scheduler] All jobs stopped
+
+stdout | tests/integration/userPreferences.test.ts > PUT /api/user/preferences
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/userPreferences.test.ts > PUT /api/user/preferences
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/userPreferences.test.ts  (11 tests) 1100ms
+stdout | tests/integration/auth.test.ts > POST /api/auth/login
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/auth.test.ts > POST /api/auth/login
+[scheduler] All jobs stopped
+
+stdout | tests/integration/auth.test.ts > GET /api/auth/me
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/auth.test.ts > GET /api/auth/me
+[scheduler] All jobs stopped
+
+stdout | tests/integration/auth.test.ts > POST /api/auth/logout
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/auth.test.ts > POST /api/auth/logout
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/auth.test.ts  (13 tests) 888ms
+stdout | tests/integration/restore.test.ts > POST /api/admin/backup/restore
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/restore.test.ts > POST /api/admin/backup/restore > returns 200 with success and summary for valid restore
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/restore.test.ts > POST /api/admin/backup/restore > returns 200 with success and summary for valid restore
+[restore] Restore started — tables to process: 26
+[restore] Inserted 1 rows into users
+[restore] Inserted 1 rows into userPreferences
+[restore] Inserted 1 rows into appShellSettings
+[restore] Inserted 3 rows into groups
+[restore] Inserted 10 rows into groupPermissions
+[restore] Inserted 1 rows into userGroupMemberships
+[restore] Inserted 1 rows into dashboards
+[restore] Inserted 3 rows into scheduledJobs
+[restore] Restore complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/restore.test.ts > POST /api/admin/backup/restore > returns 400 for wrong confirmation word
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/restore.test.ts > POST /api/admin/backup/restore > returns 400 for missing confirmation word
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/restore.test.ts > POST /api/admin/backup/restore > invalidates sessions after restore — old cookie returns 401 on /me
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/restore.test.ts > POST /api/admin/backup/restore > invalidates sessions after restore — old cookie returns 401 on /me
+[restore] Restore started — tables to process: 26
+[restore] Inserted 1 rows into users
+[restore] Inserted 1 rows into userPreferences
+[restore] Inserted 1 rows into appShellSettings
+[restore] Inserted 3 rows into groups
+[restore] Inserted 10 rows into groupPermissions
+[restore] Inserted 1 rows into userGroupMemberships
+[restore] Inserted 1 rows into dashboards
+[restore] Inserted 3 rows into scheduledJobs
+[restore] Restore complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/restore.test.ts > POST /api/admin/backup/restore
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/restore.test.ts  (5 tests) 495ms
+stdout | tests/integration/statusCheck.test.ts > POST /api/admin/status-check
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/statusCheck.test.ts > POST /api/admin/status-check
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/statusCheck.test.ts  (7 tests) 265ms
+stdout | tests/integration/publicWidgets.test.ts > GET /api/public/widgets/:widgetId
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicWidgets.test.ts > GET /api/public/widgets/:widgetId
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicWidgets.test.ts  (3 tests) 329ms
+stdout | tests/integration/publicBootstrapProjection.test.ts > GET /api/public/bootstrap widget projection
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicBootstrapProjection.test.ts > GET /api/public/bootstrap widget projection
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicBootstrapProjection.test.ts  (3 tests) 256ms
+stdout | tests/integration/backup.test.ts > GET /api/admin/backup
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/backup.test.ts > GET /api/admin/backup > returns 200 with valid JSON backup envelope
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/backup.test.ts > GET /api/admin/backup > excludes passwordHash from users
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/backup.test.ts > GET /api/admin/backup > excludes accessToken/refreshToken from oauthAccounts
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/backup.test.ts > GET /api/admin/backup > excludes password from caldavAccounts
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/backup.test.ts > GET /api/admin/backup > summary counts match actual data array lengths
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/backup.test.ts > GET /api/admin/backup > does NOT contain excluded table keys
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/backup.test.ts > GET /api/admin/backup
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/backup.test.ts  (7 tests) 253ms
+stdout | tests/integration/scheduledJobs.test.ts > Scheduled Jobs API
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/scheduledJobs.test.ts > Scheduled Jobs API
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/scheduledJobs.test.ts  (8 tests) 249ms
+stdout | tests/integration/publicVisibility.test.ts > public widget authorization
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicVisibility.test.ts > public widget authorization
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicVisibility.test.ts  (4 tests) 263ms
+stdout | tests/integration/dockerContainers.test.ts > GET /api/docker/containers — endpoint resolution
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dockerContainers.test.ts > GET /api/docker/containers — endpoint resolution
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/dockerContainers.test.ts  (9 tests) 258ms
+stdout | tests/integration/dockerAdoption.test.ts > Docker widget adoption
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/dockerAdoption.test.ts  (6 tests) 24ms
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback 1x1 PNG on fetch failure
+[artCache] Art fetch error: https://example.com/broken.jpg Error: network
+    at /workspace/HomeDash/backend/tests/unit/artCacheService.test.ts:68:53
+    at file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:781:17)
+    at runSuite (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:958:5)
+    at startTests (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:967:3)
+    at file:///workspace/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+    at withEnv (file:///workspace/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback on non-200 response
+[artCache] Art fetch failed: https://example.com/missing.jpg (404)
+
+ ✓ tests/unit/artCacheService.test.ts  (9 tests) 74ms
+ ✓ tests/unit/url-validator.test.ts  (17 tests) 10ms
+stdout | tests/integration/sonosArtProxy.test.ts > GET /api/sonos/art/:hash
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/sonosArtProxy.test.ts > GET /api/sonos/art/:hash
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/sonosArtProxy.test.ts  (5 tests) 239ms
+ ✓ tests/unit/sonosLabels.test.ts  (11 tests)
+stdout | tests/integration/firstRun.test.ts > POST /api/first-run/admin — validation (no users)
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/firstRun.test.ts > POST /api/first-run/admin — validation (no users)
+[scheduler] All jobs stopped
+
+stdout | tests/integration/firstRun.test.ts > POST /api/first-run/admin — happy path and gating
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/firstRun.test.ts > POST /api/first-run/admin — happy path and gating
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/firstRun.test.ts  (5 tests) 149ms
+stdout | tests/integration/dockerAction.test.ts > POST /api/docker/action
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dockerAction.test.ts > POST /api/docker/action
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/dockerAction.test.ts  (7 tests) 459ms
+stdout | tests/integration/rememberMe.test.ts > Remember-me login
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/rememberMe.test.ts > Remember-me login
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/rememberMe.test.ts  (4 tests) 552ms
+stdout | tests/integration/publicBootstrap.test.ts > GET /api/public/bootstrap
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicBootstrap.test.ts > GET /api/public/bootstrap > includes firstRunRequired=false after admin is created
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicBootstrap.test.ts > GET /api/public/bootstrap > includes firstRunRequired=false after admin is created
+[scheduler] All jobs stopped
+
+stdout | tests/integration/publicBootstrap.test.ts > GET /api/public/bootstrap
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicBootstrap.test.ts  (8 tests) 148ms
+stdout | tests/integration/restorePreview.test.ts > POST /api/admin/backup/preview
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/restorePreview.test.ts > POST /api/admin/backup/preview > returns 200 with summary, appVersion, exportedAt, and warnings for valid backup
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/restorePreview.test.ts > POST /api/admin/backup/preview > returns 200 with summary, appVersion, exportedAt, and warnings for valid backup
+[backup] Restore preview requested
+
+stdout | tests/integration/restorePreview.test.ts > POST /api/admin/backup/preview > returns 400 for invalid format
+[backup] Restore preview requested
+
+stdout | tests/integration/restorePreview.test.ts > POST /api/admin/backup/preview > returns 400 for version higher than supported
+[backup] Portable backup download requested by admin
+[backup] Export started
+[backup] Export complete: {"users":1,"dashboards":1,"widgets":0,"groups":3,"scheduledJobs":3,"calendarSources":0,"todoLists":0,"integrations":0,"photoSources":0}
+
+stdout | tests/integration/restorePreview.test.ts > POST /api/admin/backup/preview > returns 400 for version higher than supported
+[backup] Restore preview requested
+
+stdout | tests/integration/restorePreview.test.ts > POST /api/admin/backup/preview
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/restorePreview.test.ts  (4 tests) 253ms
+stdout | tests/integration/scheduledJobService.test.ts > scheduledJobService
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/scheduledJobService.test.ts  (6 tests) 24ms
+ ✓ tests/unit/publicWidgetSnapshotCache.test.ts  (3 tests) 2ms
+stdout | tests/integration/rateLimit.test.ts > Rate limiting — login endpoint
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/rateLimit.test.ts > Rate limiting — login endpoint
+[scheduler] All jobs stopped
+
+stdout | tests/integration/rateLimit.test.ts > Rate limiting — first-run endpoint
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/rateLimit.test.ts > Rate limiting — first-run endpoint
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/rateLimit.test.ts  (2 tests) 1192ms
+stdout | tests/integration/timezone.test.ts > GET /api/admin/timezones
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/timezone.test.ts > GET /api/admin/timezones
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/timezone.test.ts  (4 tests) 240ms
+ ✓ tests/integration/tokenEncryption.test.ts  (6 tests) 1ms
+ ✓ tests/unit/timezone-validation.test.ts  (4 tests)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/calendar-phase7.test.ts > iCal source sync E2E > creates source → syncs → events appear in DB and API
+AssertionError: expected { …(4) } to have property "eventsUpserted" with value 2
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ tests/integration/calendar-phase7.test.ts:486:26
+    484| 
+    485|     expect(syncRes.status).toBe(200);
+    486|     expect(syncRes.body).toHaveProperty('eventsUpserted', 2);
+       |                          ^
+    487|     expect(syncRes.body).toHaveProperty('error', null);
+    488| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/integration/calendar-phase7.test.ts > iCal source sync E2E > sync with private events preserves isPrivate flag in DB
+AssertionError: expected +0 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 0
+
+ ❯ tests/integration/calendar-phase7.test.ts:540:41
+    538| 
+    539|     expect(syncRes.status).toBe(200);
+    540|     expect(syncRes.body.eventsUpserted).toBe(3);
+       |                                         ^
+    541| 
+    542|     // Check isPrivate via public events API
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/integration/calendar-phase7.test.ts > iCal source sync E2E > re-sync updates existing events and removes deleted ones
+AssertionError: expected +0 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ tests/integration/calendar-phase7.test.ts:614:43
+    612|     expect(resyncRes.status).toBe(200);
+    613|     // pub-1 updated, new-1 inserted = 2 upserted; pub-2 removed = 1 d…
+    614|     expect(resyncRes.body.eventsUpserted).toBe(2);
+       |                                           ^
+    615|     expect(resyncRes.body.eventsDeleted).toBe(1);
+    616| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/integration/dashboards.test.ts > Widget CRUD > POST creates a widget
+AssertionError: expected undefined to be null
+ ❯ tests/integration/dashboards.test.ts:303:40
+    301|     expect(body['type']).toBe('links_list');
+    302|     expect(body['publicVisibility']).toBe('hidden');
+    303|     expect(body['publicSourceUserId']).toBeNull();
+       |                                        ^
+    304|   });
+    305| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+ Test Files  2 failed | 48 passed (50)
+      Tests  4 failed | 676 passed (680)
+   Start at  15:27:52
+   Duration  39.33s (transform 672ms, setup 637ms, collect 2.49s, tests 35.96s, environment 0ms, prepare 58ms)
+
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] backend@0.1.0 test: `vitest run`
+Exit status 1

@@ -1,0 +1,127 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend test
+# Phase:   01 — Calendar test determinism
+# Run:     5
+# Time:    2026-09-18 22:50 AEST
+# Exit:    0
+---
+$ vitest run
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/integration/dashboardImport.test.ts  (22 tests) 716ms
+ ✓ tests/integration/dashboards.test.ts  (43 tests) 1332ms
+ ✓ tests/integration/calendar-phase7.test.ts  (22 tests) 859ms
+ ✓ tests/integration/todoSyncMicrosoft.test.ts  (16 tests) 532ms
+ ✓ tests/integration/appShortcuts.test.ts  (24 tests) 694ms
+ ✓ tests/integration/rbac.test.ts  (23 tests) 277ms
+stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+[calendar-sync] Failed to update error status for source 32acb930-6952-4275-8ca1-a765d8617f6c: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 32acb930-6952-4275-8ca1-a765d8617f6c: iCal fetch failed: HTTP 404
+[calendar-sync] Failed to update error status for source b4ca56e9-f5a4-42fd-8f3b-0395003c24f2: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source b4ca56e9-f5a4-42fd-8f3b-0395003c24f2: iCal fetch failed: HTTP 404
+
+ ✓ tests/integration/ical-parser.test.ts  (18 tests) 396ms
+ ✓ tests/integration/oauth-flow.test.ts  (15 tests) 947ms
+ ✓ tests/unit/sonosDiscovery.test.ts  (15 tests) 2ms
+stderr | tests/unit/dockerSshTransport.test.ts > process cleanup (FR-037, SC-011) > kills a hung dial and leaves no child process
+[calendar-sync] Failed to update error status for source d00f7dc3-a73b-4b2d-8e0e-d09c880912c0: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:170:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source d00f7dc3-a73b-4b2d-8e0e-d09c880912c0: fetch failed
+
+ ✓ tests/unit/dockerSshTransport.test.ts  (36 tests) 16561ms
+ ✓ tests/integration/dashboardExport.test.ts  (8 tests) 265ms
+ ✓ tests/integration/todoItems.test.ts  (17 tests) 281ms
+stderr | tests/integration/microsoft-calendar.test.ts > syncSource (Microsoft) > sets lastSyncError on fetch failure
+[calendar-sync] Error syncing source 3e55b9a5-211b-4f8d-a553-b48d876241b5: Microsoft Graph API error 500: Internal Server Error
+
+ ✓ tests/integration/microsoft-calendar.test.ts  (8 tests) 132ms
+stderr | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – valid upload > updates logoAssetId in shell settings after upload
+[assetService] Failed to generate favicon variants: Error: Input buffer has corrupt header: VipsJpeg: premature end of JPEG image
+    at Sharp.toFile (/workspace/HomeDash/node_modules/.pnpm/sharp@0.34.5/node_modules/sharp/lib/output.js:90:19)
+    at generateFaviconVariants (/workspace/HomeDash/backend/src/services/assetService.ts:302:8)
+    at Module.uploadLogo (/workspace/HomeDash/backend/src/services/assetService.ts:196:3)
+    at Object.<anonymous> (/workspace/HomeDash/backend/src/api/admin.ts:127:19)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+
+ ✓ tests/integration/logoUpload.test.ts  (9 tests) 1049ms
+ ✓ tests/integration/widgetDataPermissions.test.ts  (56 tests) 505ms
+ ✓ tests/integration/todoSecurity.test.ts  (24 tests) 391ms
+ ✓ tests/unit/dockerApiVersion.test.ts  (16 tests) 14ms
+ ✓ tests/integration/adminShell.test.ts  (14 tests) 1402ms
+ ✓ tests/unit/dockerEndpoint.test.ts  (44 tests) 2ms
+ ✓ tests/integration/google-calendar.test.ts  (5 tests) 125ms
+ ✓ tests/contract/openapi.test.ts  (25 tests) 56ms
+ ✓ tests/integration/dockerAuth.test.ts  (15 tests) 468ms
+ ✓ tests/integration/todoLists.test.ts  (12 tests) 260ms
+ ✓ tests/unit/detectService.test.ts  (22 tests) 1ms
+ ✓ tests/integration/userPreferences.test.ts  (11 tests) 1099ms
+ ✓ tests/integration/auth.test.ts  (13 tests) 886ms
+ ✓ tests/integration/restore.test.ts  (5 tests) 515ms
+ ✓ tests/integration/statusCheck.test.ts  (7 tests) 236ms
+ ✓ tests/integration/publicWidgets.test.ts  (3 tests) 311ms
+ ✓ tests/integration/publicBootstrapProjection.test.ts  (3 tests) 256ms
+ ✓ tests/integration/migrationIntegrity.test.ts  (10 tests) 10ms
+ ✓ tests/integration/backup.test.ts  (7 tests) 245ms
+ ✓ tests/integration/dockerAdoption.test.ts  (7 tests) 24ms
+ ✓ tests/integration/scheduledJobs.test.ts  (8 tests) 237ms
+ ✓ tests/integration/publicVisibility.test.ts  (4 tests) 258ms
+ ✓ tests/integration/dockerContainers.test.ts  (9 tests) 263ms
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback 1x1 PNG on fetch failure
+[artCache] Art fetch error: https://example.com/broken.jpg Error: network
+    at /workspace/HomeDash/backend/tests/unit/artCacheService.test.ts:68:53
+    at file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:781:17)
+    at runSuite (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:958:5)
+    at startTests (file:///workspace/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:967:3)
+    at file:///workspace/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+    at withEnv (file:///workspace/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback on non-200 response
+[artCache] Art fetch failed: https://example.com/missing.jpg (404)
+
+ ✓ tests/unit/artCacheService.test.ts  (9 tests) 56ms
+ ✓ tests/unit/url-validator.test.ts  (17 tests) 9ms
+ ✓ tests/integration/sonosArtProxy.test.ts  (5 tests) 230ms
+ ✓ tests/unit/sonosLabels.test.ts  (11 tests) 1ms
+ ✓ tests/integration/firstRun.test.ts  (5 tests) 139ms
+ ✓ tests/integration/dockerAction.test.ts  (7 tests) 459ms
+ ✓ tests/integration/rememberMe.test.ts  (4 tests) 543ms
+ ✓ tests/integration/publicBootstrap.test.ts  (8 tests) 149ms
+ ✓ tests/integration/restorePreview.test.ts  (4 tests) 248ms
+ ✓ tests/integration/dockerConnectionUpgrade.test.ts  (7 tests) 23ms
+ ✓ tests/integration/scheduledJobService.test.ts  (6 tests) 21ms
+ ✓ tests/unit/publicWidgetSnapshotCache.test.ts  (3 tests) 1ms
+ ✓ tests/integration/rateLimit.test.ts  (2 tests) 1185ms
+ ✓ tests/integration/timezone.test.ts  (4 tests) 237ms
+ ✓ tests/integration/tokenEncryption.test.ts  (6 tests)
+ ✓ tests/unit/timezone-validation.test.ts  (4 tests) 1ms
+
+ Test Files  52 passed (52)
+      Tests  698 passed (698)
+   Start at  22:41:31
+   Duration  37.82s (transform 553ms, setup 463ms, collect 2.19s, tests 34.91s, environment 0ms, prepare 55ms)
+

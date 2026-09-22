@@ -1,0 +1,77 @@
+# Command: pnpm --filter backend exec vitest run tests/integration/ical-parser.test.ts
+# Phase:   01 — Implementation
+# Run:     1
+# Time:    2026-09-19 07:25 AEST
+# Exit:    1
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+[calendar-sync] Failed to update error status for source 8ab514b1-f9fc-46bf-b792-07e6be1cc965: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:174:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 8ab514b1-f9fc-46bf-b792-07e6be1cc965: iCal fetch failed: HTTP 404
+[calendar-sync] Failed to update error status for source 28f1ae33-df29-4c0b-a584-6de6f700fffd: TypeError: The database connection is not open
+    at Database.prepare (/workspace/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///workspace/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/workspace/HomeDash/backend/src/services/calendar-sync-service.ts:174:10)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+[calendar-sync] Error syncing source 28f1ae33-df29-4c0b-a584-6de6f700fffd: iCal fetch failed: HTTP 404
+
+ ❯ tests/integration/ical-parser.test.ts  (21 tests | 2 failed) 651ms
+   ❯ tests/integration/ical-parser.test.ts > fetchAndParseIcal > parses a static yearly all-day birthday within the requested year
+     → expected false to be true // Object.is equality
+   ❯ tests/integration/ical-parser.test.ts > Calendar source CRUD routes > imports and re-imports a static iCalendar file without exposing its body
+     → eq is not defined
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/ical-parser.test.ts > fetchAndParseIcal > parses a static yearly all-day birthday within the requested year
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/integration/ical-parser.test.ts:261:57
+    259|       calendarName: 'Birthdays',
+    260|     });
+    261|     expect(result[0]!.startAt.startsWith('2026-10-03')).toBe(true);
+       |                                                         ^
+    262|   });
+    263| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/ical-parser.test.ts > Calendar source CRUD routes > imports and re-imports a static iCalendar file without exposing its body
+ReferenceError: eq is not defined
+ ❯ tests/integration/ical-parser.test.ts:451:27
+    449|     const firstEvents = getDb()
+    450|       .select({ title: calendarEvents.title })
+    451|       .from(calendarEvents)
+       |                           ^
+    452|       .where(eq(calendarEvents.sourceId, sourceId))
+    453|       .all();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 19 passed (21)
+   Start at  07:32:21
+   Duration  2.52s (transform 452ms, setup 356ms, collect 1.11s, tests 651ms, environment 0ms, prepare 59ms)
+
+undefined
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/integration/ical-parser.test.ts

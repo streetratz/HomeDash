@@ -1,0 +1,12 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/unit/dockerSshTransport.test.ts  (36 tests) 16733ms
+
+ Test Files  1 passed (1)
+      Tests  36 passed (36)
+   Start at  10:15:04
+   Duration  17.19s (transform 83ms, setup 252ms, collect 42ms, tests 16.73s, environment 0ms, prepare 59ms)
+
+exit=0

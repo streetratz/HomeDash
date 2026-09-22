@@ -1,0 +1,138 @@
+
+Running 8 tests using 1 worker
+
+  ✘  1 [chromium] › tests/e2e/dockerConnection.spec.ts:58:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input (0ms)
+  ✘  2 [chromium] › tests/e2e/dockerConnection.spec.ts:70:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted (1ms)
+  ✘  3 [chromium] › tests/e2e/dockerConnection.spec.ts:80:3 › Docker connection form — endpoint formats › rejects a bare host:port (1ms)
+  ✘  4 [chromium] › tests/e2e/dockerConnection.spec.ts:90:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error (1ms)
+  ✘  5 [mobile-safari] › tests/e2e/dockerConnection.spec.ts:58:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input (0ms)
+  ✘  6 [mobile-safari] › tests/e2e/dockerConnection.spec.ts:70:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted (1ms)
+  ✘  7 [mobile-safari] › tests/e2e/dockerConnection.spec.ts:80:3 › Docker connection form — endpoint formats › rejects a bare host:port (0ms)
+  ✘  8 [mobile-safari] › tests/e2e/dockerConnection.spec.ts:90:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error (0ms)
+
+
+  1) [chromium] › tests/e2e/dockerConnection.spec.ts:58:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-c20e3-ault-ports-before-any-input-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/dockerConnection.spec.ts:70:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-9ef9b-t-and-says-what-is-accepted-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/dockerConnection.spec.ts:80:3 › Docker connection form — endpoint formats › rejects a bare host:port 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-1b304-ts-rejects-a-bare-host-port-chromium/error-context.md
+
+  4) [chromium] › tests/e2e/dockerConnection.spec.ts:90:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-bf1bf-ectivity-not-a-format-error-chromium/error-context.md
+
+  5) [mobile-safari] › tests/e2e/dockerConnection.spec.ts:58:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-c20e3-ault-ports-before-any-input-mobile-safari/error-context.md
+
+  6) [mobile-safari] › tests/e2e/dockerConnection.spec.ts:70:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-9ef9b-t-and-says-what-is-accepted-mobile-safari/error-context.md
+
+  7) [mobile-safari] › tests/e2e/dockerConnection.spec.ts:80:3 › Docker connection form — endpoint formats › rejects a bare host:port 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-1b304-ts-rejects-a-bare-host-port-mobile-safari/error-context.md
+
+  8) [mobile-safari] › tests/e2e/dockerConnection.spec.ts:90:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-bf1bf-ectivity-not-a-format-error-mobile-safari/error-context.md
+
+  8 failed
+    [chromium] › tests/e2e/dockerConnection.spec.ts:58:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input 
+    [chromium] › tests/e2e/dockerConnection.spec.ts:70:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted 
+    [chromium] › tests/e2e/dockerConnection.spec.ts:80:3 › Docker connection form — endpoint formats › rejects a bare host:port 
+    [chromium] › tests/e2e/dockerConnection.spec.ts:90:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error 
+    [mobile-safari] › tests/e2e/dockerConnection.spec.ts:58:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input 
+    [mobile-safari] › tests/e2e/dockerConnection.spec.ts:70:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted 
+    [mobile-safari] › tests/e2e/dockerConnection.spec.ts:80:3 › Docker connection form — endpoint formats › rejects a bare host:port 
+    [mobile-safari] › tests/e2e/dockerConnection.spec.ts:90:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error 
+undefined
+/workspace/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test tests/e2e/dockerConnection.spec.ts '--reporter=list'
+exit=1

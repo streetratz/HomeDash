@@ -1,0 +1,26 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/integration/publicVisibility.test.ts
+# Phase:   03 — Public Authorization
+# Run:     1
+# Time:    2026-09-18 15:15
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+stdout | tests/integration/publicVisibility.test.ts > public widget authorization
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicVisibility.test.ts > public widget authorization
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicVisibility.test.ts  (4 tests) 370ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  14:57:32
+   Duration  1.71s (transform 357ms, setup 303ms, collect 879ms, tests 370ms, environment 0ms, prepare 54ms)
+

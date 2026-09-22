@@ -1,0 +1,10 @@
+# Command: pnpm exec prettier --write <latest changed files>
+# Phase:   01 — Implementation
+# Run:     2
+# Time:    2026-09-19 07:25 AEST
+# Exit:    0
+---
+backend/src/api/admin-calendar.ts 61ms (unchanged)
+frontend/src/components/settings/CalendarSourceList.tsx 17ms (unchanged)
+frontend/src/components/widgets/StocksConfigForm.tsx 43ms (unchanged)
+frontend/src/components/widgets/__tests__/StocksConfigForm.ui.test.tsx 2ms (unchanged)

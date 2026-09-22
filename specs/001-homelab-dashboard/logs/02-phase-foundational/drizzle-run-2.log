@@ -1,0 +1,15 @@
+# Command: cd backend && npx drizzle-kit generate
+# Phase:   02 — Foundational (Blocking Prerequisites)
+# Run:     2
+# Time:    2026-02-21 14:21
+# Exit:    1
+---
+_ZodError: [
+  {
+    "expected": "'postgresql' | 'mysql' | 'sqlite'",
+    "received": "undefined",
+    "code": "invalid_type",
+    "path": ["dialect"],
+    "message": "Required"
+  }
+]

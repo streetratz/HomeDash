@@ -1,0 +1,21 @@
+# Scenario:
+#   1. Start the final candidate image with a fresh isolated volume.
+#   2. Bootstrap an administrator.
+#   3. Restore /Users/developer/Downloads/homedash-backup-2026-09-19.json unchanged.
+#   4. Re-authenticate with the preserved bootstrap administrator.
+#   5. Verify row counts, credential sanitization, and foreign keys.
+# Phase:   01 — Implementation
+# Run:     2
+# Time:    2026-09-19 09:08 AEST
+# Exit:    0
+---
+users: 1
+dashboards: 1
+widgets: 10
+groups: 3
+calendar_sources: 1
+integration_configs: 3
+clientSecret rows: 0
+non-empty Pi-hole encrypted API tokens: 0
+non-empty UniFi encrypted credentials: 0
+foreign-key violations: 0

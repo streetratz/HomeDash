@@ -1,0 +1,155 @@
+# OpenAPI 3.1 Contract — Dashboard Duplication
+# Feature: 011-dashboard-duplication
+
+openapi: "3.1.0"
+info:
+  title: HomeDash Dashboard Duplication API
+  version: "1.0.0"
+  description: Admin endpoint to duplicate an existing dashboard with all its content.
+
+paths:
+  /api/admin/dashboards/{dashboardId}/duplicate:
+    post:
+      operationId: duplicateDashboard
+      summary: Duplicate a dashboard
+      description: |
+        Creates a deep copy of the specified dashboard including all placeholders,
+        widgets, links, layout positions, and background settings. The new dashboard
+        receives a unique ID and an auto-generated name following the "(Copy)" pattern.
+        The operation is atomic — if any part fails, no partial dashboard is created.
+
+        Requires admin authentication and a valid CSRF token.
+      tags:
+        - Admin Dashboards
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: dashboardId
+          in: path
+          required: true
+          description: UUID of the source dashboard to duplicate
+          schema:
+            type: string
+            format: uuid
+        - name: x-csrf-token
+          in: header
+          required: true
+          description: CSRF token from session cookie
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Dashboard duplicated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardListItem"
+              example:
+                id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                name: "Living Room (Copy)"
+                applicability: "both"
+                backgroundType: "solid"
+                backgroundColor: "#1a1a2e"
+                backgroundAssetId: null
+                backgroundDisplayMode: null
+                createdAt: "2025-07-24T12:00:00.000Z"
+                updatedAt: "2025-07-24T12:00:00.000Z"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "UNAUTHORIZED"
+                message: "Authentication required"
+        "403":
+          description: Not authorized (non-admin user) or missing CSRF token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "FORBIDDEN"
+                message: "Admin access required"
+        "404":
+          description: Source dashboard not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "NOT_FOUND"
+                message: "Dashboard not found: a1b2c3d4-..."
+        "500":
+          description: Internal server error during duplication
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "INTERNAL_ERROR"
+                message: "Failed to duplicate dashboard"
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: homedash_session
+
+  schemas:
+    DashboardListItem:
+      type: object
+      required:
+        - id
+        - name
+        - applicability
+        - backgroundType
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+        applicability:
+          type: string
+          enum: [web, mobile, both]
+        backgroundType:
+          type: string
+          enum: [solid, image]
+        backgroundColor:
+          type: string
+          nullable: true
+          pattern: "^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$"
+        backgroundAssetId:
+          type: string
+          format: uuid
+          nullable: true
+        backgroundDisplayMode:
+          type: string
+          enum: [fill, stretch]
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error description

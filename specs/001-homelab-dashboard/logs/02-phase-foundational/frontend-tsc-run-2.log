@@ -1,0 +1,6 @@
+# Command: cd frontend && npx tsc --noEmit
+# Phase:   02 — Foundational (Blocking Prerequisites)
+# Run:     2
+# Time:    2026-02-21 14:45
+# Exit:    0
+---

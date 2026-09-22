@@ -1,0 +1,18 @@
+# Command: cd backend && pnpm test
+# Phase:   03 — User Story 1: First Run + View Dashboard
+# Run:     1
+# Time:    2026-02-21 17:30
+# Exit:    0
+---
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/contract/openapi.test.ts (11 tests) 312ms
+ ✓ tests/integration/firstRun.test.ts (5 tests) 98ms
+ ✓ tests/integration/auth.test.ts (13 tests) 247ms
+ ✓ tests/integration/publicBootstrap.test.ts (8 tests) 134ms
+ ✓ tests/integration/rateLimit.test.ts (2 tests) 56ms
+
+ Test Files  5 passed (5)
+      Tests  39 passed (39)
+   Start at  17:30:12
+   Duration  3.10s (transform 62ms, setup 1ms, collect 389ms, tests 847ms)

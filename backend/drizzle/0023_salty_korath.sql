@@ -1,0 +1,1 @@
+ALTER TABLE `app_shell_settings` ADD `header_title_style` text DEFAULT 'none' NOT NULL;

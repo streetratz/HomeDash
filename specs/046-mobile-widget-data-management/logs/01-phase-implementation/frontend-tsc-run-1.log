@@ -1,0 +1,14 @@
+# Command: pnpm --filter frontend typecheck
+# Phase:   01 — Implementation
+# Run:     1
+# Time:    2026-09-19 07:25 AEST
+# Exit:    2
+---
+$ tsc --noEmit
+src/components/widgets/StocksConfigForm.tsx(352,14): error TS2379: Argument of type '{ lots: StockLot[] | undefined; }' is not assignable to parameter of type 'Partial<StockTicker>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'lots' are incompatible.
+    Type 'StockLot[] | undefined' is not assignable to type 'StockLot[]'.
+      Type 'undefined' is not assignable to type 'StockLot[]'.
+/workspace/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] frontend@0.1.0 typecheck: `tsc --noEmit`
+Exit status 2

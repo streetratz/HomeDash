@@ -1,0 +1,6 @@
+
+Running 1 test using 1 worker
+
+  ✓  1 [chromium] › tests/e2e/publicWidgetVisibility.spec.ts:26:3 › Public widget visibility › renders through the public namespace and disappears after revocation (4.9s)
+
+  1 passed (5.3s)

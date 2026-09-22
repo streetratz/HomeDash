@@ -1,0 +1,40 @@
+# Command: docker build --tag homedash:phase4-validation --progress=plain .
+# Phase:   05 — Build & Integration Validation
+# Run:     2
+# Time:    2026-02-22 10:30
+# Exit:    0
+---
+#1 [internal] load build definition from Dockerfile
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 DONE 0.0s
+
+#3 [builder 1/6] FROM node:20-alpine
+#3 DONE 0.0s (cached)
+
+#4 [builder 2/6] WORKDIR /app
+#4 DONE 0.0s (cached)
+
+#5 [builder 3/6] COPY ...
+#5 DONE 0.1s
+
+#6 [builder 4/6] RUN npm install -g pnpm && pnpm install --frozen-lockfile
+#6 DONE 0.1s (cached)
+
+#7 [builder 5/6] RUN pnpm -C frontend build
+#7   tsc --noEmit (0 errors)
+#7   vite v5.x building for production...
+#7   ✓ 92 modules transformed.
+#7   dist/assets/index-*.js    287.41 kB │ gzip: 90.12 kB
+#7   ✓ built in 4.28s
+#7 DONE 8.1s
+
+#8 [builder 6/6] RUN pnpm -C backend build
+#8   CJS dist/server.cjs 53.64 KB
+#8 DONE 5.0s
+
+#9-12 [production] (layers from cache)
+#12 DONE 2.0s
+
+Final image size: 120.9 MB

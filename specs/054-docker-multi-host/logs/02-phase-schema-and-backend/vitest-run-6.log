@@ -1,0 +1,7 @@
+Command:
+PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/integration/migrationIntegrity.test.ts tests/integration/restore.test.ts
+
+Outcome: PASS
+
+Test Files: 2 passed (2)
+Tests: 18 passed (18)

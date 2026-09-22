@@ -1,0 +1,33 @@
+$ pnpm -r run typecheck
+Scope: 2 of 3 workspace projects
+backend typecheck$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+frontend typecheck$ tsc --noEmit
+frontend typecheck: Done
+backend typecheck: tests/integration/backup.test.ts(111,12): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(112,24): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(126,27): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(141,27): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(155,35): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(156,40): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(157,37): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(158,36): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(159,43): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(160,45): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(161,39): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(162,42): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/backup.test.ts(163,42): error TS2532: Object is possibly 'undefined'.
+backend typecheck: tests/integration/restore.test.ts(38,29): error TS4111: Property 'data' comes from an index signature, so it must be accessed with ['data'].
+backend typecheck: tests/integration/restore.test.ts(41,8): error TS4111: Property 'users' comes from an index signature, so it must be accessed with ['users'].
+backend typecheck: tests/integration/restore.test.ts(41,16): error TS18048: 'data.users' is possibly 'undefined'.
+backend typecheck: tests/integration/restore.test.ts(41,21): error TS4111: Property 'users' comes from an index signature, so it must be accessed with ['users'].
+backend typecheck: tests/integration/restore.test.ts(42,8): error TS4111: Property 'oauthAccounts' comes from an index signature, so it must be accessed with ['oauthAccounts'].
+backend typecheck: tests/integration/restore.test.ts(42,24): error TS18048: 'data.oauthAccounts' is possibly 'undefined'.
+backend typecheck: tests/integration/restore.test.ts(42,29): error TS4111: Property 'oauthAccounts' comes from an index signature, so it must be accessed with ['oauthAccounts'].
+backend typecheck: tests/integration/restore.test.ts(48,8): error TS4111: Property 'caldavAccounts' comes from an index signature, so it must be accessed with ['caldavAccounts'].
+backend typecheck: tests/integration/restore.test.ts(48,25): error TS18048: 'data.caldavAccounts' is possibly 'undefined'.
+backend typecheck: tests/integration/restore.test.ts(48,30): error TS4111: Property 'caldavAccounts' comes from an index signature, so it must be accessed with ['caldavAccounts'].
+backend typecheck: Failed
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] backend@0.1.0 typecheck: `tsc --noEmit && tsc --project tsconfig.test.json --noEmit`
+Exit status 2
+[ELIFECYCLE] Command failed with exit code 2.

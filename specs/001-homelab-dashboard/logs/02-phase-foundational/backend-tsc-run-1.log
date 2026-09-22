@@ -1,0 +1,10 @@
+# Command: cd backend && npx tsc --noEmit
+# Phase:   02 — Foundational (Blocking Prerequisites)
+# Run:     1
+# Time:    2026-02-21 14:00
+# Exit:    1
+---
+src/db/migrate.ts(36,14): error TS2352: Conversion of type 'BetterSQLite3Database<Record<string, never>>' to type 'import("/Users/developer/.../better-sqlite3").Database' may be a mistake because neither type sufficiently overlaps with the other.
+src/server.ts(99,1): error TS1378: Top-level 'await' expressions are only allowed when the 'module' option is set to 'es2022', 'esnext', 'system', 'node16', or 'nodenext', and the 'target' option is set to 'es2017' or higher.
+src/server.ts(104,1): error TS1378: Top-level 'await' expressions are only allowed when the 'module' option is set to 'es2022', 'esnext', 'system', 'node16', or 'nodenext', and the 'target' option is set to 'es2017' or higher.
+src/server.ts(105,1): error TS1378: Top-level 'await' expressions are only allowed when the 'module' option is set to 'es2022', 'esnext', 'system', 'node16', or 'nodenext', and the 'target' option is set to 'es2017' or higher.

@@ -1,0 +1,41 @@
+# Scenario:
+#   1. Build the committed main branch image (migration head 0028).
+#   2. Restore the supplied portable production configuration into an isolated volume.
+#   3. Snapshot normalized hashes for every portable-backup table.
+#   4. Replace the container with homedash:046-local on the same volume.
+#   5. Verify migration 0029, table hashes, row counts, and foreign keys.
+# Phase:   01 — Implementation
+# Run:     1
+# Time:    2026-09-19 08:45 AEST
+# Exit:    0
+---
+Pre-upgrade migrations: 29
+Post-upgrade migrations: 30
+Applied columns:
+  calendar_sources.ics_content
+  calendar_sources.file_name
+
+Normalized configuration table hashes: IDENTICAL
+Foreign-key violations: 0
+
+Preserved row counts:
+  users: 1
+  user_preferences: 1
+  app_shell_settings: 1
+  groups: 3
+  group_permissions: 10
+  user_group_memberships: 1
+  dashboards: 1
+  placeholder_widgets: 10
+  app_widget_instances: 10
+  links_list_items: 4
+  calendar_sources: 1
+  app_shortcuts: 12
+  pihole_instances: 1
+  unifi_instances: 2
+  docker_connections: 2
+  widget_connections: 3
+  integration_configs: 4
+  photo_sources: 1
+  scheduled_jobs: 3
+  oauth_accounts: 1

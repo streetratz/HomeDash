@@ -1,0 +1,15 @@
+$ vitest run src
+
+ RUN  v1.6.1 /workspace/HomeDash/frontend
+
+ ✓ src/hooks/__tests__/useAdaptivePoll.test.ts  (9 tests) 1ms
+ ✓ src/hooks/__tests__/useIdleDetection.test.ts  (5 tests) 14ms
+ ✓ src/hooks/__tests__/useTextOverflow.test.ts  (7 tests) 12ms
+ ✓ src/hooks/__tests__/useDocker.test.ts  (16 tests) 72ms
+
+ Test Files  4 passed (4)
+      Tests  37 passed (37)
+   Start at  10:40:15
+   Duration  671ms (transform 73ms, setup 0ms, collect 228ms, tests 99ms, environment 916ms, prepare 265ms)
+
+exit=0

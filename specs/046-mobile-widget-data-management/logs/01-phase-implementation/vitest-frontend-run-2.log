@@ -1,0 +1,17 @@
+# Command: pnpm --filter frontend exec vitest run StocksConfigForm tests
+# Phase:   01 — Implementation
+# Run:     2
+# Time:    2026-09-19 07:25 AEST
+# Exit:    0
+---
+
+ RUN  v1.6.1 /workspace/HomeDash/frontend
+
+ ✓ src/components/widgets/__tests__/StocksConfigForm.test.ts  (6 tests) 2ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.ui.test.tsx  (1 test) 177ms
+
+ Test Files  2 passed (2)
+      Tests  7 passed (7)
+   Start at  07:35:11
+   Duration  1.25s (transform 196ms, setup 0ms, collect 546ms, tests 179ms, environment 538ms, prepare 84ms)
+

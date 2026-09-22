@@ -1,0 +1,10 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm test:upgrade
+# Phase:   02 - Validation
+# Run:     1
+# Time:    2026-09-20
+# Exit:    0
+---
+$ bash .github/skills/pre-pr-upgrade-gate/run.sh
+Building baseline image from main...
+Building candidate image from current worktree...
+Upgrade gate passed: migrations 32 -> 32; 28 tables preserved; 0 FK violations.

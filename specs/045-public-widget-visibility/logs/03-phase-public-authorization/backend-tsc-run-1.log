@@ -1,0 +1,6 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec tsc --noEmit
+# Phase:   03 — Public Authorization
+# Run:     1
+# Time:    2026-09-18 15:15
+# Exit:    0
+---

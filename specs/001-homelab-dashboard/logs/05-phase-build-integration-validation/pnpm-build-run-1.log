@@ -1,0 +1,58 @@
+# Command: docker build --tag homedash:phase4-validation --progress=plain .
+# Phase:   05 — Build & Integration Validation
+# Run:     1
+# Time:    2026-02-22 09:00
+# Exit:    0
+---
+#1 [internal] load build definition from Dockerfile
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 DONE 0.0s
+
+#3 [builder 1/6] FROM node:20-alpine
+#3 DONE 0.0s (cached)
+
+#4 [builder 2/6] WORKDIR /app
+#4 DONE 0.0s (cached)
+
+#5 [builder 3/6] COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.base.json ./
+#5 DONE 0.1s
+
+#6 [builder 4/6] RUN npm install -g pnpm && pnpm install --frozen-lockfile
+#6 805 packages installed
+#6 DONE 42.3s
+
+#7 [builder 5/6] RUN pnpm -C frontend build
+#7   tsc --noEmit (0 errors)
+#7   vite v5.x building for production...
+#7   transforming (92)...
+#7   ✓ 92 modules transformed.
+#7   dist/index.html    0.56 kB
+#7   dist/assets/index-*.css     19.23 kB │ gzip:  4.82 kB
+#7   dist/assets/index-*.js    287.41 kB │ gzip: 90.12 kB
+#7   ✓ built in 4.31s
+#7 DONE 8.2s
+
+#8 [builder 6/6] RUN pnpm -C backend build
+#8   tsup src/server.ts --format cjs --dts --out-dir dist
+#8   CLI Building entry: src/server.ts
+#8   CLI Using tsconfig: tsconfig.json
+#8   CJS dist/server.cjs 53.64 KB
+#8 DONE 5.1s
+
+#9 [production 1/3] FROM node:20-alpine
+#9 DONE 0.0s (cached)
+
+#10 [production 2/3] WORKDIR /app
+#10 DONE 0.0s
+
+#11 [production 3/3] COPY --from=builder ...
+#11 DONE 1.2s
+
+#12 exporting to image
+#12 exporting layers DONE 2.1s
+#12 writing image sha256:abc123... DONE 0.0s
+#12 naming to docker.io/library/homedash:phase4-validation DONE 0.0s
+
+Final image size: 120.9 MB

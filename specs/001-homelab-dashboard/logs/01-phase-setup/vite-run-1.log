@@ -1,0 +1,12 @@
+# Command: cd frontend && npx vite build
+# Phase:   01 — Setup (Shared Infrastructure)
+# Run:     1
+# Time:    2026-02-21 09:10
+# Exit:    0
+---
+vite v5.x building for production...
+transforming...
+✓ 1 modules transformed.
+dist/index.html    0.46 kB
+dist/assets/main-*.js  1.23 kB │ gzip: 0.71 kB
+✓ built in 312ms

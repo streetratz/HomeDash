@@ -1,0 +1,7 @@
+Browse validation
+
+- Pure browse service/default-selection tests: 10 passed.
+- Browser-like BrowsePanel rendering and interaction tests: 2 passed.
+- Full frontend suite: 18 files, 89 tests passed.
+- Frontend TypeScript: passed.
+- Production frontend build: passed.

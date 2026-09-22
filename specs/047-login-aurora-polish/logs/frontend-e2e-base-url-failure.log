@@ -1,0 +1,12 @@
+Command:
+pnpm --filter frontend exec playwright test tests/e2e/auroraEffects.spec.ts tests/e2e/unauthView.spec.ts --project=chromium --project=mobile-safari
+
+Outcome:
+FAILED — 6 failed, 2 did not run.
+
+Root cause:
+Playwright used its default http://localhost:3000 base URL after the explicit local
+server URL was omitted. Requests failed with connect ECONNREFUSED ::1:3000.
+
+Resolution:
+Re-ran with PLAYWRIGHT_BASE_URL=http://127.0.0.1:3401. All 8 tests passed.

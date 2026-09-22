@@ -1,0 +1,203 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/unit/sonosLibrary.test.ts && pnpm --filter frontend exec vitest run src/components/sonos/__tests__/BrowsePanel.test.tsx src/components/sonos/__tests__/FullScreenSonos.test.tsx
+# Phase:   02 - Implementation
+# Run:     2
+# Time:    2026-09-20
+# Exit:    recorded below
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/unit/sonosLibrary.test.ts  (7 tests) 4ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  07:13:18
+   Duration  860ms (transform 145ms, setup 523ms, collect 70ms, tests 4ms, environment 0ms, prepare 78ms)
+
+
+ RUN  v1.6.1 /workspace/HomeDash/frontend
+
+stderr | src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps primary navigation on one four-column row
+ReferenceError: ResizeObserver is not defined
+    at /workspace/HomeDash/frontend/src/hooks/useTextOverflow.ts:31:22
+    at commitHookEffectListMount (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+    at flushPassiveEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+    at performSyncWorkOnRoot (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+    at flushSyncCallbacks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+ReferenceError: ResizeObserver is not defined
+    at /workspace/HomeDash/frontend/src/hooks/useTextOverflow.ts:31:22
+    at commitHookEffectListMount (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+    at flushPassiveEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+    at performSyncWorkOnRoot (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+    at flushSyncCallbacks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+ReferenceError: ResizeObserver is not defined
+    at /workspace/HomeDash/frontend/src/hooks/useTextOverflow.ts:31:22
+    at commitHookEffectListMount (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+    at flushPassiveEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+    at performSyncWorkOnRoot (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+    at flushSyncCallbacks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+stderr | src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps secondary playback controls collapsed until requested
+ReferenceError: ResizeObserver is not defined
+    at /workspace/HomeDash/frontend/src/hooks/useTextOverflow.ts:31:22
+    at commitHookEffectListMount (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+    at flushPassiveEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+    at performSyncWorkOnRoot (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+    at flushSyncCallbacks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+ReferenceError: ResizeObserver is not defined
+    at /workspace/HomeDash/frontend/src/hooks/useTextOverflow.ts:31:22
+    at commitHookEffectListMount (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+    at flushPassiveEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+    at performSyncWorkOnRoot (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+    at flushSyncCallbacks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+ReferenceError: ResizeObserver is not defined
+    at /workspace/HomeDash/frontend/src/hooks/useTextOverflow.ts:31:22
+    at commitHookEffectListMount (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:23189:26)
+    at commitPassiveMountOnFiber (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24970:11)
+    at commitPassiveMountEffects_complete (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24930:9)
+    at commitPassiveMountEffects_begin (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24917:7)
+    at commitPassiveMountEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24905:3)
+    at flushPassiveEffectsImpl (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27078:3)
+    at flushPassiveEffects (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27023:14)
+    at performSyncWorkOnRoot (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26115:3)
+    at flushSyncCallbacks (/workspace/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:12042:22)
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+The above error occurred in the <MarqueeText> component:
+
+    at MarqueeText (/workspace/HomeDash/frontend/src/components/sonos/MarqueeText.tsx:13:24)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at FullScreenSonos (/workspace/HomeDash/frontend/src/components/sonos/FullScreenSonos.tsx:564:28)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+ ❯ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (2 tests | 2 failed) 126ms
+   ❯ src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps primary navigation on one four-column row
+     → ResizeObserver is not defined
+   ❯ src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps secondary playback controls collapsed until requested
+     → ResizeObserver is not defined
+ ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (6 tests) 317ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps primary navigation on one four-column row
+ FAIL  src/components/sonos/__tests__/FullScreenSonos.test.tsx > FullScreenSonos mobile composition > keeps secondary playback controls collapsed until requested
+ReferenceError: ResizeObserver is not defined
+ ❯ src/hooks/useTextOverflow.ts:31:22
+     29|     checkOverflow();
+     30|
+     31|     const observer = new ResizeObserver(() => {
+       |                      ^
+     32|       checkOverflow();
+     33|     });
+ ❯ commitHookEffectListMount ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:23189:26
+ ❯ commitPassiveMountOnFiber ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24970:11
+ ❯ commitPassiveMountEffects_complete ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24930:9
+ ❯ commitPassiveMountEffects_begin ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24917:7
+ ❯ commitPassiveMountEffects ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:24905:3
+ ❯ flushPassiveEffectsImpl ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27078:3
+ ❯ flushPassiveEffects ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27023:14
+ ❯ performSyncWorkOnRoot ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26115:3
+ ❯ flushSyncCallbacks ../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:12042:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 6 passed (8)
+   Start at  07:13:20
+   Duration  1.80s (transform 269ms, setup 0ms, collect 770ms, tests 443ms, environment 1.25s, prepare 324ms)
+
+undefined
+/workspace/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run src/components/sonos/__tests__/BrowsePanel.test.tsx src/components/sonos/__tests__/FullScreenSonos.test.tsx

@@ -1,0 +1,22 @@
+Commands and outcomes:
+
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend test
+  PASS: 57 files, 749 tests.
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter frontend typecheck
+  PASS.
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter frontend test:unit
+  PASS: 27 files, 85 tests.
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm build
+  PASS: backend and frontend production builds.
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm lint
+  PASS: zero errors and zero warnings.
+- pnpm exec prettier --check <new feature files>
+  PASS.
+- PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm test:upgrade
+  PASS: migrations 31 -> 32; 28 tables preserved; 0 foreign-key violations.
+
+Repository-wide backend test typechecking retains only the pre-existing strict
+indexed-access findings in backup/restore tests and the pre-existing unknown cache
+payload finding in publicWidgetSnapshotCache.test.ts. Backend source typechecking
+passes through the production build, frontend typechecking passes, and no new
+typecheck finding remains.

@@ -1,0 +1,12 @@
+# Command: final post-validation export and repeated scans
+# Phase:   06 - Candidate Export and Scanning
+# Run:     3
+# Time:    2026-09-22 21:48 UTC
+# Exit:    0
+---
+Candidate files: 1217
+Gitleaks exit: 0
+Runtime artifact files: 0
+Runtime artifact directories: 0
+Known private-pattern files: 0
+Git metadata directories: 0

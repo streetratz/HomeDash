@@ -1,0 +1,47 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/unit/publicWidgetSnapshotCache.test.ts tests/integration/publicVisibility.test.ts tests/integration/publicWidgets.test.ts tests/integration/widgetDataPermissions.test.ts
+# Phase:   04 — Public Data Namespace
+# Run:     3
+# Time:    2026-09-18 15:10
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+stdout | tests/integration/widgetDataPermissions.test.ts > Widget data is readable by non-admins (#100)
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/widgetDataPermissions.test.ts > Widget data is readable by non-admins (#100)
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/widgetDataPermissions.test.ts  (35 tests) 620ms
+stdout | tests/integration/publicWidgets.test.ts > GET /api/public/widgets/:widgetId
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicWidgets.test.ts > GET /api/public/widgets/:widgetId
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicWidgets.test.ts  (3 tests) 374ms
+stdout | tests/integration/publicVisibility.test.ts > public widget authorization
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/publicVisibility.test.ts > public widget authorization
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/publicVisibility.test.ts  (4 tests) 256ms
+ ✓ tests/unit/publicWidgetSnapshotCache.test.ts  (3 tests) 2ms
+
+ Test Files  4 passed (4)
+      Tests  45 passed (45)
+   Start at  15:02:16
+   Duration  2.58s (transform 331ms, setup 285ms, collect 887ms, tests 1.25s, environment 0ms, prepare 49ms)
+

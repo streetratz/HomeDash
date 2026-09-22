@@ -1,0 +1,8 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/integration/dockerContainers.test.ts tests/integration/dockerAction.test.ts tests/integration/dockerAuth.test.ts tests/integration/dockerMultiHost.test.ts
+# Phase:   02 - Schema and Backend
+# Run:     2
+# Time:    2026-09-20 18:54 AEST
+# Exit:    0
+---
+Test Files  4 passed (4)
+Tests       37 passed (37)

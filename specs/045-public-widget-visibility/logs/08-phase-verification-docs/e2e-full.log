@@ -1,0 +1,633 @@
+$ playwright test
+
+Running 46 tests using 1 worker
+
+  ✘   1 [chromium] › tests/e2e/backgroundSettings.spec.ts:79:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none (8.0s)
+  ✓   2 [chromium] › tests/e2e/dockerConnection.spec.ts:58:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input (1.0s)
+  ✓   3 [chromium] › tests/e2e/dockerConnection.spec.ts:70:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted (1.0s)
+  ✓   4 [chromium] › tests/e2e/dockerConnection.spec.ts:80:3 › Docker connection form — endpoint formats › rejects a bare host:port (1.0s)
+  ✓   5 [chromium] › tests/e2e/dockerConnection.spec.ts:90:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error (977ms)
+  -   6 [chromium] › tests/e2e/firstRun.spec.ts:16:3 › First-run flow › redirects to /first-run, creates admin, and lands on dashboard shell
+  ✘   7 [chromium] › tests/e2e/iconPicker.spec.ts:164:3 › Icon rendering on links_list widget (T020) › link with iconKey renders a non-Globe icon; link without iconKey renders Globe (2.9s)
+  -   8 [chromium] › tests/e2e/iconPicker.spec.ts:204:8 › IconPicker performance (T023) › icon search returns results within 200ms
+  ✘   9 [chromium] › tests/e2e/importExport.spec.ts:143:3 › Dashboard Import/Export E2E (T022) › export downloads valid JSON; import re-creates it (1.9s)
+  ✘  10 [chromium] › tests/e2e/importExport.spec.ts:242:3 › Dashboard Import/Export E2E (T022) › import with name conflict shows conflict resolution UI (2.5s)
+  ✓  11 [chromium] › tests/e2e/publicWidgetVisibility.spec.ts:26:3 › Public widget visibility › renders through the public namespace and disappears after revocation (4.0s)
+  -  12 [chromium] › tests/e2e/shellSettings.spec.ts:61:3 › Shell settings — admin › updating titleText reflects in shell header
+  -  13 [chromium] › tests/e2e/shellSettings.spec.ts:88:3 › Shell settings — admin › updating footerText reflects in footer
+  -  14 [chromium] › tests/e2e/shellSettings.spec.ts:113:3 › Shell settings — admin › enabling clock strip shows it on the dashboard
+  -  15 [chromium] › tests/e2e/theme.spec.ts:58:3 › Theme toggle — unauthenticated user › toggling theme persists in localStorage after page reload
+  -  16 [chromium] › tests/e2e/theme.spec.ts:96:3 › Theme toggle — authenticated admin › toggling theme persists server-side after page reload
+  ✓  17 [chromium] › tests/e2e/unauthView.spec.ts:31:3 › Unauthenticated view › shows read-only dashboard shell without redirecting to first-run (213ms)
+  ✓  18 [chromium] › tests/e2e/unauthView.spec.ts:52:3 › Unauthenticated view › login page is accessible from the login link (410ms)
+  ✘  19 [chromium] › tests/e2e/widgetTypes.spec.ts:141:3 › Clock/Date widget — E2E (US4) › 12hr clock shows AM/PM and updates live (30.0s)
+  ✘  20 [chromium] › tests/e2e/widgetTypes.spec.ts:176:3 › Clock/Date widget — E2E (US4) › 24hr clock shows time in HH:MM range (30.0s)
+  ✘  21 [chromium] › tests/e2e/widgetTypes.spec.ts:207:3 › Clock/Date widget — E2E (US4) › unconfigured timezone defaults to browser-local (30.0s)
+  ✘  22 [chromium] › tests/e2e/widgetTypes.spec.ts:231:3 › Clock/Date widget — E2E (US4) › configured timezone displays timezone label (30.0s)
+  ✘  23 [chromium] › tests/e2e/widgetTypes.spec.ts:258:3 › Clock/Date widget — E2E (US4) › invalid timezone falls back gracefully (no crash) (30.0s)
+  ✘  24 [mobile-safari] › tests/e2e/backgroundSettings.spec.ts:79:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none (0ms)
+  ✘  25 [mobile-safari] › tests/e2e/dockerConnection.spec.ts:58:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input (1ms)
+  ✘  26 [mobile-safari] › tests/e2e/dockerConnection.spec.ts:70:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted (1ms)
+  ✘  27 [mobile-safari] › tests/e2e/dockerConnection.spec.ts:80:3 › Docker connection form — endpoint formats › rejects a bare host:port (1ms)
+  ✘  28 [mobile-safari] › tests/e2e/dockerConnection.spec.ts:90:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error (1ms)
+  ✘  29 [mobile-safari] › tests/e2e/firstRun.spec.ts:16:3 › First-run flow › redirects to /first-run, creates admin, and lands on dashboard shell (0ms)
+  ✘  30 [mobile-safari] › tests/e2e/iconPicker.spec.ts:164:3 › Icon rendering on links_list widget (T020) › link with iconKey renders a non-Globe icon; link without iconKey renders Globe (0ms)
+  -  31 [mobile-safari] › tests/e2e/iconPicker.spec.ts:204:8 › IconPicker performance (T023) › icon search returns results within 200ms
+  ✘  32 [mobile-safari] › tests/e2e/importExport.spec.ts:143:3 › Dashboard Import/Export E2E (T022) › export downloads valid JSON; import re-creates it (0ms)
+  ✘  33 [mobile-safari] › tests/e2e/importExport.spec.ts:242:3 › Dashboard Import/Export E2E (T022) › import with name conflict shows conflict resolution UI (0ms)
+  ✘  34 [mobile-safari] › tests/e2e/publicWidgetVisibility.spec.ts:26:3 › Public widget visibility › renders through the public namespace and disappears after revocation (0ms)
+  ✘  35 [mobile-safari] › tests/e2e/shellSettings.spec.ts:61:3 › Shell settings — admin › updating titleText reflects in shell header (0ms)
+  ✘  36 [mobile-safari] › tests/e2e/shellSettings.spec.ts:88:3 › Shell settings — admin › updating footerText reflects in footer (0ms)
+  ✘  37 [mobile-safari] › tests/e2e/shellSettings.spec.ts:113:3 › Shell settings — admin › enabling clock strip shows it on the dashboard (0ms)
+  ✘  38 [mobile-safari] › tests/e2e/theme.spec.ts:58:3 › Theme toggle — unauthenticated user › toggling theme persists in localStorage after page reload (0ms)
+  ✘  39 [mobile-safari] › tests/e2e/theme.spec.ts:96:3 › Theme toggle — authenticated admin › toggling theme persists server-side after page reload (0ms)
+  ✘  40 [mobile-safari] › tests/e2e/unauthView.spec.ts:31:3 › Unauthenticated view › shows read-only dashboard shell without redirecting to first-run (2ms)
+  ✘  41 [mobile-safari] › tests/e2e/unauthView.spec.ts:52:3 › Unauthenticated view › login page is accessible from the login link (0ms)
+  ✘  42 [mobile-safari] › tests/e2e/widgetTypes.spec.ts:141:3 › Clock/Date widget — E2E (US4) › 12hr clock shows AM/PM and updates live (0ms)
+  ✘  43 [mobile-safari] › tests/e2e/widgetTypes.spec.ts:176:3 › Clock/Date widget — E2E (US4) › 24hr clock shows time in HH:MM range (0ms)
+  ✘  44 [mobile-safari] › tests/e2e/widgetTypes.spec.ts:207:3 › Clock/Date widget — E2E (US4) › unconfigured timezone defaults to browser-local (0ms)
+  ✘  45 [mobile-safari] › tests/e2e/widgetTypes.spec.ts:231:3 › Clock/Date widget — E2E (US4) › configured timezone displays timezone label (1ms)
+  ✘  46 [mobile-safari] › tests/e2e/widgetTypes.spec.ts:258:3 › Clock/Date widget — E2E (US4) › invalid timezone falls back gracefully (no crash) (0ms)
+
+
+  1) [chromium] › tests/e2e/backgroundSettings.spec.ts:79:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('input[type="color"]')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('input[type="color"]')[22m
+
+
+      103 |       // A color picker input should now be visible
+      104 |       const colorPicker = page.locator('input[type="color"]');
+    > 105 |       await expect(colorPicker).toBeVisible();
+          |                                 ^
+      106 |
+      107 |       // Set a specific hex color via the text input
+      108 |       const hexInput = page.locator('input[placeholder="#1e293b"]');
+        at /workspace/HomeDash/frontend/tests/e2e/backgroundSettings.spec.ts:105:33
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/backgroundSettings-Backgro-079c0-sistence-then-reset-to-none-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/backgroundSettings-Backgro-079c0-sistence-then-reset-to-none-chromium/error-context.md
+
+  2) [chromium] › tests/e2e/iconPicker.spec.ts:164:3 › Icon rendering on links_list widget (T020) › link with iconKey renders a non-Globe icon; link without iconKey renders Globe 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('a[href="https://github.com"]').locator('svg')
+    Expected: visible
+    Error: strict mode violation: locator('a[href="https://github.com"]').locator('svg') resolved to 2 elements:
+        1) <svg width="24" height="24" fill="none" stroke-width="2" aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" class="lucide lucide-globe h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground">…</svg> aka getByRole('link', { name: 'GitHub Link' })
+        2) <svg width="24" height="24" fill="none" stroke-width="2" aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" class="lucide lucide-external-link h-3 w-3 shrink-0 text-muted-foreground/50 opacity-0 transition-opacity group-hover:opacity-100">…</svg> aka getByRole('link', { name: 'GitHub Link' })
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('a[href="https://github.com"]').locator('svg')[22m
+
+
+      179 |       const githubLink = page.locator('a[href="https://github.com"]');
+      180 |       const githubSvg = githubLink.locator('svg');
+    > 181 |       await expect(githubSvg).toBeVisible();
+          |                               ^
+      182 |
+      183 |       // The Plain Link should also have an SVG (the Globe default).
+      184 |       const plainLink = page.locator('a[href="https://example.com"]');
+        at /workspace/HomeDash/frontend/tests/e2e/iconPicker.spec.ts:181:31
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/iconPicker-Icon-rendering--f2c42-thout-iconKey-renders-Globe-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/iconPicker-Icon-rendering--f2c42-thout-iconKey-renders-Globe-chromium/error-context.md
+
+  3) [chromium] › tests/e2e/importExport.spec.ts:143:3 › Dashboard Import/Export E2E (T022) › export downloads valid JSON; import re-creates it 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m1[39m
+    Received: [31m2[39m
+
+      176 |       };
+      177 |
+    > 178 |       expect(exported.version).toBe(1);
+          |                                ^
+      179 |       expect(exported.dashboard.name).toBe(dashName);
+      180 |       expect(exported.dashboard.applicability).toBe('both');
+      181 |       expect(exported.placeholders).toHaveLength(1);
+        at /workspace/HomeDash/frontend/tests/e2e/importExport.spec.ts:178:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/importExport-Dashboard-Imp-749de-d-JSON-import-re-creates-it-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/importExport-Dashboard-Imp-749de-d-JSON-import-re-creates-it-chromium/error-context.md
+
+  4) [chromium] › tests/e2e/importExport.spec.ts:242:3 › Dashboard Import/Export E2E (T022) › import with name conflict shows conflict resolution UI 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('Conflict E2E 1789709292654 (Alt)')
+    Expected: visible
+    Error: strict mode violation: getByText('Conflict E2E 1789709292654 (Alt)') resolved to 2 elements:
+        1) <div class="tracking-tight text-base font-semibold leading-tight">Conflict E2E 1789709292654 (Alt)</div> aka getByText('Conflict E2E 1789709292654 (Alt)', { exact: true })
+        2) <div class="" data-title="">Dashboard "Conflict E2E 1789709292654 (Alt)" impo…</div> aka getByText('Dashboard "Conflict E2E')
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByText('Conflict E2E 1789709292654 (Alt)')[22m
+
+
+      305 |
+      306 |         // The imported dashboard with alt name should appear
+    > 307 |         await expect(page.getByText(altName)).toBeVisible();
+          |                                               ^
+      308 |
+      309 |         // Clean up alt dashboard
+      310 |         await deleteDashboardByName(page, csrf, altName);
+        at /workspace/HomeDash/frontend/tests/e2e/importExport.spec.ts:307:47
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/importExport-Dashboard-Imp-43822-hows-conflict-resolution-UI-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/importExport-Dashboard-Imp-43822-hows-conflict-resolution-UI-chromium/error-context.md
+
+  5) [chromium] › tests/e2e/widgetTypes.spec.ts:141:3 › Clock/Date widget — E2E (US4) › 12hr clock shows AM/PM and updates live 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "/" until "load"
+    ============================================================
+
+      49 |   await page.getByLabel('Password').fill('strongpassword1');
+      50 |   await page.getByRole('button', { name: /sign in/i }).click();
+    > 51 |   await page.waitForURL('/');
+         |              ^
+      52 |
+      53 |   // Fetch CSRF from /api/auth/me — page.request shares the page's cookies
+      54 |   const meRes = await api.get('/api/auth/me');
+        at ensureAdminAndLogin (/workspace/HomeDash/frontend/tests/e2e/widgetTypes.spec.ts:51:14)
+        at /workspace/HomeDash/frontend/tests/e2e/widgetTypes.spec.ts:142:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/widgetTypes-Clock-Date-wid-617af-hows-AM-PM-and-updates-live-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/widgetTypes-Clock-Date-wid-617af-hows-AM-PM-and-updates-live-chromium/error-context.md
+
+  6) [chromium] › tests/e2e/widgetTypes.spec.ts:176:3 › Clock/Date widget — E2E (US4) › 24hr clock shows time in HH:MM range 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "/" until "load"
+    ============================================================
+
+      49 |   await page.getByLabel('Password').fill('strongpassword1');
+      50 |   await page.getByRole('button', { name: /sign in/i }).click();
+    > 51 |   await page.waitForURL('/');
+         |              ^
+      52 |
+      53 |   // Fetch CSRF from /api/auth/me — page.request shares the page's cookies
+      54 |   const meRes = await api.get('/api/auth/me');
+        at ensureAdminAndLogin (/workspace/HomeDash/frontend/tests/e2e/widgetTypes.spec.ts:51:14)
+        at /workspace/HomeDash/frontend/tests/e2e/widgetTypes.spec.ts:177:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/widgetTypes-Clock-Date-wid-e45a3-k-shows-time-in-HH-MM-range-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/widgetTypes-Clock-Date-wid-e45a3-k-shows-time-in-HH-MM-range-chromium/error-context.md
+
+  7) [chromium] › tests/e2e/widgetTypes.spec.ts:207:3 › Clock/Date widget — E2E (US4) › unconfigured timezone defaults to browser-local 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "/" until "load"
+    ============================================================
+
+      49 |   await page.getByLabel('Password').fill('strongpassword1');
+      50 |   await page.getByRole('button', { name: /sign in/i }).click();
+    > 51 |   await page.waitForURL('/');
+         |              ^
+      52 |
+      53 |   // Fetch CSRF from /api/auth/me — page.request shares the page's cookies
+      54 |   const meRes = await api.get('/api/auth/me');
+        at ensureAdminAndLogin (/workspace/HomeDash/frontend/tests/e2e/widgetTypes.spec.ts:51:14)
+        at /workspace/HomeDash/frontend/tests/e2e/widgetTypes.spec.ts:208:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/widgetTypes-Clock-Date-wid-95c2c-e-defaults-to-browser-local-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/widgetTypes-Clock-Date-wid-95c2c-e-defaults-to-browser-local-chromium/error-context.md
+
+  8) [chromium] › tests/e2e/widgetTypes.spec.ts:231:3 › Clock/Date widget — E2E (US4) › configured timezone displays timezone label 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "/" until "load"
+    ============================================================
+
+      49 |   await page.getByLabel('Password').fill('strongpassword1');
+      50 |   await page.getByRole('button', { name: /sign in/i }).click();
+    > 51 |   await page.waitForURL('/');
+         |              ^
+      52 |
+      53 |   // Fetch CSRF from /api/auth/me — page.request shares the page's cookies
+      54 |   const meRes = await api.get('/api/auth/me');
+        at ensureAdminAndLogin (/workspace/HomeDash/frontend/tests/e2e/widgetTypes.spec.ts:51:14)
+        at /workspace/HomeDash/frontend/tests/e2e/widgetTypes.spec.ts:232:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/widgetTypes-Clock-Date-wid-38e7e-one-displays-timezone-label-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/widgetTypes-Clock-Date-wid-38e7e-one-displays-timezone-label-chromium/error-context.md
+
+  9) [chromium] › tests/e2e/widgetTypes.spec.ts:258:3 › Clock/Date widget — E2E (US4) › invalid timezone falls back gracefully (no crash) 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "/" until "load"
+    ============================================================
+
+      49 |   await page.getByLabel('Password').fill('strongpassword1');
+      50 |   await page.getByRole('button', { name: /sign in/i }).click();
+    > 51 |   await page.waitForURL('/');
+         |              ^
+      52 |
+      53 |   // Fetch CSRF from /api/auth/me — page.request shares the page's cookies
+      54 |   const meRes = await api.get('/api/auth/me');
+        at ensureAdminAndLogin (/workspace/HomeDash/frontend/tests/e2e/widgetTypes.spec.ts:51:14)
+        at /workspace/HomeDash/frontend/tests/e2e/widgetTypes.spec.ts:261:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/widgetTypes-Clock-Date-wid-e6157-s-back-gracefully-no-crash--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/widgetTypes-Clock-Date-wid-e6157-s-back-gracefully-no-crash--chromium/error-context.md
+
+  10) [mobile-safari] › tests/e2e/backgroundSettings.spec.ts:79:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/backgroundSettings-Backgro-079c0-sistence-then-reset-to-none-mobile-safari/error-context.md
+
+  11) [mobile-safari] › tests/e2e/dockerConnection.spec.ts:58:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-c20e3-ault-ports-before-any-input-mobile-safari/error-context.md
+
+  12) [mobile-safari] › tests/e2e/dockerConnection.spec.ts:70:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-9ef9b-t-and-says-what-is-accepted-mobile-safari/error-context.md
+
+  13) [mobile-safari] › tests/e2e/dockerConnection.spec.ts:80:3 › Docker connection form — endpoint formats › rejects a bare host:port 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-1b304-ts-rejects-a-bare-host-port-mobile-safari/error-context.md
+
+  14) [mobile-safari] › tests/e2e/dockerConnection.spec.ts:90:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/dockerConnection-Docker-co-bf1bf-ectivity-not-a-format-error-mobile-safari/error-context.md
+
+  15) [mobile-safari] › tests/e2e/firstRun.spec.ts:16:3 › First-run flow › redirects to /first-run, creates admin, and lands on dashboard shell 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/firstRun-First-run-flow-re-e2c48-nd-lands-on-dashboard-shell-mobile-safari/error-context.md
+
+  16) [mobile-safari] › tests/e2e/iconPicker.spec.ts:164:3 › Icon rendering on links_list widget (T020) › link with iconKey renders a non-Globe icon; link without iconKey renders Globe 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/iconPicker-Icon-rendering--f2c42-thout-iconKey-renders-Globe-mobile-safari/error-context.md
+
+  17) [mobile-safari] › tests/e2e/importExport.spec.ts:143:3 › Dashboard Import/Export E2E (T022) › export downloads valid JSON; import re-creates it 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/importExport-Dashboard-Imp-749de-d-JSON-import-re-creates-it-mobile-safari/error-context.md
+
+  18) [mobile-safari] › tests/e2e/importExport.spec.ts:242:3 › Dashboard Import/Export E2E (T022) › import with name conflict shows conflict resolution UI 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/importExport-Dashboard-Imp-43822-hows-conflict-resolution-UI-mobile-safari/error-context.md
+
+  19) [mobile-safari] › tests/e2e/publicWidgetVisibility.spec.ts:26:3 › Public widget visibility › renders through the public namespace and disappears after revocation 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/publicWidgetVisibility-Pub-96ef4-disappears-after-revocation-mobile-safari/error-context.md
+
+  20) [mobile-safari] › tests/e2e/shellSettings.spec.ts:61:3 › Shell settings — admin › updating titleText reflects in shell header 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/shellSettings-Shell-settin-3cee3-xt-reflects-in-shell-header-mobile-safari/error-context.md
+
+  21) [mobile-safari] › tests/e2e/shellSettings.spec.ts:88:3 › Shell settings — admin › updating footerText reflects in footer 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/shellSettings-Shell-settin-b4aec-oterText-reflects-in-footer-mobile-safari/error-context.md
+
+  22) [mobile-safari] › tests/e2e/shellSettings.spec.ts:113:3 › Shell settings — admin › enabling clock strip shows it on the dashboard 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/shellSettings-Shell-settin-51677-p-shows-it-on-the-dashboard-mobile-safari/error-context.md
+
+  23) [mobile-safari] › tests/e2e/theme.spec.ts:58:3 › Theme toggle — unauthenticated user › toggling theme persists in localStorage after page reload 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/theme-Theme-toggle-—-unaut-1d187-alStorage-after-page-reload-mobile-safari/error-context.md
+
+  24) [mobile-safari] › tests/e2e/theme.spec.ts:96:3 › Theme toggle — authenticated admin › toggling theme persists server-side after page reload 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/theme-Theme-toggle-—-authe-b1821-rver-side-after-page-reload-mobile-safari/error-context.md
+
+  25) [mobile-safari] › tests/e2e/unauthView.spec.ts:31:3 › Unauthenticated view › shows read-only dashboard shell without redirecting to first-run 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/unauthView-Unauthenticated-f1cac-ut-redirecting-to-first-run-mobile-safari/error-context.md
+
+  26) [mobile-safari] › tests/e2e/unauthView.spec.ts:52:3 › Unauthenticated view › login page is accessible from the login link 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/unauthView-Unauthenticated-0cddd-essible-from-the-login-link-mobile-safari/error-context.md
+
+  27) [mobile-safari] › tests/e2e/widgetTypes.spec.ts:141:3 › Clock/Date widget — E2E (US4) › 12hr clock shows AM/PM and updates live 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/widgetTypes-Clock-Date-wid-617af-hows-AM-PM-and-updates-live-mobile-safari/error-context.md
+
+  28) [mobile-safari] › tests/e2e/widgetTypes.spec.ts:176:3 › Clock/Date widget — E2E (US4) › 24hr clock shows time in HH:MM range 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/widgetTypes-Clock-Date-wid-e45a3-k-shows-time-in-HH-MM-range-mobile-safari/error-context.md
+
+  29) [mobile-safari] › tests/e2e/widgetTypes.spec.ts:207:3 › Clock/Date widget — E2E (US4) › unconfigured timezone defaults to browser-local 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/widgetTypes-Clock-Date-wid-95c2c-e-defaults-to-browser-local-mobile-safari/error-context.md
+
+  30) [mobile-safari] › tests/e2e/widgetTypes.spec.ts:231:3 › Clock/Date widget — E2E (US4) › configured timezone displays timezone label 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/widgetTypes-Clock-Date-wid-38e7e-one-displays-timezone-label-mobile-safari/error-context.md
+
+  31) [mobile-safari] › tests/e2e/widgetTypes.spec.ts:258:3 › Clock/Date widget — E2E (US4) › invalid timezone falls back gracefully (no crash) 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/developer/Library/Caches/ms-playwright/webkit-2287/pw_run.sh
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/widgetTypes-Clock-Date-wid-e6157-s-back-gracefully-no-crash--mobile-safari/error-context.md
+
+  31 failed
+    [chromium] › tests/e2e/backgroundSettings.spec.ts:79:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none 
+    [chromium] › tests/e2e/iconPicker.spec.ts:164:3 › Icon rendering on links_list widget (T020) › link with iconKey renders a non-Globe icon; link without iconKey renders Globe 
+    [chromium] › tests/e2e/importExport.spec.ts:143:3 › Dashboard Import/Export E2E (T022) › export downloads valid JSON; import re-creates it 
+    [chromium] › tests/e2e/importExport.spec.ts:242:3 › Dashboard Import/Export E2E (T022) › import with name conflict shows conflict resolution UI 
+    [chromium] › tests/e2e/widgetTypes.spec.ts:141:3 › Clock/Date widget — E2E (US4) › 12hr clock shows AM/PM and updates live 
+    [chromium] › tests/e2e/widgetTypes.spec.ts:176:3 › Clock/Date widget — E2E (US4) › 24hr clock shows time in HH:MM range 
+    [chromium] › tests/e2e/widgetTypes.spec.ts:207:3 › Clock/Date widget — E2E (US4) › unconfigured timezone defaults to browser-local 
+    [chromium] › tests/e2e/widgetTypes.spec.ts:231:3 › Clock/Date widget — E2E (US4) › configured timezone displays timezone label 
+    [chromium] › tests/e2e/widgetTypes.spec.ts:258:3 › Clock/Date widget — E2E (US4) › invalid timezone falls back gracefully (no crash) 
+    [mobile-safari] › tests/e2e/backgroundSettings.spec.ts:79:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none 
+    [mobile-safari] › tests/e2e/dockerConnection.spec.ts:58:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input 
+    [mobile-safari] › tests/e2e/dockerConnection.spec.ts:70:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted 
+    [mobile-safari] › tests/e2e/dockerConnection.spec.ts:80:3 › Docker connection form — endpoint formats › rejects a bare host:port 
+    [mobile-safari] › tests/e2e/dockerConnection.spec.ts:90:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error 
+    [mobile-safari] › tests/e2e/firstRun.spec.ts:16:3 › First-run flow › redirects to /first-run, creates admin, and lands on dashboard shell 
+    [mobile-safari] › tests/e2e/iconPicker.spec.ts:164:3 › Icon rendering on links_list widget (T020) › link with iconKey renders a non-Globe icon; link without iconKey renders Globe 
+    [mobile-safari] › tests/e2e/importExport.spec.ts:143:3 › Dashboard Import/Export E2E (T022) › export downloads valid JSON; import re-creates it 
+    [mobile-safari] › tests/e2e/importExport.spec.ts:242:3 › Dashboard Import/Export E2E (T022) › import with name conflict shows conflict resolution UI 
+    [mobile-safari] › tests/e2e/publicWidgetVisibility.spec.ts:26:3 › Public widget visibility › renders through the public namespace and disappears after revocation 
+    [mobile-safari] › tests/e2e/shellSettings.spec.ts:61:3 › Shell settings — admin › updating titleText reflects in shell header 
+    [mobile-safari] › tests/e2e/shellSettings.spec.ts:88:3 › Shell settings — admin › updating footerText reflects in footer 
+    [mobile-safari] › tests/e2e/shellSettings.spec.ts:113:3 › Shell settings — admin › enabling clock strip shows it on the dashboard 
+    [mobile-safari] › tests/e2e/theme.spec.ts:58:3 › Theme toggle — unauthenticated user › toggling theme persists in localStorage after page reload 
+    [mobile-safari] › tests/e2e/theme.spec.ts:96:3 › Theme toggle — authenticated admin › toggling theme persists server-side after page reload 
+    [mobile-safari] › tests/e2e/unauthView.spec.ts:31:3 › Unauthenticated view › shows read-only dashboard shell without redirecting to first-run 
+    [mobile-safari] › tests/e2e/unauthView.spec.ts:52:3 › Unauthenticated view › login page is accessible from the login link 
+    [mobile-safari] › tests/e2e/widgetTypes.spec.ts:141:3 › Clock/Date widget — E2E (US4) › 12hr clock shows AM/PM and updates live 
+    [mobile-safari] › tests/e2e/widgetTypes.spec.ts:176:3 › Clock/Date widget — E2E (US4) › 24hr clock shows time in HH:MM range 
+    [mobile-safari] › tests/e2e/widgetTypes.spec.ts:207:3 › Clock/Date widget — E2E (US4) › unconfigured timezone defaults to browser-local 
+    [mobile-safari] › tests/e2e/widgetTypes.spec.ts:231:3 › Clock/Date widget — E2E (US4) › configured timezone displays timezone label 
+    [mobile-safari] › tests/e2e/widgetTypes.spec.ts:258:3 › Clock/Date widget — E2E (US4) › invalid timezone falls back gracefully (no crash) 
+  8 skipped
+  7 passed (3.1m)
+/workspace/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] frontend@0.1.0 test:e2e: `playwright test`
+Exit status 1

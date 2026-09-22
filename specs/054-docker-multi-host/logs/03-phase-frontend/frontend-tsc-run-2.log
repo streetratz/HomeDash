@@ -1,0 +1,8 @@
+# Command: pnpm --filter frontend typecheck
+# Phase:   03 - Frontend
+# Run:     2
+# Time:    2026-09-20 18:57 AEST
+# Exit:    2
+---
+DockerConnectionPicker.tsx: widgetInstanceId remained string | undefined inside the
+nested save callback after the early-return guard.

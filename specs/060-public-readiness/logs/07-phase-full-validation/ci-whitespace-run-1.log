@@ -1,0 +1,11 @@
+# Command: git diff --check "origin/main...HEAD"
+# Phase:   07 - Full Validation Gates
+# Run:     1
+# Time:    2026-09-22 21:21 UTC
+# Exit:    2
+---
+The PR-wide check found trailing spaces used for Markdown line breaks and trailing
+blank lines in new specification audit files.
+
+Fix: normalize all files under specs/060-public-readiness and verify the complete
+working branch with git diff origin/main --check.

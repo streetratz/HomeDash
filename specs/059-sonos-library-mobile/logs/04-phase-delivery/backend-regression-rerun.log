@@ -1,0 +1,11 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/unit/sonosLibrary.test.ts  (9 tests) 4ms
+ ✓ tests/unit/spotifySearch.test.ts  (1 test) 1ms
+
+ Test Files  2 passed (2)
+      Tests  10 passed (10)
+   Start at  08:33:48
+   Duration  579ms (transform 124ms, setup 301ms, collect 96ms, tests 5ms, environment 0ms, prepare 53ms)

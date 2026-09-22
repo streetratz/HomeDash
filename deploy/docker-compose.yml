@@ -1,0 +1,62 @@
+# HomeDash — Docker Compose for a NAS or Linux host
+# Place this file + the image on your NAS and run:
+#   docker-compose up -d
+#
+# Uses host networking for UPnP/SSDP multicast (Sonos speaker discovery).
+# The app listens on PORT directly — no port mapping needed.
+
+services:
+  homedash:
+    image: ghcr.io/streetratz/homedash:latest
+    container_name: homedash
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      # Data volume: use a named volume (docker volume inspect homedash-data to find path)
+      # Or use a host path instead: /path/to/homedash-data:/app/data
+      - homedash-data:/app/data
+      # Optional read-only photo library:
+      # - /path/to/photos:/photos:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+      - PORT=3100
+      - TZ=UTC
+      - HOMEDASH_DATA_DIR=/app/data
+      - HOMEDASH_SESSION_SECRET=${HOMEDASH_SESSION_SECRET:?set a persistent secret}
+      - COOKIE_SECURE=false
+      - LOG_LEVEL=info
+      # Uncomment for debug logging to file:
+      # - LOG_LEVEL=debug
+      # - LOG_FILE=/app/data/homedash.log
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3100/api/health').then(r => process.exit(r.ok ? 0 : 1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  # Watchtower — auto-pulls new images from GHCR and recreates containers
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower-homedash
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # GHCR credentials — create with:
+      #   echo '{"auths":{"ghcr.io":{"auth":"'$(echo -n "USERNAME:YOUR_PAT" | base64)'"}}}' > ./docker-config.json
+      - ./docker-config.json:/config.json:ro
+    environment:
+      - TZ=UTC
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=300
+      - WATCHTOWER_LABEL_ENABLE=true
+      - DOCKER_CONFIG=/
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
+
+volumes:
+  homedash-data:
+    driver: local

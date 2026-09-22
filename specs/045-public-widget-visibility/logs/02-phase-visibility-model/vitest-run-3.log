@@ -1,0 +1,146 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/integration/dashboards.test.ts tests/integration/dashboardImport.test.ts tests/integration/dashboardExport.test.ts
+# Phase:   02 — Visibility Model
+# Run:     3
+# Time:    2026-09-18 15:05
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+stdout | tests/integration/dashboardImport.test.ts > Dashboard Import
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboardImport.test.ts > Dashboard Import
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboardImport.test.ts > Dashboard Import — Security (T024)
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboardImport.test.ts > Dashboard Import — Security (T024)
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboardImport.test.ts > Import/Export Round-Trip
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboardImport.test.ts > Import/Export Round-Trip
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/dashboardImport.test.ts  (22 tests) 659ms
+stdout | tests/integration/dashboards.test.ts > Dashboard CRUD
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Dashboard CRUD
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Placeholder CRUD
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Placeholder CRUD
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Widget CRUD
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Widget CRUD
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Link CRUD
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Link CRUD
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Layout Update
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Layout Update
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > GET /api/dashboards/:id (authenticated)
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > GET /api/dashboards/:id (authenticated)
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Icon Cache
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Icon Cache
+[scheduler] All jobs stopped
+
+stdout | tests/integration/dashboards.test.ts > Widget config validation in layout save
+[scheduler] System job already exists: Calendar Sync
+[scheduler] System job already exists: Database Backup
+[scheduler] System job already exists: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboards.test.ts > Widget config validation in layout save
+[scheduler] All jobs stopped
+
+ ❯ tests/integration/dashboards.test.ts  (43 tests | 1 failed) 1197ms
+   ❯ tests/integration/dashboards.test.ts > Widget CRUD > POST creates a widget
+     → expected undefined to be null
+stdout | tests/integration/dashboardExport.test.ts > Dashboard Export
+[scheduler] Seeded system job: Calendar Sync
+[scheduler] Seeded system job: Database Backup
+[scheduler] Seeded system job: Portable Backup
+[scheduler] Started 3 jobs
+
+stdout | tests/integration/dashboardExport.test.ts > Dashboard Export
+[scheduler] All jobs stopped
+
+ ✓ tests/integration/dashboardExport.test.ts  (8 tests) 256ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/dashboards.test.ts > Widget CRUD > POST creates a widget
+AssertionError: expected undefined to be null
+ ❯ tests/integration/dashboards.test.ts:303:40
+    301|     expect(body['type']).toBe('links_list');
+    302|     expect(body['publicVisibility']).toBe('hidden');
+    303|     expect(body['publicSourceUserId']).toBeNull();
+       |                                        ^
+    304|   });
+    305| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 72 passed (73)
+   Start at  14:56:12
+   Duration  3.26s (transform 336ms, setup 263ms, collect 743ms, tests 2.11s, environment 0ms, prepare 37ms)
+
+undefined
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/integration/dashboards.test.ts tests/integration/dashboardImport.test.ts tests/integration/dashboardExport.test.ts

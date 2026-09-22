@@ -1,0 +1,31 @@
+Focused tests:
+  pnpm --filter frontend exec vitest run src/components/settings/__tests__/CalendarSourceEditing.test.tsx
+  PASS — 1 file, 3 tests
+
+Frontend unit suite:
+  pnpm --filter frontend test:unit
+  PASS — 19 files, 70 tests
+
+Frontend typecheck:
+  pnpm --filter frontend typecheck
+  PASS
+
+Frontend production build:
+  pnpm --filter frontend build
+  PASS
+  NOTE — pre-existing Vite large-chunk warning remains non-blocking
+
+Lint gate:
+  PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm lint
+  PASS — zero errors, zero warnings
+
+Upgrade gate:
+  pnpm test:upgrade
+  PASS — migrations 31 -> 31; 28 tables preserved; 0 FK violations
+
+Whitespace validation:
+  git diff --check
+  PASS
+
+Final review:
+  PASS — no significant code, accessibility, security, or UI findings

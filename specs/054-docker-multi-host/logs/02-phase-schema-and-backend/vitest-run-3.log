@@ -1,0 +1,7 @@
+Command:
+PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec vitest run tests/contract/openapi.test.ts tests/integration/dockerContainers.test.ts tests/integration/dockerAction.test.ts tests/integration/dockerAuth.test.ts tests/integration/dockerMultiHost.test.ts
+
+Outcome: PASS
+
+Test Files: 5 passed (5)
+Tests: 65 passed (65)

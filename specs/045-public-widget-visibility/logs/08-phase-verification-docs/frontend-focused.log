@@ -1,0 +1,11 @@
+
+ RUN  v1.6.1 /workspace/HomeDash/frontend
+
+ ✓ src/components/widgets/__tests__/publicWidgetMode.test.tsx  (2 tests) 60ms
+ ✓ src/components/__tests__/widgetVisibility.test.tsx  (3 tests) 73ms
+
+ Test Files  2 passed (2)
+      Tests  5 passed (5)
+   Start at  15:25:16
+   Duration  1.86s (transform 817ms, setup 1ms, collect 1.59s, tests 133ms, environment 917ms, prepare 120ms)
+

@@ -1,0 +1,10 @@
+$ eslint . --max-warnings=0
+
+/workspace/HomeDash/backend/tests/unit/sonosLibrary.test.ts
+  35:19  error  Unsafe return of a value of type `any`  @typescript-eslint/no-unsafe-return
+  53:19  error  Unsafe return of a value of type `any`  @typescript-eslint/no-unsafe-return
+  76:21  error  Unsafe return of a value of type `any`  @typescript-eslint/no-unsafe-return
+
+✖ 3 problems (3 errors, 0 warnings)
+
+[ELIFECYCLE] Command failed with exit code 1.

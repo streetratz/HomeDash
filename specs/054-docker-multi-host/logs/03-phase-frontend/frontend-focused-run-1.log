@@ -1,0 +1,8 @@
+Command:
+pnpm --filter frontend typecheck && pnpm --filter frontend exec vitest run src/hooks/__tests__/useDocker.test.ts src/components/widgets/__tests__/DockerWidget.test.tsx src/components/widgets/__tests__/DockerConnectionPicker.test.tsx
+
+Outcome: PASS
+
+Typecheck: PASS
+Test Files: 3 passed (3)
+Tests: 21 passed (21)

@@ -1,0 +1,12 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm --filter backend exec prettier --check tests/integration/calendar-phase7.test.ts
+# Phase:   01 — Calendar test determinism
+# Run:     1
+# Time:    2026-09-18 22:50 AEST
+# Exit:    1
+---
+Checking formatting...
+[warn] tests/integration/calendar-phase7.test.ts
+[warn] Code style issues found in the above file. Run Prettier with --write to fix.
+undefined
+/workspace/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: prettier --check tests/integration/calendar-phase7.test.ts

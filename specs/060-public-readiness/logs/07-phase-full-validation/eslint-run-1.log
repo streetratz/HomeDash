@@ -1,0 +1,15 @@
+# Command: PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm lint
+# Phase:   07 - Full Validation Gates
+# Run:     1
+# Time:    2026-09-22 21:25 UTC
+# Exit:    1
+---
+$ eslint . --max-warnings=0
+
+/Users/developer/Personal/MyGH-Personal/HomeDash/backend/src/config/env.ts
+  148:30  error  '_canonicalSecret' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  149:21  error  '_legacySecret' is assigned a value but never used     @typescript-eslint/no-unused-vars
+
+✖ 2 problems (2 errors, 0 warnings)
+
+[ELIFECYCLE] Command failed with exit code 1.

@@ -1,0 +1,17 @@
+# Command: pnpm --filter backend exec vitest run tests/unit/env.test.ts tests/integration/tokenEncryption.test.ts
+# Phase:   03 - Session Secret Migration
+# Run:     2
+# Time:    2026-09-22 20:44 UTC
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /workspace/HomeDash/backend
+
+ ✓ tests/unit/env.test.ts  (6 tests) 4ms
+ ✓ tests/integration/tokenEncryption.test.ts  (6 tests) 2ms
+
+ Test Files  2 passed (2)
+      Tests  12 passed (12)
+   Start at  06:36:13
+   Duration  373ms (transform 53ms, setup 229ms, collect 11ms, tests 6ms, environment 0ms, prepare 33ms)

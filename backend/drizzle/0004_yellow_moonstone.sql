@@ -1,0 +1,1 @@
+ALTER TABLE `calendar_events` ADD `is_private` integer DEFAULT false NOT NULL;

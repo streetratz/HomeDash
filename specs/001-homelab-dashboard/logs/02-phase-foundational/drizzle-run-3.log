@@ -1,0 +1,19 @@
+# Command: cd backend && npx drizzle-kit generate
+# Phase:   02 — Foundational (Blocking Prerequisites)
+# Run:     3
+# Time:    2026-02-21 14:22
+# Exit:    0
+---
+10 tables
+app_shell_settings 14 columns 0 indexes 3 fks
+app_widget_instances 7 columns 1 indexes 1 fks
+dashboards 9 columns 1 indexes 1 fks
+icon_cache_entries 8 columns 0 indexes 1 fks
+links_list_items 7 columns 1 indexes 1 fks
+placeholder_widgets 12 columns 1 indexes 1 fks
+sessions 6 columns 2 indexes 1 fks
+uploaded_assets 8 columns 0 indexes 0 fks
+user_preferences 5 columns 0 indexes 3 fks
+users 7 columns 1 indexes 0 fks
+
+[✓] Your SQL migration file ➜ drizzle/0000_loving_tyrannus.sql

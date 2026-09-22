@@ -1,0 +1,12 @@
+# Command: cd backend && npx tsc --module CommonJS --strict --target ES2022 --moduleResolution node --esModuleInterop --noEmit tests/helpers/http.ts
+# Phase:   02 — Foundational (Blocking Prerequisites)
+# Run:     3
+# Time:    2026-02-21 15:30
+# Exit:    1
+---
+tests/helpers/http.ts(38,14): error TS2322: Type 'TestAgent<Test>' is not assignable to type 'SuperTest<Test>'.
+  The types of 'options' are incompatible between these types.
+    Type '(url: string) => Test' is not assignable to type '(url: URLType) => Test'.
+      Types of parameters 'url' and 'url' are incompatible.
+        Type 'URLType' is not assignable to type 'string'.
+          Type 'URL' is not assignable to type 'string'.
