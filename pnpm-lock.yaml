@@ -235,8 +235,8 @@ importers:
         specifier: ^3.1.3
         version: 3.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom:
-        specifier: ^6.24.0
-        version: 6.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^6.30.6
+        version: 6.30.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       remark-gfm:
         specifier: ^4
         version: 4.0.1
@@ -325,6 +325,10 @@ packages:
     resolution: {integrity: sha1-fNelnxWzzA3NgDA493knEqfQsVw=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@babel/code-frame/-/code-frame-7.29.0.tgz}
     engines: {node: '>=6.9.0'}
 
+  '@babel/code-frame@7.29.7':
+    resolution: {integrity: sha1-8vu/6ofESiFZDsUVt3iywm2IZuc=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@babel/code-frame/-/code-frame-7.29.7.tgz}
+    engines: {node: '>=6.9.0'}
+
   '@babel/compat-data@7.29.3':
     resolution: {integrity: sha1-4/U0fwWJWWyR0ifMtqVB03+xMHs=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@babel/compat-data/-/compat-data-7.29.3.tgz}
     engines: {node: '>=6.9.0'}
@@ -367,6 +371,10 @@ packages:
     resolution: {integrity: sha1-AQtpOPq3y333SqK7wGqlA7j+X7Q=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@babel/helper-validator-identifier/-/helper-validator-identifier-7.28.5.tgz}
     engines: {node: '>=6.9.0'}
 
+  '@babel/helper-validator-identifier@7.29.7':
+    resolution: {integrity: sha1-vYcITO0MeW7Ea9pJLeboPSnon8I=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@babel/helper-validator-identifier/-/helper-validator-identifier-7.29.7.tgz}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-validator-option@7.27.1':
     resolution: {integrity: sha1-+lL1sefbGrBJRFtCHERxMDiXcC8=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@babel/helper-validator-option/-/helper-validator-option-7.27.1.tgz}
     engines: {node: '>=6.9.0'}
@@ -394,6 +402,10 @@ packages:
 
   '@babel/runtime@7.29.2':
     resolution: {integrity: sha1-mm4tBfS2aS4YAc1PsXatgjkw7V4=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@babel/runtime/-/runtime-7.29.2.tgz}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/runtime@7.29.7':
+    resolution: {integrity: sha1-EgIkUMRaTabY2Ch7GKT/Ldsj92g=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@babel/runtime/-/runtime-7.29.7.tgz}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.28.6':
@@ -1349,13 +1361,13 @@ packages:
     resolution: {integrity: sha1-+cql9QV+v1iUI5RzRgTxYjQrGuA=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@fontsource-variable/outfit/-/outfit-5.2.8.tgz}
 
   '@fontsource-variable/roboto-flex@5.2.8':
-    resolution: {integrity: sha1-7imuhgFwjbo05uZHIVE9a+kHmj0=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@fontsource-variable/roboto-flex/-/roboto-flex-5.2.8.tgz}
+    resolution: {integrity: sha512-Q9zbz+P2VrDeIxBu9YAIG+eYpLmQF5FIJEEwAWn8En9Lao1TOISnoYcywGV+jSv7LGsHEndCR8hveXPnvCBEQQ==, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@fontsource-variable/roboto-flex/-/roboto-flex-5.2.8.tgz}
 
   '@fontsource-variable/space-grotesk@5.2.10':
     resolution: {integrity: sha1-F0SWZR577EjJH1+4YWTA9T1jZLs=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@fontsource-variable/space-grotesk/-/space-grotesk-5.2.10.tgz}
 
   '@fontsource/fira-sans@5.2.7':
-    resolution: {integrity: sha1-8W1Qi5prtTKfHNwa9p1QEAB2ZjA=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@fontsource/fira-sans/-/fira-sans-5.2.7.tgz}
+    resolution: {integrity: sha512-5DE4AealD/VnbwdzMgnpWfCttMQBbteNiK9DCJE7cVwZEbDTPLUoFDMMvxNQ498nZc5in7Mta9c/s+3Ehh0BAg==, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@fontsource/fira-sans/-/fira-sans-5.2.7.tgz}
 
   '@fontsource/poppins@5.2.7':
     resolution: {integrity: sha1-utFFqKYlNAhz+v8flbJU8DLg1Yg=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@fontsource/poppins/-/poppins-5.2.7.tgz}
@@ -2177,7 +2189,7 @@ packages:
     resolution: {integrity: sha1-RuG/Mh7ArB4P0x3qQaPR/L3NoLU=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@redocly/ajv/-/ajv-8.11.2.tgz}
 
   '@redocly/cli@1.34.14':
-    resolution: {integrity: sha1-+vovFYETGYndjVAi1I2ZnCq8qU0=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@redocly/cli/-/cli-1.34.14.tgz}
+    resolution: {integrity: sha512-KDHPQW8JaqZVRwmnLAoqa4c7LpYSjzGD/hverRsktsq2QkbaKNawkSAVZ3kn331+SFnlVJ78c6DQNYPnUPd9AQ==, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@redocly/cli/-/cli-1.34.14.tgz}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
     hasBin: true
 
@@ -2189,11 +2201,11 @@ packages:
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
 
   '@redocly/respect-core@1.34.14':
-    resolution: {integrity: sha1-rze71KZ2XCdoV4C1hLRURbc/nhc=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@redocly/respect-core/-/respect-core-1.34.14.tgz}
+    resolution: {integrity: sha512-Omh1uUBiFrmwXNNipWdUZpQEFlxFVYut1pZDu/QhOHg8BLljUaWCY6nkw4QVtNyUxKd0FOyzm72ZllJIZT9qag==, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@redocly/respect-core/-/respect-core-1.34.14.tgz}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
 
-  '@remix-run/router@1.23.2':
-    resolution: {integrity: sha1-FWxLSBwL7iKhn3kkcopnEg3gaXE=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@remix-run/router/-/router-1.23.2.tgz}
+  '@remix-run/router@1.23.4':
+    resolution: {integrity: sha1-0r7NKvykpAwwplnZE7mwvMKLztg=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/@remix-run/router/-/router-1.23.4.tgz}
     engines: {node: '>=14.0.0'}
 
   '@rolldown/pluginutils@1.0.0-beta.27':
@@ -4883,15 +4895,15 @@ packages:
       react: '>= 16.3'
       react-dom: '>= 16.3'
 
-  react-router-dom@6.30.3:
-    resolution: {integrity: sha1-Qq5txMcVi/sLk18WK5Yhsp3d90A=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/react-router-dom/-/react-router-dom-6.30.3.tgz}
+  react-router-dom@6.30.6:
+    resolution: {integrity: sha1-rK8Ntl7+3avQhAYWJDyX9XizuvM=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/react-router-dom/-/react-router-dom-6.30.6.tgz}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       react: '>=16.8'
       react-dom: '>=16.8'
 
-  react-router@6.30.3:
-    resolution: {integrity: sha1-mUs8zb4Ogf6E1PmYEA9iWE378c8=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/react-router/-/react-router-6.30.3.tgz}
+  react-router@6.30.6:
+    resolution: {integrity: sha1-oq1w80ct5hxh5EGCs+WiX9kfn2g=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/react-router/-/react-router-6.30.6.tgz}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       react: '>=16.8'
@@ -5026,7 +5038,7 @@ packages:
     hasBin: true
 
   rrule-temporal@1.5.3:
-    resolution: {integrity: sha1-FZ7ib7LNsLm0LPS794jlSusDnAA=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/rrule-temporal/-/rrule-temporal-1.5.3.tgz}
+    resolution: {integrity: sha512-qALnXyu4MKNUeykkkO0r6Xxl5or3rM8Cf6ibKIe/29sgmq3tGm1oNq4G1Ddp8Ku3mnKmvC3+3yFAJ3OgOu6OJw==, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/rrule-temporal/-/rrule-temporal-1.5.3.tgz}
 
   run-applescript@7.1.0:
     resolution: {integrity: sha1-Lp5UxGZOwxBsW1Yw4knT1llcSRE=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/run-applescript/-/run-applescript-7.1.0.tgz}
@@ -5815,7 +5827,7 @@ packages:
     engines: {node: '>=10'}
 
   yahoo-finance2@3.14.1:
-    resolution: {integrity: sha1-I4qkZ/LFjK/671YvrKdWzxmRzA8=, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/yahoo-finance2/-/yahoo-finance2-3.14.1.tgz}
+    resolution: {integrity: sha512-66bhnBMaxmtbrnFvhiiKqg4KhpUw5pazVF1QvRAElTOrBVDdLPcYdgEyCVz0PH1T/dYUuEddNrCmOus9DeUPkA==, tarball: https://ms-feed-25.pkgs.visualstudio.com/1es-public/_packaging/npm-public/npm/registry/yahoo-finance2/-/yahoo-finance2-3.14.1.tgz}
     engines: {node: '>=20.0.0'}
     deprecated: yahoo-finance2 v3 is no longer supported. Upgrade to v4, which requires Node.js 22 or newer.
     hasBin: true
@@ -5898,6 +5910,12 @@ snapshots:
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
+  '@babel/code-frame@7.29.7':
+    dependencies:
+      '@babel/helper-validator-identifier': 7.29.7
+      js-tokens: 4.0.0
+      picocolors: 1.1.1
+
   '@babel/compat-data@7.29.3': {}
 
   '@babel/core@7.29.0':
@@ -5960,6 +5978,8 @@ snapshots:
 
   '@babel/helper-validator-identifier@7.28.5': {}
 
+  '@babel/helper-validator-identifier@7.29.7': {}
+
   '@babel/helper-validator-option@7.27.1': {}
 
   '@babel/helpers@7.29.2':
@@ -5982,6 +6002,8 @@ snapshots:
       '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/runtime@7.29.2': {}
+
+  '@babel/runtime@7.29.7': {}
 
   '@babel/template@7.28.6':
     dependencies:
@@ -7426,7 +7448,7 @@ snapshots:
       - ajv
       - supports-color
 
-  '@remix-run/router@1.23.2': {}
+  '@remix-run/router@1.23.4': {}
 
   '@rolldown/pluginutils@1.0.0-beta.27': {}
 
@@ -7521,8 +7543,8 @@ snapshots:
 
   '@testing-library/dom@10.4.1':
     dependencies:
-      '@babel/code-frame': 7.29.0
-      '@babel/runtime': 7.29.2
+      '@babel/code-frame': 7.29.7
+      '@babel/runtime': 7.29.7
       '@types/aria-query': 5.0.4
       aria-query: 5.3.0
       dom-accessibility-api: 0.5.16
@@ -10541,16 +10563,16 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       react-draggable: 4.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
-  react-router-dom@6.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-router-dom@6.30.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@remix-run/router': 1.23.2
+      '@remix-run/router': 1.23.4
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      react-router: 6.30.3(react@18.3.1)
+      react-router: 6.30.6(react@18.3.1)
 
-  react-router@6.30.3(react@18.3.1):
+  react-router@6.30.6(react@18.3.1):
     dependencies:
-      '@remix-run/router': 1.23.2
+      '@remix-run/router': 1.23.4
       react: 18.3.1
 
   react-style-singleton@2.2.3(@types/react@18.3.28)(react@18.3.1):
