@@ -36,6 +36,8 @@ dependency advisories, and validate the application and Docker images on Node 24
 - Production audit findings are reduced to two moderate React Router 6 advisories.
   The SSR-only advisory is not reachable because HomeDash is client-rendered, and
   attacker-controlled login navigation is independently normalized and tested.
+- Dependency review narrowly allows only those two advisory IDs; all other
+  low-or-higher runtime advisories continue to block pull requests.
 - Fastify and its plugins are migrated to compatible Fastify 5 releases.
 
 ## Runtime Outcomes
