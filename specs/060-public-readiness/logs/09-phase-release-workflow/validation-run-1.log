@@ -1,0 +1,5 @@
+Release workflow chaining tests: passed (4 tests)
+Release version tests: passed
+Version state validation: passed
+Full repository lint: passed with zero errors and zero warnings
+Upgrade gate passed: migrations 32 -> 32; 28 tables preserved; 0 FK violations

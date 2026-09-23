@@ -12,6 +12,7 @@
 | 06 | Candidate Export and Scanning | Complete | [06-phase-candidate-scan.md](06-phase-candidate-scan.md) |
 | 07 | Full Validation Gates | Complete | [07-phase-full-validation.md](07-phase-full-validation.md) |
 | 08 | Security and Node 24 Remediation | Complete | [08-phase-security-node24.md](08-phase-security-node24.md) |
+| 09 | Release Workflow Chaining | Complete | [09-phase-release-workflow.md](09-phase-release-workflow.md) |
 
 ## Overall Status
 

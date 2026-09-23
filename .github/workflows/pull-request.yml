@@ -38,6 +38,9 @@ jobs:
       - name: Test release version promotion
         run: pnpm test:release-version
 
+      - name: Test release workflow chaining
+        run: pnpm test:release-workflow
+
       - name: Validate pull request version
         if: github.event_name == 'pull_request'
         run: |

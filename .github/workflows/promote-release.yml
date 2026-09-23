@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   release-upgrade-preflight:
-    if: github.actor == github.repository_owner
+    if: github.actor == github.repository_owner && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,26 +22,25 @@ jobs:
       - name: Checkout proposed main
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          ref: main
+          ref: ${{ github.sha }}
           fetch-depth: 0
 
       - name: Verify upgrade from current release
         run: bash .github/skills/pre-pr-upgrade-gate/run.sh --base-ref origin/release
 
   promote:
-    if: github.actor == github.repository_owner
+    if: github.actor == github.repository_owner && github.ref == 'refs/heads/main'
     needs: release-upgrade-preflight
     runs-on: ubuntu-latest
     environment: release
     permissions:
       contents: write
-      actions: write
 
     steps:
-      - name: Checkout main
+      - name: Checkout validated main
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          ref: main
+          ref: ${{ github.sha }}
           fetch-depth: 0
           ssh-key: ${{ secrets.HOMEDASH_RELEASE_DEPLOY_KEY }}
 
@@ -55,6 +54,14 @@ jobs:
         run: |
           PREVIOUS_TAG=$(git describe --tags --abbrev=0 --match 'v[0-9]*' 2>/dev/null || true)
           echo "tag=$PREVIOUS_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Verify validated main is unchanged
+        run: |
+          CURRENT_MAIN=$(git ls-remote origin refs/heads/main | cut -f1)
+          if [ "$CURRENT_MAIN" != "${{ github.sha }}" ]; then
+            echo "::error::main changed after preflight (${{ github.sha }} -> $CURRENT_MAIN)"
+            exit 1
+          fi
 
       - name: Promote Main Version
         id: version
@@ -75,19 +82,11 @@ jobs:
         run: |
           git add versions.json package.json README.md
           git commit -m "release: v${{ steps.version.outputs.version }}"
-          git push origin main
+          git push origin HEAD:main
 
       - name: Fast-forward release to main
         run: |
-          # Create release branch if it doesn't exist
-          if ! git rev-parse --verify origin/release >/dev/null 2>&1; then
-            git checkout -b release
-          else
-            git checkout release
-            git merge --ff-only main
-          fi
-
-          git push origin release
+          git push origin HEAD:release
 
       - name: Create git tag
         run: |
@@ -130,7 +129,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Trigger Docker build
-        run: gh workflow run "Build & Push to GHCR" --ref release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  publish:
+    if: github.actor == github.repository_owner && github.ref == 'refs/heads/main'
+    needs: promote
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/docker-publish.yml
