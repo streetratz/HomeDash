@@ -30,7 +30,7 @@ async function completeFirstRunIfNeeded(
   await page.waitForURL(/\/first-run/);
   await page.getByLabel('Username').fill('admin');
   await page.getByLabel('Display name').fill('Admin');
-  await page.getByLabel('Password').fill('strongpassword1');
+  await page.getByLabel('Password', { exact: true }).fill('strongpassword1');
   await page.getByTestId('first-run-submit').click();
   await page.waitForURL('/');
   return true;
@@ -41,7 +41,7 @@ async function loginAsAdmin(
 ) {
   await page.goto('/login');
   await page.getByLabel('Username').fill('admin');
-  await page.getByLabel('Password').fill('strongpassword1');
+  await page.getByLabel('Password', { exact: true }).fill('strongpassword1');
   await page.getByRole('button', { name: /sign in/i }).click();
   await page.waitForURL('/');
 }

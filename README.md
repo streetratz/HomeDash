@@ -1,7 +1,7 @@
 # HomeDash
 
 <!-- VERSION-BADGES-START -->
-![Main Version](https://img.shields.io/badge/main-v3.2.8-blue)
+![Main Version](https://img.shields.io/badge/main-v3.2.9-blue)
 ![Release Version](https://img.shields.io/badge/release-v3.2.7-green)
 <!-- VERSION-BADGES-END -->
 ![GHCR Image](https://img.shields.io/badge/ghcr.io-streetratz%2Fhomedash-purple)
@@ -253,7 +253,7 @@ docker save homedash:latest | gzip > homedash-image.tar.gz
 | Frontend | React 18, Vite, Tailwind CSS, shadcn/ui, TanStack Query v5 |
 | Backend | Fastify, Drizzle ORM, SQLite (better-sqlite3), Zod validation |
 | Auth | Session-based with HttpOnly cookies, CSRF protection, OAuth2 (Spotify, Sonos) |
-| Deployment | Docker (multi-stage build) or bare metal with Node.js 20+ |
+| Deployment | Docker (multi-stage build) or bare metal with Node.js 24 |
 
 ---
 

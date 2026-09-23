@@ -12,8 +12,8 @@ rename and clean one-commit cutover.
 
 ## Technical Context
 
-**Language/Version**: TypeScript, Node.js 22
-**Primary Dependencies**: Fastify 4, React 18, Vite, Drizzle ORM, GitHub Actions
+**Language/Version**: TypeScript, Node.js 24
+**Primary Dependencies**: Fastify 5, React 18, Vite, Drizzle ORM, GitHub Actions
 **Storage**: SQLite plus filesystem backup/export artifacts
 **Testing**: Vitest, Testing Library, Playwright, Docker upgrade gate, secret scanning
 **Target Platform**: Docker/GHCR on a LAN-hosted server; GitHub public repository

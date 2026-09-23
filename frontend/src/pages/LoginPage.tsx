@@ -25,10 +25,37 @@ import type { AuthMe } from '../state/bootstrap.js';
 import { bootstrapKeys } from '../state/bootstrap.js';
 import { queryClient } from '../state/queryClient.js';
 
+function hasControlCharacters(value: string): boolean {
+  for (const character of value) {
+    const code = character.charCodeAt(0);
+    if (code <= 0x1f || code === 0x7f) return true;
+  }
+  return false;
+}
+
+export function normalizeReturnTo(value: string | null): string {
+  if (!value || !value.startsWith('/') || value.startsWith('//') || value.includes('\\')) {
+    return '/';
+  }
+
+  try {
+    const decoded = decodeURIComponent(value);
+    if (decoded.startsWith('//') || decoded.includes('\\') || hasControlCharacters(decoded)) {
+      return '/';
+    }
+
+    const base = new URL('https://homedash.invalid');
+    const target = new URL(value, base);
+    return target.origin === base.origin ? `${target.pathname}${target.search}${target.hash}` : '/';
+  } catch {
+    return '/';
+  }
+}
+
 export function LoginPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const returnTo = searchParams.get('returnTo') ?? '/';
+  const returnTo = normalizeReturnTo(searchParams.get('returnTo'));
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

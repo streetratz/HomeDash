@@ -4,6 +4,9 @@ packages:
 
 overrides:
   axios: '>=1.20.0'
+  brace-expansion@5: 5.0.12
+  fast-uri@3: 3.1.6
+  sonos@1.14.3>ip: '-'
 
 allowBuilds:
   argon2: true
@@ -12,3 +15,6 @@ allowBuilds:
   esbuild: true
   protobufjs: false
   sharp: true
+
+patchedDependencies:
+  sonos@1.14.3: patches/sonos@1.14.3.patch

@@ -32,6 +32,7 @@ jobs:
     if: github.actor == github.repository_owner
     needs: release-upgrade-preflight
     runs-on: ubuntu-latest
+    environment: release
     permissions:
       contents: write
       actions: write
@@ -42,11 +43,12 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+          ssh-key: ${{ secrets.HOMEDASH_RELEASE_DEPLOY_KEY }}
 
       - name: Setup Node
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: 22
+          node-version: 24.18.0
 
       - name: Read previous release tag
         id: previous

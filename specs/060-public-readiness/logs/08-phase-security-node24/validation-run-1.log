@@ -1,0 +1,29 @@
+Node runtime: v24.18.0
+
+Backend tests:
+Test Files  61 passed
+Tests       777 passed
+
+Frontend unit tests:
+Test Files  29 passed
+Tests       109 passed
+Focused LoginPage tests: 12 passed
+
+Workspace typecheck: passed
+Workspace production build: passed
+Full repository lint: passed with zero errors and zero warnings
+
+Upgrade gate:
+Upgrade gate passed: migrations 32 -> 32; 28 tables preserved; 0 FK violations.
+
+Root Alpine production image:
+health=healthy
+node=v24.18.0
+
+Alternate slim production image:
+health={"status":"ok"}
+node=v24.18.0
+sqlite=ok argon2=ok sharp=ok
+
+Final diff review: no significant findings
+UI review: not applicable

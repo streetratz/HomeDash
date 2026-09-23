@@ -1,7 +1,7 @@
 # ─── Stage 1: Builder ─────────────────────────────────────────────────────────
 # Installs all deps (dev + prod) so native modules (argon2, better-sqlite3)
 # are compiled for Linux, then builds frontend + backend.
-FROM node:22-alpine AS builder
+FROM node:24.18.0-alpine AS builder
 
 # Build tools required by argon2 and better-sqlite3 native addons
 RUN apk add --no-cache python3 make g++
@@ -22,6 +22,7 @@ RUN npm config set registry "$NPM_REGISTRY" && npm install -g pnpm@11.1.3
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
 COPY backend/package.json  ./backend/
 COPY frontend/package.json ./frontend/
+COPY patches/ ./patches/
 
 RUN pnpm install --frozen-lockfile
 
@@ -37,7 +38,7 @@ RUN pnpm -C frontend build
 RUN pnpm -C backend build
 
 # ─── Stage 2: Production image ────────────────────────────────────────────────
-FROM node:22-alpine AS production
+FROM node:24.18.0-alpine AS production
 
 # argon2 links against libstdc++ at runtime on Alpine.
 # openssh-client provides the `ssh` binary used to reach ssh:// Docker

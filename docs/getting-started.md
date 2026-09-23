@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- **Node.js** 20 LTS or later
+- **Node.js** 24 LTS
 - **pnpm** (package manager)
 
 ## Local Development

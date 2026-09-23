@@ -115,7 +115,7 @@ test.describe('Public widget visibility', () => {
 
       await page.goto('/login');
       await page.getByLabel('Username').fill('admin');
-      await page.getByLabel('Password').fill('strongpassword1');
+      await page.getByLabel('Password', { exact: true }).fill('strongpassword1');
       await page.getByRole('button', { name: /sign in/i }).click();
       await page.waitForURL('/');
       await expect(page.getByRole('link', { name: 'Public Home Assistant' })).toBeVisible();

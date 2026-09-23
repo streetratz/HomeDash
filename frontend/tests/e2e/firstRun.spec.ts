@@ -34,7 +34,7 @@ test.describe('First-run flow', () => {
     // Step 2: Fill in the first-run form
     await page.getByLabel('Username').fill('admin');
     await page.getByLabel('Display name').fill('Admin');
-    await page.getByLabel('Password').fill('strongpassword1');
+    await page.getByLabel('Password', { exact: true }).fill('strongpassword1');
 
     // Step 3: Submit
     await page.getByTestId('first-run-submit').click();

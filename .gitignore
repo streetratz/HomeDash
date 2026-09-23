@@ -83,3 +83,4 @@ resume-session.md
 
 # Local scratch (resume prompts, notes) — never committed
 .local/
+.agent-environment.md

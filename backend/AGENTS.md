@@ -4,7 +4,7 @@ Inherits every rule in the [repository root `AGENTS.md`](../AGENTS.md) and the
 [constitution](../.specify/memory/constitution.md). This file adds backend
 specifics only.
 
-Fastify 4 HTTP API on Node ≥ 20, TypeScript strict, SQLite (better-sqlite3, WAL)
+Fastify 5 HTTP API on Node 24, TypeScript strict, SQLite (better-sqlite3, WAL)
 via Drizzle ORM, Zod validation, pino logging.
 
 ## Layout
