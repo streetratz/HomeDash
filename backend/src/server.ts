@@ -3,14 +3,14 @@
  * T113: Production static serving of frontend build.
  */
 
-import Fastify, { type FastifyServerOptions } from 'fastify';
+import Fastify, { LogController, type FastifyServerOptions } from 'fastify';
 import path from 'node:path';
 import fastifyStatic from '@fastify/static';
 import fastifyCookie from '@fastify/cookie';
 import fastifyRateLimit from '@fastify/rate-limit';
 import fastifyMultipart from '@fastify/multipart';
 import { getEnv } from './config/env.js';
-import { getDataDir } from './config/dataDir.js';
+import { getDataSubDir } from './config/dataDir.js';
 import { registerSecurityHeaders } from './lib/securityHeaders.js';
 import { registerCors } from './lib/cors.js';
 import { registerErrorHandler } from './lib/errors.js';
@@ -60,7 +60,7 @@ export async function buildServer() {
     logger: loggerConfig,
     genReqId: () => crypto.randomUUID(),
     requestIdHeader: 'x-request-id',
-    requestIdLogLabel: 'reqId',
+    logController: new LogController({ requestIdLogLabel: 'reqId' }),
     trustProxy: env.TRUST_PROXY,
   });
   setAppLogger(app.log);
@@ -111,17 +111,19 @@ export async function buildServer() {
     });
   }
 
-  // Serve uploaded assets from data dir at /assets/data/*
+  // Serve only uploaded assets; private runtime state must never be web-readable.
   await app.register(fastifyStatic, {
-    root: getDataDir(),
-    prefix: '/assets/data/',
+    root: getDataSubDir('uploads'),
+    prefix: '/assets/data/uploads/',
     decorateReply: false,
   });
 
   // ── Scheduled job service (T031/T035) ────────────────────────────────────────
   app.addHook('onReady', () => {
     seedSystemJobs();
-    startScheduler();
+    if (env.NODE_ENV !== 'test') {
+      startScheduler();
+    }
   });
 
   app.addHook('onClose', () => {

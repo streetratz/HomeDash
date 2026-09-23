@@ -5,7 +5,7 @@
   "description": "HomeDash API server",
   "main": "dist/server.js",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=24.0.0 <25"
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
@@ -24,24 +24,24 @@
     "openapi:lint": "redocly lint ../specs/001-homelab-dashboard/contracts/openapi.yaml"
   },
   "dependencies": {
-    "@fastify/cookie": "^9.3.0",
-    "@fastify/cors": "^9.0.1",
-    "@fastify/helmet": "^11.1.1",
-    "@fastify/multipart": "^8.3.0",
-    "@fastify/rate-limit": "^9.1.0",
-    "@fastify/static": "^7.0.4",
+    "@fastify/cookie": "^11.1.2",
+    "@fastify/cors": "^11.3.0",
+    "@fastify/helmet": "^13.1.1",
+    "@fastify/multipart": "^10.1.1",
+    "@fastify/rate-limit": "^11.2.0",
+    "@fastify/static": "^10.1.3",
     "argon2": "^0.41.0",
     "better-sqlite3": "^11.3.0",
     "croner": "^10.0.1",
     "drizzle-orm": "0.45.2",
-    "fastify": "^4.28.0",
+    "fastify": "^5.12.4",
     "node-ical": "^0.26.0",
     "pino": "^9.3.2",
     "pino-pretty": "^11.2.1",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.4",
     "sonos": "^1.14.3",
     "ua-parser-js": "^1.0.38",
-    "undici": "^8.1.0",
+    "undici": "^8.10.2",
     "yahoo-finance2": "^3.14.0",
     "zod": "^3.23.8"
   },

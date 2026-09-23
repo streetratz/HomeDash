@@ -26,7 +26,7 @@ Invoke this skill:
 Run from the repository root:
 
 ```bash
-PATH="$HOME/.nvm/versions/node/v22.22.3/bin:$PATH" pnpm lint
+PATH="$HOME/.nvm/versions/node/v24.18.0/bin:$PATH" pnpm lint
 ```
 
 This executes the root script:
@@ -40,7 +40,7 @@ changed-files-only, editor, or IDE lint check.
 
 ## Gate behavior
 
-1. Confirm the command runs under Node 22.
+1. Confirm the command runs under Node 24.
 2. Run `pnpm lint` once after the final edits.
 3. If it exits zero, report the gate as passed.
 4. If it fails:

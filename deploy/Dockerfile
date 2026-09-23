@@ -2,10 +2,16 @@
 # Produces a single container serving both API + frontend static files.
 # Build: docker build --platform linux/amd64 -f deploy/Dockerfile -t homedash:latest .
 
-# ─── Stage 1: Install dependencies ───────────────────────────────────────────
-FROM node:22-slim AS deps
+# ─── Stage 1: Prepare dependency builds ──────────────────────────────────────
+FROM node:24.18.0-slim AS dependency-base
 
 WORKDIR /app
+
+# Node 24 does not have prebuilt better-sqlite3 binaries for every target
+# architecture, so dependency stages must be able to compile native modules.
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends g++ make python3 \
+  && rm -rf /var/lib/apt/lists/*
 
 # Registry configuration must land before any install. It goes to the user
 # config because npm ignores a project-level .npmrc in global mode; pnpm reads
@@ -19,10 +25,19 @@ RUN npm config set registry "$NPM_REGISTRY" && npm install -g pnpm@11.1.3
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
 COPY backend/package.json backend/
 COPY frontend/package.json frontend/
+COPY patches/ patches/
+
+# ─── Stage 2: Install build dependencies ─────────────────────────────────────
+FROM dependency-base AS deps
 
 RUN pnpm install --frozen-lockfile
 
-# ─── Stage 2: Build frontend ─────────────────────────────────────────────────
+# ─── Stage 3: Install production dependencies ────────────────────────────────
+FROM dependency-base AS prod-deps
+
+RUN pnpm install --frozen-lockfile --prod
+
+# ─── Stage 4: Build frontend ─────────────────────────────────────────────────
 FROM deps AS build-frontend
 
 ARG GIT_COMMIT=unknown
@@ -33,14 +48,14 @@ COPY frontend/ frontend/
 COPY backend/src/types/ backend/src/types/
 RUN pnpm --filter frontend exec vite build
 
-# ─── Stage 3: Build backend ──────────────────────────────────────────────────
+# ─── Stage 5: Build backend ──────────────────────────────────────────────────
 FROM deps AS build-backend
 
 COPY backend/ backend/
 RUN pnpm --filter backend run build
 
-# ─── Stage 4: Production image ───────────────────────────────────────────────
-FROM node:22-slim AS production
+# ─── Stage 6: Production image ───────────────────────────────────────────────
+FROM node:24.18.0-slim AS production
 
 # openssh-client provides the `ssh` binary used to reach ssh:// Docker
 # endpoints via `docker system dial-stdio` (043 / FR-035).
@@ -50,16 +65,10 @@ RUN apt-get update \
 
 WORKDIR /app
 
-ARG NPM_REGISTRY=https://packagefeedproxy.microsoft.io/npm/
-COPY .npmrc /root/.npmrc
-RUN npm config set registry "$NPM_REGISTRY" && npm install -g pnpm@11.1.3
-
-# Copy manifests + install prod deps only
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY backend/package.json backend/
-COPY frontend/package.json frontend/
-
-RUN pnpm install --frozen-lockfile --prod
+# Copy the already-built production dependency tree without carrying compiler
+# tooling or package-manager configuration into the runtime image.
+COPY --from=prod-deps /app/node_modules/ node_modules/
+COPY --from=prod-deps /app/backend/node_modules/ backend/node_modules/
 
 # Copy built artifacts
 COPY --from=build-backend /app/backend/dist/ backend/dist/

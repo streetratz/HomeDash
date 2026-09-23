@@ -17,6 +17,19 @@ Scoped files:
 - [`backend/AGENTS.md`](./backend/AGENTS.md)
 - [`frontend/AGENTS.md`](./frontend/AGENTS.md)
 
+## Local environment restrictions
+
+Before installing dependencies, accessing package registries, or using external
+network services, read `.agent-environment.md` at the repository root.
+
+- If the file is missing in a new clone or worktree, ask the user whether the
+  machine has environment, network, proxy, registry, or tool restrictions.
+- Create `.agent-environment.md` with the user's answer before proceeding. If
+  there are no restrictions, create it with `None`.
+- The file is intentionally gitignored and must never be committed or copied
+  into tracked documentation, logs, issues, pull requests, or command output.
+- Treat its contents as binding local operating instructions.
+
 ## Authoritative sources (do not duplicate — read them)
 
 | Source                                                                               | Covers                                                                                                                                                                 |
@@ -35,7 +48,7 @@ document nearest the change.
 ## Repository layout
 
 ```
-backend/          Fastify API server (TypeScript, Node ≥ 20)
+backend/          Fastify API server (TypeScript, Node 24)
 frontend/         React 18 + Vite web UI
 specs/NNN-slug/   Per-feature spec, plan, tasks, logs, changelog-spec.md
 .specify/         Speckit templates, scripts, memory/constitution.md
@@ -110,7 +123,7 @@ generated. Never hand-edit them: regenerate via the owning tool
      prove that the candidate Docker image upgrades a database created by `main`
      without losing pre-existing configuration or violating foreign keys.
   4. [`lint-gate`](./.github/skills/lint-gate/SKILL.md) — run the full local
-     `pnpm lint` command under Node 22 after the final edits.
+     `pnpm lint` command under Node 24 after the final edits.
 - Do not open or merge a PR while any mandatory gate is failing. A passing GitHub
   Actions check is supplemental evidence and does not replace the local lint gate.
 
@@ -118,7 +131,7 @@ generated. Never hand-edit them: regenerate via the owning tool
 
 Run the **smallest** command that covers the change; escalate only if it fails.
 All commands run from the repository root with pnpm 11 (`packageManager` field)
-and Node ≥ 22.13 (root `engines`).
+and Node 24 (root `engines`).
 
 | Scope               | Command                                          |
 | ------------------- | ------------------------------------------------ |

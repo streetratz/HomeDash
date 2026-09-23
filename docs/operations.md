@@ -26,7 +26,7 @@ data remain intact.
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 24
 - The project dependencies installed (`pnpm install`)
 - The backend server should be **stopped** before running the script (to avoid
   SQLite locking issues)

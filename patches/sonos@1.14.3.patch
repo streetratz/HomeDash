@@ -1,0 +1,26 @@
+diff --git a/lib/events/adv-listener.js b/lib/events/adv-listener.js
+index aa1da72997646a3f0965bfa704fb7a5ca25aabb3..77a64c6cddb1c6d5c5160b70edc792955528c548 100644
+--- a/lib/events/adv-listener.js
++++ b/lib/events/adv-listener.js
+@@ -13 +13 @@
+-const ip = require('ip')
++const os = require('os')
+@@ -17 +17,11 @@
+-const listenAddress = process.env.SONOS_LISTENER || ip.address('public')
++function findListenAddress () {
++  const interfaces = os.networkInterfaces()
++  for (const addresses of Object.values(interfaces)) {
++    for (const address of addresses || []) {
++      if (address.family === 'IPv4' && !address.internal) return address.address
++    }
++  }
++  return '127.0.0.1'
++}
++
++const listenAddress = process.env.SONOS_LISTENER || findListenAddress()
+diff --git a/package.json b/package.json
+index dd68aca6561bde5193e0f8dc9d487e346f59bd9f..bba88e89fae5c0510457094c3a933f22cf9b678e 100644
+--- a/package.json
++++ b/package.json
+@@ -47 +46,0 @@
+-    "ip": "^1.1.5",

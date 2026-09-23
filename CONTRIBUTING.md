@@ -12,7 +12,7 @@ Thank you for helping improve HomeDash.
 
 ## Development
 
-HomeDash uses Node.js 22 and pnpm 11.
+HomeDash uses Node.js 24 and pnpm 11.
 
 ```bash
 pnpm install
