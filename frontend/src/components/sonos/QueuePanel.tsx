@@ -61,9 +61,9 @@ export function QueuePanel({ groupId, accent }: QueuePanelProps) {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden">
       {/* Header with clear button */}
-      <div className="flex items-center justify-between mb-2 px-1">
+      <div className="mb-2 flex shrink-0 items-center justify-between px-1">
         <span className="text-[10px] text-white/40">{data.items.length} tracks</span>
         <AlertDialog>
           <AlertDialogTrigger asChild>
@@ -98,7 +98,7 @@ export function QueuePanel({ groupId, accent }: QueuePanelProps) {
       </div>
 
       {/* Track list */}
-      <div className="flex-1 overflow-y-auto scrollbar-hide">
+      <div className="min-h-0 flex-1 overflow-y-auto scrollbar-hide">
         <div className="space-y-0.5">
           {data.items.map((item) => {
             const isCurrent = item.trackNumber === data.currentTrack;

@@ -10,3 +10,10 @@
 - [x] T007 Run targeted tests, typecheck, responsive checks, and Docker preview.
 - [x] T008 Advance Main Version and run all mandatory pre-PR gates.
 - [x] T009 Commit, push, and open a PR that closes #244, #245, and #247.
+- [x] T010 Reopen the feature locally for public issues #8 and #9 without creating a PR.
+- [x] T011 Fix mobile tab height ownership and compact the phone now-playing controls.
+- [x] T012 Add shared playback-aware group selection to widget, fullscreen, screensaver,
+  and public snapshot surfaces.
+- [x] T013 Add focused regression tests and run frontend/backend validation.
+- [x] T014 Record validation and leave the branch ready for local review without
+  opening a PR. Defer the Main Version bump until a PR is requested.

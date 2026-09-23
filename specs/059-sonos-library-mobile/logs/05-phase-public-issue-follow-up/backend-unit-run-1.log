@@ -1,0 +1,50 @@
+# Command: pnpm --filter backend test:unit
+# Phase:   05 - Public Issue Follow-up
+# Run:     1
+# Time:    2026-09-23 12:11 AEST
+# Exit:    0
+---
+Node: v24.18.0
+$ vitest run tests/unit
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/unit/dockerSshTransport.test.ts  (36 tests) 19376ms
+ ✓ tests/unit/sonosDiscovery.test.ts  (14 tests) 1ms
+ ✓ tests/unit/dockerApiVersion.test.ts  (16 tests) 25ms
+ ✓ tests/unit/dockerEndpoint.test.ts  (44 tests) 2ms
+ ✓ tests/unit/detectService.test.ts  (22 tests) 2ms
+ ✓ tests/unit/sonosServices.test.ts  (7 tests) 7ms
+ ✓ tests/unit/sonosLibrary.test.ts  (9 tests) 2ms
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback 1x1 PNG on fetch failure
+[artCache] Art fetch error: https://example.com/broken.jpg Error: network
+    at /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/unit/artCacheService.test.ts:68:53
+    at file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:781:17)
+    at runSuite (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:958:5)
+    at startTests (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:967:3)
+    at file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+    at withEnv (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback on non-200 response
+[artCache] Art fetch failed: https://example.com/missing.jpg (404)
+
+ ✓ tests/unit/artCacheService.test.ts  (9 tests) 93ms
+ ✓ tests/unit/url-validator.test.ts  (17 tests) 72ms
+ ✓ tests/unit/birthdayCalendar.test.ts  (8 tests) 1ms
+ ✓ tests/unit/sonosLabels.test.ts  (11 tests) 1ms
+ ✓ tests/unit/env.test.ts  (6 tests) 1ms
+ ✓ tests/unit/publicWidgetSnapshotCache.test.ts  (3 tests) 2ms
+ ✓ tests/unit/sonosGroupSelection.test.ts  (2 tests)
+ ✓ tests/unit/timezone-validation.test.ts  (4 tests) 2ms
+ ✓ tests/unit/stocksValidation.test.ts  (7 tests) 1ms
+ ✓ tests/unit/spotifySearch.test.ts  (1 test) 1ms
+
+ Test Files  17 passed (17)
+      Tests  216 passed (216)
+   Start at  11:58:41
+   Duration  20.90s (transform 245ms, setup 683ms, collect 271ms, tests 19.59s, environment 0ms, prepare 96ms)

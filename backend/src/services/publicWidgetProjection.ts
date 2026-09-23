@@ -10,10 +10,8 @@ import {
 import { getFxRate, getMarketStatus, getQuotes } from './stock-service.js';
 import { listShortcuts } from './appShortcutService.js';
 import type { ResolvedPublicWidget } from './publicVisibility.js';
-import type {
-  PublicWidgetSnapshot,
-  SnapshotCachePolicy,
-} from './publicWidgetSnapshotCache.js';
+import type { PublicWidgetSnapshot, SnapshotCachePolicy } from './publicWidgetSnapshotCache.js';
+import { selectPreferredSonosGroup } from './sonosGroupSelection.js';
 
 const FAILURE_BACKOFF_MS = 15_000;
 
@@ -53,16 +51,14 @@ async function loadSonos(widget: ResolvedPublicWidget): Promise<unknown> {
   const userId = widget.publicSourceUserId ?? '';
   if (mode === 'cloud' && !userId) throw new Error('Sonos source principal unavailable');
 
-  const householdId = stringValue(widget.config['householdId']) ?? (mode === 'local' ? 'local' : null);
+  const householdId =
+    stringValue(widget.config['householdId']) ?? (mode === 'local' ? 'local' : null);
   if (!householdId) throw new Error('Sonos household unavailable');
 
   const groupsData = await getGroups(userId, householdId);
   const configuredGroupId = stringValue(widget.config['defaultGroupId']);
   const activeGroup =
-    groupsData.groups.find((group) => group.id === configuredGroupId) ??
-    groupsData.groups.find((group) => group.playbackState === 'PLAYBACK_STATE_PLAYING') ??
-    groupsData.groups[0] ??
-    null;
+    selectPreferredSonosGroup(groupsData.groups, configuredGroupId ?? undefined) ?? null;
 
   const [playback, metadata, volume] = activeGroup
     ? await Promise.all([

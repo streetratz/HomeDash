@@ -250,7 +250,8 @@ One read-only now-playing snapshot:
 }
 ```
 
-The loader uses `defaultGroupId`, then a playing group, then the first group.
+The loader prefers playing or buffering groups, then paused groups, then stable idle
+groups. `defaultGroupId` breaks ties within the best available playback state.
 No favorites, queue, library, diagnostics, account email, OAuth status, service
 labels or control endpoints are public.
 

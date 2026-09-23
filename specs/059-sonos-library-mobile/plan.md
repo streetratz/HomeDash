@@ -6,13 +6,13 @@
 
 Make local Sonos ContentDirectory reads resilient across discovered speakers, preserve
 the difference between a genuine empty library and an upstream failure, normalize
-folder ObjectIDs consistently, and simplify only the phone fullscreen composition so
-playback and one navigation layer remain prominent.
+folder ObjectIDs consistently, simplify only the phone fullscreen composition, and
+apply one deterministic playback-aware group-selection policy across Sonos surfaces.
 
 ## Technical Context
 
-**Language/Version**: TypeScript, Node.js 22
-**Primary Dependencies**: Fastify 4, node-sonos, React 18, TanStack Query 5, Tailwind CSS
+**Language/Version**: TypeScript, Node.js 24
+**Primary Dependencies**: Fastify 5, node-sonos, React 18, TanStack Query 5, Tailwind CSS
 **Storage**: N/A
 **Testing**: Vitest, Testing Library, Playwright, Docker upgrade gate
 **Target Platform**: LAN-hosted Docker; phones from 360 px through desktop browsers
@@ -33,7 +33,7 @@ runtime dependency
 | Resilience | ContentDirectory reads use bounded fallback and explicit upstream failure instead of success-shaped empty data. |
 | Mobile/accessibility | Phone navigation uses 44 px targets, visible focus states, horizontal overflow containment, and no hover-only primary actions. |
 | Performance | No new polling or animation library; fallback stops after the first valid response. |
-| Testing | Unit/component tests cover fallback, error/empty distinction, CIFS normalization, and mobile navigation structure. |
+| Testing | Unit/component tests cover fallback, error/empty distinction, CIFS normalization, mobile height ownership, and group-selection priority. |
 
 **Result**: PASS. No constitution exceptions are required.
 
@@ -81,16 +81,33 @@ Keep the desktop (`sm` and wider) two-column presentation. On phones:
 No decorative animation is added. Existing press feedback remains short and
 transform-only.
 
+### Playback-aware group selection
+
+Use a small pure selector in each runtime boundary to rank groups without mutating the
+topology response: playing and buffering first, paused second, idle or stopped third,
+and unavailable or unknown last. Preserve source order within a rank. A configured
+default room may win only within the same rank; a valid room selected during the
+current user session remains authoritative until it disappears.
+
+The authenticated widget, fullscreen controller, and screensaver import the same
+frontend selector. Public widget projection applies the equivalent backend selector
+before fetching playback, metadata, and volume.
+
 ## Source Impact
 
 ```text
 backend/
+├── src/services/sonosGroupSelection.ts
+├── src/services/publicWidgetProjection.ts
 ├── src/api/sonos.ts
 ├── src/lib/errors.ts
 ├── src/services/sonos-local-service.ts
 └── tests/unit/
 
 frontend/
+├── src/lib/sonosGroupSelection.ts
+├── src/components/ScreensaverOverlay.tsx
+├── src/components/widgets/SonosWidget.tsx
 ├── src/components/sonos/BrowsePanel.tsx
 ├── src/components/sonos/FullScreenSonos.tsx
 ├── src/components/sonos/__tests__/
@@ -104,11 +121,13 @@ frontend/
 - Focused frontend tests for error/retry rendering and ObjectID requests.
 - Responsive browser checks at 360, 390, 412, and 430 px plus a desktop regression
   viewport.
+- Focused selector tests for mixed playing, buffering, paused, idle, unavailable, and
+  configured-default states.
 - Backend/frontend typecheck and targeted test suites.
 - Candidate Docker build and local health/readiness verification for user review.
 - Mandatory code, UI, upgrade, and lint gates immediately before opening the PR.
 
 ## Rollback
 
-Revert the helper, error mapping, and phone-only layout classes/components. No database
-or stored configuration changes are involved.
+Revert the helpers, error mapping, selection wiring, and phone-only layout
+classes/components. No database or stored configuration changes are involved.

@@ -59,6 +59,7 @@ import { Slider } from '../ui/slider.js';
 import { MarqueeText } from './MarqueeText.js';
 import { SonosArtworkFrame } from './SonosArtworkFrame.js';
 import { useBootstrap } from '../../state/bootstrap.js';
+import { selectPreferredSonosGroup } from '../../lib/sonosGroupSelection.js';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -393,7 +394,7 @@ export function FullScreenSonos({ householdId, initialGroupId, onClose }: FullSc
   const players = useMemo(() => groupsData?.players ?? [], [groupsData]);
 
   // Derive initial active group
-  const defaultGroupId = groups[0]?.id ?? null;
+  const defaultGroupId = selectPreferredSonosGroup(groups)?.id ?? null;
   const [activeGroupId, setActiveGroupId] = useState<string | null>(
     initialGroupId && groups.some((g) => g.id === initialGroupId) ? initialGroupId : defaultGroupId,
   );
@@ -414,6 +415,7 @@ export function FullScreenSonos({ householdId, initialGroupId, onClose }: FullSc
     }
     return defaultGroupId;
   }, [groups, activeGroupId, defaultGroupId]);
+  const effectiveGroup = groups.find((group) => group.id === effectiveGroupId);
 
   // Escape to close
   useEffect(() => {
@@ -495,14 +497,13 @@ export function FullScreenSonos({ householdId, initialGroupId, onClose }: FullSc
 
   // Party mode: group all players into one group
   const handlePartyMode = useCallback(() => {
-    if (!groups.length || !effectiveGroupId) return;
+    if (!effectiveGroupId) return;
     const allPlayerIds = players.map((p) => p.id);
-    const activeGroup = groups.find((g) => g.id === effectiveGroupId);
-    const coordPlayers = activeGroup?.playerIds ?? [];
+    const coordPlayers = effectiveGroup?.playerIds ?? [];
     const toAdd = allPlayerIds.filter((id) => !coordPlayers.includes(id));
     if (toAdd.length === 0) return;
     modifyGroup.mutate({ groupId: effectiveGroupId, playerIdsToAdd: toAdd });
-  }, [groups, players, effectiveGroupId, modifyGroup]);
+  }, [players, effectiveGroup, effectiveGroupId, modifyGroup]);
 
   // Transport handlers
   const handlePlayPause = () => {
@@ -604,27 +605,11 @@ export function FullScreenSonos({ householdId, initialGroupId, onClose }: FullSc
         <div className="relative flex min-h-0 flex-1 flex-col gap-2 overflow-hidden px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:gap-6 sm:px-6 sm:pb-6 lg:flex-row">
           {/* Left column: Now Playing + Transport */}
           {/* --- MOBILE compact player (< sm) --- */}
-          <div className="sm:hidden shrink-0">
-            {/* Active group indicator (mobile) */}
-            {(() => {
-              const ag = groups.find((g) => g.id === effectiveGroupId);
-              return ag ? (
-                <button
-                  type="button"
-                  onClick={() => setMobileControlsOpen((open) => !open)}
-                  aria-expanded={mobileControlsOpen}
-                  aria-label={
-                    mobileControlsOpen ? 'Hide playback controls' : 'Show playback controls'
-                  }
-                  className="mb-2 flex min-h-11 max-w-full items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.06] px-3 text-white/70 transition-[background-color,transform] duration-150 ease-out active:scale-[0.97]"
-                >
-                  <Speaker className="h-3 w-3 text-white/50" />
-                  <span className="min-w-0 truncate text-xs font-medium">{ag.name}</span>
-                  <Settings2 className="h-3.5 w-3.5 shrink-0 text-white/40" />
-                </button>
-              ) : null;
-            })()}
-            <div className="flex items-center gap-3 rounded-xl bg-white/[0.04] border border-white/[0.08] p-3">
+          <div className="shrink-0 sm:hidden">
+            <div
+              data-testid="sonos-mobile-now-playing"
+              className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] p-2"
+            >
               {/* Tiny album art */}
               <div
                 className="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 shadow-lg touch-pan-y"
@@ -638,25 +623,34 @@ export function FullScreenSonos({ householdId, initialGroupId, onClose }: FullSc
                 />
               </div>
               {/* Track info + controls */}
-              <div className="flex-1 min-w-0">
-                <MarqueeText
-                  key={trackName}
-                  text={trackName}
-                  isPlaying={isPlaying}
-                  className="text-sm font-semibold text-white"
-                />
-                <p className="text-xs text-white/50 truncate">
-                  {artistName}
-                  {albumName ? ` · ${albumName}` : ''}
-                </p>
-              </div>
+              <button
+                type="button"
+                onClick={() => setMobileControlsOpen((open) => !open)}
+                aria-expanded={mobileControlsOpen}
+                aria-label={
+                  mobileControlsOpen ? 'Hide playback controls' : 'Show playback controls'
+                }
+                className="flex min-h-11 min-w-0 flex-1 items-center gap-2 rounded-lg text-left text-white transition-[background-color,transform] duration-150 ease-out can-hover:hover:bg-white/[0.04] active:scale-[0.98]"
+              >
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-sm font-semibold text-white">
+                    {trackName}
+                  </span>
+                  <span className="block truncate text-xs text-white/50">
+                    {artistName}
+                    {albumName ? ` · ${albumName}` : ''}
+                    {effectiveGroup?.name ? ` · ${effectiveGroup.name}` : ''}
+                  </span>
+                </span>
+                <Settings2 className="h-3.5 w-3.5 shrink-0 text-white/40 max-[389px]:hidden" />
+              </button>
               {/* Inline transport */}
               <div className="flex items-center gap-1 shrink-0">
                 <button
                   type="button"
                   onClick={handlePrev}
                   aria-label="Previous track"
-                  className="flex h-11 w-11 items-center justify-center rounded-full text-white/60 transition-[background-color,color,transform] duration-150 ease-out can-hover:hover:bg-white/[0.06] can-hover:hover:text-white active:scale-[0.97]"
+                  className="flex h-11 w-11 items-center justify-center rounded-full text-white/60 transition-[background-color,color,transform] duration-150 ease-out can-hover:hover:bg-white/[0.06] can-hover:hover:text-white active:scale-[0.97] max-[389px]:hidden"
                 >
                   <SkipBack className="h-4 w-4" />
                 </button>
@@ -672,7 +666,7 @@ export function FullScreenSonos({ householdId, initialGroupId, onClose }: FullSc
                   type="button"
                   onClick={handleNext}
                   aria-label="Next track"
-                  className="flex h-11 w-11 items-center justify-center rounded-full text-white/60 transition-[background-color,color,transform] duration-150 ease-out can-hover:hover:bg-white/[0.06] can-hover:hover:text-white active:scale-[0.97]"
+                  className="flex h-11 w-11 items-center justify-center rounded-full text-white/60 transition-[background-color,color,transform] duration-150 ease-out can-hover:hover:bg-white/[0.06] can-hover:hover:text-white active:scale-[0.97] max-[389px]:hidden"
                 >
                   <SkipForward className="h-4 w-4" />
                 </button>
@@ -1003,9 +997,12 @@ export function FullScreenSonos({ householdId, initialGroupId, onClose }: FullSc
             </nav>
 
             {/* Tab content */}
-            <div className="flex-1 overflow-hidden min-h-0">
+            <div
+              data-testid="sonos-tab-content"
+              className="flex min-h-0 flex-1 flex-col overflow-hidden"
+            >
               {(rightTab === 'rooms' || rightTab === 'favorites') && (
-                <div className="mb-1 flex justify-end sm:hidden">
+                <div className="mb-1 flex shrink-0 justify-end sm:hidden">
                   <button
                     type="button"
                     onClick={() => {
@@ -1027,7 +1024,10 @@ export function FullScreenSonos({ householdId, initialGroupId, onClose }: FullSc
                 </div>
               )}
               {rightTab === 'rooms' && (
-                <div className="h-full overflow-y-auto scrollbar-hide">
+                <div
+                  data-testid="sonos-room-list"
+                  className="min-h-0 flex-1 overflow-y-auto scrollbar-hide"
+                >
                   <div className="space-y-3">
                     {groups.map((g) => (
                       <div key={g.id} className="rounded-xl bg-white/[0.04] overflow-hidden">
@@ -1059,7 +1059,7 @@ export function FullScreenSonos({ householdId, initialGroupId, onClose }: FullSc
               )}
 
               {rightTab === 'favorites' && (
-                <div className="h-full overflow-y-auto scrollbar-hide">
+                <div className="min-h-0 flex-1 overflow-y-auto scrollbar-hide">
                   {favsLoading ? (
                     <div className="flex items-center justify-center py-8">
                       <Loader2 className="h-5 w-5 animate-spin text-white/30" />

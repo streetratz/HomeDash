@@ -1113,7 +1113,7 @@ export function BrowsePanel({
   const [spotifySubTab, setSpotifySubTab] = useState<'search' | SpotifyLibraryType>('search');
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden">
       {/* Service selector — browsable services as buttons (T042) */}
       <div
         aria-label="Music services"
@@ -1206,7 +1206,7 @@ export function BrowsePanel({
       )}
 
       {/* Content area (T044) */}
-      <div className="flex-1 overflow-y-auto scrollbar-hide">
+      <div className="min-h-0 flex-1 overflow-y-auto scrollbar-hide">
         {!activeServiceConfig && (
           <Empty message="No browsable services found. Add a Sonos Favorite or connect Spotify." />
         )}

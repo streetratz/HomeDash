@@ -1,0 +1,45 @@
+# Command: pnpm exec prettier --write backend/src/services/publicWidgetProjection.ts backend/src/services/sonosGroupSelection.ts backend/tests/unit/sonosGroupSelection.test.ts frontend/src/components/ScreensaverOverlay.tsx frontend/src/components/sonos/BrowsePanel.tsx frontend/src/components/sonos/FullScreenSonos.tsx frontend/src/components/sonos/QueuePanel.tsx frontend/src/components/sonos/__tests__/FullScreenSonos.test.tsx frontend/src/components/widgets/SonosWidget.tsx frontend/src/lib/sonosGroupSelection.ts frontend/src/lib/__tests__/sonosGroupSelection.test.ts specs/059-sonos-library-mobile/spec.md specs/059-sonos-library-mobile/changelog-spec.md specs/059-sonos-library-mobile/plan.md specs/059-sonos-library-mobile/tasks.md specs/059-sonos-library-mobile/logs/readme.md specs/059-sonos-library-mobile/logs/05-phase-public-issue-follow-up.md
+# Phase:   05 - Public Issue Follow-up
+# Run:     1
+# Time:    2026-09-23 12:00 AEST
+# Exit:    0
+---
+[WARN] Unsupported engine: wanted: {"node":">=24.0.0 <25"} (current: {"node":"v22.22.3","pnpm":"11.1.3"})
+backend                                  | [WARN] Unsupported engine: wanted: {"node":">=24.0.0 <25"} (current: {"node":"v22.22.3","pnpm":"11.1.3"})
+Scope: all 3 workspace projects
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +1041
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 1041, reused 1041, downloaded 0, added 390
+Progress: resolved 1041, reused 1041, downloaded 0, added 700
+Progress: resolved 1041, reused 1041, downloaded 0, added 1038
+Progress: resolved 1041, reused 1041, downloaded 0, added 1041, done
+.../node_modules/better-sqlite3 install$ prebuild-install || node-gyp rebuild --release
+.../argon2@0.41.1/node_modules/argon2 install$ node-gyp-build
+.../node_modules/better-sqlite3 install: Done
+.../argon2@0.41.1/node_modules/argon2 install: Done
+
+devDependencies:
++ @eslint/js 9.39.4
++ eslint 9.39.4
++ eslint-config-prettier 10.1.8
++ eslint-plugin-react 7.37.5
++ eslint-plugin-react-hooks 7.1.1
++ globals 16.5.0
++ prettier 3.8.3
++ typescript 5.9.3
++ typescript-eslint 8.59.3
+
+Done in 5.5s using pnpm v11.1.3
+backend/src/services/publicWidgetProjection.ts 46ms
+backend/src/services/sonosGroupSelection.ts 3ms (unchanged)
+backend/tests/unit/sonosGroupSelection.test.ts 4ms (unchanged)
+frontend/src/components/ScreensaverOverlay.tsx 36ms
+frontend/src/components/sonos/BrowsePanel.tsx 64ms (unchanged)
+frontend/src/components/sonos/FullScreenSonos.tsx 39ms (unchanged)
+frontend/src/components/sonos/QueuePanel.tsx 5ms (unchanged)
+frontend/src/components/sonos/__tests__/FullScreenSonos.test.tsx 7ms (unchanged)
+frontend/src/components/widgets/SonosWidget.tsx 20ms (unchanged)
+frontend/src/lib/sonosGroupSelection.ts 1ms (unchanged)
+frontend/src/lib/__tests__/sonosGroupSelection.test.ts 2ms (unchanged)

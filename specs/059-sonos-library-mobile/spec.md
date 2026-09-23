@@ -3,7 +3,7 @@
 **Feature Branch**: `059-sonos-library-mobile`
 **Created**: 2026-09-20
 **Status**: In progress
-**Issues**: #244, #245
+**Issues**: #8, #9 (public follow-up to historical private issues #244 and #245)
 
 ## User Scenarios & Testing
 
@@ -45,6 +45,26 @@ fit without horizontal page overflow.
 3. **Given** a tablet or desktop viewport, **when** fullscreen Sonos opens, **then**
    the established two-column layout and capabilities remain intact.
 
+### User Story 3 - Follow Active Sonos Playback (Priority: P1)
+
+As a dashboard user, the Sonos widget and screensaver follow the room that is actively
+playing instead of opening on an idle or unavailable room.
+
+**Independent Test**: Provide mixed playing, buffering, paused, idle, and unavailable
+groups, then verify every automatic selection surface chooses the highest-priority
+group while preserving an explicit in-session room selection.
+
+**Acceptance Scenarios**:
+
+1. **Given** one playing group and any number of paused or idle groups, **when** the
+   widget chooses a room automatically, **then** it selects the playing group.
+2. **Given** no playing group and one paused group, **when** a room is selected
+   automatically, **then** it selects the paused group.
+3. **Given** only stopped and unavailable groups, **when** a room is selected
+   automatically, **then** it selects the first stable stopped group.
+4. **Given** the user explicitly selected an existing room in the current session,
+   **when** topology refreshes, **then** that selection remains active.
+
 ## Edge Cases
 
 - No Sonos devices are discovered.
@@ -54,6 +74,9 @@ fit without horizontal page overflow.
 - Folder items use `x-file-cifs://`, `S://`, or `x-rincon-playlist:#...` identifiers.
 - A 360 px viewport has long room, provider, track, or album names.
 - Browser safe areas reduce the usable mobile height or width.
+- The configured default room is paused while another room is playing.
+- An unavailable group appears before a stopped group in the topology response.
+- A selected group disappears after regrouping.
 
 ## Functional Requirements
 
@@ -79,6 +102,14 @@ fit without horizontal page overflow.
 - **FR-011**: Arc, Beam, Playbar, Playbase, and Ray devices MUST be preferred for
   ContentDirectory reads when model information is available; Roam and Move devices
   MUST be attempted after fixed speakers.
+- **FR-012**: Automatic group selection MUST rank playing or buffering groups first,
+  paused groups second, stable idle or stopped groups third, and unavailable or
+  unknown groups last.
+- **FR-013**: A valid in-session user selection MUST be preserved. A configured
+  default room MAY break ties between groups with the same playback priority but MUST
+  NOT outrank a group with a higher playback priority.
+- **FR-014**: The authenticated widget, public widget snapshot, fullscreen controller,
+  and screensaver Sonos data source MUST apply the same automatic priority order.
 
 ## Success Criteria
 
@@ -89,6 +120,8 @@ fit without horizontal page overflow.
 - Targeted tests cover CIFS ObjectID normalization for browsing and queue actions.
 - Responsive checks pass at 360, 390, 412, and 430 CSS pixels with no horizontal page
   overflow and no wrapped primary navigation.
+- Mixed-state selection tests prove that playing outranks paused, paused outranks
+  stopped, stopped outranks unavailable, and configured defaults only break ties.
 - The candidate Docker image starts successfully and can be reviewed locally before
   the PR is opened.
 

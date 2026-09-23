@@ -52,6 +52,7 @@ import { MarqueeText } from '../sonos/MarqueeText.js';
 import { SonosArtworkFrame } from '../sonos/SonosArtworkFrame.js';
 import { useIsPublicView } from '../../state/publicView.js';
 import { usePublicWidgetSnapshot } from '../../state/publicWidgets.js';
+import { selectPreferredSonosGroup } from '../../lib/sonosGroupSelection.js';
 
 // ─── Config type ────────────────────────────────────────────────────────────
 
@@ -201,7 +202,7 @@ export function SonosWidget({ widget }: WidgetDisplayProps) {
   const players = useMemo(() => groupsData?.players ?? [], [groupsData]);
 
   // ── Selected group ────────────────────────────────────────────────────────
-  const [selectedGroup, setSelectedGroup] = useState<string | null>(config.defaultGroupId ?? null);
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
   // T014: Auto-reset when selected group disappears from topology
   const groupGone =
@@ -217,8 +218,7 @@ export function SonosWidget({ widget }: WidgetDisplayProps) {
 
   const activeGroupId =
     (groupGone ? null : selectedGroup) ??
-    groups.find((g) => g.playbackState === 'PLAYBACK_STATE_PLAYING')?.id ??
-    groups[0]?.id ??
+    selectPreferredSonosGroup(groups, config.defaultGroupId)?.id ??
     null;
   const activeGroup = groups.find((g) => g.id === activeGroupId);
 

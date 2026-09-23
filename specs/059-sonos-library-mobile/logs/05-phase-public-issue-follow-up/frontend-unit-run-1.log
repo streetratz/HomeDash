@@ -1,0 +1,54 @@
+# Command: pnpm --filter frontend test:unit
+# Phase:   05 - Public Issue Follow-up
+# Run:     1
+# Time:    2026-09-23 12:11 AEST
+# Exit:    0
+---
+Node: v24.18.0
+$ vitest run src
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ src/hooks/__tests__/useIdleDetection.test.ts  (6 tests) 47ms
+ ✓ src/hooks/__tests__/useDocker.test.ts  (17 tests) 109ms
+ ✓ src/hooks/__tests__/useTextOverflow.test.ts  (7 tests) 16ms
+ ✓ src/components/widgets/__tests__/DockerWidget.test.tsx  (2 tests) 35ms
+ ✓ src/components/widgets/__tests__/DockerConnectionPicker.test.tsx  (2 tests) 189ms
+ ✓ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (3 tests) 369ms
+ ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (12 tests) 440ms
+ ✓ src/components/widgets/__tests__/publicWidgetMode.test.tsx  (2 tests) 79ms
+ ✓ src/components/settings/__tests__/CalendarSourceEditing.test.tsx  (3 tests) 416ms
+ ✓ src/components/settings/__tests__/ManagementActionAccessibility.test.tsx  (2 tests) 359ms
+stderr | src/pages/LoginPage.test.tsx > LoginPage password visibility > reveals and re-masks the password without changing its value
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/LoginPage.test.tsx  (12 tests) 228ms
+ ✓ src/components/sonos/__tests__/QueuePanel.test.tsx  (2 tests) 307ms
+ ✓ src/state/__tests__/appShortcutHooks.test.ts  (1 test) 57ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.ui.test.tsx  (1 test) 323ms
+stderr | src/components/__tests__/EmptyDashboard.test.tsx > EmptyDashboard > gives administrators a direct path to dashboard settings
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/components/__tests__/EmptyDashboard.test.tsx  (2 tests) 117ms
+ ✓ src/components/__tests__/widgetVisibility.test.tsx  (3 tests) 91ms
+ ✓ src/components/__tests__/PlaceholderConfigDialog.test.tsx  (3 tests) 359ms
+ ✓ src/components/settings/__tests__/MobileSectionSelect.test.tsx  (1 test) 218ms
+ ✓ src/components/widgets/__tests__/ClockWidget.test.tsx  (1 test) 22ms
+ ✓ src/hooks/__tests__/useAdaptivePoll.test.ts  (9 tests) 4ms
+ ✓ src/lib/__tests__/sonosGroupSelection.test.ts  (4 tests) 1ms
+ ✓ src/lib/parse-yahoo-csv.test.ts  (4 tests) 5ms
+ ✓ src/lib/calendarDates.test.ts  (1 test) 2ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.ui.test.tsx  (1 test) 263ms
+ ✓ src/components/settings/__tests__/GroupsTab.test.ts  (1 test) 1ms
+ ✓ src/components/widgets/__tests__/WidgetConfigControls.test.tsx  (1 test) 391ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.test.ts  (6 tests) 1ms
+ ✓ src/components/settings/__tests__/WidgetsTab.test.tsx  (1 test) 102ms
+ ✓ src/components/settings/__tests__/SettingsDataState.test.tsx  (2 tests) 90ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.test.ts  (3 tests) 2ms
+
+ Test Files  30 passed (30)
+      Tests  115 passed (115)
+   Start at  11:58:41
+   Duration  4.96s (transform 2.26s, setup 1ms, collect 11.14s, tests 4.64s, environment 15.29s, prepare 2.12s)

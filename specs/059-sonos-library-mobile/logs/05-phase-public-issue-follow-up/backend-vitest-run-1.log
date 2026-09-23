@@ -1,0 +1,17 @@
+# Command: pnpm --filter backend exec vitest run tests/unit/sonosGroupSelection.test.ts
+# Phase:   05 - Public Issue Follow-up
+# Run:     1
+# Time:    2026-09-23 12:06 AEST
+# Exit:    0
+---
+Node: v24.18.0
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/unit/sonosGroupSelection.test.ts  (2 tests) 1ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  11:57:51
+   Duration  781ms (transform 107ms, setup 445ms, collect 22ms, tests 1ms, environment 0ms, prepare 92ms)

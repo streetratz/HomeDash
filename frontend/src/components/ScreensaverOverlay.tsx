@@ -24,6 +24,7 @@ import {
   useSonosMetadata,
 } from '../hooks/useSonos.js';
 import { useCalendarSources, useCalendarEvents, type CalendarEvent, type CalendarSource } from '../state/calendarHooks.js';
+import { selectPreferredSonosGroup } from '../lib/sonosGroupSelection.js';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -166,19 +167,48 @@ export function ScreensaverOverlay({
   const { data: householdsData } = useSonosHouseholds(needSonos);
   const firstHouseholdId = householdsData?.households?.[0]?.id;
   const { data: groupsData } = useSonosGroups(firstHouseholdId, needSonos, 30_000);
-  const playingGroup = (groupsData?.groups ?? []).find(
-    (g) => g.playbackState === 'PLAYBACK_STATE_PLAYING',
+  const selectedSonosGroup = selectPreferredSonosGroup(groupsData?.groups ?? []);
+  const { data: sonosPlayback } = useSonosPlaybackState(
+    selectedSonosGroup?.id,
+    needSonos && !!selectedSonosGroup,
+    15_000,
   );
-  const { data: sonosPlayback } = useSonosPlaybackState(playingGroup?.id, needSonos && !!playingGroup, 15_000);
-  const { data: sonosMetadata } = useSonosMetadata(playingGroup?.id, needSonos && !!playingGroup, 15_000);
+  const { data: sonosMetadata } = useSonosMetadata(
+    selectedSonosGroup?.id,
+    needSonos && !!selectedSonosGroup,
+    15_000,
+  );
   const sonosTrack = sonosMetadata?.currentItem?.track;
-  const sonosIsPlaying = sonosPlayback?.playbackState === 'PLAYBACK_STATE_PLAYING';
+  const sonosPlaybackState = sonosPlayback?.playbackState;
+  const sonosIsPlaying = sonosPlaybackState === 'PLAYBACK_STATE_PLAYING';
+  const sonosHasCurrentTrack =
+    !!sonosTrack?.name &&
+    (sonosIsPlaying ||
+      sonosPlaybackState === 'PLAYBACK_STATE_BUFFERING' ||
+      sonosPlaybackState === 'PLAYBACK_STATE_PAUSED');
 
   // Unified now-playing: Spotify wins when actively playing, else Sonos
-  const npTrack = spotifyPlaying ? nowPlaying?.trackName : (sonosIsPlaying ? sonosTrack?.name : undefined);
-  const npArtist = spotifyPlaying ? nowPlaying?.artistName : (sonosIsPlaying ? sonosTrack?.artist?.name : undefined);
-  const npArt = spotifyPlaying ? nowPlaying?.albumArtUrl : (sonosIsPlaying ? sonosTrack?.imageUrl : undefined);
-  const npAlbum = spotifyPlaying ? nowPlaying?.albumName : (sonosIsPlaying ? sonosTrack?.album?.name : undefined);
+  const npTrack = spotifyPlaying
+    ? nowPlaying?.trackName
+    : sonosHasCurrentTrack
+      ? sonosTrack.name
+      : undefined;
+  const npArtist = spotifyPlaying
+    ? nowPlaying?.artistName
+    : sonosHasCurrentTrack
+      ? sonosTrack.artist?.name
+      : undefined;
+  const npArt = spotifyPlaying
+    ? nowPlaying?.albumArtUrl
+    : sonosHasCurrentTrack
+      ? sonosTrack.imageUrl
+      : undefined;
+  const npAlbum = spotifyPlaying
+    ? nowPlaying?.albumName
+    : sonosHasCurrentTrack
+      ? sonosTrack.album?.name
+      : undefined;
+  const npPlaybackState = spotifyPlaying ? 'playing' : sonosPlaybackState;
   const hasTrack = !!npTrack;
 
   // Calendar events for today
@@ -300,12 +330,18 @@ export function ScreensaverOverlay({
               <p className="text-xs text-white/70 truncate drop-shadow">
                 {npArtist}
               </p>
-              <div className="flex items-end gap-[3px] mt-1.5 h-3">
-                <span className="w-[3px] bg-green-400 rounded-full animate-eq-1" />
-                <span className="w-[3px] bg-green-400 rounded-full animate-eq-2" />
-                <span className="w-[3px] bg-green-400 rounded-full animate-eq-3" />
-                <span className="w-[3px] bg-green-400 rounded-full animate-eq-4" />
-              </div>
+              {npPlaybackState === 'playing' || npPlaybackState === 'PLAYBACK_STATE_PLAYING' ? (
+                <div className="mt-1.5 flex h-3 items-end gap-[3px]">
+                  <span className="w-[3px] rounded-full bg-green-400 animate-eq-1" />
+                  <span className="w-[3px] rounded-full bg-green-400 animate-eq-2" />
+                  <span className="w-[3px] rounded-full bg-green-400 animate-eq-3" />
+                  <span className="w-[3px] rounded-full bg-green-400 animate-eq-4" />
+                </div>
+              ) : (
+                <p className="mt-1.5 text-[10px] font-medium uppercase tracking-wider text-white/50">
+                  {npPlaybackState === 'PLAYBACK_STATE_BUFFERING' ? 'Buffering' : 'Paused'}
+                </p>
+              )}
             </div>
           </div>
         </div>

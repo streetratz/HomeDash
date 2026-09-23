@@ -1,0 +1,13 @@
+# Command: pnpm typecheck
+# Phase:   05 - Public Issue Follow-up
+# Run:     2
+# Time:    2026-09-23 12:11 AEST
+# Exit:    0
+---
+Node: v24.18.0
+$ pnpm -r run typecheck
+Scope: 2 of 3 workspace projects
+backend typecheck$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+frontend typecheck$ tsc --noEmit
+frontend typecheck: Done
+backend typecheck: Done

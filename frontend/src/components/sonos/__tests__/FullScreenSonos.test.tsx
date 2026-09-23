@@ -134,10 +134,24 @@ describe('FullScreenSonos mobile composition', () => {
     expect(screen.getByRole('button', { name: /Rooms/ }).className).not.toContain('flex-col');
   });
 
+  it('gives the mobile room list only the remaining tab height', () => {
+    render(<FullScreenSonos householdId="local" onClose={vi.fn()} />);
+
+    const tabContent = screen.getByTestId('sonos-tab-content');
+    const roomList = screen.getByTestId('sonos-room-list');
+
+    expect(tabContent.className).toContain('flex-col');
+    expect(tabContent.className).toContain('min-h-0');
+    expect(roomList.className).toContain('flex-1');
+    expect(roomList.className).toContain('min-h-0');
+    expect(roomList.className).not.toContain('h-full');
+  });
+
   it('keeps secondary playback controls collapsed until requested', () => {
     render(<FullScreenSonos householdId="local" onClose={vi.fn()} />);
 
     const toggle = screen.getByRole('button', { name: 'Show playback controls' });
+    expect(screen.getByTestId('sonos-mobile-now-playing').contains(toggle)).toBe(true);
     expect(toggle.getAttribute('aria-expanded')).toBe('false');
     expect(screen.queryByTestId('sonos-mobile-secondary-controls')).toBeNull();
 
