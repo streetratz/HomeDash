@@ -56,24 +56,29 @@ The workflow performs these steps automatically:
 
 | # | Step | Detail |
 |---|------|--------|
-| 1 | Validate versions | Requires valid SemVer and agreement between `versions.json`, README badges, and `package.json` |
-| 2 | Promote Main Version | Copies exact `versions.json.main` into `versions.json.release`, `package.json`, and the Release badge; Main remains unchanged |
-| 3 | Commit to main | `release: vX.Y.Z` commit pushed to `main` |
-| 4 | Fast-forward release | `release` branch moves to match `main` HEAD |
-| 5 | Create git tag | `vX.Y.Z` tag pushed to the repository |
-| 6 | Create GitHub Release | Auto-generated changelog from merged PRs since last tag |
-| 7 | Trigger Docker build | Dispatches the "Build & Push to GHCR" workflow |
+| 1 | Pin candidate | Both jobs check out the exact `main` commit that triggered the workflow |
+| 2 | Verify upgrade | Starts the pinned candidate on the current `release` database |
+| 3 | Owner approval | The protected `release` environment requires owner approval |
+| 4 | Revalidate main | Fails if `main` changed while approval was pending |
+| 5 | Promote Main Version | Copies exact `versions.json.main` into `versions.json.release`, `package.json`, and the Release badge; Main remains unchanged |
+| 6 | Commit to main | `release: vX.Y.Z` commit pushed to `main` |
+| 7 | Fast-forward release | `release` branch moves to the same promoted commit |
+| 8 | Create git tag | `vX.Y.Z` tag pushed to the repository |
+| 9 | Create GitHub Release | Auto-generated changelog from merged PRs since last tag |
+| 10 | Build and publish Docker image | Calls the reusable "Build & Push to GHCR" workflow once |
 
 ### 3. Docker Build & Push
 
-Triggered automatically by Step 7 above (or by any push to `release`).
+Called only by Step 10 above after the promotion job completes. A branch push or
+standalone manual action cannot build or publish an image independently.
 
 The **Build & Push to GHCR** workflow:
 
 1. Checks out `release` branch
-2. Reads version from `package.json`
-3. Builds multi-stage Docker image
-4. Pushes to `ghcr.io/streetratz/homedash` with tags:
+2. Validates `versions.json`, the README badges, and `package.json`
+3. Reads version from `package.json`
+4. Builds multi-stage Docker image
+5. Pushes to `ghcr.io/streetratz/homedash` with tags:
    - `:latest` — always points to newest build
    - `:X.Y.Z` — pinned semantic version
    - `:abc1234` — short commit SHA
@@ -120,8 +125,8 @@ The release includes:
 
 | File | Trigger | Purpose |
 |------|---------|---------|
-| `.github/workflows/promote-release.yml` | Manual (`workflow_dispatch`) | Version bump + tag + release + trigger build |
-| `.github/workflows/docker-publish.yml` | Push to `release` or manual | Build Docker image and push to GHCR |
+| `.github/workflows/promote-release.yml` | Manual (`workflow_dispatch`) | Version bump + tag + release + invoke build |
+| `.github/workflows/docker-publish.yml` | Reusable call from promotion | Build Docker image and push to GHCR |
 
 ---
 

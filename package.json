@@ -18,6 +18,7 @@
     "version:check": "node scripts/version-state.mjs validate",
     "version:bump-main": "node scripts/version-state.mjs bump-main",
     "test:release-version": "node --test scripts/version-state.test.mjs",
+    "test:release-workflow": "node --test scripts/release-workflow.test.mjs",
     "test:upgrade": "bash .github/skills/pre-pr-upgrade-gate/run.sh",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",

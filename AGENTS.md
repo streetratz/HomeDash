@@ -148,11 +148,12 @@ and Node 24 (root `engines`).
 Markdown/docs-only changes do not require builds or app tests — there is no
 docs-specific validation command in this repo.
 
-**There is no CI on pull requests.** `.github/workflows/docker-publish.yml` runs
-only on pushes to `release`, and `promote-release.yml` is manual. The commands
-above are the only gate, so run them locally before merging. Note that `pnpm lint`
-and `pnpm --filter backend openapi:lint` currently report pre-existing findings
-repo-wide; compare against `main` rather than expecting a clean run.
+Pull requests run the required checks in `.github/workflows/pull-request.yml`.
+`.github/workflows/docker-publish.yml` is invoked only by the manual
+`promote-release.yml` workflow after the tag and GitHub Release exist. Local gates
+remain mandatory and GitHub checks are supplemental; run the commands above before
+merging. Note that `pnpm format:check` has a documented pre-existing baseline, so
+compare unrelated formatter findings against `main`.
 
 ## Dependencies
 
