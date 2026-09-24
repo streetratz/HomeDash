@@ -1,0 +1,253 @@
+$ vitest run src
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ src/hooks/__tests__/useTextOverflow.test.ts  (7 tests) 9ms
+ ✓ src/hooks/__tests__/useIdleDetection.test.ts  (6 tests) 11ms
+ ✓ src/hooks/__tests__/useDocker.test.ts  (17 tests) 110ms
+ ✓ src/components/widgets/__tests__/DockerWidget.test.tsx  (2 tests) 30ms
+ ✓ src/components/widgets/__tests__/DockerConnectionPicker.test.tsx  (2 tests) 143ms
+ ✓ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (2 tests) 176ms
+ ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (12 tests) 385ms
+ ✓ src/components/widgets/__tests__/publicWidgetMode.test.tsx  (2 tests) 77ms
+ ✓ src/components/settings/__tests__/ManagementActionAccessibility.test.tsx  (2 tests) 317ms
+ ✓ src/components/settings/__tests__/CalendarSourceEditing.test.tsx  (3 tests) 331ms
+ ✓ src/state/__tests__/appShortcutHooks.test.ts  (1 test) 22ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.ui.test.tsx  (1 test) 232ms
+stderr | src/pages/LoginPage.test.tsx > LoginPage password visibility > reveals and re-masks the password without changing its value
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/LoginPage.test.tsx  (12 tests) 153ms
+ ✓ src/components/sonos/__tests__/QueuePanel.test.tsx  (2 tests) 231ms
+ ✓ src/components/widgets/__tests__/ClockWidget.test.tsx  (1 test) 16ms
+ ✓ src/components/__tests__/widgetVisibility.test.tsx  (3 tests) 106ms
+ ✓ src/components/__tests__/PlaceholderConfigDialog.test.tsx  (3 tests) 286ms
+stderr | src/components/__tests__/EmptyDashboard.test.tsx > EmptyDashboard > gives administrators a direct path to dashboard settings
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/components/__tests__/EmptyDashboard.test.tsx  (2 tests) 139ms
+ ✓ src/hooks/__tests__/useAdaptivePoll.test.ts  (9 tests) 4ms
+ ✓ src/components/sonos/__tests__/selectPreferredSonosGroup.test.ts  (5 tests) 1ms
+ ✓ src/components/settings/__tests__/MobileSectionSelect.test.tsx  (1 test) 218ms
+ ✓ src/lib/parse-yahoo-csv.test.ts  (4 tests) 1ms
+ ✓ src/lib/calendarDates.test.ts  (1 test) 2ms
+ ✓ src/components/settings/__tests__/GroupsTab.test.ts  (1 test) 1ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.ui.test.tsx  (1 test) 147ms
+ ✓ src/components/widgets/__tests__/WidgetConfigControls.test.tsx  (1 test) 345ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.test.ts  (6 tests) 1ms
+ ✓ src/components/settings/__tests__/WidgetsTab.test.tsx  (1 test) 76ms
+ ✓ src/components/settings/__tests__/SettingsDataState.test.tsx  (2 tests) 78ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.test.ts  (3 tests) 2ms
+
+ Test Files  30 passed (30)
+      Tests  115 passed (115)
+   Start at  00:16:38
+   Duration  3.50s (transform 2.38s, setup 4ms, collect 10.32s, tests 3.65s, environment 12.37s, prepare 1.71s)
+
+$ pnpm -r run typecheck
+Scope: 2 of 3 workspace projects
+backend typecheck$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+frontend typecheck$ tsc --noEmit
+frontend typecheck: Done
+backend typecheck: Done
+$ pnpm -r run build
+Scope: 2 of 3 workspace projects
+backend build$ tsup src/server.ts --format cjs --dts --clean && tsup scripts/reset-admin.ts --format cjs --outDir dist/scripts --no-dts
+frontend build$ tsc --noEmit && vite build
+backend build: CLI Building entry: src/server.ts
+backend build: CLI Using tsconfig: tsconfig.json
+backend build: CLI tsup v8.5.1
+backend build: CLI Target: es2022
+backend build: CLI Cleaning output folder
+backend build: CJS Build start
+backend build: CJS dist/server.js 591.48 KB
+backend build: CJS ⚡️ Build success in 137ms
+backend build: DTS Build start
+backend build: DTS ⚡️ Build success in 2286ms
+backend build: DTS dist/server.d.ts 499.00 B
+backend build: CLI Building entry: scripts/reset-admin.ts
+backend build: CLI Using tsconfig: tsconfig.json
+backend build: CLI tsup v8.5.1
+backend build: CLI Target: es2022
+backend build: CJS Build start
+backend build: CJS dist/scripts/reset-admin.js 5.05 KB
+backend build: CJS ⚡️ Build success in 16ms
+backend build: Done
+frontend build: vite v5.4.21 building for production...
+frontend build: transforming...
+frontend build: ✓ 2414 modules transformed.
+frontend build: rendering chunks...
+frontend build: computing gzip size...
+frontend build: dist/index.html                                                       0.99 kB │ gzip:   0.54 kB
+frontend build: dist/assets/fira-code-symbols2-wght-normal-CE6EOz_n.woff2             4.12 kB
+frontend build: dist/assets/poppins-latin-ext-700-normal-cby-RkWa.woff2               5.43 kB
+frontend build: dist/assets/poppins-latin-ext-500-normal-CK-6C4Hw.woff2               5.48 kB
+frontend build: dist/assets/poppins-latin-ext-400-normal-by3JarPu.woff2               5.64 kB
+frontend build: dist/assets/space-grotesk-vietnamese-wght-normal-D0rl6rjA.woff2       6.71 kB
+frontend build: dist/assets/fira-sans-vietnamese-400-normal-DUVG35gE.woff             6.81 kB
+frontend build: dist/assets/fira-sans-vietnamese-700-normal-DFi88MGY.woff             6.84 kB
+frontend build: dist/assets/fira-sans-vietnamese-500-normal-UV7M6ot_.woff             6.86 kB
+frontend build: dist/assets/fira-sans-greek-ext-400-normal-ClCfNE6D.woff              6.97 kB
+frontend build: dist/assets/fira-sans-greek-ext-700-normal-C8J5qYMq.woff              7.08 kB
+frontend build: dist/assets/fira-sans-greek-ext-500-normal-Bem4H9fH.woff              7.12 kB
+frontend build: dist/assets/poppins-latin-ext-700-normal-DctTR6Tg.woff                7.33 kB
+frontend build: dist/assets/poppins-latin-ext-500-normal-CgAe2rWW.woff                7.37 kB
+frontend build: dist/assets/poppins-latin-ext-400-normal-DaBSavcJ.woff                7.46 kB
+frontend build: dist/assets/jetbrains-mono-vietnamese-wght-normal-Bt-aOZkq.woff2      7.50 kB
+frontend build: dist/assets/poppins-latin-500-normal-C8OXljZJ.woff2                   7.75 kB
+frontend build: dist/assets/poppins-latin-700-normal-Qrb0O0WB.woff2                   7.82 kB
+frontend build: dist/assets/poppins-latin-400-normal-cpxAROuN.woff2                   7.88 kB
+frontend build: dist/assets/fira-sans-greek-ext-400-normal-ByG7UNQ2.woff2             7.96 kB
+frontend build: dist/assets/fira-sans-greek-ext-500-normal-nq-cjB3m.woff2             8.13 kB
+frontend build: dist/assets/fira-sans-greek-ext-700-normal-C1m6bE4Q.woff2             8.34 kB
+frontend build: dist/assets/fira-sans-vietnamese-500-normal-ChEXCnJy.woff2            8.45 kB
+frontend build: dist/assets/fira-sans-vietnamese-400-normal-ljDTQFsx.woff2            8.50 kB
+frontend build: dist/assets/fira-code-greek-ext-wght-normal-wWus70Ix.woff2            8.61 kB
+frontend build: dist/assets/fira-sans-vietnamese-700-normal-j5oLGLJY.woff2            8.85 kB
+frontend build: dist/assets/fira-sans-cyrillic-400-normal-D9eUeF-O.woff               8.88 kB
+frontend build: dist/assets/fira-sans-cyrillic-700-normal-KyW5QH4H.woff               8.89 kB
+frontend build: dist/assets/fira-sans-cyrillic-500-normal-Daski1k2.woff               8.94 kB
+frontend build: dist/assets/jetbrains-mono-greek-wght-normal-Bw9x6K1M.woff2           9.00 kB
+frontend build: dist/assets/roboto-flex-vietnamese-wght-normal-AVFfiTln.woff2         9.77 kB
+frontend build: dist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2              10.25 kB
+frontend build: dist/assets/poppins-latin-500-normal-DGXqpDMm.woff                   10.37 kB
+frontend build: dist/assets/roboto-flex-cyrillic-ext-wght-normal-CVcCQn0y.woff2      10.39 kB
+frontend build: dist/assets/poppins-latin-700-normal-BVuQR_eA.woff                   10.43 kB
+frontend build: dist/assets/poppins-latin-400-normal-BOb3E3N0.woff                   10.53 kB
+frontend build: dist/assets/fira-sans-cyrillic-400-normal-CKu2TFQr.woff2             10.79 kB
+frontend build: dist/assets/fira-sans-cyrillic-500-normal-CXfldnQ8.woff2             10.82 kB
+frontend build: dist/assets/fira-sans-greek-400-normal-DQ8sF22y.woff                 10.90 kB
+frontend build: dist/assets/fira-sans-greek-700-normal-CJu31rC4.woff                 10.96 kB
+frontend build: dist/assets/fira-sans-greek-500-normal-C9KT8sAy.woff                 11.03 kB
+frontend build: dist/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2               11.23 kB
+frontend build: dist/assets/roboto-flex-greek-wght-normal-DeN4rzfy.woff2             11.44 kB
+frontend build: dist/assets/fira-sans-cyrillic-700-normal-Bl-HczEO.woff2             11.55 kB
+frontend build: dist/assets/fira-code-cyrillic-wght-normal-Y3u8pIsh.woff2            11.98 kB
+frontend build: dist/assets/jetbrains-mono-cyrillic-wght-normal-D73BlboJ.woff2       12.11 kB
+frontend build: dist/assets/fira-sans-greek-400-normal-BFCFncbp.woff2                12.78 kB
+frontend build: dist/assets/fira-sans-greek-500-normal-Cy-TUuxE.woff2                12.98 kB
+frontend build: dist/assets/fira-code-latin-ext-wght-normal-Dvfvaomy.woff2           13.27 kB
+frontend build: dist/assets/fira-code-greek-wght-normal-B2SviObF.woff2               13.78 kB
+frontend build: dist/assets/fira-sans-greek-700-normal-BVfcrbV7.woff2                13.82 kB
+frontend build: dist/assets/outfit-latin-ext-wght-normal-DdQaqQDo.woff2              14.81 kB
+frontend build: dist/assets/jetbrains-mono-latin-ext-wght-normal-DBQx-q_a.woff2      15.20 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-400-normal-Dd5dApAy.woff          15.20 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-700-normal-Gcpdxicj.woff          15.44 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-500-normal-Cixivk4R.woff          15.45 kB
+frontend build: dist/assets/roboto-flex-cyrillic-wght-normal-BJ-nQEdz.woff2          15.65 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-400-normal-Cycyekte.woff2         17.69 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-500-normal-Dkk5LlrU.woff2         17.88 kB
+frontend build: dist/assets/dm-sans-latin-ext-wght-normal-BOFOeGcA.woff2             18.23 kB
+frontend build: dist/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2                18.75 kB
+frontend build: dist/assets/space-grotesk-latin-ext-wght-normal-D9tNdqV9.woff2       18.94 kB
+frontend build: dist/assets/inter-greek-wght-normal-CkhJZR-_.woff2                   19.00 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-700-normal-BfO9TR-w.woff2         19.47 kB
+frontend build: dist/assets/fira-sans-latin-400-normal-66xCkunx.woff                 21.88 kB
+frontend build: dist/assets/fira-sans-latin-700-normal-DgqLm3Fi.woff                 22.12 kB
+frontend build: dist/assets/fira-sans-latin-500-normal-Bkfzcwmr.woff                 22.12 kB
+frontend build: dist/assets/fira-code-cyrillic-ext-wght-normal-DhYMMuQd.woff2        22.13 kB
+frontend build: dist/assets/space-grotesk-latin-wght-normal-BhU9QXUp.woff2           22.29 kB
+frontend build: dist/assets/roboto-flex-latin-ext-wght-normal-gysdOMcS.woff2         23.48 kB
+frontend build: dist/assets/fira-sans-latin-400-normal-a0AnQzuD.woff2                23.87 kB
+frontend build: dist/assets/fira-sans-latin-500-normal-Bvbxc8ch.woff2                24.06 kB
+frontend build: dist/assets/fira-sans-latin-700-normal-CRhwpWTq.woff2                25.01 kB
+frontend build: dist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2            25.96 kB
+frontend build: dist/assets/outfit-latin-wght-normal-Bc-8i84L.woff2                  32.29 kB
+frontend build: dist/assets/roboto-flex-latin-wght-normal-n-dP9qr2.woff2             34.32 kB
+frontend build: dist/assets/fira-code-latin-wght-normal-CHoedHDv.woff2               36.28 kB
+frontend build: dist/assets/dm-sans-latin-wght-normal-Xz1IZZA0.woff2                 36.93 kB
+frontend build: dist/assets/poppins-devanagari-500-normal-BIdkeU1p.woff2             39.08 kB
+frontend build: dist/assets/poppins-devanagari-700-normal-O-jipLrW.woff2             39.25 kB
+frontend build: dist/assets/poppins-devanagari-400-normal-CJDn6rn8.woff2             39.66 kB
+frontend build: dist/assets/jetbrains-mono-latin-wght-normal-B9CIFXIH.woff2          40.40 kB
+frontend build: dist/assets/fira-sans-latin-ext-400-normal-BCUwhuGB.woff             41.39 kB
+frontend build: dist/assets/fira-sans-latin-ext-700-normal-cfTxGFzJ.woff             42.03 kB
+frontend build: dist/assets/fira-sans-latin-ext-500-normal-CFRf4jcC.woff             42.06 kB
+frontend build: dist/assets/fira-sans-latin-ext-400-normal-BLG_mAEf.woff2            46.40 kB
+frontend build: dist/assets/fira-sans-latin-ext-500-normal-OO1QnNpY.woff2            47.00 kB
+frontend build: dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2                   48.26 kB
+frontend build: dist/assets/fira-sans-latin-ext-700-normal-g2Yrd4J5.woff2            50.37 kB
+frontend build: dist/assets/poppins-devanagari-700-normal-fHs-vx92.woff              52.25 kB
+frontend build: dist/assets/poppins-devanagari-500-normal-DMPDjHtT.woff              52.42 kB
+frontend build: dist/assets/poppins-devanagari-400-normal-CqVvlrh5.woff              52.98 kB
+frontend build: dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2               85.07 kB
+frontend build: dist/assets/index-NTKDRLbd.css                                        0.72 kB │ gzip:   0.35 kB
+frontend build: dist/assets/index-Dqr6y4op.css                                        0.73 kB │ gzip:   0.36 kB
+frontend build: dist/assets/index-DYVl74dH.css                                        1.10 kB │ gzip:   0.43 kB
+frontend build: dist/assets/400-DSpZquNv.css                                          1.16 kB │ gzip:   0.45 kB
+frontend build: dist/assets/500-BXkefx-V.css                                          1.16 kB │ gzip:   0.45 kB
+frontend build: dist/assets/700-CwZnzum0.css                                          1.16 kB │ gzip:   0.45 kB
+frontend build: dist/assets/index-CwmJlCc0.css                                        1.90 kB │ gzip:   0.59 kB
+frontend build: dist/assets/index-CHCa7mkw.css                                        2.00 kB │ gzip:   0.57 kB
+frontend build: dist/assets/index-CJjU_8H4.css                                        2.03 kB │ gzip:   0.60 kB
+frontend build: dist/assets/400-AaHvJgaU.css                                          2.42 kB │ gzip:   0.67 kB
+frontend build: dist/assets/500-D-7kwSSS.css                                          2.42 kB │ gzip:   0.68 kB
+frontend build: dist/assets/700-CbtLBIA2.css                                          2.42 kB │ gzip:   0.68 kB
+frontend build: dist/assets/index-BFlYNOnv.css                                        4.60 kB │ gzip:   2.69 kB
+frontend build: dist/assets/dashboards-ECv-A2F7.css                                   7.86 kB │ gzip:   1.54 kB
+frontend build: dist/assets/DashboardPage-B4DexIfW.css                                8.82 kB │ gzip:   2.21 kB
+frontend build: dist/assets/index-DjgTYFuE.css                                      104.51 kB │ gzip:  17.44 kB
+frontend build: dist/assets/user-plus-DEJkfQ8A.js                                     0.53 kB │ gzip:   0.37 kB │ map:     1.37 kB
+frontend build: dist/assets/eye-off-BzysR9Bu.js                                       0.65 kB │ gzip:   0.41 kB │ map:     1.44 kB
+frontend build: dist/assets/log-in-CLTn6jns.js                                        0.83 kB │ gzip:   0.42 kB │ map:     2.07 kB
+frontend build: dist/assets/FirstRunPage-Dtpx86nA.js                                  2.30 kB │ gzip:   1.03 kB │ map:     6.93 kB
+frontend build: dist/assets/LoginPage-CEKxvbzF.js                                     3.41 kB │ gzip:   1.56 kB │ map:    10.10 kB
+frontend build: dist/assets/card-12o8olry.js                                         37.78 kB │ gzip:  12.31 kB │ map:   194.23 kB
+frontend build: dist/assets/index-CIuZOlAA.js                                        42.35 kB │ gzip:  12.97 kB │ map:   113.92 kB
+frontend build: dist/assets/query-C98bdNS6.js                                        55.48 kB │ gzip:  16.83 kB │ map:   198.84 kB
+frontend build: dist/assets/grid-Clhrb2AM.js                                         84.81 kB │ gzip:  23.12 kB │ map:   381.20 kB
+frontend build: dist/assets/SettingsPage-B8-6CAe8.js                                185.62 kB │ gzip:  41.72 kB │ map:   588.03 kB
+frontend build: dist/assets/vendor-BPv6mdeq.js                                      198.37 kB │ gzip:  64.89 kB │ map:   757.12 kB
+frontend build: dist/assets/dashboards-C6zPXedS.js                                  384.95 kB │ gzip: 115.98 kB │ map: 1,841.04 kB
+frontend build: dist/assets/DashboardPage-LjblKYBw.js                             1,170.02 kB │ gzip: 247.40 kB │ map: 3,492.44 kB
+frontend build: ✓ built in 3.10s
+frontend build: (!) Some chunks are larger than 500 kB after minification. Consider:
+frontend build: - Using dynamic import() to code-split the application
+frontend build: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+frontend build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+frontend build: Done
+$ playwright test
+[2m[WebServer] [22m[2m$ node scripts/start-e2e-server.mjs[22m
+[2m[WebServer] [22m[2m$ tsc --noEmit && vite build[22m
+[2m[WebServer] [22m[33m
+[2m[WebServer] [22m(!) Some chunks are larger than 500 kB after minification. Consider:
+[2m[WebServer] [22m- Using dynamic import() to code-split the application
+[2m[WebServer] [22m- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[2m[WebServer] [22m- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+
+Running 29 tests using 1 worker
+
+  ✓   1 [setup] › tests/e2e/auth.setup.ts:17:3 › Authenticated E2E setup › completes first-run and stores the admin session (915ms)
+  ✓   2 [chromium] › tests/e2e/auroraEffects.spec.ts:23:1 › Aurora surfaces use layered animated curtain gradients (344ms)
+  ✓   3 [chromium] › tests/e2e/auroraEffects.spec.ts:46:3 › reduced motion › Aurora curtain movement is disabled (250ms)
+  ✓   4 [chromium] › tests/e2e/backgroundSettings.spec.ts:37:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none (1.8s)
+  ✓   5 [chromium] › tests/e2e/dockerConnection.spec.ts:28:3 › Docker connection form — endpoint formats › states the accepted formats and their default ports before any input (278ms)
+  ✓   6 [chromium] › tests/e2e/dockerConnection.spec.ts:40:3 › Docker connection form — endpoint formats › rejects an http:// endpoint and says what is accepted (313ms)
+  ✓   7 [chromium] › tests/e2e/dockerConnection.spec.ts:50:3 › Docker connection form — endpoint formats › rejects a bare host:port (334ms)
+  ✓   8 [chromium] › tests/e2e/dockerConnection.spec.ts:60:3 › Docker connection form — endpoint formats › accepts a tcp:// endpoint — reports connectivity, not a format error (313ms)
+  ✓   9 [chromium] › tests/e2e/emptyDashboard.spec.ts:4:3 › No-dashboard empty state › offers admins a direct action without exposing it publicly (317ms)
+  ✓  10 [chromium] › tests/e2e/iconPicker.spec.ts:122:3 › Icon rendering on links_list widget (T020) › link with iconKey renders a non-Globe icon; link without iconKey renders Globe (209ms)
+  -  11 [chromium] › tests/e2e/iconPicker.spec.ts:160:8 › IconPicker performance (T023) › icon search returns results within 200ms
+  ✓  12 [chromium] › tests/e2e/importExport.spec.ts:100:3 › Dashboard Import/Export E2E (T022) › export downloads valid JSON; import re-creates it (719ms)
+  ✓  13 [chromium] › tests/e2e/importExport.spec.ts:191:3 › Dashboard Import/Export E2E (T022) › import with name conflict shows conflict resolution UI (653ms)
+  ✓  14 [chromium] › tests/e2e/publicWidgetVisibility.spec.ts:5:3 › Public widget visibility › renders through the public namespace and disappears after revocation (335ms)
+  ✓  15 [chromium] › tests/e2e/settingsNavigation.spec.ts:4:3 › Settings navigation › desktop retains the labeled tab and sidebar navigation (189ms)
+  ✓  16 [chromium] › tests/e2e/shellSettings.spec.ts:28:3 › Shell settings — admin › updating titleText reflects in shell header (392ms)
+  ✓  17 [chromium] › tests/e2e/shellSettings.spec.ts:48:3 › Shell settings — admin › updating footerText reflects in footer (414ms)
+  ✓  18 [chromium] › tests/e2e/shellSettings.spec.ts:66:3 › Shell settings — admin › enabling clock strip shows it on the dashboard (456ms)
+  ✓  19 [chromium] › tests/e2e/theme.spec.ts:25:3 › Theme toggle — unauthenticated user › toggling theme persists in localStorage after page reload (217ms)
+  ✓  20 [chromium] › tests/e2e/theme.spec.ts:51:3 › Theme toggle — authenticated admin › toggling theme persists server-side after page reload (373ms)
+  ✓  21 [chromium] › tests/e2e/unauthView.spec.ts:28:3 › Unauthenticated view › shows read-only dashboard shell without redirecting to first-run (168ms)
+  ✓  22 [chromium] › tests/e2e/unauthView.spec.ts:50:3 › Unauthenticated view › login page is accessible from the login link (260ms)
+  ✓  23 [chromium] › tests/e2e/widgetTypes.spec.ts:98:3 › Clock/Date widget — E2E (US4) › 12hr clock shows AM/PM and updates live (2.2s)
+  ✓  24 [chromium] › tests/e2e/widgetTypes.spec.ts:132:3 › Clock/Date widget — E2E (US4) › 24hr clock shows time in HH:MM range (200ms)
+  ✓  25 [chromium] › tests/e2e/widgetTypes.spec.ts:162:3 › Clock/Date widget — E2E (US4) › unconfigured timezone defaults to browser-local (196ms)
+  ✓  26 [chromium] › tests/e2e/widgetTypes.spec.ts:185:3 › Clock/Date widget — E2E (US4) › configured timezone displays timezone label (205ms)
+  ✓  27 [chromium] › tests/e2e/widgetTypes.spec.ts:209:3 › Clock/Date widget — E2E (US4) › invalid timezone falls back gracefully (no crash) (174ms)
+  ✓  28 [mobile-safari] › tests/e2e/scheduledJobsResponsive.mobile.spec.ts:4:3 › Scheduled Jobs responsive layout › keeps job status and actions visible on mobile (1.7s)
+  ✓  29 [mobile-safari] › tests/e2e/settingsNavigation.mobile.spec.ts:4:3 › Settings navigation › mobile selectors expose primary and nested settings destinations (1.9s)
+
+  1 skipped
+  28 passed (27.7s)

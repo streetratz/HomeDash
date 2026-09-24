@@ -52,6 +52,7 @@ import { MarqueeText } from '../sonos/MarqueeText.js';
 import { SonosArtworkFrame } from '../sonos/SonosArtworkFrame.js';
 import { useIsPublicView } from '../../state/publicView.js';
 import { usePublicWidgetSnapshot } from '../../state/publicWidgets.js';
+import { selectPreferredSonosGroup } from '../sonos/selectPreferredSonosGroup.js';
 
 // ─── Config type ────────────────────────────────────────────────────────────
 
@@ -215,12 +216,11 @@ export function SonosWidget({ widget }: WidgetDisplayProps) {
     }
   }, [groupGone]);
 
-  const activeGroupId =
-    (groupGone ? null : selectedGroup) ??
-    groups.find((g) => g.playbackState === 'PLAYBACK_STATE_PLAYING')?.id ??
-    groups[0]?.id ??
-    null;
-  const activeGroup = groups.find((g) => g.id === activeGroupId);
+  const activeGroup = selectPreferredSonosGroup(
+    groups,
+    groupGone ? null : selectedGroup,
+  );
+  const activeGroupId = activeGroup?.id ?? null;
 
   // ── Playback data (adaptive intervals) ────────────────────────────────────
   const { data: playbackState } = useSonosPlaybackState(
