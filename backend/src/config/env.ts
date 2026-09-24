@@ -4,7 +4,11 @@
  */
 
 import { z } from 'zod';
+import fs from 'node:fs';
 import { randomBytes } from 'node:crypto';
+import path from 'node:path';
+
+const GENERATED_SESSION_SECRET_FILE = '.homedash-session-secret';
 
 const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
@@ -123,13 +127,58 @@ function resolveSessionSecret(env: ParsedEnv): string {
   const configured = canonical ?? legacy;
   if (configured) return configured;
 
-  if (env.NODE_ENV === 'production') {
-    throw new Error(
-      'HOMEDASH_SESSION_SECRET is required in production (SESSION_SECRET remains supported for existing deployments)',
-    );
-  }
+  if (env.NODE_ENV === 'production') return resolveGeneratedProductionSecret(env.HOMEDASH_DATA_DIR);
 
   return randomBytes(32).toString('hex');
+}
+
+function resolveGeneratedProductionSecret(dataDir: string): string {
+  const resolvedDataDir = path.resolve(dataDir);
+  const secretPath = path.join(resolvedDataDir, GENERATED_SESSION_SECRET_FILE);
+
+  fs.mkdirSync(resolvedDataDir, { recursive: true });
+
+  try {
+    return readGeneratedProductionSecret(secretPath);
+  } catch (error) {
+    if (!isNodeError(error) || error.code !== 'ENOENT') throw error;
+  }
+
+  const generated = randomBytes(32).toString('hex');
+  try {
+    fs.writeFileSync(secretPath, `${generated}\n`, {
+      encoding: 'utf8',
+      flag: 'wx',
+      mode: 0o600,
+    });
+    return generated;
+  } catch (error) {
+    if (!isNodeError(error) || error.code !== 'EEXIST') {
+      throw new Error(`Unable to create persistent session secret at ${secretPath}`, {
+        cause: error,
+      });
+    }
+    return readGeneratedProductionSecret(secretPath);
+  }
+}
+
+function readGeneratedProductionSecret(secretPath: string): string {
+  const stat = fs.lstatSync(secretPath);
+  if (!stat.isFile()) {
+    throw new Error(`Persistent session secret path is not a regular file: ${secretPath}`);
+  }
+
+  const secret = fs.readFileSync(secretPath, 'utf8').trim();
+  if (secret.length < 32) {
+    throw new Error(`Persistent session secret is invalid: ${secretPath}`);
+  }
+
+  fs.chmodSync(secretPath, 0o600);
+  return secret;
+}
+
+function isNodeError(error: unknown): error is NodeJS.ErrnoException {
+  return error instanceof Error && 'code' in error;
 }
 
 /** Parse and validate environment variables. Cached after first call. */

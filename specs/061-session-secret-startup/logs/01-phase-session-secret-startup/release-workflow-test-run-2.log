@@ -1,0 +1,13 @@
+$ node --test scripts/release-workflow.test.mjs
+✔ Docker publishing is callable only by release promotion (0.433083ms)
+✔ preflight and promotion use the same main commit (0.088958ms)
+✔ the promoted commit updates both protected branches (0.053833ms)
+✔ Docker publishing depends directly on completed promotion (0.098833ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44.355041

@@ -1,0 +1,2 @@
+$ node scripts/version-state.mjs validate
+3.2.11

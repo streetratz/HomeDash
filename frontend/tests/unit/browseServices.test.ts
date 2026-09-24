@@ -50,18 +50,12 @@ describe('buildBrowseServices()', () => {
     expect(result.some((service) => service.label === "Dad's Spotify")).toBe(true);
   });
 
-  it('creates account-specific favorites surfaces from discovered Sonos accounts', () => {
+  it('omits duplicate Spotify favorites while preserving other named accounts', () => {
     const result = buildBrowseServices({ spotifyConnected: true, discoveredServices });
 
+    expect(result.some((service) => service.label === "Dad's Spotify")).toBe(false);
     expect(result).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({
-          id: 'favorites:sid:12:sn:5',
-          label: "Dad's Spotify",
-          kind: 'favorites',
-          serviceName: 'Spotify',
-          accountSerial: 5,
-        }),
         expect.objectContaining({
           id: 'favorites:sid:284:sn:4',
           label: 'Family YouTube',
@@ -86,8 +80,8 @@ describe('buildBrowseServices()', () => {
     const result = buildBrowseServices({ spotifyConnected: false, discoveredServices: [] });
 
     expect(result).toEqual([
-      { id: 'radio', label: 'Radio', browsable: true, kind: 'radio' },
       { id: 'library', label: 'Library', browsable: true, kind: 'library' },
+      { id: 'radio', label: 'Saved Stations', browsable: true, kind: 'radio' },
     ]);
   });
 
@@ -106,7 +100,9 @@ describe('getDefaultService()', () => {
   const allServices = buildBrowseServices({ spotifyConnected: true, discoveredServices });
 
   it('selects the currently playing provider account before its generic provider', () => {
-    expect(getDefaultService(allServices, 'Spotify', 5)).toBe('favorites:sid:12:sn:5');
+    expect(getDefaultService(allServices, 'YouTube Music', 4)).toBe(
+      'favorites:sid:284:sn:4',
+    );
   });
 
   it('selects the matching provider when no account match exists', () => {
@@ -118,7 +114,7 @@ describe('getDefaultService()', () => {
     expect(getDefaultService(allServices)).toBe('spotify');
 
     const localOnly = buildBrowseServices({ spotifyConnected: false, discoveredServices: [] });
-    expect(getDefaultService(localOnly)).toBe('radio');
+    expect(getDefaultService(localOnly)).toBe('library');
   });
 
   it('handles an empty service list defensively', () => {

@@ -1,0 +1,191 @@
+$ vitest run
+
+ RUN  v1.6.1 $REPO/frontend
+
+ ✓ tests/unit/useVisibility.test.ts  (5 tests) 10ms
+ ✓ src/hooks/__tests__/useIdleDetection.test.ts  (6 tests) 15ms
+ ✓ src/hooks/__tests__/useTextOverflow.test.ts  (7 tests) 11ms
+ ✓ src/hooks/__tests__/useDocker.test.ts  (17 tests) 78ms
+ ✓ src/components/widgets/__tests__/DockerWidget.test.tsx  (2 tests) 79ms
+ ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (12 tests) 592ms
+ ✓ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (2 tests) 470ms
+ ✓ src/components/settings/__tests__/ManagementActionAccessibility.test.tsx  (2 tests) 501ms
+ ✓ src/components/widgets/__tests__/publicWidgetMode.test.tsx  (2 tests) 83ms
+ ✓ src/components/settings/__tests__/CalendarSourceEditing.test.tsx  (3 tests) 449ms
+ ✓ src/components/widgets/__tests__/DockerConnectionPicker.test.tsx  (2 tests) 181ms
+ ✓ src/pages/LoginPage.test.tsx  (12 tests) 167ms
+stderr | src/pages/LoginPage.test.tsx > LoginPage password visibility > reveals and re-masks the password without changing its value
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/components/widgets/__tests__/StocksConfigForm.ui.test.tsx  (1 test) 271ms
+ ✓ src/components/__tests__/widgetVisibility.test.tsx  (3 tests) 118ms
+ ✓ src/state/__tests__/appShortcutHooks.test.ts  (1 test) 30ms
+ ✓ src/components/sonos/__tests__/QueuePanel.test.tsx  (2 tests) 238ms
+ ✓ src/components/widgets/__tests__/ClockWidget.test.tsx  (1 test) 27ms
+ ✓ src/components/__tests__/PlaceholderConfigDialog.test.tsx  (3 tests) 427ms
+ ✓ src/components/settings/__tests__/MobileSectionSelect.test.tsx  (1 test) 175ms
+ ✓ tests/unit/polling.test.ts  (12 tests) 1ms
+ ✓ src/hooks/__tests__/useAdaptivePoll.test.ts  (9 tests) 1ms
+ ❯ tests/unit/browseServices.test.ts  (10 tests | 4 failed) 14ms
+   ❯ tests/unit/browseServices.test.ts > buildBrowseServices() > creates account-specific favorites surfaces from discovered Sonos accounts
+     → expected [ { id: 'spotify', …(4) }, …(3) ] to deeply equal ArrayContaining{…}
+   ❯ tests/unit/browseServices.test.ts > buildBrowseServices() > always keeps Radio and Library as usable local surfaces
+     → expected [ { id: 'library', …(3) }, …(1) ] to deeply equal [ { id: 'radio', …(3) }, …(1) ]
+   ❯ tests/unit/browseServices.test.ts > getDefaultService() > selects the currently playing provider account before its generic provider
+     → expected 'spotify' to be 'favorites:sid:12:sn:5' // Object.is equality
+   ❯ tests/unit/browseServices.test.ts > getDefaultService() > falls back to the first usable service
+     → expected 'library' to be 'radio' // Object.is equality
+ ✓ src/components/__tests__/EmptyDashboard.test.tsx  (2 tests) 148ms
+stderr | src/components/__tests__/EmptyDashboard.test.tsx > EmptyDashboard > gives administrators a direct path to dashboard settings
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/lib/parse-yahoo-csv.test.ts  (4 tests) 4ms
+ ✓ src/lib/calendarDates.test.ts  (1 test) 2ms
+ ✓ src/components/settings/__tests__/GroupsTab.test.ts  (1 test) 4ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.test.ts  (6 tests) 1ms
+ ✓ src/components/settings/__tests__/WidgetsTab.test.tsx  (1 test) 104ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.ui.test.tsx  (1 test) 147ms
+ ✓ src/components/settings/__tests__/SettingsDataState.test.tsx  (2 tests) 82ms
+ ✓ src/components/widgets/__tests__/WidgetConfigControls.test.tsx  (1 test) 270ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.test.ts  (3 tests) 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/browseServices.test.ts > buildBrowseServices() > creates account-specific favorites surfaces from discovered Sonos accounts
+AssertionError: expected [ { id: 'spotify', …(4) }, …(3) ] to deeply equal ArrayContaining{…}
+
+- Expected
++ Received
+
+- ArrayContaining [
+-   ObjectContaining {
+-     "accountSerial": 5,
+-     "id": "favorites:sid:12:sn:5",
+-     "kind": "favorites",
+-     "label": "Dad's Spotify",
++ Array [
++   Object {
++     "browsable": true,
++     "id": "spotify",
++     "kind": "spotify",
++     "label": "Spotify",
+      "serviceName": "Spotify",
+    },
+-   ObjectContaining {
++   Object {
++     "browsable": true,
++     "id": "library",
++     "kind": "library",
++     "label": "Library",
++   },
++   Object {
+      "accountSerial": 4,
++     "browsable": true,
+      "id": "favorites:sid:284:sn:4",
+      "kind": "favorites",
+      "label": "Family YouTube",
+      "serviceName": "YouTube Music",
++   },
++   Object {
++     "browsable": true,
++     "id": "radio",
++     "kind": "radio",
++     "label": "Saved Stations",
+    },
+  ]
+
+ ❯ tests/unit/browseServices.test.ts:56:20
+     54|     const result = buildBrowseServices({ spotifyConnected: true, disco…
+     55| 
+     56|     expect(result).toEqual(
+       |                    ^
+     57|       expect.arrayContaining([
+     58|         expect.objectContaining({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/unit/browseServices.test.ts > buildBrowseServices() > always keeps Radio and Library as usable local surfaces
+AssertionError: expected [ { id: 'library', …(3) }, …(1) ] to deeply equal [ { id: 'radio', …(3) }, …(1) ]
+
+- Expected
++ Received
+
+  Array [
+    Object {
+      "browsable": true,
+-     "id": "radio",
+-     "kind": "radio",
+-     "label": "Radio",
+-   },
+-   Object {
+-     "browsable": true,
+      "id": "library",
+      "kind": "library",
+      "label": "Library",
++   },
++   Object {
++     "browsable": true,
++     "id": "radio",
++     "kind": "radio",
++     "label": "Saved Stations",
+    },
+  ]
+
+ ❯ tests/unit/browseServices.test.ts:88:20
+     86|     const result = buildBrowseServices({ spotifyConnected: false, disc…
+     87| 
+     88|     expect(result).toEqual([
+       |                    ^
+     89|       { id: 'radio', label: 'Radio', browsable: true, kind: 'radio' },
+     90|       { id: 'library', label: 'Library', browsable: true, kind: 'libra…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/unit/browseServices.test.ts > getDefaultService() > selects the currently playing provider account before its generic provider
+AssertionError: expected 'spotify' to be 'favorites:sid:12:sn:5' // Object.is equality
+
+- Expected
++ Received
+
+- favorites:sid:12:sn:5
++ spotify
+
+ ❯ tests/unit/browseServices.test.ts:109:58
+    107| 
+    108|   it('selects the currently playing provider account before its generi…
+    109|     expect(getDefaultService(allServices, 'Spotify', 5)).toBe('favorit…
+       |                                                          ^
+    110|   });
+    111| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/unit/browseServices.test.ts > getDefaultService() > falls back to the first usable service
+AssertionError: expected 'library' to be 'radio' // Object.is equality
+
+- Expected
++ Received
+
+- radio
++ library
+
+ ❯ tests/unit/browseServices.test.ts:121:42
+    119| 
+    120|     const localOnly = buildBrowseServices({ spotifyConnected: false, d…
+    121|     expect(getDefaultService(localOnly)).toBe('radio');
+       |                                          ^
+    122|   });
+    123| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+ Test Files  1 failed | 31 passed (32)
+      Tests  4 failed | 133 passed (137)
+   Start at  20:11:45
+   Duration  3.82s (transform 2.45s, setup 2ms, collect 10.67s, tests 4.70s, environment 12.46s, prepare 1.55s)
+
+$REPO/frontend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] frontend@0.1.0 test: `vitest run`
+Exit status 1

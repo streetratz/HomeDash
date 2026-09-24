@@ -1,0 +1,1148 @@
+$ vitest run
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 $REPO/backend
+
+ ❯ tests/integration/dashboardImport.test.ts  (22 tests) 83ms
+ ❯ tests/integration/dashboards.test.ts  (43 tests) 63ms
+ ❯ tests/integration/ical-parser.test.ts  (26 tests) 50ms
+ ❯ tests/integration/calendar-phase7.test.ts  (22 tests) 41ms
+ ❯ tests/integration/todoSyncMicrosoft.test.ts  (16 tests) 22ms
+ ❯ tests/integration/appShortcuts.test.ts  (24 tests) 32ms
+ ❯ tests/integration/restore.test.ts  (7 tests) 8ms
+ ❯ tests/integration/rbac.test.ts  (23 tests) 8ms
+ ❯ tests/integration/oauth-flow.test.ts  (15 tests) 42ms
+ ✓ tests/unit/dockerSshTransport.test.ts  (36 tests) 16544ms
+ ❯ tests/integration/dashboardExport.test.ts  (8 tests) 17ms
+ ❯ tests/integration/todoItems.test.ts  (17 tests) 13ms
+ ❯ tests/integration/microsoft-calendar.test.ts  (8 tests) 15ms
+ ❯ tests/integration/widgetDataPermissions.test.ts  (65 tests) 10ms
+ ❯ tests/integration/logoUpload.test.ts  (9 tests) 25ms
+ ✓ tests/unit/sonosDiscovery.test.ts  (14 tests) 1ms
+ ❯ tests/integration/todoSecurity.test.ts  (24 tests) 25ms
+ ✓ tests/unit/dockerApiVersion.test.ts  (16 tests) 20ms
+ ❯ tests/integration/adminShell.test.ts  (14 tests) 16ms
+ ✓ tests/unit/dockerEndpoint.test.ts  (44 tests) 2ms
+ ❯ tests/integration/google-calendar.test.ts  (5 tests) 10ms
+ ❯ tests/integration/backup.test.ts  (8 tests) 8ms
+ ❯ tests/contract/openapi.test.ts  (28 tests) 28ms
+ ❯ tests/integration/dockerAuth.test.ts  (15 tests) 8ms
+ ❯ tests/integration/birthdayCalendar.test.ts  (5 tests) 10ms
+ ❯ tests/integration/dockerMultiHost.test.ts  (7 tests) 8ms
+ ❯ tests/integration/todoLists.test.ts  (12 tests) 8ms
+ ❯ tests/integration/migrationIntegrity.test.ts  (11 tests) 3ms
+ ✓ tests/unit/detectService.test.ts  (22 tests) 1ms
+ ❯ tests/integration/userPreferences.test.ts  (11 tests) 17ms
+ ❯ tests/integration/auth.test.ts  (13 tests) 21ms
+ ✓ tests/unit/sonosServices.test.ts  (7 tests) 1ms
+ ❯ tests/integration/statusCheck.test.ts  (7 tests) 8ms
+ ❯ tests/integration/publicWidgets.test.ts  (3 tests) 8ms
+ ❯ tests/integration/publicBootstrapProjection.test.ts  (3 tests) 9ms
+ ❯ tests/integration/dockerAdoption.test.ts  (7 tests) 8ms
+ ❯ tests/integration/scheduledJobs.test.ts  (8 tests) 8ms
+ ❯ tests/integration/dockerContainers.test.ts  (9 tests) 8ms
+ ❯ tests/integration/publicVisibility.test.ts  (4 tests) 9ms
+ ✓ tests/unit/sonosLibrary.test.ts  (9 tests) 1ms
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback 1x1 PNG on fetch failure
+[artCache] Art fetch error: https://example.com/broken.jpg Error: network
+    at $REPO/backend/tests/unit/artCacheService.test.ts:68:53
+    at file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:135:14
+    at file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:781:17)
+    at runSuite (file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:958:5)
+    at startTests (file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:967:3)
+    at file://$REPO/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+    at withEnv (file://$REPO/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback on non-200 response
+[artCache] Art fetch failed: https://example.com/missing.jpg (404)
+
+ ✓ tests/unit/artCacheService.test.ts  (9 tests) 52ms
+ ✓ tests/unit/url-validator.test.ts  (17 tests) 3ms
+ ❯ tests/integration/dockerAction.test.ts  (8 tests) 9ms
+ ❯ tests/integration/sonosArtProxy.test.ts  (5 tests) 8ms
+ ✓ tests/unit/birthdayCalendar.test.ts  (8 tests) 1ms
+ ✓ tests/unit/env.test.ts  (8 tests) 3ms
+ ✓ tests/unit/sonosLabels.test.ts  (11 tests) 1ms
+ ❯ tests/integration/firstRun.test.ts  (5 tests) 14ms
+ ❯ tests/integration/rememberMe.test.ts  (4 tests) 7ms
+ ❯ tests/integration/publicBootstrap.test.ts  (8 tests) 8ms
+ ❯ tests/integration/restorePreview.test.ts  (4 tests) 7ms
+ ❯ tests/integration/dockerConnectionUpgrade.test.ts  (7 tests) 7ms
+ ❯ tests/integration/scheduledJobService.test.ts  (6 tests) 7ms
+ ✓ tests/unit/publicWidgetSnapshotCache.test.ts  (3 tests) 2ms
+ ❯ tests/integration/rateLimit.test.ts  (2 tests) 17ms
+ ❯ tests/integration/timezone.test.ts  (4 tests) 9ms
+ ✓ tests/integration/tokenEncryption.test.ts  (6 tests) 1ms
+ ❯ tests/integration/staticAssets.test.ts  (5 tests) 8ms
+ ✓ tests/unit/timezone-validation.test.ts  (4 tests)
+ ✓ tests/unit/stocksValidation.test.ts  (7 tests) 1ms
+ ✓ tests/unit/spotifySearch.test.ts  (1 test) 1ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 79 ⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/contract/openapi.test.ts > Runtime contract spot-checks
+ FAIL  tests/contract/openapi.test.ts > Backup & restore endpoint spot-checks
+ FAIL  tests/integration/adminShell.test.ts > GET /api/admin/shell
+ FAIL  tests/integration/adminShell.test.ts > PUT /api/admin/shell
+ FAIL  tests/integration/appShortcuts.test.ts > App Shortcut CRUD
+ FAIL  tests/integration/appShortcuts.test.ts > App Shortcut Group CRUD
+ FAIL  tests/integration/appShortcuts.test.ts > App Shortcut Reorder
+ FAIL  tests/integration/appShortcuts.test.ts > App Shortcut Auth Guards
+ FAIL  tests/integration/auth.test.ts > POST /api/auth/login
+ FAIL  tests/integration/auth.test.ts > GET /api/auth/me
+ FAIL  tests/integration/auth.test.ts > POST /api/auth/logout
+ FAIL  tests/integration/backup.test.ts > GET /api/admin/backup
+ FAIL  tests/integration/birthdayCalendar.test.ts > local birthday calendar API
+ FAIL  tests/integration/calendar-phase7.test.ts > Public calendar endpoints
+ FAIL  tests/integration/calendar-phase7.test.ts > Private events
+ FAIL  tests/integration/calendar-phase7.test.ts > Calendar security
+ FAIL  tests/integration/calendar-phase7.test.ts > iCal source sync E2E
+ FAIL  tests/integration/calendar-phase7.test.ts > Calendar config validation
+ FAIL  tests/integration/dashboardExport.test.ts > Dashboard Export
+ FAIL  tests/integration/dashboardImport.test.ts > Dashboard Import
+ FAIL  tests/integration/dashboardImport.test.ts > Dashboard Import — Security (T024)
+ FAIL  tests/integration/dashboardImport.test.ts > Import/Export Round-Trip
+ FAIL  tests/integration/dashboards.test.ts > Dashboard CRUD
+ FAIL  tests/integration/dashboards.test.ts > Placeholder CRUD
+ FAIL  tests/integration/dashboards.test.ts > Widget CRUD
+ FAIL  tests/integration/dashboards.test.ts > Link CRUD
+ FAIL  tests/integration/dashboards.test.ts > Layout Update
+ FAIL  tests/integration/dashboards.test.ts > GET /api/dashboards/:id (authenticated)
+ FAIL  tests/integration/dashboards.test.ts > Icon Cache
+ FAIL  tests/integration/dashboards.test.ts > Widget config validation in layout save
+ FAIL  tests/integration/dockerAction.test.ts > POST /api/docker/action
+ FAIL  tests/integration/dockerAdoption.test.ts > Docker widget adoption
+ FAIL  tests/integration/dockerAuth.test.ts > Docker routes — authorization (#189)
+ FAIL  tests/integration/dockerConnectionUpgrade.test.ts > Docker connection startup upgrade
+ FAIL  tests/integration/dockerContainers.test.ts > GET /api/docker/containers — endpoint resolution
+ FAIL  tests/integration/dockerMultiHost.test.ts > Docker multi-host links and routing
+ FAIL  tests/integration/firstRun.test.ts > POST /api/first-run/admin — validation (no users)
+ FAIL  tests/integration/firstRun.test.ts > POST /api/first-run/admin — happy path and gating
+ FAIL  tests/integration/google-calendar.test.ts > syncSource (Google)
+ FAIL  tests/integration/ical-parser.test.ts > Calendar source CRUD routes
+ FAIL  tests/integration/ical-parser.test.ts > Calendar events read route
+ FAIL  tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – authorization
+ FAIL  tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – valid upload
+ FAIL  tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – validation
+ FAIL  tests/integration/microsoft-calendar.test.ts > syncSource (Microsoft)
+ FAIL  tests/integration/oauth-flow.test.ts > OAuth route auth guards
+ FAIL  tests/integration/oauth-flow.test.ts > GET /api/user/oauth/accounts
+ FAIL  tests/integration/oauth-flow.test.ts > GET /api/user/oauth/providers
+ FAIL  tests/integration/oauth-flow.test.ts > DELETE /api/admin/oauth/accounts/:id
+ FAIL  tests/integration/oauth-flow.test.ts > OAuth service with mocked fetch
+ FAIL  tests/integration/oauth-flow.test.ts > OAuth callback routes
+ FAIL  tests/integration/publicBootstrap.test.ts > GET /api/public/bootstrap
+ FAIL  tests/integration/publicBootstrapProjection.test.ts > GET /api/public/bootstrap widget projection
+ FAIL  tests/integration/publicVisibility.test.ts > public widget authorization
+ FAIL  tests/integration/publicWidgets.test.ts > GET /api/public/widgets/:widgetId
+ FAIL  tests/integration/rateLimit.test.ts > Rate limiting — login endpoint
+ FAIL  tests/integration/rateLimit.test.ts > Rate limiting — first-run endpoint
+ FAIL  tests/integration/rbac.test.ts > RBAC integration tests
+ FAIL  tests/integration/rememberMe.test.ts > Remember-me login
+ FAIL  tests/integration/restore.test.ts > POST /api/admin/backup/restore
+ FAIL  tests/integration/restorePreview.test.ts > POST /api/admin/backup/preview
+ FAIL  tests/integration/scheduledJobService.test.ts > scheduledJobService
+ FAIL  tests/integration/scheduledJobs.test.ts > Scheduled Jobs API
+ FAIL  tests/integration/sonosArtProxy.test.ts > GET /api/sonos/art/:hash
+ FAIL  tests/integration/staticAssets.test.ts > public uploaded asset boundary
+ FAIL  tests/integration/statusCheck.test.ts > POST /api/admin/status-check
+ FAIL  tests/integration/timezone.test.ts > GET /api/admin/timezones
+ FAIL  tests/integration/todoItems.test.ts > Todo item CRUD
+ FAIL  tests/integration/todoLists.test.ts > Todo list CRUD
+ FAIL  tests/integration/todoSecurity.test.ts > Todo security — auth enforcement
+ FAIL  tests/integration/todoSecurity.test.ts > Todo security — CSRF enforcement
+ FAIL  tests/integration/todoSecurity.test.ts > Todo security — input validation
+ FAIL  tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Service
+ FAIL  tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Sync Service
+ FAIL  tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Sync Routes
+ FAIL  tests/integration/userPreferences.test.ts > GET /api/user/preferences
+ FAIL  tests/integration/userPreferences.test.ts > PUT /api/user/preferences
+ FAIL  tests/integration/widgetDataPermissions.test.ts > Widget data is readable by non-admins (#100)
+Error: The module '$REPO/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/build/Release/better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 127. This version of Node.js requires
+NODE_MODULE_VERSION 137. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+ ❯ bindings ../node_modules/.pnpm/bindings@1.5.0/node_modules/bindings/bindings.js:112:48
+ ❯ new Database ../node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/database.js:48:64
+ ❯ Module.getSqliteDb src/db/sqlite.ts:18:9
+     16|   const dbPath = path.join(getDataSubDir('db'), 'homedash.sqlite');
+     17| 
+     18|   _db = new Database(dbPath);
+       |         ^
+     19| 
+     20|   // Performance and reliability pragmas
+ ❯ Module.runMigrations src/db/migrate.ts:27:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'ERR_DLOPEN_FAILED' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/157]⎯
+
+ FAIL  tests/contract/openapi.test.ts > Runtime contract spot-checks
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/contract/openapi.test.ts:129:19
+    127| 
+    128|   afterAll(async () => {
+    129|     await testApp.close();
+       |                   ^
+    130|   });
+    131| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/157]⎯
+
+ FAIL  tests/contract/openapi.test.ts > Backup & restore endpoint spot-checks
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/contract/openapi.test.ts:189:19
+    187| 
+    188|   afterAll(async () => {
+    189|     await testApp.close();
+       |                   ^
+    190|   });
+    191| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/157]⎯
+
+ FAIL  tests/integration/adminShell.test.ts > GET /api/admin/shell
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/adminShell.test.ts:55:19
+     53| 
+     54|   afterAll(async () => {
+     55|     await testApp.close();
+       |                   ^
+     56|   });
+     57| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/157]⎯
+
+ FAIL  tests/integration/adminShell.test.ts > PUT /api/admin/shell
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/adminShell.test.ts:100:19
+     98| 
+     99|   afterAll(async () => {
+    100|     await testApp.close();
+       |                   ^
+    101|   });
+    102| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/157]⎯
+
+ FAIL  tests/integration/appShortcuts.test.ts > App Shortcut CRUD
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/appShortcuts.test.ts:93:19
+     91| 
+     92|   afterAll(async () => {
+     93|     await testApp.close();
+       |                   ^
+     94|   });
+     95| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/157]⎯
+
+ FAIL  tests/integration/appShortcuts.test.ts > App Shortcut Group CRUD
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/appShortcuts.test.ts:231:19
+    229| 
+    230|   afterAll(async () => {
+    231|     await testApp.close();
+       |                   ^
+    232|   });
+    233| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/157]⎯
+
+ FAIL  tests/integration/appShortcuts.test.ts > App Shortcut Reorder
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/appShortcuts.test.ts:351:19
+    349| 
+    350|   afterAll(async () => {
+    351|     await testApp.close();
+       |                   ^
+    352|   });
+    353| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/157]⎯
+
+ FAIL  tests/integration/appShortcuts.test.ts > App Shortcut Auth Guards
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/appShortcuts.test.ts:435:19
+    433| 
+    434|   afterAll(async () => {
+    435|     await testApp.close();
+       |                   ^
+    436|   });
+    437| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/157]⎯
+
+ FAIL  tests/integration/auth.test.ts > POST /api/auth/login
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/auth.test.ts:44:19
+     42| 
+     43|   afterAll(async () => {
+     44|     await testApp.close();
+       |                   ^
+     45|   });
+     46| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/157]⎯
+
+ FAIL  tests/integration/auth.test.ts > GET /api/auth/me
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/auth.test.ts:117:19
+    115| 
+    116|   afterAll(async () => {
+    117|     await testApp.close();
+       |                   ^
+    118|   });
+    119| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/157]⎯
+
+ FAIL  tests/integration/auth.test.ts > POST /api/auth/logout
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/auth.test.ts:160:19
+    158| 
+    159|   afterAll(async () => {
+    160|     await testApp.close();
+       |                   ^
+    161|   });
+    162| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/157]⎯
+
+ FAIL  tests/integration/backup.test.ts > GET /api/admin/backup
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/backup.test.ts:118:19
+    116| 
+    117|   afterAll(async () => {
+    118|     await testApp.close();
+       |                   ^
+    119|   });
+    120| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/157]⎯
+
+ FAIL  tests/integration/birthdayCalendar.test.ts > local birthday calendar API
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/birthdayCalendar.test.ts:38:19
+     36| 
+     37|   afterAll(async () => {
+     38|     await testApp.close();
+       |                   ^
+     39|   });
+     40| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/157]⎯
+
+ FAIL  tests/integration/calendar-phase7.test.ts > Public calendar endpoints
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/calendar-phase7.test.ts:212:19
+    210| 
+    211|   afterAll(async () => {
+    212|     await testApp.close();
+       |                   ^
+    213|   });
+    214| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/157]⎯
+
+ FAIL  tests/integration/calendar-phase7.test.ts > Private events
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/calendar-phase7.test.ts:325:19
+    323| 
+    324|   afterAll(async () => {
+    325|     await testApp.close();
+       |                   ^
+    326|   });
+    327| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/157]⎯
+
+ FAIL  tests/integration/calendar-phase7.test.ts > Calendar security
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/calendar-phase7.test.ts:401:19
+    399| 
+    400|   afterAll(async () => {
+    401|     await testApp.close();
+       |                   ^
+    402|   });
+    403| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/157]⎯
+
+ FAIL  tests/integration/calendar-phase7.test.ts > iCal source sync E2E
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/calendar-phase7.test.ts:507:19
+    505| 
+    506|   afterAll(async () => {
+    507|     await testApp.close();
+       |                   ^
+    508|   });
+    509| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/157]⎯
+
+ FAIL  tests/integration/calendar-phase7.test.ts > Calendar config validation
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/calendar-phase7.test.ts:688:19
+    686| 
+    687|   afterAll(async () => {
+    688|     await testApp.close();
+       |                   ^
+    689|   });
+    690| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/157]⎯
+
+ FAIL  tests/integration/dashboardExport.test.ts > Dashboard Export
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboardExport.test.ts:57:19
+     55| 
+     56|   afterAll(async () => {
+     57|     await testApp.close();
+       |                   ^
+     58|   });
+     59| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/157]⎯
+
+ FAIL  tests/integration/dashboardImport.test.ts > Dashboard Import
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboardImport.test.ts:128:19
+    126| 
+    127|   afterAll(async () => {
+    128|     await testApp.close();
+       |                   ^
+    129|   });
+    130| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/157]⎯
+
+ FAIL  tests/integration/dashboardImport.test.ts > Dashboard Import — Security (T024)
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboardImport.test.ts:451:19
+    449| 
+    450|   afterAll(async () => {
+    451|     await testApp.close();
+       |                   ^
+    452|   });
+    453| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/157]⎯
+
+ FAIL  tests/integration/dashboardImport.test.ts > Import/Export Round-Trip
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboardImport.test.ts:706:19
+    704| 
+    705|   afterAll(async () => {
+    706|     await testApp.close();
+       |                   ^
+    707|   });
+    708| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/157]⎯
+
+ FAIL  tests/integration/dashboards.test.ts > Dashboard CRUD
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboards.test.ts:64:19
+     62| 
+     63|   afterAll(async () => {
+     64|     await testApp.close();
+       |                   ^
+     65|   });
+     66| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/157]⎯
+
+ FAIL  tests/integration/dashboards.test.ts > Placeholder CRUD
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboards.test.ts:203:19
+    201| 
+    202|   afterAll(async () => {
+    203|     await testApp.close();
+       |                   ^
+    204|   });
+    205| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/157]⎯
+
+ FAIL  tests/integration/dashboards.test.ts > Widget CRUD
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboards.test.ts:289:19
+    287| 
+    288|   afterAll(async () => {
+    289|     await testApp.close();
+       |                   ^
+    290|   });
+    291| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/157]⎯
+
+ FAIL  tests/integration/dashboards.test.ts > Link CRUD
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboards.test.ts:478:19
+    476| 
+    477|   afterAll(async () => {
+    478|     await testApp.close();
+       |                   ^
+    479|   });
+    480| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/157]⎯
+
+ FAIL  tests/integration/dashboards.test.ts > Layout Update
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboards.test.ts:591:19
+    589| 
+    590|   afterAll(async () => {
+    591|     await testApp.close();
+       |                   ^
+    592|   });
+    593| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/157]⎯
+
+ FAIL  tests/integration/dashboards.test.ts > GET /api/dashboards/:id (authenticated)
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboards.test.ts:712:19
+    710| 
+    711|   afterAll(async () => {
+    712|     await testApp.close();
+       |                   ^
+    713|   });
+    714| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/157]⎯
+
+ FAIL  tests/integration/dashboards.test.ts > Icon Cache
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboards.test.ts:754:19
+    752| 
+    753|   afterAll(async () => {
+    754|     await testApp.close();
+       |                   ^
+    755|   });
+    756| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/157]⎯
+
+ FAIL  tests/integration/dashboards.test.ts > Widget config validation in layout save
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dashboards.test.ts:827:19
+    825| 
+    826|   afterAll(async () => {
+    827|     await testApp.close();
+       |                   ^
+    828|   });
+    829| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/157]⎯
+
+ FAIL  tests/integration/dockerAction.test.ts > POST /api/docker/action
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dockerAction.test.ts:39:19
+     37| 
+     38|   afterAll(async () => {
+     39|     await testApp.close();
+       |                   ^
+     40|   });
+     41| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/157]⎯
+
+ FAIL  tests/integration/dockerAdoption.test.ts > Docker widget adoption
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dockerAdoption.test.ts:50:19
+     48| 
+     49|   afterAll(async () => {
+     50|     await testApp.close();
+       |                   ^
+     51|   });
+     52| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/157]⎯
+
+ FAIL  tests/integration/dockerAuth.test.ts > Docker routes — authorization (#189)
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dockerAuth.test.ts:39:19
+     37| 
+     38|   afterAll(async () => {
+     39|     await testApp.close();
+       |                   ^
+     40|   });
+     41| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/157]⎯
+
+ FAIL  tests/integration/dockerConnectionUpgrade.test.ts > Docker connection startup upgrade
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dockerConnectionUpgrade.test.ts:24:19
+     22| 
+     23|   afterAll(async () => {
+     24|     await testApp.close();
+       |                   ^
+     25|   });
+     26| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/157]⎯
+
+ FAIL  tests/integration/dockerContainers.test.ts > GET /api/docker/containers — endpoint resolution
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dockerContainers.test.ts:29:19
+     27| 
+     28|   afterAll(async () => {
+     29|     await testApp.close();
+       |                   ^
+     30|   });
+     31| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/157]⎯
+
+ FAIL  tests/integration/dockerMultiHost.test.ts > Docker multi-host links and routing
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/dockerMultiHost.test.ts:30:19
+     28| 
+     29|   afterAll(async () => {
+     30|     await testApp.close();
+       |                   ^
+     31|   });
+     32| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/157]⎯
+
+ FAIL  tests/integration/firstRun.test.ts > POST /api/first-run/admin — validation (no users)
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/firstRun.test.ts:24:19
+     22| 
+     23|   afterAll(async () => {
+     24|     await testApp.close();
+       |                   ^
+     25|   });
+     26| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/157]⎯
+
+ FAIL  tests/integration/firstRun.test.ts > POST /api/first-run/admin — happy path and gating
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/firstRun.test.ts:62:19
+     60| 
+     61|   afterAll(async () => {
+     62|     await testApp.close();
+       |                   ^
+     63|   });
+     64| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/157]⎯
+
+ FAIL  tests/integration/google-calendar.test.ts > syncSource (Google)
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/google-calendar.test.ts:227:19
+    225|   afterAll(async () => {
+    226|     globalThis.fetch = originalFetch;
+    227|     await testApp.close();
+       |                   ^
+    228|   });
+    229| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/157]⎯
+
+ FAIL  tests/integration/ical-parser.test.ts > Calendar source CRUD routes
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/ical-parser.test.ts:340:19
+    338| 
+    339|   afterAll(async () => {
+    340|     await testApp.close();
+       |                   ^
+    341|   });
+    342| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/157]⎯
+
+ FAIL  tests/integration/ical-parser.test.ts > Calendar events read route
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/ical-parser.test.ts:758:19
+    756| 
+    757|   afterAll(async () => {
+    758|     await testApp.close();
+       |                   ^
+    759|   });
+    760| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/157]⎯
+
+ FAIL  tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – authorization
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/logoUpload.test.ts:90:19
+     88| 
+     89|   afterAll(async () => {
+     90|     await testApp.close();
+       |                   ^
+     91|   });
+     92| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/157]⎯
+
+ FAIL  tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – valid upload
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/logoUpload.test.ts:122:19
+    120| 
+    121|   afterAll(async () => {
+    122|     await testApp.close();
+       |                   ^
+    123|   });
+    124| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[44/157]⎯
+
+ FAIL  tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – validation
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/logoUpload.test.ts:219:19
+    217| 
+    218|   afterAll(async () => {
+    219|     await testApp.close();
+       |                   ^
+    220|   });
+    221| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[45/157]⎯
+
+ FAIL  tests/integration/microsoft-calendar.test.ts > syncSource (Microsoft)
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/microsoft-calendar.test.ts:226:19
+    224|   afterAll(async () => {
+    225|     globalThis.fetch = originalFetch;
+    226|     await testApp.close();
+       |                   ^
+    227|   });
+    228| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[46/157]⎯
+
+ FAIL  tests/integration/migrationIntegrity.test.ts > migration relationship integrity
+Error: The module '$REPO/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/build/Release/better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 127. This version of Node.js requires
+NODE_MODULE_VERSION 137. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+ ❯ bindings ../node_modules/.pnpm/bindings@1.5.0/node_modules/bindings/bindings.js:112:48
+ ❯ new Database ../node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/database.js:48:64
+ ❯ Module.getSqliteDb src/db/sqlite.ts:18:9
+     16|   const dbPath = path.join(getDataSubDir('db'), 'homedash.sqlite');
+     17| 
+     18|   _db = new Database(dbPath);
+       |         ^
+     19| 
+     20|   // Performance and reliability pragmas
+ ❯ tests/integration/migrationIntegrity.test.ts:21:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'ERR_DLOPEN_FAILED' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[47/157]⎯
+
+ FAIL  tests/integration/oauth-flow.test.ts > OAuth route auth guards
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/oauth-flow.test.ts:56:19
+     54| 
+     55|   afterAll(async () => {
+     56|     await testApp.close();
+       |                   ^
+     57|   });
+     58| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[48/157]⎯
+
+ FAIL  tests/integration/oauth-flow.test.ts > GET /api/user/oauth/accounts
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/oauth-flow.test.ts:113:19
+    111| 
+    112|   afterAll(async () => {
+    113|     await testApp.close();
+       |                   ^
+    114|   });
+    115| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[49/157]⎯
+
+ FAIL  tests/integration/oauth-flow.test.ts > GET /api/user/oauth/providers
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/oauth-flow.test.ts:138:19
+    136| 
+    137|   afterAll(async () => {
+    138|     await testApp.close();
+       |                   ^
+    139|   });
+    140| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[50/157]⎯
+
+ FAIL  tests/integration/oauth-flow.test.ts > DELETE /api/admin/oauth/accounts/:id
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/oauth-flow.test.ts:165:19
+    163| 
+    164|   afterAll(async () => {
+    165|     await testApp.close();
+       |                   ^
+    166|   });
+    167| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[51/157]⎯
+
+ FAIL  tests/integration/oauth-flow.test.ts > OAuth service with mocked fetch
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/oauth-flow.test.ts:207:19
+    205|   afterAll(async () => {
+    206|     globalThis.fetch = originalFetch;
+    207|     await testApp.close();
+       |                   ^
+    208|   });
+    209| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[52/157]⎯
+
+ FAIL  tests/integration/oauth-flow.test.ts > OAuth callback routes
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/oauth-flow.test.ts:390:19
+    388| 
+    389|   afterAll(async () => {
+    390|     await testApp.close();
+       |                   ^
+    391|   });
+    392| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[53/157]⎯
+
+ FAIL  tests/integration/publicBootstrap.test.ts > GET /api/public/bootstrap
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/publicBootstrap.test.ts:24:19
+     22| 
+     23|   afterAll(async () => {
+     24|     await testApp.close();
+       |                   ^
+     25|   });
+     26| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[54/157]⎯
+
+ FAIL  tests/integration/publicBootstrapProjection.test.ts > GET /api/public/bootstrap widget projection
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/publicBootstrapProjection.test.ts:108:19
+    106| 
+    107|   afterAll(async () => {
+    108|     await testApp.close();
+       |                   ^
+    109|   });
+    110| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[55/157]⎯
+
+ FAIL  tests/integration/publicVisibility.test.ts > public widget authorization
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/publicVisibility.test.ts:70:19
+     68| 
+     69|   afterAll(async () => {
+     70|     await testApp.close();
+       |                   ^
+     71|   });
+     72| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[56/157]⎯
+
+ FAIL  tests/integration/publicWidgets.test.ts > GET /api/public/widgets/:widgetId
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/publicWidgets.test.ts:94:19
+     92| 
+     93|   afterAll(async () => {
+     94|     await testApp.close();
+       |                   ^
+     95|   });
+     96| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[57/157]⎯
+
+ FAIL  tests/integration/rateLimit.test.ts > Rate limiting — login endpoint
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/rateLimit.test.ts:27:19
+     25| 
+     26|   afterAll(async () => {
+     27|     await testApp.close();
+       |                   ^
+     28|   });
+     29| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[58/157]⎯
+
+ FAIL  tests/integration/rateLimit.test.ts > Rate limiting — first-run endpoint
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/rateLimit.test.ts:56:19
+     54| 
+     55|   afterAll(async () => {
+     56|     await testApp.close();
+       |                   ^
+     57|   });
+     58| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[59/157]⎯
+
+ FAIL  tests/integration/rbac.test.ts > RBAC integration tests
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/rbac.test.ts:87:19
+     85| 
+     86|   afterAll(async () => {
+     87|     await testApp.close();
+       |                   ^
+     88|   });
+     89| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[60/157]⎯
+
+ FAIL  tests/integration/rememberMe.test.ts > Remember-me login
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/rememberMe.test.ts:37:19
+     35| 
+     36|   afterAll(async () => {
+     37|     await testApp.close();
+       |                   ^
+     38|   });
+     39| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[61/157]⎯
+
+ FAIL  tests/integration/restore.test.ts > POST /api/admin/backup/restore
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/restore.test.ts:59:19
+     57| 
+     58|   afterAll(async () => {
+     59|     await testApp.close();
+       |                   ^
+     60|   });
+     61| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[62/157]⎯
+
+ FAIL  tests/integration/restorePreview.test.ts > POST /api/admin/backup/preview
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/restorePreview.test.ts:44:19
+     42| 
+     43|   afterAll(async () => {
+     44|     await testApp.close();
+       |                   ^
+     45|   });
+     46| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[63/157]⎯
+
+ FAIL  tests/integration/scheduledJobService.test.ts > scheduledJobService
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/scheduledJobService.test.ts:17:19
+     15| 
+     16|   afterAll(async () => {
+     17|     await testApp.close();
+       |                   ^
+     18|   });
+     19| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[64/157]⎯
+
+ FAIL  tests/integration/scheduledJobs.test.ts > Scheduled Jobs API
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/scheduledJobs.test.ts:44:19
+     42| 
+     43|   afterAll(async () => {
+     44|     await testApp.close();
+       |                   ^
+     45|   });
+     46| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[65/157]⎯
+
+ FAIL  tests/integration/sonosArtProxy.test.ts > GET /api/sonos/art/:hash
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/sonosArtProxy.test.ts:49:19
+     47| 
+     48|   afterAll(async () => {
+     49|     await testApp.close();
+       |                   ^
+     50|   });
+     51| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[66/157]⎯
+
+ FAIL  tests/integration/staticAssets.test.ts > public uploaded asset boundary
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/staticAssets.test.ts:15:19
+     13| 
+     14|   afterAll(async () => {
+     15|     await testApp.close();
+       |                   ^
+     16|   });
+     17| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[67/157]⎯
+
+ FAIL  tests/integration/statusCheck.test.ts > POST /api/admin/status-check
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/statusCheck.test.ts:56:19
+     54| 
+     55|   afterAll(async () => {
+     56|     await testApp.close();
+       |                   ^
+     57|   });
+     58| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[68/157]⎯
+
+ FAIL  tests/integration/timezone.test.ts > GET /api/admin/timezones
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/timezone.test.ts:41:19
+     39| 
+     40|   afterAll(async () => {
+     41|     await testApp.close();
+       |                   ^
+     42|   });
+     43| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[69/157]⎯
+
+ FAIL  tests/integration/todoItems.test.ts > Todo item CRUD
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/todoItems.test.ts:59:19
+     57| 
+     58|   afterAll(async () => {
+     59|     await testApp.close();
+       |                   ^
+     60|   });
+     61| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[70/157]⎯
+
+ FAIL  tests/integration/todoLists.test.ts > Todo list CRUD
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/todoLists.test.ts:51:19
+     49| 
+     50|   afterAll(async () => {
+     51|     await testApp.close();
+       |                   ^
+     52|   });
+     53| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[71/157]⎯
+
+ FAIL  tests/integration/todoSecurity.test.ts > Todo security — auth enforcement
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/todoSecurity.test.ts:53:19
+     51| 
+     52|   afterAll(async () => {
+     53|     await testApp.close();
+       |                   ^
+     54|   });
+     55| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[72/157]⎯
+
+ FAIL  tests/integration/todoSecurity.test.ts > Todo security — CSRF enforcement
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/todoSecurity.test.ts:97:19
+     95| 
+     96|   afterAll(async () => {
+     97|     await testApp.close();
+       |                   ^
+     98|   });
+     99| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[73/157]⎯
+
+ FAIL  tests/integration/todoSecurity.test.ts > Todo security — input validation
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/todoSecurity.test.ts:144:19
+    142| 
+    143|   afterAll(async () => {
+    144|     await testApp.close();
+       |                   ^
+    145|   });
+    146| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[74/157]⎯
+
+ FAIL  tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Service
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/todoSyncMicrosoft.test.ts:131:19
+    129| 
+    130|   afterAll(async () => {
+    131|     await testApp.close();
+       |                   ^
+    132|   });
+    133| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[75/157]⎯
+
+ FAIL  tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Sync Service
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/todoSyncMicrosoft.test.ts:333:19
+    331| 
+    332|   afterAll(async () => {
+    333|     await testApp.close();
+       |                   ^
+    334|   });
+    335| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[76/157]⎯
+
+ FAIL  tests/integration/todoSyncMicrosoft.test.ts > Microsoft To Do Sync Routes
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/todoSyncMicrosoft.test.ts:571:19
+    569| 
+    570|   afterAll(async () => {
+    571|     await testApp.close();
+       |                   ^
+    572|   });
+    573| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[77/157]⎯
+
+ FAIL  tests/integration/userPreferences.test.ts > GET /api/user/preferences
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/userPreferences.test.ts:52:19
+     50| 
+     51|   afterAll(async () => {
+     52|     await testApp.close();
+       |                   ^
+     53|   });
+     54| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[78/157]⎯
+
+ FAIL  tests/integration/userPreferences.test.ts > PUT /api/user/preferences
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/userPreferences.test.ts:85:19
+     83| 
+     84|   afterAll(async () => {
+     85|     await testApp.close();
+       |                   ^
+     86|   });
+     87| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[79/157]⎯
+
+ FAIL  tests/integration/widgetDataPermissions.test.ts > Widget data is readable by non-admins (#100)
+TypeError: Cannot read properties of undefined (reading 'close')
+ ❯ tests/integration/widgetDataPermissions.test.ts:154:19
+    152| 
+    153|   afterAll(async () => {
+    154|     await testApp.close();
+       |                   ^
+    155|   });
+    156| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[80/157]⎯
+
+ Test Files  44 failed | 17 passed (61)
+      Tests  258 passed (779)
+   Start at  20:08:01
+   Duration  20.08s (transform 487ms, setup 412ms, collect 2.05s, tests 17.39s, environment 0ms, prepare 40ms)
+
+$REPO/backend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] backend@0.1.0 test: `vitest run`
+Exit status 1

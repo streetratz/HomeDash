@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [3.2.11] - 2026-09-24
+
+### Fixed
+
+- **Production restart loop when no session secret is configured** (#11) —
+  HomeDash now creates a cryptographically random session secret once in the
+  persistent data directory, stores it with `0600` permissions, and reuses it
+  across container replacements. Explicit `HOMEDASH_SESSION_SECRET` and legacy
+  `SESSION_SECRET` values remain authoritative, and conflicting values still
+  fail startup without exposing either secret.
+
 ### Added
 
 - **Per-widget public dashboard visibility** (#66) — administrators can expose

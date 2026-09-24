@@ -1,0 +1,2 @@
+first startup: healthy; secret mode=600
+replacement startup: healthy; persistent secret reused; secret mode=600

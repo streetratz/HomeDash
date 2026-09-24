@@ -1,4 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { _resetEnvCache, getEnv } from '../../src/config/env.js';
 
 const CANONICAL_SECRET = 'canonical-session-secret-at-least-32-characters';
@@ -6,9 +9,12 @@ const LEGACY_SECRET = 'legacy-session-secret-at-least-32-characters-long';
 
 const originalEnv = {
   NODE_ENV: process.env['NODE_ENV'],
+  HOMEDASH_DATA_DIR: process.env['HOMEDASH_DATA_DIR'],
   HOMEDASH_SESSION_SECRET: process.env['HOMEDASH_SESSION_SECRET'],
   SESSION_SECRET: process.env['SESSION_SECRET'],
 };
+
+let tempDir: string;
 
 function restore(name: keyof typeof originalEnv): void {
   const value = originalEnv[name];
@@ -21,7 +27,9 @@ function restore(name: keyof typeof originalEnv): void {
 
 describe('session secret environment configuration', () => {
   beforeEach(() => {
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'homedash-env-'));
     process.env['NODE_ENV'] = 'production';
+    process.env['HOMEDASH_DATA_DIR'] = tempDir;
     delete process.env['HOMEDASH_SESSION_SECRET'];
     delete process.env['SESSION_SECRET'];
     _resetEnvCache();
@@ -29,9 +37,11 @@ describe('session secret environment configuration', () => {
 
   afterEach(() => {
     restore('NODE_ENV');
+    restore('HOMEDASH_DATA_DIR');
     restore('HOMEDASH_SESSION_SECRET');
     restore('SESSION_SECRET');
     _resetEnvCache();
+    fs.rmSync(tempDir, { recursive: true, force: true });
   });
 
   it('uses HOMEDASH_SESSION_SECRET as the canonical variable', () => {
@@ -70,8 +80,29 @@ describe('session secret environment configuration', () => {
     }
   });
 
-  it('rejects production startup when neither variable is configured', () => {
-    expect(() => getEnv()).toThrow('HOMEDASH_SESSION_SECRET is required in production');
+  it('creates and reuses a persistent production secret when neither variable is configured', () => {
+    const first = getEnv().SESSION_SECRET;
+    const secretPath = path.join(tempDir, '.homedash-session-secret');
+
+    expect(first).toHaveLength(64);
+    expect(fs.readFileSync(secretPath, 'utf8').trim()).toBe(first);
+    expect(fs.statSync(secretPath).mode & 0o777).toBe(0o600);
+
+    _resetEnvCache();
+    expect(getEnv().SESSION_SECRET).toBe(first);
+  });
+
+  it('does not create a generated secret when an explicit variable is configured', () => {
+    process.env['HOMEDASH_SESSION_SECRET'] = CANONICAL_SECRET;
+
+    expect(getEnv().SESSION_SECRET).toBe(CANONICAL_SECRET);
+    expect(fs.existsSync(path.join(tempDir, '.homedash-session-secret'))).toBe(false);
+  });
+
+  it('rejects an invalid persistent production secret', () => {
+    fs.writeFileSync(path.join(tempDir, '.homedash-session-secret'), 'too-short\n');
+
+    expect(() => getEnv()).toThrow('Persistent session secret is invalid');
   });
 
   it('generates a stable process-local secret outside production', () => {
