@@ -2,7 +2,7 @@
 
 <!-- VERSION-BADGES-START -->
 ![Main Version](https://img.shields.io/badge/main-v3.2.11-blue)
-![Release Version](https://img.shields.io/badge/release-v3.2.10-green)
+![Release Version](https://img.shields.io/badge/release-v3.2.11-green)
 <!-- VERSION-BADGES-END -->
 ![GHCR Image](https://img.shields.io/badge/ghcr.io-streetratz%2Fhomedash-purple)
 
