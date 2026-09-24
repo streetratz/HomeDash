@@ -25,22 +25,6 @@ async function getVisibleLoginLink(page: Page): Promise<Locator> {
 }
 
 test.describe('Unauthenticated view', () => {
-  // Ensure an admin account exists before testing the unauth view
-  test.beforeAll(async ({ request }) => {
-    const bootstrapRes = await request.get('/api/public/bootstrap');
-    expect(bootstrapRes.ok()).toBe(true);
-    const bootstrap = (await bootstrapRes.json()) as { firstRunRequired: boolean };
-
-    if (bootstrap.firstRunRequired) {
-      // Create admin via API so the unauth view is reachable
-      const res = await request.post('/api/first-run/admin', {
-        data: { username: 'admin', displayName: 'Admin', password: 'strongpassword1' },
-      });
-      // 201 Created or 409 Conflict (already exists) are both acceptable
-      expect([201, 409]).toContain(res.status());
-    }
-  });
-
   test('shows read-only dashboard shell without redirecting to first-run', async ({ page }) => {
     // Clear any cookies to ensure we're unauthenticated
     await page.context().clearCookies();

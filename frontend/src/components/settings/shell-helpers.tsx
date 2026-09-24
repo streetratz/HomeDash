@@ -45,9 +45,9 @@ export function AlignmentPicker({
 
 export const ALL_TIMEZONES: string[] = (() => {
   try {
-    const tzList = (Intl as unknown as { supportedValuesOf: (k: string) => string[] }).supportedValuesOf(
-      'timeZone',
-    );
+    const tzList = (
+      Intl as unknown as { supportedValuesOf: (k: string) => string[] }
+    ).supportedValuesOf('timeZone');
     return tzList.includes('UTC') ? tzList : ['UTC', ...tzList];
   } catch {
     return ['UTC'];
@@ -69,6 +69,7 @@ export function TimezoneCombobox({
   return (
     <>
       <Input
+        id={id}
         type="text"
         list={listId}
         value={value}
@@ -83,8 +84,7 @@ export function TimezoneCombobox({
         ))}
       </datalist>
       <p className="mt-0.5 text-[10px] text-muted-foreground">
-        IANA timezone name.
-        {' '}
+        IANA timezone name.{' '}
         <a
           href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
           target="_blank"

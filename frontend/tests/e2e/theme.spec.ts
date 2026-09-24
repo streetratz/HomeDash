@@ -11,40 +11,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import type { Page, APIRequestContext } from '@playwright/test';
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-async function completeFirstRunIfNeeded(
-  page: Page,
-  request: APIRequestContext
-) {
-  const res = await request.get('/api/bootstrap');
-  if (!res.ok()) return false;
-  const body = await res.json() as { firstRunRequired?: boolean };
-  if (!body.firstRunRequired) return true;
-
-  await page.goto('/');
-  await page.waitForURL(/\/first-run/);
-  await page.getByLabel('Username').fill('admin');
-  await page.getByLabel('Display name').fill('Admin');
-  await page.getByLabel('Password', { exact: true }).fill('strongpassword1');
-  await page.getByTestId('first-run-submit').click();
-  await page.waitForURL('/');
-  return true;
-}
-
-async function loginAsAdmin(
-  page: Page
-) {
-  await page.goto('/login');
-  await page.getByLabel('Username').fill('admin');
-  await page.getByLabel('Password', { exact: true }).fill('strongpassword1');
-  await page.getByRole('button', { name: /sign in/i }).click();
-  await page.waitForURL('/');
-}
+import type { Page } from '@playwright/test';
 
 function isDarkMode(page: Page) {
   return page.evaluate(() => document.documentElement.classList.contains('dark'));
@@ -55,14 +22,8 @@ function isDarkMode(page: Page) {
 // ---------------------------------------------------------------------------
 
 test.describe('Theme toggle — unauthenticated user', () => {
-  test('toggling theme persists in localStorage after page reload', async ({ page, request }) => {
-    const ready = await completeFirstRunIfNeeded(page, request);
-    if (!ready) {
-      test.skip();
-      return;
-    }
-
-    // Navigate to dashboard (no auth → unauth view)
+  test('toggling theme persists in localStorage after page reload', async ({ page }) => {
+    await page.context().clearCookies();
     await page.goto('/');
 
     const toggle = page.getByTestId('theme-toggle');
@@ -74,34 +35,21 @@ test.describe('Theme toggle — unauthenticated user', () => {
     await toggle.click();
 
     // Verify the DOM class changed
-    await expect
-      .poll(() => isDarkMode(page))
-      .toBe(expectedAfterToggle);
+    await expect.poll(() => isDarkMode(page)).toBe(expectedAfterToggle);
 
     // Verify localStorage was updated
-    const storedTheme = await page.evaluate(() =>
-      localStorage.getItem('homedash_theme')
-    );
+    const storedTheme = await page.evaluate(() => localStorage.getItem('homedash_theme'));
     expect(storedTheme).toBe(expectedAfterToggle ? 'dark' : 'light');
 
     // Reload and confirm theme is restored from localStorage
     await page.reload();
-    await expect
-      .poll(() => isDarkMode(page))
-      .toBe(expectedAfterToggle);
+    await expect.poll(() => isDarkMode(page)).toBe(expectedAfterToggle);
   });
 });
 
 test.describe('Theme toggle — authenticated admin', () => {
-  test('toggling theme persists server-side after page reload', async ({ page, request }) => {
-    const ready = await completeFirstRunIfNeeded(page, request);
-    if (!ready) {
-      test.skip();
-      return;
-    }
-
-    await loginAsAdmin(page);
-
+  test('toggling theme persists server-side after page reload', async ({ page }) => {
+    await page.goto('/');
     const toggle = page.getByTestId('theme-toggle');
 
     const initiallyDark = await isDarkMode(page);
@@ -110,15 +58,11 @@ test.describe('Theme toggle — authenticated admin', () => {
     await toggle.click();
 
     // DOM should update immediately
-    await expect
-      .poll(() => isDarkMode(page))
-      .toBe(expectedAfterToggle);
+    await expect.poll(() => isDarkMode(page)).toBe(expectedAfterToggle);
 
     // Reload — server preference should restore the same theme
     await page.reload();
-    await expect
-      .poll(() => isDarkMode(page))
-      .toBe(expectedAfterToggle);
+    await expect.poll(() => isDarkMode(page)).toBe(expectedAfterToggle);
 
     // Toggle back so we don't bleed state into other tests
     await toggle.click();

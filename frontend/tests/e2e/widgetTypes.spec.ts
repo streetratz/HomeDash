@@ -14,50 +14,13 @@
  * API setup/teardown.
  */
 
-import { test, expect } from '@playwright/test';
+import { expectApiOk, expect, test } from './support/admin.js';
 import type { Page } from '@playwright/test';
 import { randomUUID } from 'node:crypto';
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-/**
- * Ensure admin account exists via API, then log in via the browser form.
- * Returns CSRF token obtained from a subsequent API login call (using
- * page.request which shares the browser session cookie).
- */
-async function ensureAdminAndLogin(page: Page): Promise<string> {
-  const api = page.request;
-
-  // Create admin if first run
-  const bootstrap = await api.get('/api/public/bootstrap');
-  const body = (await bootstrap.json()) as { firstRunRequired: boolean };
-  if (body.firstRunRequired) {
-    await api.post('/api/first-run/admin', {
-      data: {
-        username: 'admin',
-        displayName: 'Admin',
-        password: 'strongpassword1',
-      },
-    });
-  }
-
-  // Login via browser form (sets session cookie in the page context)
-  await page.goto('/login');
-  await page.getByLabel('Username').fill('admin');
-  await page.getByLabel('Password', { exact: true }).fill('strongpassword1');
-  await page.getByRole('button', { name: /sign in/i }).click();
-  await page.waitForURL('/');
-
-  // Fetch CSRF from /api/auth/me — page.request shares the page's cookies
-  const meRes = await api.get('/api/auth/me');
-  if (!meRes.ok()) {
-    throw new Error(`GET /api/auth/me failed (${meRes.status()})`);
-  }
-  const me = (await meRes.json()) as { csrfToken: string };
-  return me.csrfToken;
-}
 
 /**
  * Create a dashboard with a clock widget and set it as the user's preferred
@@ -74,40 +37,32 @@ async function setupClockDashboard(
     headers: { 'x-csrf-token': csrf },
     data: { name: `Clock E2E ${Date.now()}` },
   });
-  if (!dashRes.ok()) {
-    const text = await dashRes.text();
-    throw new Error(`Create dashboard failed (${dashRes.status()}): ${text}`);
-  }
+  await expectApiOk(dashRes, 'Create clock dashboard');
   const dash = (await dashRes.json()) as { id: string };
 
   const stableKey = randomUUID();
-  const layoutRes = await api.put(
-    `/api/admin/dashboards/${dash.id}/layout`,
-    {
-      headers: { 'x-csrf-token': csrf },
-      data: {
-        placeholders: [
-          {
-            stableKey,
-            x: 0,
-            y: 0,
-            w: 6,
-            h: 4,
-            widgets: [
-              {
-                type: 'clock',
-                orderIndex: 0,
-                configJson: clockConfig
-                  ? JSON.stringify(clockConfig)
-                  : undefined,
-              },
-            ],
-          },
-        ],
-      },
+  const layoutRes = await api.put(`/api/admin/dashboards/${dash.id}/layout`, {
+    headers: { 'x-csrf-token': csrf },
+    data: {
+      placeholders: [
+        {
+          stableKey,
+          x: 0,
+          y: 0,
+          w: 6,
+          h: 4,
+          widgets: [
+            {
+              type: 'clock',
+              orderIndex: 0,
+              configJson: clockConfig ? JSON.stringify(clockConfig) : undefined,
+            },
+          ],
+        },
+      ],
     },
-  );
-  expect(layoutRes.ok()).toBe(true);
+  });
+  await expectApiOk(layoutRes, 'Save clock dashboard layout');
 
   const prefRes = await api.put('/api/user/preferences', {
     headers: { 'x-csrf-token': csrf },
@@ -116,16 +71,12 @@ async function setupClockDashboard(
       mobileDashboardId: dash.id,
     },
   });
-  expect(prefRes.ok()).toBe(true);
+  await expectApiOk(prefRes, 'Set clock dashboard preference');
 
   return dash.id;
 }
 
-async function cleanupDashboard(
-  page: Page,
-  csrf: string,
-  dashboardId: string,
-): Promise<void> {
+async function cleanupDashboard(page: Page, csrf: string, dashboardId: string): Promise<void> {
   const api = page.request;
   await api.put('/api/user/preferences', {
     headers: { 'x-csrf-token': csrf },
@@ -144,9 +95,8 @@ async function cleanupDashboard(
 // ---------------------------------------------------------------------------
 
 test.describe('Clock/Date widget — E2E (US4)', () => {
-  test('12hr clock shows AM/PM and updates live', async ({ page }) => {
-    const csrf = await ensureAdminAndLogin(page);
-    const dashId = await setupClockDashboard(page, csrf, {
+  test('12hr clock shows AM/PM and updates live', async ({ page, csrfToken }) => {
+    const dashId = await setupClockDashboard(page, csrfToken, {
       format: '12h',
       showDate: true,
       showSeconds: true,
@@ -175,13 +125,12 @@ test.describe('Clock/Date widget — E2E (US4)', () => {
       // Date line should be visible
       await expect(page.getByTestId('clock-date').first()).toBeVisible();
     } finally {
-      await cleanupDashboard(page, csrf, dashId);
+      await cleanupDashboard(page, csrfToken, dashId);
     }
   });
 
-  test('24hr clock shows time in HH:MM range', async ({ page }) => {
-    const csrf = await ensureAdminAndLogin(page);
-    const dashId = await setupClockDashboard(page, csrf, {
+  test('24hr clock shows time in HH:MM range', async ({ page, csrfToken }) => {
+    const dashId = await setupClockDashboard(page, csrfToken, {
       format: '24h',
       showDate: false,
       showSeconds: false,
@@ -206,13 +155,12 @@ test.describe('Clock/Date widget — E2E (US4)', () => {
       // showDate: false → no date element
       await expect(page.getByTestId('clock-date')).not.toBeVisible();
     } finally {
-      await cleanupDashboard(page, csrf, dashId);
+      await cleanupDashboard(page, csrfToken, dashId);
     }
   });
 
-  test('unconfigured timezone defaults to browser-local', async ({ page }) => {
-    const csrf = await ensureAdminAndLogin(page);
-    const dashId = await setupClockDashboard(page, csrf, {
+  test('unconfigured timezone defaults to browser-local', async ({ page, csrfToken }) => {
+    const dashId = await setupClockDashboard(page, csrfToken, {
       format: '12h',
       showDate: true,
       showSeconds: true,
@@ -230,13 +178,12 @@ test.describe('Clock/Date widget — E2E (US4)', () => {
       // Timezone label should not render
       await expect(page.getByTestId('clock-timezone')).not.toBeVisible();
     } finally {
-      await cleanupDashboard(page, csrf, dashId);
+      await cleanupDashboard(page, csrfToken, dashId);
     }
   });
 
-  test('configured timezone displays timezone label', async ({ page }) => {
-    const csrf = await ensureAdminAndLogin(page);
-    const dashId = await setupClockDashboard(page, csrf, {
+  test('configured timezone displays timezone label', async ({ page, csrfToken }) => {
+    const dashId = await setupClockDashboard(page, csrfToken, {
       timezone: 'America/New_York',
       format: '12h',
       showDate: true,
@@ -249,23 +196,18 @@ test.describe('Clock/Date widget — E2E (US4)', () => {
       const clockWidget = page.getByTestId('clock-widget').first();
       await expect(clockWidget).toBeVisible({ timeout: 10_000 });
 
-      expect(await clockWidget.getAttribute('data-timezone')).toBe(
-        'America/New_York',
-      );
+      expect(await clockWidget.getAttribute('data-timezone')).toBe('America/New_York');
 
       const tzLabel = page.getByTestId('clock-timezone').first();
       await expect(tzLabel).toBeVisible();
       await expect(tzLabel).toHaveText('America/New York');
     } finally {
-      await cleanupDashboard(page, csrf, dashId);
+      await cleanupDashboard(page, csrfToken, dashId);
     }
   });
 
-  test('invalid timezone falls back gracefully (no crash)', async ({
-    page,
-  }) => {
-    const csrf = await ensureAdminAndLogin(page);
-    const dashId = await setupClockDashboard(page, csrf, {
+  test('invalid timezone falls back gracefully (no crash)', async ({ page, csrfToken }) => {
+    const dashId = await setupClockDashboard(page, csrfToken, {
       timezone: 'Invalid/Timezone_XYZ',
       format: '12h',
       showDate: true,
@@ -278,7 +220,7 @@ test.describe('Clock/Date widget — E2E (US4)', () => {
       // Page should not crash
       await expect(page.getByRole('main')).toBeVisible({ timeout: 10_000 });
     } finally {
-      await cleanupDashboard(page, csrf, dashId);
+      await cleanupDashboard(page, csrfToken, dashId);
     }
   });
 });

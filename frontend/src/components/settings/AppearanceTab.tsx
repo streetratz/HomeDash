@@ -28,13 +28,7 @@ import { Button } from '../ui/button.js';
 import { Input } from '../ui/input.js';
 import { Label } from '../ui/label.js';
 import { Switch } from '../ui/switch.js';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select.js';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select.js';
 import { apiClient } from '../../lib/apiClient.js';
 import { queryClient } from '../../state/queryClient.js';
 import { getCsrfToken } from '../../lib/apiClient.js';
@@ -81,9 +75,7 @@ const navGroups: NavGroup[] = [
   },
   {
     label: 'Behavior',
-    items: [
-      { id: 'screensaver', label: 'Screensaver', icon: <MonitorPlay className="h-4 w-4" /> },
-    ],
+    items: [{ id: 'screensaver', label: 'Screensaver', icon: <MonitorPlay className="h-4 w-4" /> }],
   },
 ];
 const navItems = navGroups.flatMap((group) => group.items);
@@ -131,7 +123,9 @@ function useScreensaverShellSettings() {
   return useQuery<ScreensaverShellSettings>({
     queryKey: ['admin', 'shellSettings', 'screensaver'],
     queryFn: async () => {
-      const data = await apiClient.get<{ shell: ScreensaverShellSettings }>('/api/public/bootstrap');
+      const data = await apiClient.get<{ shell: ScreensaverShellSettings }>(
+        '/api/public/bootstrap',
+      );
       return data.shell;
     },
     select: (shell) => ({
@@ -215,12 +209,12 @@ function BrandingPanel() {
     setSyncedFrom(settings);
   }
 
-  const brandingDirty = settings != null && (
-    titleText !== settings.titleText ||
-    titleFont !== settings.titleFont ||
-    titleFontSizePx !== settings.titleFontSizePx ||
-    bodyFont !== (settings.bodyFont ?? 'system')
-  );
+  const brandingDirty =
+    settings != null &&
+    (titleText !== settings.titleText ||
+      titleFont !== settings.titleFont ||
+      titleFontSizePx !== settings.titleFontSizePx ||
+      bodyFont !== (settings.bodyFont ?? 'system'));
 
   // Logo upload
   const [logoStatus, setLogoStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
@@ -277,7 +271,10 @@ function BrandingPanel() {
         clockStripAlignment: settings?.clockStripAlignment ?? 'center',
         homeTimezone: settings?.homeTimezone ?? null,
         homeClockConfig: settings?.homeClockConfig ?? null,
-        timezones: settings?.timezones.filter((c) => !c.isHome).map((c) => ({ label: c.label, timezone: c.timezone })) ?? [],
+        timezones:
+          settings?.timezones
+            .filter((c) => !c.isHome)
+            .map((c) => ({ label: c.label, timezone: c.timezone })) ?? [],
         footerText: settings?.footerText ?? null,
         repoUrl: settings?.repoUrl ?? null,
         unauthWebDashboardId: settings?.unauthWebDashboardId ?? null,
@@ -311,15 +308,36 @@ function BrandingPanel() {
       </div>
 
       {/* Sticky save bar — always visible */}
-      <div className={`sticky top-0 z-10 flex items-center justify-between gap-3 rounded-md px-4 py-2.5 backdrop-blur-sm border ${brandingDirty ? 'border-primary/30 bg-primary/5' : 'border-border/40 bg-muted/30'}`}>
-        <span className={`hidden sm:inline text-sm font-medium text-primary transition-opacity ${brandingDirty ? 'opacity-100' : 'opacity-0'}`}>You have unsaved changes</span>
+      <div
+        className={`sticky top-0 z-10 flex items-center justify-between gap-3 rounded-md px-4 py-2.5 backdrop-blur-sm border ${brandingDirty ? 'border-primary/30 bg-primary/5' : 'border-border/40 bg-muted/30'}`}
+      >
+        <span
+          className={`hidden sm:inline text-sm font-medium text-primary transition-opacity ${brandingDirty ? 'opacity-100' : 'opacity-0'}`}
+        >
+          You have unsaved changes
+        </span>
         <div className="flex gap-2">
           {brandingDirty && (
-            <Button variant="outline" size="sm" onClick={() => { if (settings) { setTitleText(settings.titleText); setTitleFont(settings.titleFont); setTitleFontSizePx(settings.titleFontSizePx); setBodyFont(settings.bodyFont ?? 'system'); } }}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                if (settings) {
+                  setTitleText(settings.titleText);
+                  setTitleFont(settings.titleFont);
+                  setTitleFontSizePx(settings.titleFontSizePx);
+                  setBodyFont(settings.bodyFont ?? 'system');
+                }
+              }}
+            >
               Discard
             </Button>
           )}
-          <Button size="sm" onClick={() => void handleSave()} disabled={updateShell.isPending || !brandingDirty}>
+          <Button
+            size="sm"
+            onClick={() => void handleSave()}
+            disabled={updateShell.isPending || !brandingDirty}
+          >
             <Save className="mr-1.5 h-3.5 w-3.5" />
             {updateShell.isPending ? 'Saving…' : 'Save Branding'}
           </Button>
@@ -332,8 +350,9 @@ function BrandingPanel() {
           <CardTitle className="text-base">Title & Font</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <FieldRow label="Site title">
+          <FieldRow label="Site title" htmlFor="appearance-site-title">
             <Input
+              id="appearance-site-title"
               type="text"
               value={titleText}
               onChange={(e) => setTitleText(e.target.value)}
@@ -348,7 +367,9 @@ function BrandingPanel() {
               </SelectTrigger>
               <SelectContent>
                 {FONT_OPTIONS.map((o) => (
-                  <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                  <SelectItem key={o.value} value={o.value}>
+                    {o.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -372,7 +393,9 @@ function BrandingPanel() {
               </SelectTrigger>
               <SelectContent>
                 {FONT_OPTIONS.map((o) => (
-                  <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                  <SelectItem key={o.value} value={o.value}>
+                    {o.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -385,8 +408,8 @@ function BrandingPanel() {
         <CardHeader>
           <CardTitle className="text-base">Logo & Favicon</CardTitle>
           <CardDescription>
-            Upload a PNG, JPEG, GIF, WebP, or SVG image (max 5 MiB).
-            The logo is displayed in the header and used to generate favicon variants.
+            Upload a PNG, JPEG, GIF, WebP, or SVG image (max 5 MiB). The logo is displayed in the
+            header and used to generate favicon variants.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -423,7 +446,11 @@ function BrandingPanel() {
                 variant="secondary"
                 size="sm"
                 disabled={logoStatus === 'uploading'}
-                onClick={() => document.querySelector<HTMLInputElement>('[data-testid="logo-file-input"]')?.click()}
+                onClick={() =>
+                  document
+                    .querySelector<HTMLInputElement>('[data-testid="logo-file-input"]')
+                    ?.click()
+                }
               >
                 <Upload className="mr-2 h-4 w-4" />
                 {logoStatus === 'uploading' ? 'Uploading…' : 'Choose file'}
@@ -464,11 +491,11 @@ function HeaderFooterPanel() {
     setSyncedFrom(settings);
   }
 
-  const headerDirty = settings != null && (
-    headerHeightPx !== settings.headerHeightPx ||
-    (footerText.trim() || null) !== (settings.footerText ?? null) ||
-    (repoUrl.trim() || null) !== (settings.repoUrl ?? null)
-  );
+  const headerDirty =
+    settings != null &&
+    (headerHeightPx !== settings.headerHeightPx ||
+      (footerText.trim() || null) !== (settings.footerText ?? null) ||
+      (repoUrl.trim() || null) !== (settings.repoUrl ?? null));
 
   async function handleSave() {
     try {
@@ -482,7 +509,10 @@ function HeaderFooterPanel() {
         clockStripAlignment: settings?.clockStripAlignment ?? 'center',
         homeTimezone: settings?.homeTimezone ?? null,
         homeClockConfig: settings?.homeClockConfig ?? null,
-        timezones: settings?.timezones.filter((c) => !c.isHome).map((c) => ({ label: c.label, timezone: c.timezone })) ?? [],
+        timezones:
+          settings?.timezones
+            .filter((c) => !c.isHome)
+            .map((c) => ({ label: c.label, timezone: c.timezone })) ?? [],
         unauthWebDashboardId: settings?.unauthWebDashboardId ?? null,
         unauthMobileDashboardId: settings?.unauthMobileDashboardId ?? null,
         // This panel's fields
@@ -514,19 +544,41 @@ function HeaderFooterPanel() {
     <div className="space-y-4">
       <div>
         <h3 className="text-lg font-medium">Header & Footer</h3>
-        <p className="text-sm text-muted-foreground">Header height, footer text, and repository link</p>
+        <p className="text-sm text-muted-foreground">
+          Header height, footer text, and repository link
+        </p>
       </div>
 
       {/* Sticky save bar — always visible */}
-      <div className={`sticky top-0 z-10 flex items-center justify-between gap-3 rounded-md px-4 py-2.5 backdrop-blur-sm border ${headerDirty ? 'border-primary/30 bg-primary/5' : 'border-border/40 bg-muted/30'}`}>
-        <span className={`hidden sm:inline text-sm font-medium text-primary transition-opacity ${headerDirty ? 'opacity-100' : 'opacity-0'}`}>You have unsaved changes</span>
+      <div
+        className={`sticky top-0 z-10 flex items-center justify-between gap-3 rounded-md px-4 py-2.5 backdrop-blur-sm border ${headerDirty ? 'border-primary/30 bg-primary/5' : 'border-border/40 bg-muted/30'}`}
+      >
+        <span
+          className={`hidden sm:inline text-sm font-medium text-primary transition-opacity ${headerDirty ? 'opacity-100' : 'opacity-0'}`}
+        >
+          You have unsaved changes
+        </span>
         <div className="flex gap-2">
           {headerDirty && (
-            <Button variant="outline" size="sm" onClick={() => { if (settings) { setHeaderHeightPx(settings.headerHeightPx); setFooterText(settings.footerText ?? ''); setRepoUrl(settings.repoUrl ?? ''); } }}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                if (settings) {
+                  setHeaderHeightPx(settings.headerHeightPx);
+                  setFooterText(settings.footerText ?? '');
+                  setRepoUrl(settings.repoUrl ?? '');
+                }
+              }}
+            >
               Discard
             </Button>
           )}
-          <Button size="sm" onClick={() => void handleSave()} disabled={updateShell.isPending || !headerDirty}>
+          <Button
+            size="sm"
+            onClick={() => void handleSave()}
+            disabled={updateShell.isPending || !headerDirty}
+          >
             <Save className="mr-1.5 h-3.5 w-3.5" />
             {updateShell.isPending ? 'Saving…' : 'Save'}
           </Button>
@@ -546,8 +598,9 @@ function HeaderFooterPanel() {
             />
           </FieldRow>
 
-          <FieldRow label="Footer text">
+          <FieldRow label="Footer text" htmlFor="appearance-footer-text">
             <Input
+              id="appearance-footer-text"
               type="text"
               value={footerText}
               onChange={(e) => setFooterText(e.target.value)}
@@ -606,7 +659,9 @@ function HeaderAnimationSection() {
           <Sparkles className="h-4 w-4" />
           Header Animation
         </CardTitle>
-        <CardDescription>Animated effects for the header background and title text.</CardDescription>
+        <CardDescription>
+          Animated effects for the header background and title text.
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <FieldRow label="Background">
@@ -616,7 +671,9 @@ function HeaderAnimationSection() {
             </SelectTrigger>
             <SelectContent>
               {HEADER_STYLE_OPTIONS.map((o) => (
-                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                <SelectItem key={o.value} value={o.value}>
+                  {o.label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -629,17 +686,16 @@ function HeaderAnimationSection() {
             </SelectTrigger>
             <SelectContent>
               {HEADER_STYLE_OPTIONS.map((o) => (
-                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                <SelectItem key={o.value} value={o.value}>
+                  {o.label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </FieldRow>
 
         <FieldRow label="Glass Effect">
-          <Switch
-            checked={glassEffect}
-            onCheckedChange={(v) => save({ headerGlassEffect: v })}
-          />
+          <Switch checked={glassEffect} onCheckedChange={(v) => save({ headerGlassEffect: v })} />
         </FieldRow>
       </CardContent>
     </Card>
@@ -654,7 +710,9 @@ function ClockStripPanel() {
   const settings = shellQuery.data ?? null;
 
   const [clockStripEnabled, setClockStripEnabled] = useState(false);
-  const [clockStripAlignment, setClockStripAlignment] = useState<'left' | 'center' | 'right'>('center');
+  const [clockStripAlignment, setClockStripAlignment] = useState<'left' | 'center' | 'right'>(
+    'center',
+  );
   const [homeTimezone, setHomeTimezone] = useState('');
   const [homeLabel, setHomeLabel] = useState('');
   const [homeIconSide, setHomeIconSide] = useState<'left' | 'right'>('left');
@@ -684,19 +742,23 @@ function ClockStripPanel() {
   }
 
   // Compute dirty state for clock strip
-  const clockDirty = settings != null && (
-    clockStripEnabled !== settings.clockStripEnabled ||
-    clockStripAlignment !== settings.clockStripAlignment ||
-    (homeTimezone.trim() || null) !== (settings.homeTimezone ?? null) ||
-    homeLabel.trim() !== ((settings.homeClockConfig?.label) ?? '') ||
-    homeIconSide !== (settings.homeClockConfig?.homeIconSide ?? 'left') ||
-    (displayConfig.layout ?? 'column') !== (settings.homeClockConfig?.layout ?? 'column') ||
-    (displayConfig.showOffset ?? false) !== (settings.homeClockConfig?.showOffset ?? false) ||
-    (displayConfig.dayNightSide ?? 'right') !== (settings.homeClockConfig?.dayNightSide ?? 'right') ||
-    JSON.stringify(extraClocks) !== JSON.stringify(
-      settings.timezones.filter((c) => !c.isHome).map((c) => ({ label: c.label, timezone: c.timezone }))
-    )
-  );
+  const clockDirty =
+    settings != null &&
+    (clockStripEnabled !== settings.clockStripEnabled ||
+      clockStripAlignment !== settings.clockStripAlignment ||
+      (homeTimezone.trim() || null) !== (settings.homeTimezone ?? null) ||
+      homeLabel.trim() !== (settings.homeClockConfig?.label ?? '') ||
+      homeIconSide !== (settings.homeClockConfig?.homeIconSide ?? 'left') ||
+      (displayConfig.layout ?? 'column') !== (settings.homeClockConfig?.layout ?? 'column') ||
+      (displayConfig.showOffset ?? false) !== (settings.homeClockConfig?.showOffset ?? false) ||
+      (displayConfig.dayNightSide ?? 'right') !==
+        (settings.homeClockConfig?.dayNightSide ?? 'right') ||
+      JSON.stringify(extraClocks) !==
+        JSON.stringify(
+          settings.timezones
+            .filter((c) => !c.isHome)
+            .map((c) => ({ label: c.label, timezone: c.timezone })),
+        ));
 
   function handleClockDiscard() {
     setSyncedFrom(null);
@@ -762,19 +824,31 @@ function ClockStripPanel() {
     <div className="space-y-4">
       <div>
         <h3 className="text-lg font-medium">Clock Strip</h3>
-        <p className="text-sm text-muted-foreground">Toggle, alignment, home clock, and extra world clocks</p>
+        <p className="text-sm text-muted-foreground">
+          Toggle, alignment, home clock, and extra world clocks
+        </p>
       </div>
 
       {/* Sticky save bar — always visible */}
-      <div className={`sticky top-0 z-10 flex items-center justify-between gap-3 rounded-md px-4 py-2.5 backdrop-blur-sm border ${clockDirty ? 'border-primary/30 bg-primary/5' : 'border-border/40 bg-muted/30'}`}>
-        <span className={`hidden sm:inline text-sm font-medium text-primary transition-opacity ${clockDirty ? 'opacity-100' : 'opacity-0'}`}>You have unsaved changes</span>
+      <div
+        className={`sticky top-0 z-10 flex items-center justify-between gap-3 rounded-md px-4 py-2.5 backdrop-blur-sm border ${clockDirty ? 'border-primary/30 bg-primary/5' : 'border-border/40 bg-muted/30'}`}
+      >
+        <span
+          className={`hidden sm:inline text-sm font-medium text-primary transition-opacity ${clockDirty ? 'opacity-100' : 'opacity-0'}`}
+        >
+          You have unsaved changes
+        </span>
         <div className="flex gap-2">
           {clockDirty && (
             <Button variant="outline" size="sm" onClick={handleClockDiscard}>
               Discard
             </Button>
           )}
-          <Button size="sm" onClick={() => void handleSave()} disabled={updateShell.isPending || !clockDirty}>
+          <Button
+            size="sm"
+            onClick={() => void handleSave()}
+            disabled={updateShell.isPending || !clockDirty}
+          >
             <Save className="mr-1.5 h-3.5 w-3.5" />
             {updateShell.isPending ? 'Saving…' : 'Save Clock Strip'}
           </Button>
@@ -784,8 +858,9 @@ function ClockStripPanel() {
       {/* Strip-level controls */}
       <Card>
         <CardContent className="space-y-4 pt-6">
-          <FieldRow label="Clock strip enabled">
+          <FieldRow label="Clock strip enabled" htmlFor="appearance-clock-strip-enabled">
             <Switch
+              id="appearance-clock-strip-enabled"
               checked={clockStripEnabled}
               onCheckedChange={setClockStripEnabled}
             />
@@ -802,8 +877,12 @@ function ClockStripPanel() {
           <CardTitle className="text-sm font-medium">Home Clock</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <FieldRow label="Timezone">
-            <TimezoneCombobox value={homeTimezone} onChange={setHomeTimezone} />
+          <FieldRow label="Timezone" htmlFor="appearance-home-timezone">
+            <TimezoneCombobox
+              id="appearance-home-timezone"
+              value={homeTimezone}
+              onChange={setHomeTimezone}
+            />
           </FieldRow>
           <FieldRow label="Label override">
             <Input
@@ -915,7 +994,9 @@ function WeatherLocationCard({
   }
 
   function selectLocation(loc: GeoResult) {
-    const name = loc.admin1 ? `${loc.name}, ${loc.admin1}, ${loc.country}` : `${loc.name}, ${loc.country}`;
+    const name = loc.admin1
+      ? `${loc.name}, ${loc.admin1}, ${loc.country}`
+      : `${loc.name}, ${loc.country}`;
     onChange({
       screensaverWeatherLat: loc.latitude,
       screensaverWeatherLon: loc.longitude,
@@ -950,7 +1031,9 @@ function WeatherLocationCard({
           <div className="flex items-center gap-2 rounded-md bg-muted/30 px-3 py-2 text-sm">
             <MapPin className="h-4 w-4 text-muted-foreground" />
             <span>
-              {draft.screensaverWeatherLocation ?? 'Custom Location'} — {draft.screensaverWeatherLat}°, {draft.screensaverWeatherLon}° ({draft.screensaverWeatherUnit})
+              {draft.screensaverWeatherLocation ?? 'Custom Location'} —{' '}
+              {draft.screensaverWeatherLat}°, {draft.screensaverWeatherLon}° (
+              {draft.screensaverWeatherUnit})
             </span>
             <Button variant="ghost" size="icon" className="ml-auto h-6 w-6" onClick={handleClear}>
               <X className="h-3.5 w-3.5" />
@@ -965,7 +1048,12 @@ function WeatherLocationCard({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Type a city name…"
-              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); void handleSearch(); } }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  void handleSearch();
+                }
+              }}
             />
             <Button
               variant="outline"
@@ -973,7 +1061,11 @@ function WeatherLocationCard({
               onClick={() => void handleSearch()}
               disabled={searching || searchQuery.trim().length < 2}
             >
-              {searching ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
+              {searching ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Search className="h-4 w-4" />
+              )}
             </Button>
           </div>
           {searchResults.length > 0 && (
@@ -1002,8 +1094,20 @@ function WeatherLocationCard({
         <div className="space-y-1.5">
           <Label>Temperature Unit</Label>
           <div className="flex gap-2">
-            <Button variant={draft.screensaverWeatherUnit === 'C' ? 'default' : 'outline'} size="sm" onClick={() => onChange({ screensaverWeatherUnit: 'C' })}>°C</Button>
-            <Button variant={draft.screensaverWeatherUnit === 'F' ? 'default' : 'outline'} size="sm" onClick={() => onChange({ screensaverWeatherUnit: 'F' })}>°F</Button>
+            <Button
+              variant={draft.screensaverWeatherUnit === 'C' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => onChange({ screensaverWeatherUnit: 'C' })}
+            >
+              °C
+            </Button>
+            <Button
+              variant={draft.screensaverWeatherUnit === 'F' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => onChange({ screensaverWeatherUnit: 'F' })}
+            >
+              °F
+            </Button>
           </div>
         </div>
       </CardContent>
@@ -1085,12 +1189,20 @@ function ScreensaverPanel() {
     <div className="space-y-4">
       <div>
         <h3 className="text-lg font-medium">Screensaver</h3>
-        <p className="text-sm text-muted-foreground">Ambient photo display that activates when the dashboard is idle</p>
+        <p className="text-sm text-muted-foreground">
+          Ambient photo display that activates when the dashboard is idle
+        </p>
       </div>
 
       {/* Sticky save bar — always visible */}
-      <div className={`sticky top-0 z-10 flex items-center justify-between gap-3 rounded-md px-4 py-2.5 backdrop-blur-sm border ${isDirty ? 'border-primary/30 bg-primary/5' : 'border-border/40 bg-muted/30'}`}>
-        <span className={`hidden sm:inline text-sm font-medium text-primary transition-opacity ${isDirty ? 'opacity-100' : 'opacity-0'}`}>You have unsaved changes</span>
+      <div
+        className={`sticky top-0 z-10 flex items-center justify-between gap-3 rounded-md px-4 py-2.5 backdrop-blur-sm border ${isDirty ? 'border-primary/30 bg-primary/5' : 'border-border/40 bg-muted/30'}`}
+      >
+        <span
+          className={`hidden sm:inline text-sm font-medium text-primary transition-opacity ${isDirty ? 'opacity-100' : 'opacity-0'}`}
+        >
+          You have unsaved changes
+        </span>
         <div className="flex gap-2">
           {isDirty && (
             <Button variant="outline" size="sm" onClick={handleDiscard}>
@@ -1153,7 +1265,9 @@ function ScreensaverPanel() {
           {/* Clock format */}
           <div className="space-y-1.5">
             <Label>Clock Format</Label>
-            <p className="text-xs text-muted-foreground">Applies to all clocks and calendars across the dashboard</p>
+            <p className="text-xs text-muted-foreground">
+              Applies to all clocks and calendars across the dashboard
+            </p>
             <div className="flex gap-2">
               <Button
                 variant={draft.screensaverClockFormat === '12h' ? 'default' : 'outline'}
@@ -1211,9 +1325,7 @@ function ScreensaverPanel() {
                   >
                     <Folder className="mr-1.5 h-3.5 w-3.5" />
                     {s.name}
-                    <span className="ml-1 text-xs text-muted-foreground">
-                      ({s.imageCount})
-                    </span>
+                    <span className="ml-1 text-xs text-muted-foreground">({s.imageCount})</span>
                   </Button>
                 ))}
               </div>
@@ -1232,10 +1344,14 @@ function ScreensaverPanel() {
 
 function PanelContent({ panelId }: { panelId: PanelId }) {
   switch (panelId) {
-    case 'branding': return <BrandingPanel />;
-    case 'header-footer': return <HeaderFooterPanel />;
-    case 'clock-strip': return <ClockStripPanel />;
-    case 'screensaver': return <ScreensaverPanel />;
+    case 'branding':
+      return <BrandingPanel />;
+    case 'header-footer':
+      return <HeaderFooterPanel />;
+    case 'clock-strip':
+      return <ClockStripPanel />;
+    case 'screensaver':
+      return <ScreensaverPanel />;
   }
 }
 
@@ -1265,7 +1381,10 @@ export function AppearanceTab() {
       />
 
       {/* Left sidebar nav — desktop */}
-      <nav className="hidden md:flex md:w-44 md:shrink-0 md:flex-col md:space-y-4 md:border-r md:border-border md:pr-4" aria-label="Appearance sections">
+      <nav
+        className="hidden md:flex md:w-44 md:shrink-0 md:flex-col md:space-y-4 md:border-r md:border-border md:pr-4"
+        aria-label="Appearance sections"
+      >
         {navGroups.map((group) => (
           <div key={group.label}>
             <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">

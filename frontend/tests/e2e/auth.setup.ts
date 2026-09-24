@@ -7,46 +7,31 @@
  *   3. Submit → redirect back to /.
  *   4. Verify header / main render (shell visible).
  *
- * Skips gracefully if first-run has already been completed on the target server.
+ * The self-starting harness guarantees a fresh data directory for this setup.
  */
 
 import { test, expect } from '@playwright/test';
+import { ADMIN_AUTH_STATE, expectApiOk } from './support/admin.js';
 
-test.describe('First-run flow', () => {
-  test('redirects to /first-run, creates admin, and lands on dashboard shell', async ({
-    page,
-    request,
-  }) => {
-    // Check whether first-run is still required
+test.describe('Authenticated E2E setup', () => {
+  test('completes first-run and stores the admin session', async ({ page, request }) => {
     const bootstrapRes = await request.get('/api/public/bootstrap');
-    expect(bootstrapRes.ok()).toBe(true);
-    const bootstrap = await bootstrapRes.json() as { firstRunRequired: boolean };
+    await expectApiOk(bootstrapRes, 'GET /api/public/bootstrap');
+    const bootstrap = (await bootstrapRes.json()) as { firstRunRequired: boolean };
+    expect(bootstrap.firstRunRequired).toBe(true);
 
-    if (!bootstrap.firstRunRequired) {
-      test.skip();
-      return;
-    }
-
-    // Step 1: Navigate to / → should redirect to /first-run
     await page.goto('/');
     await expect(page).toHaveURL(/\/first-run/);
 
-    // Step 2: Fill in the first-run form
     await page.getByLabel('Username').fill('admin');
     await page.getByLabel('Display name').fill('Admin');
     await page.getByLabel('Password', { exact: true }).fill('strongpassword1');
-
-    // Step 3: Submit
     await page.getByTestId('first-run-submit').click();
 
-    // Step 4: Should land on the dashboard page (/)
     await expect(page).toHaveURL('/');
-
-    // Step 5: Verify shell structure is visible (header / main)
     await expect(page.getByRole('banner')).toBeVisible();
     await expect(page.getByRole('main')).toBeVisible();
-
-    // The user display name should appear in the header after login
     await expect(page.getByTestId('user-display-name')).toHaveText('Admin');
+    await page.context().storageState({ path: ADMIN_AUTH_STATE });
   });
 });

@@ -12,7 +12,7 @@
  * from the E2E flow.
  */
 
-import { test, expect } from '@playwright/test';
+import { expectApiOk, expect, test } from './support/admin.js';
 import type { Page } from '@playwright/test';
 import { randomUUID } from 'node:crypto';
 
@@ -20,54 +20,19 @@ import { randomUUID } from 'node:crypto';
 // Helpers
 // ---------------------------------------------------------------------------
 
-async function ensureAdminAndLogin(page: Page): Promise<string> {
-  const api = page.request;
-
-  const bootstrap = await api.get('/api/public/bootstrap');
-  const body = (await bootstrap.json()) as { firstRunRequired: boolean };
-  if (body.firstRunRequired) {
-    await api.post('/api/first-run/admin', {
-      data: {
-        username: 'admin',
-        displayName: 'Admin',
-        password: 'strongpassword1',
-      },
-    });
-  }
-
-  await page.goto('/login');
-  await page.getByLabel('Username').fill('admin');
-  await page.getByLabel('Password', { exact: true }).fill('strongpassword1');
-  await page.getByRole('button', { name: /sign in/i }).click();
-  await page.waitForURL('/');
-
-  const meRes = await api.get('/api/auth/me');
-  if (!meRes.ok()) {
-    throw new Error(`GET /api/auth/me failed (${meRes.status()})`);
-  }
-  const me = (await meRes.json()) as { csrfToken: string };
-  return me.csrfToken;
-}
-
 /**
  * Create a dashboard with a links_list widget containing two links:
- * one with iconKey "Github" and one without (null).
+ * one with a valid Lucide iconKey and one without (null).
  * Sets it as the user's preferred web dashboard.
  */
-async function setupLinksListDashboard(
-  page: Page,
-  csrf: string,
-): Promise<string> {
+async function setupLinksListDashboard(page: Page, csrf: string): Promise<string> {
   const api = page.request;
 
   const dashRes = await api.post('/api/admin/dashboards', {
     headers: { 'x-csrf-token': csrf },
     data: { name: `Icon E2E ${Date.now()}` },
   });
-  if (!dashRes.ok()) {
-    const text = await dashRes.text();
-    throw new Error(`Create dashboard failed (${dashRes.status()}): ${text}`);
-  }
+  await expectApiOk(dashRes, 'Create icon dashboard');
   const dash = (await dashRes.json()) as { id: string };
 
   // Import a dashboard payload with links via the import endpoint
@@ -104,7 +69,7 @@ async function setupLinksListDashboard(
             {
               title: 'GitHub Link',
               url: 'https://github.com',
-              iconKey: 'Github',
+              iconKey: 'House',
               iconOverrideKey: null,
               orderIndex: 0,
             },
@@ -120,10 +85,7 @@ async function setupLinksListDashboard(
       ],
     },
   });
-  if (!importRes.ok()) {
-    const text = await importRes.text();
-    throw new Error(`Import dashboard failed (${importRes.status()}): ${text}`);
-  }
+  await expectApiOk(importRes, 'Import icon dashboard');
   const imported = (await importRes.json()) as { id: string };
 
   // Clean up the empty dashboard created above
@@ -136,16 +98,12 @@ async function setupLinksListDashboard(
     headers: { 'x-csrf-token': csrf },
     data: { webDashboardId: imported.id },
   });
-  expect(prefRes.ok()).toBe(true);
+  await expectApiOk(prefRes, 'Set preferred dashboard');
 
   return imported.id;
 }
 
-async function cleanupDashboard(
-  page: Page,
-  csrf: string,
-  dashboardId: string,
-): Promise<void> {
+async function cleanupDashboard(page: Page, csrf: string, dashboardId: string): Promise<void> {
   const api = page.request;
   await api.put('/api/user/preferences', {
     headers: { 'x-csrf-token': csrf },
@@ -163,26 +121,24 @@ async function cleanupDashboard(
 test.describe('Icon rendering on links_list widget (T020)', () => {
   test('link with iconKey renders a non-Globe icon; link without iconKey renders Globe', async ({
     page,
+    csrfToken,
   }) => {
-    const csrf = await ensureAdminAndLogin(page);
-    const dashId = await setupLinksListDashboard(page, csrf);
+    const dashId = await setupLinksListDashboard(page, csrfToken);
 
     try {
       await page.goto('/');
       // Wait for links to render
-      await expect(
-        page.locator('a[href="https://github.com"]'),
-      ).toBeVisible({ timeout: 10_000 });
+      await expect(page.locator('a[href="https://github.com"]')).toBeVisible({ timeout: 10_000 });
 
       // The GitHub link should have an SVG that is NOT the Globe icon.
       // Lucide Github icon has a specific path; we just verify an <svg> exists.
       const githubLink = page.locator('a[href="https://github.com"]');
-      const githubSvg = githubLink.locator('svg');
+      const githubSvg = githubLink.locator('svg').first();
       await expect(githubSvg).toBeVisible();
 
       // The Plain Link should also have an SVG (the Globe default).
       const plainLink = page.locator('a[href="https://example.com"]');
-      const plainSvg = plainLink.locator('svg');
+      const plainSvg = plainLink.locator('svg').first();
       await expect(plainSvg).toBeVisible();
 
       // Both links should render distinct icon SVGs.
@@ -192,7 +148,7 @@ test.describe('Icon rendering on links_list widget (T020)', () => {
       const plainHtml = await plainSvg.innerHTML();
       expect(githubHtml).not.toBe(plainHtml);
     } finally {
-      await cleanupDashboard(page, csrf, dashId);
+      await cleanupDashboard(page, csrfToken, dashId);
     }
   });
 });

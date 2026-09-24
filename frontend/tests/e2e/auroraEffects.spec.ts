@@ -1,18 +1,8 @@
 import { expect, test, type Page } from '@playwright/test';
 
 async function addAuroraFixtures(page: Page) {
-  const bootstrap = await page.request.get('/api/public/bootstrap');
-  const body = (await bootstrap.json()) as { firstRunRequired: boolean };
-  if (body.firstRunRequired) {
-    await page.request.post('/api/first-run/admin', {
-      data: {
-        username: 'admin',
-        displayName: 'Admin',
-        password: 'strongpassword1',
-      },
-    });
-  }
   await page.goto('/');
+  await expect(page.getByRole('banner')).toBeVisible();
   await page.evaluate(() => {
     const widget = document.createElement('div');
     widget.dataset['testid'] = 'aurora-widget-fixture';

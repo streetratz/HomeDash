@@ -14,31 +14,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import type { Page, APIRequestContext } from '@playwright/test';
-
-async function completeFirstRunIfNeeded(page: Page, request: APIRequestContext) {
-  const res = await request.get('/api/public/bootstrap');
-  if (!res.ok()) return false;
-  const body = (await res.json()) as { firstRunRequired?: boolean };
-  if (!body.firstRunRequired) return true;
-
-  await page.goto('/');
-  await page.waitForURL(/\/first-run/);
-  await page.getByLabel('Username').fill('admin');
-  await page.getByLabel('Display name').fill('Admin');
-  await page.getByLabel('Password', { exact: true }).fill('strongpassword1');
-  await page.getByTestId('first-run-submit').click();
-  await page.waitForURL('/');
-  return true;
-}
-
-async function loginAsAdmin(page: Page) {
-  await page.goto('/login');
-  await page.getByLabel('Username').fill('admin');
-  await page.getByLabel('Password', { exact: true }).fill('strongpassword1');
-  await page.getByRole('button', { name: /sign in/i }).click();
-  await page.waitForURL('/');
-}
+import type { Page } from '@playwright/test';
 
 async function openDockerForm(page: Page) {
   // Docker is the default service panel on the Integrations tab.
@@ -49,12 +25,6 @@ async function openDockerForm(page: Page) {
 }
 
 test.describe('Docker connection form — endpoint formats', () => {
-  test.beforeEach(async ({ page, request }) => {
-    const ready = await completeFirstRunIfNeeded(page, request);
-    test.skip(!ready, 'No HomeDash server reachable at baseURL');
-    await loginAsAdmin(page);
-  });
-
   test('states the accepted formats and their default ports before any input', async ({ page }) => {
     await openDockerForm(page);
     const help = page.locator('#docker-url-help');

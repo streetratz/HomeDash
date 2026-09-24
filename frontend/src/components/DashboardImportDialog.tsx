@@ -23,7 +23,7 @@ import { useImportDashboard } from '../state/adminDashboards.js';
 import { ApiRequestError } from '../lib/apiClient.js';
 
 interface ImportPayload {
-  version: number;
+  version: 1 | 2;
   dashboard: {
     name: string;
     applicability: string;
@@ -33,8 +33,11 @@ interface ImportPayload {
   };
   placeholders: Array<{
     stableKey: string;
-    widgets: Array<{ type: string }>;
-    links: Array<{ title: string }>;
+    widgets: Array<{
+      type: string;
+      links?: Array<{ title: string }>;
+    }>;
+    links?: Array<{ title: string }>;
     [key: string]: unknown;
   }>;
   [key: string]: unknown;
@@ -72,38 +75,35 @@ export function DashboardImportDialog({ open, onOpenChange }: Props) {
     [onOpenChange, reset],
   );
 
-  const handleFileSelect = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setParseError(null);
-      setApiError(null);
-      setConflictName(null);
+  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setParseError(null);
+    setApiError(null);
+    setConflictName(null);
 
-      const file = e.target.files?.[0];
-      if (!file) return;
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const json = JSON.parse(reader.result as string) as unknown;
-          const data = json as ImportPayload;
-          if (data.version !== 1 || !data.dashboard?.name) {
-            setParseError('Invalid export file: missing version or dashboard name');
-            setPayload(null);
-            return;
-          }
-          setPayload(data);
-        } catch {
-          setParseError('Failed to parse JSON file');
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const json = JSON.parse(reader.result as string) as unknown;
+        const data = json as ImportPayload;
+        if ((data.version !== 1 && data.version !== 2) || !data.dashboard?.name) {
+          setParseError('Invalid export file: missing version or dashboard name');
           setPayload(null);
+          return;
         }
-      };
-      reader.onerror = () => {
-        setParseError('Failed to read file');
-      };
-      reader.readAsText(file);
-    },
-    [],
-  );
+        setPayload(data);
+      } catch {
+        setParseError('Failed to parse JSON file');
+        setPayload(null);
+      }
+    };
+    reader.onerror = () => {
+      setParseError('Failed to read file');
+    };
+    reader.readAsText(file);
+  }, []);
 
   const handleImport = useCallback(() => {
     if (!payload) return;
@@ -137,7 +137,13 @@ export function DashboardImportDialog({ open, onOpenChange }: Props) {
   const widgetCount =
     payload?.placeholders.reduce((sum, ph) => sum + (ph.widgets?.length ?? 0), 0) ?? 0;
   const linkCount =
-    payload?.placeholders.reduce((sum, ph) => sum + (ph.links?.length ?? 0), 0) ?? 0;
+    payload?.placeholders.reduce(
+      (sum, ph) =>
+        sum +
+        (ph.links?.length ?? 0) +
+        ph.widgets.reduce((widgetSum, widget) => widgetSum + (widget.links?.length ?? 0), 0),
+      0,
+    ) ?? 0;
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -147,9 +153,7 @@ export function DashboardImportDialog({ open, onOpenChange }: Props) {
             <Upload className="h-5 w-5" />
             Import Dashboard
           </DialogTitle>
-          <DialogDescription>
-            Upload a previously exported dashboard JSON file.
-          </DialogDescription>
+          <DialogDescription>Upload a previously exported dashboard JSON file.</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
@@ -181,9 +185,15 @@ export function DashboardImportDialog({ open, onOpenChange }: Props) {
                 {payload.dashboard.name}
               </div>
               <div className="mt-2 flex gap-4 text-xs text-muted-foreground">
-                <span>{placeholderCount} placeholder{placeholderCount !== 1 ? 's' : ''}</span>
-                <span>{widgetCount} widget{widgetCount !== 1 ? 's' : ''}</span>
-                <span>{linkCount} link{linkCount !== 1 ? 's' : ''}</span>
+                <span>
+                  {placeholderCount} placeholder{placeholderCount !== 1 ? 's' : ''}
+                </span>
+                <span>
+                  {widgetCount} widget{widgetCount !== 1 ? 's' : ''}
+                </span>
+                <span>
+                  {linkCount} link{linkCount !== 1 ? 's' : ''}
+                </span>
               </div>
               <div className="mt-1 text-xs text-muted-foreground">
                 Applicability: {payload.dashboard.applicability}
@@ -195,8 +205,8 @@ export function DashboardImportDialog({ open, onOpenChange }: Props) {
           {conflictName && (
             <div className="space-y-2">
               <div className="flex items-center gap-2 rounded-md bg-yellow-500/10 p-3 text-sm text-yellow-700 dark:text-yellow-400">
-                <AlertCircle className="h-4 w-4 shrink-0" />
-                A dashboard named &quot;{conflictName}&quot; already exists. Choose a different name.
+                <AlertCircle className="h-4 w-4 shrink-0" />A dashboard named &quot;{conflictName}
+                &quot; already exists. Choose a different name.
               </div>
               <Label htmlFor="override-name">New name</Label>
               <Input

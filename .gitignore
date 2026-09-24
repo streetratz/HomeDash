@@ -67,6 +67,7 @@ Thumbs.db
 coverage/
 playwright-report/
 test-results/
+frontend/.e2e/
 
 # pnpm
 .pnpm-debug.log
