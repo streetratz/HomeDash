@@ -41,7 +41,7 @@ Running 27 tests using 1 worker
   ✓  27 [chromium] › tests/e2e/widgetTypes.spec.ts:220:3 › Clock/Date widget — E2E (US4) › invalid timezone falls back gracefully (no crash) (168ms)
 
 
-  1) [chromium] › tests/e2e/auroraEffects.spec.ts:22:1 › Aurora surfaces use layered animated curtain gradients 
+  1) [chromium] › tests/e2e/auroraEffects.spec.ts:22:1 › Aurora surfaces use layered animated curtain gradients
 
     TypeError: [2mexpect([22m[31mreceived[39m[2m).[22mtoHaveLength[2m([22m[32mexpected[39m[2m)[22m
 
@@ -64,7 +64,7 @@ Running 27 tests using 1 worker
 
     Error Context: test-results/auroraEffects-Aurora-surfa-97277--animated-curtain-gradients-chromium/error-context.md
 
-  2) [chromium] › tests/e2e/backgroundSettings.spec.ts:45:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none 
+  2) [chromium] › tests/e2e/backgroundSettings.spec.ts:45:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none
 
     [31mTest timeout of 30000ms exceeded.[39m
 
@@ -86,7 +86,7 @@ Running 27 tests using 1 worker
 
     Error Context: test-results/backgroundSettings-Backgro-079c0-sistence-then-reset-to-none-chromium/error-context.md
 
-  3) [chromium] › tests/e2e/iconPicker.spec.ts:129:3 › Icon rendering on links_list widget (T020) › link with iconKey renders a non-Globe icon; link without iconKey renders Globe 
+  3) [chromium] › tests/e2e/iconPicker.spec.ts:129:3 › Icon rendering on links_list widget (T020) › link with iconKey renders a non-Globe icon; link without iconKey renders Globe
 
     Error: [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
 
@@ -107,7 +107,7 @@ Running 27 tests using 1 worker
 
     Error Context: test-results/iconPicker-Icon-rendering--f2c42-thout-iconKey-renders-Globe-chromium/error-context.md
 
-  4) [chromium] › tests/e2e/importExport.spec.ts:112:3 › Dashboard Import/Export E2E (T022) › export downloads valid JSON; import re-creates it 
+  4) [chromium] › tests/e2e/importExport.spec.ts:112:3 › Dashboard Import/Export E2E (T022) › export downloads valid JSON; import re-creates it
 
     [31mTest timeout of 30000ms exceeded.[39m
 
@@ -129,7 +129,7 @@ Running 27 tests using 1 worker
 
     Error Context: test-results/importExport-Dashboard-Imp-749de-d-JSON-import-re-creates-it-chromium/error-context.md
 
-  5) [chromium] › tests/e2e/importExport.spec.ts:211:3 › Dashboard Import/Export E2E (T022) › import with name conflict shows conflict resolution UI 
+  5) [chromium] › tests/e2e/importExport.spec.ts:211:3 › Dashboard Import/Export E2E (T022) › import with name conflict shows conflict resolution UI
 
     [31mTest timeout of 30000ms exceeded.[39m
 
@@ -151,7 +151,7 @@ Running 27 tests using 1 worker
 
     Error Context: test-results/importExport-Dashboard-Imp-43822-hows-conflict-resolution-UI-chromium/error-context.md
 
-  6) [chromium] › tests/e2e/shellSettings.spec.ts:30:3 › Shell settings — admin › updating titleText reflects in shell header 
+  6) [chromium] › tests/e2e/shellSettings.spec.ts:30:3 › Shell settings — admin › updating titleText reflects in shell header
 
     [31mTest timeout of 30000ms exceeded.[39m
 
@@ -176,7 +176,7 @@ Running 27 tests using 1 worker
 
     Error Context: test-results/shellSettings-Shell-settin-3cee3-xt-reflects-in-shell-header-chromium/error-context.md
 
-  7) [chromium] › tests/e2e/shellSettings.spec.ts:50:3 › Shell settings — admin › updating footerText reflects in footer 
+  7) [chromium] › tests/e2e/shellSettings.spec.ts:50:3 › Shell settings — admin › updating footerText reflects in footer
 
     [31mTest timeout of 30000ms exceeded.[39m
 
@@ -201,7 +201,7 @@ Running 27 tests using 1 worker
 
     Error Context: test-results/shellSettings-Shell-settin-b4aec-oterText-reflects-in-footer-chromium/error-context.md
 
-  8) [chromium] › tests/e2e/shellSettings.spec.ts:68:3 › Shell settings — admin › enabling clock strip shows it on the dashboard 
+  8) [chromium] › tests/e2e/shellSettings.spec.ts:68:3 › Shell settings — admin › enabling clock strip shows it on the dashboard
 
     [31mTest timeout of 30000ms exceeded.[39m
 
@@ -227,14 +227,14 @@ Running 27 tests using 1 worker
     Error Context: test-results/shellSettings-Shell-settin-51677-p-shows-it-on-the-dashboard-chromium/error-context.md
 
   8 failed
-    [chromium] › tests/e2e/auroraEffects.spec.ts:22:1 › Aurora surfaces use layered animated curtain gradients 
-    [chromium] › tests/e2e/backgroundSettings.spec.ts:45:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none 
-    [chromium] › tests/e2e/iconPicker.spec.ts:129:3 › Icon rendering on links_list widget (T020) › link with iconKey renders a non-Globe icon; link without iconKey renders Globe 
-    [chromium] › tests/e2e/importExport.spec.ts:112:3 › Dashboard Import/Export E2E (T022) › export downloads valid JSON; import re-creates it 
-    [chromium] › tests/e2e/importExport.spec.ts:211:3 › Dashboard Import/Export E2E (T022) › import with name conflict shows conflict resolution UI 
-    [chromium] › tests/e2e/shellSettings.spec.ts:30:3 › Shell settings — admin › updating titleText reflects in shell header 
-    [chromium] › tests/e2e/shellSettings.spec.ts:50:3 › Shell settings — admin › updating footerText reflects in footer 
-    [chromium] › tests/e2e/shellSettings.spec.ts:68:3 › Shell settings — admin › enabling clock strip shows it on the dashboard 
+    [chromium] › tests/e2e/auroraEffects.spec.ts:22:1 › Aurora surfaces use layered animated curtain gradients
+    [chromium] › tests/e2e/backgroundSettings.spec.ts:45:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none
+    [chromium] › tests/e2e/iconPicker.spec.ts:129:3 › Icon rendering on links_list widget (T020) › link with iconKey renders a non-Globe icon; link without iconKey renders Globe
+    [chromium] › tests/e2e/importExport.spec.ts:112:3 › Dashboard Import/Export E2E (T022) › export downloads valid JSON; import re-creates it
+    [chromium] › tests/e2e/importExport.spec.ts:211:3 › Dashboard Import/Export E2E (T022) › import with name conflict shows conflict resolution UI
+    [chromium] › tests/e2e/shellSettings.spec.ts:30:3 › Shell settings — admin › updating titleText reflects in shell header
+    [chromium] › tests/e2e/shellSettings.spec.ts:50:3 › Shell settings — admin › updating footerText reflects in footer
+    [chromium] › tests/e2e/shellSettings.spec.ts:68:3 › Shell settings — admin › enabling clock strip shows it on the dashboard
   1 skipped
   18 passed (3.4m)
 undefined

@@ -11,9 +11,9 @@
 
 ## Overview
 
-**Phase**: 03 — Validation and CI  
-**Task range**: T006–T008  
-**Date/Time**: 2026-09-24  
+**Phase**: 03 — Validation and CI
+**Task range**: T006–T008
+**Date/Time**: 2026-09-24
 **Purpose**: Prove repeatability, add the stable suite to pull-request checks,
 and complete the repository gates.
 
@@ -35,7 +35,10 @@ Raw final validation output is stored beside this file under
 
 ## Errors & Fixes
 
-No failures occurred in the two consecutive clean-start Playwright runs.
+1. No failures occurred in the two consecutive clean-start Playwright runs.
+2. The first pull-request quality run rejected trailing spaces preserved in raw
+   Playwright logs. The audit files were normalized without changing their
+   content.
 
 ## Final Review
 

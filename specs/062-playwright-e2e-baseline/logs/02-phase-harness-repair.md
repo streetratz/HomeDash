@@ -11,9 +11,9 @@
 
 ## Overview
 
-**Phase**: 02 — Harness Repair  
-**Task range**: T003–T005  
-**Date/Time**: 2026-09-24 22:55 AEST  
+**Phase**: 02 — Harness Repair
+**Task range**: T003–T005
+**Date/Time**: 2026-09-24 22:55 AEST
 **Purpose**: Centralize deterministic setup and repair project scoping before updating focused assertions.
 
 ## Commands Run
