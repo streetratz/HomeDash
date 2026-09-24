@@ -24,6 +24,7 @@ import {
   useSonosMetadata,
 } from '../hooks/useSonos.js';
 import { useCalendarSources, useCalendarEvents, type CalendarEvent, type CalendarSource } from '../state/calendarHooks.js';
+import { selectPreferredSonosGroup } from './sonos/selectPreferredSonosGroup.js';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -166,19 +167,28 @@ export function ScreensaverOverlay({
   const { data: householdsData } = useSonosHouseholds(needSonos);
   const firstHouseholdId = householdsData?.households?.[0]?.id;
   const { data: groupsData } = useSonosGroups(firstHouseholdId, needSonos, 30_000);
-  const playingGroup = (groupsData?.groups ?? []).find(
-    (g) => g.playbackState === 'PLAYBACK_STATE_PLAYING',
+  const activeSonosGroup = selectPreferredSonosGroup(groupsData?.groups ?? []);
+  const { data: sonosPlayback } = useSonosPlaybackState(
+    activeSonosGroup?.id,
+    needSonos && !!activeSonosGroup,
+    15_000,
   );
-  const { data: sonosPlayback } = useSonosPlaybackState(playingGroup?.id, needSonos && !!playingGroup, 15_000);
-  const { data: sonosMetadata } = useSonosMetadata(playingGroup?.id, needSonos && !!playingGroup, 15_000);
+  const { data: sonosMetadata } = useSonosMetadata(
+    activeSonosGroup?.id,
+    needSonos && !!activeSonosGroup,
+    15_000,
+  );
   const sonosTrack = sonosMetadata?.currentItem?.track;
-  const sonosIsPlaying = sonosPlayback?.playbackState === 'PLAYBACK_STATE_PLAYING';
+  const sonosPlaybackState = sonosPlayback?.playbackState ?? activeSonosGroup?.playbackState;
+  const sonosHasActiveTrack =
+    sonosPlaybackState === 'PLAYBACK_STATE_PLAYING' ||
+    sonosPlaybackState === 'PLAYBACK_STATE_PAUSED';
 
   // Unified now-playing: Spotify wins when actively playing, else Sonos
-  const npTrack = spotifyPlaying ? nowPlaying?.trackName : (sonosIsPlaying ? sonosTrack?.name : undefined);
-  const npArtist = spotifyPlaying ? nowPlaying?.artistName : (sonosIsPlaying ? sonosTrack?.artist?.name : undefined);
-  const npArt = spotifyPlaying ? nowPlaying?.albumArtUrl : (sonosIsPlaying ? sonosTrack?.imageUrl : undefined);
-  const npAlbum = spotifyPlaying ? nowPlaying?.albumName : (sonosIsPlaying ? sonosTrack?.album?.name : undefined);
+  const npTrack = spotifyPlaying ? nowPlaying?.trackName : (sonosHasActiveTrack ? sonosTrack?.name : undefined);
+  const npArtist = spotifyPlaying ? nowPlaying?.artistName : (sonosHasActiveTrack ? sonosTrack?.artist?.name : undefined);
+  const npArt = spotifyPlaying ? nowPlaying?.albumArtUrl : (sonosHasActiveTrack ? sonosTrack?.imageUrl : undefined);
+  const npAlbum = spotifyPlaying ? nowPlaying?.albumName : (sonosHasActiveTrack ? sonosTrack?.album?.name : undefined);
   const hasTrack = !!npTrack;
 
   // Calendar events for today
