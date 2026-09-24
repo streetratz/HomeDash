@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -41,6 +41,7 @@ describe('session secret environment configuration', () => {
     restore('HOMEDASH_SESSION_SECRET');
     restore('SESSION_SECRET');
     _resetEnvCache();
+    vi.restoreAllMocks();
     fs.rmSync(tempDir, { recursive: true, force: true });
   });
 
@@ -81,11 +82,13 @@ describe('session secret environment configuration', () => {
   });
 
   it('creates and reuses a persistent production secret when neither variable is configured', () => {
+    const chmodSpy = vi.spyOn(fs, 'chmodSync');
     const first = getEnv().SESSION_SECRET;
     const secretPath = path.join(tempDir, '.homedash-session-secret');
 
     expect(first).toHaveLength(64);
     expect(fs.readFileSync(secretPath, 'utf8').trim()).toBe(first);
+    expect(chmodSpy).toHaveBeenCalledWith(secretPath, 0o600);
     expect(fs.statSync(secretPath).mode & 0o777).toBe(0o600);
 
     _resetEnvCache();
