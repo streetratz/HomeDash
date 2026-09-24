@@ -26,7 +26,8 @@ services:
       - PORT=3100
       - TZ=UTC
       - HOMEDASH_DATA_DIR=/app/data
-      - HOMEDASH_SESSION_SECRET=${HOMEDASH_SESSION_SECRET:?set a persistent secret}
+      # Optional override; otherwise generated once in HOMEDASH_DATA_DIR.
+      # - HOMEDASH_SESSION_SECRET=${HOMEDASH_SESSION_SECRET}
       - COOKIE_SECURE=false
       - LOG_LEVEL=info
     healthcheck:

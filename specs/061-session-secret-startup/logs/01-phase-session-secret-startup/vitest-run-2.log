@@ -1,0 +1,10 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 $REPO/backend
+
+ ✓ tests/unit/env.test.ts  (8 tests) 7ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  20:03:24
+   Duration  430ms (transform 54ms, setup 267ms, collect 4ms, tests 7ms, environment 0ms, prepare 45ms)

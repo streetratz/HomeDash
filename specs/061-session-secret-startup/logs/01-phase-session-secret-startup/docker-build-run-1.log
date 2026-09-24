@@ -1,0 +1,396 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 4.62kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.18.0-alpine
+#2 DONE 1.5s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 132B done
+#3 DONE 0.0s
+
+#4 [builder  1/15] FROM docker.io/library/node:24.18.0-alpine@sha256:a0b9bf06e4e6193cf7a0f58816cc935ff8c2a908f81e6f1a95432d679c54fbfd
+#4 resolve docker.io/library/node:24.18.0-alpine@sha256:a0b9bf06e4e6193cf7a0f58816cc935ff8c2a908f81e6f1a95432d679c54fbfd done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 17.76MB 0.7s done
+#5 DONE 0.7s
+
+#6 [builder  2/15] RUN apk add --no-cache python3 make g++
+#6 CACHED
+
+#7 [builder  3/15] WORKDIR /app
+#7 CACHED
+
+#8 [builder  4/15] COPY .npmrc /root/.npmrc
+#8 CACHED
+
+#9 [builder  5/15] RUN npm config set registry "https://packagefeedproxy.microsoft.io/npm/" && npm install -g pnpm@11.1.3
+#9 CACHED
+
+#10 [builder  6/15] COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
+#10 DONE 0.2s
+
+#11 [builder  7/15] COPY backend/package.json  ./backend/
+#11 DONE 0.0s
+
+#12 [builder  8/15] COPY frontend/package.json ./frontend/
+#12 DONE 0.0s
+
+#13 [builder  9/15] COPY patches/ ./patches/
+#13 DONE 0.0s
+
+#14 [builder 10/15] RUN pnpm install --frozen-lockfile
+#14 0.589 Scope: all 3 workspace projects
+#14 0.703 ? Verifying lockfile against supply-chain policies (1208 entries)...
+#14 0.901 [WARN] GET https://packagefeedproxy.microsoft.io/npm/@babel%2Fcode-frame error (503). Will retry in 10 seconds. 2 retries left.
+#14 2.613
+#14 2.613    ╭─────────────────────────────────────────╮
+#14 2.613    │                                         │
+#14 2.613    │   Update available! 11.1.3 → 12.4.2.    │
+#14 2.613    │   Changelog: https://pnpm.io/v/12.4.2   │
+#14 2.613    │    To update, run: pnpm add -g pnpm     │
+#14 2.613    │                                         │
+#14 2.613    ╰─────────────────────────────────────────╯
+#14 2.613
+#14 11.16 [WARN] Request took 10444ms: https://packagefeedproxy.microsoft.io/npm/@babel%2Fcode-frame
+#14 71.74 ✓ Lockfile passes supply-chain policies (1208 entries in 1m 11s)
+#14 71.74 Lockfile is up to date, resolution step is skipped
+#14 71.78 Progress: resolved 1, reused 0, downloaded 0, added 0
+#14 71.88 Packages: +1039
+#14 71.88 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#14 72.78 Progress: resolved 1039, reused 0, downloaded 0, added 0
+#14 73.78 Progress: resolved 1039, reused 0, downloaded 38, added 38
+#14 74.78 Progress: resolved 1039, reused 0, downloaded 116, added 116
+#14 75.78 Progress: resolved 1039, reused 0, downloaded 195, added 195
+#14 76.79 Progress: resolved 1039, reused 0, downloaded 236, added 236
+#14 77.79 Progress: resolved 1039, reused 0, downloaded 283, added 283
+#14 78.79 Progress: resolved 1039, reused 0, downloaded 341, added 341
+#14 79.79 Progress: resolved 1039, reused 0, downloaded 367, added 367
+#14 80.79 Progress: resolved 1039, reused 0, downloaded 426, added 425
+#14 81.80 Progress: resolved 1039, reused 0, downloaded 462, added 462
+#14 82.80 Progress: resolved 1039, reused 0, downloaded 511, added 511
+#14 83.80 Progress: resolved 1039, reused 0, downloaded 555, added 555
+#14 84.80 Progress: resolved 1039, reused 0, downloaded 609, added 609
+#14 85.81 Progress: resolved 1039, reused 0, downloaded 670, added 670
+#14 86.81 Progress: resolved 1039, reused 0, downloaded 725, added 725
+#14 87.81 Progress: resolved 1039, reused 0, downloaded 766, added 766
+#14 88.81 Progress: resolved 1039, reused 0, downloaded 792, added 792
+#14 89.81 Progress: resolved 1039, reused 0, downloaded 841, added 841
+#14 90.81 Progress: resolved 1039, reused 0, downloaded 931, added 931
+#14 91.82 Progress: resolved 1039, reused 0, downloaded 997, added 996
+#14 92.82 Progress: resolved 1039, reused 0, downloaded 1038, added 1038
+#14 93.12 Progress: resolved 1039, reused 0, downloaded 1039, added 1039, done
+#14 93.45 .../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
+#14 93.45 .../esbuild@0.18.20/node_modules/esbuild postinstall$ node install.js
+#14 93.45 .../esbuild@0.28.0/node_modules/esbuild postinstall$ node install.js
+#14 93.47 .../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+#14 93.47 .../esbuild@0.27.7/node_modules/esbuild postinstall$ node install.js
+#14 93.50 .../esbuild@0.21.5/node_modules/esbuild postinstall: Done
+#14 93.50 .../esbuild@0.18.20/node_modules/esbuild postinstall: Done
+#14 93.51 .../esbuild@0.28.0/node_modules/esbuild postinstall: Done
+#14 93.53 .../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+#14 93.53 .../esbuild@0.27.7/node_modules/esbuild postinstall: Done
+#14 93.54 .../argon2@0.41.1/node_modules/argon2 install$ node-gyp-build
+#14 93.55 .../node_modules/better-sqlite3 install$ prebuild-install || node-gyp rebuild --release
+#14 93.59 .../argon2@0.41.1/node_modules/argon2 install: Done
+#14 93.60 .../node_modules/better-sqlite3 install: (node:106) [DEP0176] DeprecationWarning: fs.R_OK is deprecated, use fs.constants.R_OK instead
+#14 93.60 .../node_modules/better-sqlite3 install: (Use `node --trace-deprecation ...` to show where the warning was created)
+#14 96.23 .../node_modules/better-sqlite3 install: prebuild-install warn install No prebuilt binaries found (target=24.18.0 runtime=node arch=arm64 libc=musl platform=linux)
+#14 96.27 .../node_modules/better-sqlite3 install: gyp info it worked if it ends with ok
+#14 96.27 .../node_modules/better-sqlite3 install: gyp info using node-gyp@12.3.0
+#14 96.27 .../node_modules/better-sqlite3 install: gyp info using node@24.18.0 | linux | arm64
+#14 96.34 .../node_modules/better-sqlite3 install: gyp info find Python using Python version 3.14.7 found at "/usr/bin/python3"
+#14 96.39 .../node_modules/better-sqlite3 install: gyp http GET https://nodejs.org/download/release/v24.18.0/node-v24.18.0-headers.tar.gz
+#14 96.53 .../node_modules/better-sqlite3 install: gyp http 200 https://nodejs.org/download/release/v24.18.0/node-v24.18.0-headers.tar.gz
+#14 98.58 .../node_modules/better-sqlite3 install: gyp http GET https://nodejs.org/download/release/v24.18.0/SHASUMS256.txt
+#14 98.70 .../node_modules/better-sqlite3 install: gyp http 200 https://nodejs.org/download/release/v24.18.0/SHASUMS256.txt
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn /usr/bin/python3
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args [
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '/usr/local/lib/node_modules/pnpm/dist/node_modules/node-gyp/gyp/gyp_main.py',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args 'binding.gyp',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-f',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args 'make',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-I',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '/app/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/build/config.gypi',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-I',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '/usr/local/lib/node_modules/pnpm/dist/node_modules/node-gyp/addon.gypi',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-I',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '/root/.cache/node-gyp/24.18.0/include/node/common.gypi',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-Dlibrary=shared_library',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-Dvisibility=default',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-Dnode_root_dir=/root/.cache/node-gyp/24.18.0',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-Dnode_gyp_dir=/usr/local/lib/node_modules/pnpm/dist/node_modules/node-gyp',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-Dnode_lib_file=/root/.cache/node-gyp/24.18.0/<(target_arch)/node.lib',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-Dmodule_root_dir=/app/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-Dnode_engine=v8',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '--depth=.',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '--no-parallel',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '--generator-output',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args 'build',
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args '-Goutput_dir=.'
+#14 99.20 .../node_modules/better-sqlite3 install: gyp info spawn args ]
+#14 99.36 .../node_modules/better-sqlite3 install: gyp info spawn make
+#14 99.36 .../node_modules/better-sqlite3 install: gyp info spawn args [ 'BUILDTYPE=Release', '-C', 'build' ]
+#14 99.36 .../node_modules/better-sqlite3 install: make: Entering directory '/app/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/build'
+#14 99.36 .../node_modules/better-sqlite3 install:   TOUCH 4292fa9a667d77b27488aa109b010a85bce8e4e7a1c7aa0370cea902395c3866.intermediate
+#14 99.37 .../node_modules/better-sqlite3 install:   ACTION deps_sqlite3_gyp_locate_sqlite3_target_copy_builtin_sqlite3 4292fa9a667d77b27488aa109b010a85bce8e4e7a1c7aa0370cea902395c3866.intermediate
+#14 99.39 .../node_modules/better-sqlite3 install:   TOUCH Release/obj.target/deps/locate_sqlite3.stamp
+#14 99.39 .../node_modules/better-sqlite3 install:   CC(target) Release/obj.target/sqlite3/gen/sqlite3/sqlite3.o
+#14 139.3 .../node_modules/better-sqlite3 install: rm -f Release/obj.target/deps/sqlite3.a Release/obj.target/deps/sqlite3.a.ar-file-list; mkdir -p `dirname Release/obj.target/deps/sqlite3.a`
+#14 139.3 .../node_modules/better-sqlite3 install: ar crs Release/obj.target/deps/sqlite3.a @Release/obj.target/deps/sqlite3.a.ar-file-list
+#14 139.3 .../node_modules/better-sqlite3 install:   COPY Release/sqlite3.a
+#14 139.3 .../node_modules/better-sqlite3 install:   CXX(target) Release/obj.target/better_sqlite3/src/better_sqlite3.o
+#14 139.7 .../node_modules/better-sqlite3 install: In file included from ./src/better_sqlite3.lzz:11,
+#14 139.7 .../node_modules/better-sqlite3 install:                  from ../src/better_sqlite3.cpp:4:
+#14 139.7 .../node_modules/better-sqlite3 install: /root/.cache/node-gyp/24.18.0/include/node/node.h:1392:7: warning: cast between incompatible function types from 'void (*)(v8::Local<v8::Object>, v8::Local<v8::Value>, v8::Local<v8::Context>)' to 'node::addon_context_register_func' {aka 'void (*)(v8::Local<v8::Object>, v8::Local<v8::Value>, v8::Local<v8::Context>, void*)'} [-Wcast-function-type]
+#14 139.7 .../node_modules/better-sqlite3 install:  1392 |       (node::addon_context_register_func) (regfunc),                  \
+#14 139.7 .../node_modules/better-sqlite3 install:       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#14 139.7 .../node_modules/better-sqlite3 install: /root/.cache/node-gyp/24.18.0/include/node/node.h:1410:3: note: in expansion of macro 'NODE_MODULE_CONTEXT_AWARE_X'
+#14 139.7 .../node_modules/better-sqlite3 install:  1410 |   NODE_MODULE_CONTEXT_AWARE_X(modname, regfunc, NULL, 0)
+#14 139.7 .../node_modules/better-sqlite3 install:       |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+#14 139.7 .../node_modules/better-sqlite3 install: /root/.cache/node-gyp/24.18.0/include/node/node.h:1441:3: note: in expansion of macro 'NODE_MODULE_CONTEXT_AWARE'
+#14 139.7 .../node_modules/better-sqlite3 install:  1441 |   NODE_MODULE_CONTEXT_AWARE(NODE_GYP_MODULE_NAME,                     \
+#14 139.7 .../node_modules/better-sqlite3 install:       |   ^~~~~~~~~~~~~~~~~~~~~~~~~
+#14 139.7 .../node_modules/better-sqlite3 install: ./src/better_sqlite3.lzz:67:1: note: in expansion of macro 'NODE_MODULE_INIT'
+#14 139.7 .../node_modules/better-sqlite3 install: ./src/objects/database.lzz: In static member function 'static void Database::JS_new(const v8::FunctionCallbackInfo<v8::Value>&)':
+#14 139.7 .../node_modules/better-sqlite3 install: ./src/objects/database.lzz:180:21: warning: variable 'status' set but not used [-Wunused-but-set-variable]
+#14 139.8 .../node_modules/better-sqlite3 install: ./src/util/custom-table.lzz: At global scope:
+#14 139.8 .../node_modules/better-sqlite3 install: ./src/util/custom-table.lzz:45:9: warning: missing initializer for member 'sqlite3_module::xIntegrity' [-Wmissing-field-initializers]
+#14 139.8 .../node_modules/better-sqlite3 install: ./src/util/custom-table.lzz:72:9: warning: missing initializer for member 'sqlite3_module::xIntegrity' [-Wmissing-field-initializers]
+#14 139.9 .../node_modules/better-sqlite3 install: ./src/util/data.lzz: In function 'v8::Local<v8::Value> Data::GetValueJS(v8::Isolate*, sqlite3_stmt*, int, bool)':
+#14 139.9 .../node_modules/better-sqlite3 install: ./src/util/data.lzz:73:92: warning: this statement may fall through [-Wimplicit-fallthrough=]
+#14 139.9 .../node_modules/better-sqlite3 install: ./src/util/data.lzz:73:197: note: here
+#14 139.9 .../node_modules/better-sqlite3 install: ./src/util/data.lzz: In function 'v8::Local<v8::Value> Data::GetValueJS(v8::Isolate*, sqlite3_value*, bool)':
+#14 139.9 .../node_modules/better-sqlite3 install: ./src/util/data.lzz:77:81: warning: this statement may fall through [-Wimplicit-fallthrough=]
+#14 139.9 .../node_modules/better-sqlite3 install: ./src/util/data.lzz:77:175: note: here
+#14 141.1 .../node_modules/better-sqlite3 install:   SOLINK_MODULE(target) Release/obj.target/better_sqlite3.node
+#14 141.1 .../node_modules/better-sqlite3 install:   COPY Release/better_sqlite3.node
+#14 141.1 .../node_modules/better-sqlite3 install:   CC(target) Release/obj.target/test_extension/deps/test_extension.o
+#14 141.1 .../node_modules/better-sqlite3 install:   SOLINK_MODULE(target) Release/obj.target/test_extension.node
+#14 141.1 .../node_modules/better-sqlite3 install:   COPY Release/test_extension.node
+#14 141.1 .../node_modules/better-sqlite3 install: rm 4292fa9a667d77b27488aa109b010a85bce8e4e7a1c7aa0370cea902395c3866.intermediate
+#14 141.1 .../node_modules/better-sqlite3 install: make: Leaving directory '/app/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/build'
+#14 141.1 .../node_modules/better-sqlite3 install: gyp info ok
+#14 141.1 .../node_modules/better-sqlite3 install: Done
+#14 141.2
+#14 141.2 devDependencies:
+#14 141.2 + @eslint/js 9.39.4
+#14 141.2 + eslint 9.39.4
+#14 141.2 + eslint-config-prettier 10.1.8
+#14 141.2 + eslint-plugin-react 7.37.5
+#14 141.2 + eslint-plugin-react-hooks 7.1.1
+#14 141.2 + globals 16.5.0
+#14 141.2 + prettier 3.8.3
+#14 141.2 + typescript 5.9.3
+#14 141.2 + typescript-eslint 8.59.3
+#14 141.2
+#14 141.3 Done in 2m 21.1s using pnpm v11.1.3
+#14 DONE 141.5s
+
+#15 [builder 11/15] COPY CHANGELOG.md ./
+#15 DONE 0.3s
+
+#16 [builder 12/15] COPY backend/  ./backend/
+#16 DONE 0.0s
+
+#17 [builder 13/15] COPY frontend/ ./frontend/
+#17 DONE 0.0s
+
+#18 [builder 14/15] RUN pnpm -C frontend build
+#18 0.310 $ tsc --noEmit && vite build
+#18 5.213 /bin/sh: git: not found
+#18 5.228 vite v5.4.21 building for production...
+#18 5.255 transforming...
+#18 7.828 ✓ 2413 modules transformed.
+#18 8.177 rendering chunks...
+#18 8.647 computing gzip size...
+#18 8.678 dist/index.html                                                       0.99 kB │ gzip:   0.54 kB
+#18 8.678 dist/assets/fira-code-symbols2-wght-normal-CE6EOz_n.woff2             4.12 kB
+#18 8.678 dist/assets/poppins-latin-ext-700-normal-cby-RkWa.woff2               5.43 kB
+#18 8.678 dist/assets/poppins-latin-ext-500-normal-CK-6C4Hw.woff2               5.48 kB
+#18 8.678 dist/assets/poppins-latin-ext-400-normal-by3JarPu.woff2               5.64 kB
+#18 8.678 dist/assets/space-grotesk-vietnamese-wght-normal-D0rl6rjA.woff2       6.71 kB
+#18 8.678 dist/assets/fira-sans-vietnamese-400-normal-DUVG35gE.woff             6.81 kB
+#18 8.678 dist/assets/fira-sans-vietnamese-700-normal-DFi88MGY.woff             6.84 kB
+#18 8.678 dist/assets/fira-sans-vietnamese-500-normal-UV7M6ot_.woff             6.86 kB
+#18 8.678 dist/assets/fira-sans-greek-ext-400-normal-ClCfNE6D.woff              6.97 kB
+#18 8.678 dist/assets/fira-sans-greek-ext-700-normal-C8J5qYMq.woff              7.08 kB
+#18 8.678 dist/assets/fira-sans-greek-ext-500-normal-Bem4H9fH.woff              7.12 kB
+#18 8.678 dist/assets/poppins-latin-ext-700-normal-DctTR6Tg.woff                7.33 kB
+#18 8.678 dist/assets/poppins-latin-ext-500-normal-CgAe2rWW.woff                7.37 kB
+#18 8.678 dist/assets/poppins-latin-ext-400-normal-DaBSavcJ.woff                7.46 kB
+#18 8.678 dist/assets/jetbrains-mono-vietnamese-wght-normal-Bt-aOZkq.woff2      7.50 kB
+#18 8.678 dist/assets/poppins-latin-500-normal-C8OXljZJ.woff2                   7.75 kB
+#18 8.678 dist/assets/poppins-latin-700-normal-Qrb0O0WB.woff2                   7.82 kB
+#18 8.678 dist/assets/poppins-latin-400-normal-cpxAROuN.woff2                   7.88 kB
+#18 8.678 dist/assets/fira-sans-greek-ext-400-normal-ByG7UNQ2.woff2             7.96 kB
+#18 8.678 dist/assets/fira-sans-greek-ext-500-normal-nq-cjB3m.woff2             8.13 kB
+#18 8.678 dist/assets/fira-sans-greek-ext-700-normal-C1m6bE4Q.woff2             8.34 kB
+#18 8.678 dist/assets/fira-sans-vietnamese-500-normal-ChEXCnJy.woff2            8.45 kB
+#18 8.678 dist/assets/fira-sans-vietnamese-400-normal-ljDTQFsx.woff2            8.50 kB
+#18 8.678 dist/assets/fira-code-greek-ext-wght-normal-wWus70Ix.woff2            8.61 kB
+#18 8.679 dist/assets/fira-sans-vietnamese-700-normal-j5oLGLJY.woff2            8.85 kB
+#18 8.679 dist/assets/fira-sans-cyrillic-400-normal-D9eUeF-O.woff               8.88 kB
+#18 8.679 dist/assets/fira-sans-cyrillic-700-normal-KyW5QH4H.woff               8.89 kB
+#18 8.679 dist/assets/fira-sans-cyrillic-500-normal-Daski1k2.woff               8.94 kB
+#18 8.679 dist/assets/jetbrains-mono-greek-wght-normal-Bw9x6K1M.woff2           9.00 kB
+#18 8.679 dist/assets/roboto-flex-vietnamese-wght-normal-AVFfiTln.woff2         9.77 kB
+#18 8.679 dist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2              10.25 kB
+#18 8.679 dist/assets/poppins-latin-500-normal-DGXqpDMm.woff                   10.37 kB
+#18 8.679 dist/assets/roboto-flex-cyrillic-ext-wght-normal-CVcCQn0y.woff2      10.39 kB
+#18 8.679 dist/assets/poppins-latin-700-normal-BVuQR_eA.woff                   10.43 kB
+#18 8.679 dist/assets/poppins-latin-400-normal-BOb3E3N0.woff                   10.53 kB
+#18 8.679 dist/assets/fira-sans-cyrillic-400-normal-CKu2TFQr.woff2             10.79 kB
+#18 8.679 dist/assets/fira-sans-cyrillic-500-normal-CXfldnQ8.woff2             10.82 kB
+#18 8.679 dist/assets/fira-sans-greek-400-normal-DQ8sF22y.woff                 10.90 kB
+#18 8.679 dist/assets/fira-sans-greek-700-normal-CJu31rC4.woff                 10.96 kB
+#18 8.679 dist/assets/fira-sans-greek-500-normal-C9KT8sAy.woff                 11.03 kB
+#18 8.679 dist/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2               11.23 kB
+#18 8.679 dist/assets/roboto-flex-greek-wght-normal-DeN4rzfy.woff2             11.44 kB
+#18 8.679 dist/assets/fira-sans-cyrillic-700-normal-Bl-HczEO.woff2             11.55 kB
+#18 8.679 dist/assets/fira-code-cyrillic-wght-normal-Y3u8pIsh.woff2            11.98 kB
+#18 8.679 dist/assets/jetbrains-mono-cyrillic-wght-normal-D73BlboJ.woff2       12.11 kB
+#18 8.679 dist/assets/fira-sans-greek-400-normal-BFCFncbp.woff2                12.78 kB
+#18 8.679 dist/assets/fira-sans-greek-500-normal-Cy-TUuxE.woff2                12.98 kB
+#18 8.679 dist/assets/fira-code-latin-ext-wght-normal-Dvfvaomy.woff2           13.27 kB
+#18 8.679 dist/assets/fira-code-greek-wght-normal-B2SviObF.woff2               13.78 kB
+#18 8.679 dist/assets/fira-sans-greek-700-normal-BVfcrbV7.woff2                13.82 kB
+#18 8.679 dist/assets/outfit-latin-ext-wght-normal-DdQaqQDo.woff2              14.81 kB
+#18 8.679 dist/assets/jetbrains-mono-latin-ext-wght-normal-DBQx-q_a.woff2      15.20 kB
+#18 8.679 dist/assets/fira-sans-cyrillic-ext-400-normal-Dd5dApAy.woff          15.20 kB
+#18 8.679 dist/assets/fira-sans-cyrillic-ext-700-normal-Gcpdxicj.woff          15.44 kB
+#18 8.679 dist/assets/fira-sans-cyrillic-ext-500-normal-Cixivk4R.woff          15.45 kB
+#18 8.679 dist/assets/roboto-flex-cyrillic-wght-normal-BJ-nQEdz.woff2          15.65 kB
+#18 8.680 dist/assets/fira-sans-cyrillic-ext-400-normal-Cycyekte.woff2         17.69 kB
+#18 8.680 dist/assets/fira-sans-cyrillic-ext-500-normal-Dkk5LlrU.woff2         17.88 kB
+#18 8.680 dist/assets/dm-sans-latin-ext-wght-normal-BOFOeGcA.woff2             18.23 kB
+#18 8.680 dist/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2                18.75 kB
+#18 8.680 dist/assets/space-grotesk-latin-ext-wght-normal-D9tNdqV9.woff2       18.94 kB
+#18 8.680 dist/assets/inter-greek-wght-normal-CkhJZR-_.woff2                   19.00 kB
+#18 8.680 dist/assets/fira-sans-cyrillic-ext-700-normal-BfO9TR-w.woff2         19.47 kB
+#18 8.680 dist/assets/fira-sans-latin-400-normal-66xCkunx.woff                 21.88 kB
+#18 8.680 dist/assets/fira-sans-latin-700-normal-DgqLm3Fi.woff                 22.12 kB
+#18 8.680 dist/assets/fira-sans-latin-500-normal-Bkfzcwmr.woff                 22.12 kB
+#18 8.680 dist/assets/fira-code-cyrillic-ext-wght-normal-DhYMMuQd.woff2        22.13 kB
+#18 8.680 dist/assets/space-grotesk-latin-wght-normal-BhU9QXUp.woff2           22.29 kB
+#18 8.680 dist/assets/roboto-flex-latin-ext-wght-normal-gysdOMcS.woff2         23.48 kB
+#18 8.680 dist/assets/fira-sans-latin-400-normal-a0AnQzuD.woff2                23.87 kB
+#18 8.680 dist/assets/fira-sans-latin-500-normal-Bvbxc8ch.woff2                24.06 kB
+#18 8.680 dist/assets/fira-sans-latin-700-normal-CRhwpWTq.woff2                25.01 kB
+#18 8.680 dist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2            25.96 kB
+#18 8.680 dist/assets/outfit-latin-wght-normal-Bc-8i84L.woff2                  32.29 kB
+#18 8.680 dist/assets/roboto-flex-latin-wght-normal-n-dP9qr2.woff2             34.32 kB
+#18 8.680 dist/assets/fira-code-latin-wght-normal-CHoedHDv.woff2               36.28 kB
+#18 8.680 dist/assets/dm-sans-latin-wght-normal-Xz1IZZA0.woff2                 36.93 kB
+#18 8.680 dist/assets/poppins-devanagari-500-normal-BIdkeU1p.woff2             39.08 kB
+#18 8.680 dist/assets/poppins-devanagari-700-normal-O-jipLrW.woff2             39.25 kB
+#18 8.680 dist/assets/poppins-devanagari-400-normal-CJDn6rn8.woff2             39.66 kB
+#18 8.680 dist/assets/jetbrains-mono-latin-wght-normal-B9CIFXIH.woff2          40.40 kB
+#18 8.680 dist/assets/fira-sans-latin-ext-400-normal-BCUwhuGB.woff             41.39 kB
+#18 8.680 dist/assets/fira-sans-latin-ext-700-normal-cfTxGFzJ.woff             42.03 kB
+#18 8.680 dist/assets/fira-sans-latin-ext-500-normal-CFRf4jcC.woff             42.06 kB
+#18 8.680 dist/assets/fira-sans-latin-ext-400-normal-BLG_mAEf.woff2            46.40 kB
+#18 8.680 dist/assets/fira-sans-latin-ext-500-normal-OO1QnNpY.woff2            47.00 kB
+#18 8.680 dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2                   48.26 kB
+#18 8.680 dist/assets/fira-sans-latin-ext-700-normal-g2Yrd4J5.woff2            50.37 kB
+#18 8.680 dist/assets/poppins-devanagari-700-normal-fHs-vx92.woff              52.25 kB
+#18 8.681 dist/assets/poppins-devanagari-500-normal-DMPDjHtT.woff              52.42 kB
+#18 8.681 dist/assets/poppins-devanagari-400-normal-CqVvlrh5.woff              52.98 kB
+#18 8.681 dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2               85.07 kB
+#18 8.681 dist/assets/index-NTKDRLbd.css                                        0.72 kB │ gzip:   0.35 kB
+#18 8.681 dist/assets/index-Dqr6y4op.css                                        0.73 kB │ gzip:   0.36 kB
+#18 8.681 dist/assets/index-DYVl74dH.css                                        1.10 kB │ gzip:   0.43 kB
+#18 8.681 dist/assets/400-DSpZquNv.css                                          1.16 kB │ gzip:   0.45 kB
+#18 8.681 dist/assets/500-BXkefx-V.css                                          1.16 kB │ gzip:   0.45 kB
+#18 8.681 dist/assets/700-CwZnzum0.css                                          1.16 kB │ gzip:   0.45 kB
+#18 8.681 dist/assets/index-CwmJlCc0.css                                        1.90 kB │ gzip:   0.59 kB
+#18 8.681 dist/assets/index-CHCa7mkw.css                                        2.00 kB │ gzip:   0.57 kB
+#18 8.681 dist/assets/index-CJjU_8H4.css                                        2.03 kB │ gzip:   0.60 kB
+#18 8.681 dist/assets/400-AaHvJgaU.css                                          2.42 kB │ gzip:   0.67 kB
+#18 8.681 dist/assets/500-D-7kwSSS.css                                          2.42 kB │ gzip:   0.68 kB
+#18 8.681 dist/assets/700-CbtLBIA2.css                                          2.42 kB │ gzip:   0.68 kB
+#18 8.681 dist/assets/index-BFlYNOnv.css                                        4.60 kB │ gzip:   2.69 kB
+#18 8.681 dist/assets/dashboards-ECv-A2F7.css                                   7.86 kB │ gzip:   1.54 kB
+#18 8.681 dist/assets/DashboardPage-B4DexIfW.css                                8.82 kB │ gzip:   2.21 kB
+#18 8.681 dist/assets/index-DjgTYFuE.css                                      104.51 kB │ gzip:  17.44 kB
+#18 8.681 dist/assets/user-plus-CFf2qdtf.js                                     0.53 kB │ gzip:   0.37 kB │ map:     1.37 kB
+#18 8.681 dist/assets/eye-off-khl5aQWG.js                                       0.65 kB │ gzip:   0.41 kB │ map:     1.44 kB
+#18 8.681 dist/assets/log-in-B06AkCvQ.js                                        0.83 kB │ gzip:   0.42 kB │ map:     2.07 kB
+#18 8.682 dist/assets/FirstRunPage-D9Ct84KR.js                                  2.30 kB │ gzip:   1.03 kB │ map:     6.93 kB
+#18 8.682 dist/assets/LoginPage-BTbIjR76.js                                     3.41 kB │ gzip:   1.56 kB │ map:    10.10 kB
+#18 8.682 dist/assets/card-BzSWy6hB.js                                         37.78 kB │ gzip:  12.31 kB │ map:   194.23 kB
+#18 8.682 dist/assets/index-C1oxTCS9.js                                        42.35 kB │ gzip:  12.97 kB │ map:   113.92 kB
+#18 8.682 dist/assets/query-C98bdNS6.js                                        55.48 kB │ gzip:  16.83 kB │ map:   198.84 kB
+#18 8.682 dist/assets/grid-Clhrb2AM.js                                         84.81 kB │ gzip:  23.12 kB │ map:   381.20 kB
+#18 8.682 dist/assets/SettingsPage-DT8-RH_X.js                                185.23 kB │ gzip:  41.61 kB │ map:   585.32 kB
+#18 8.682 dist/assets/vendor-BPv6mdeq.js                                      198.37 kB │ gzip:  64.89 kB │ map:   757.12 kB
+#18 8.682 dist/assets/dashboards-D6rL8JjW.js                                  384.17 kB │ gzip: 115.73 kB │ map: 1,840.94 kB
+#18 8.682 dist/assets/DashboardPage-CPH8tyop.js                             1,169.68 kB │ gzip: 247.24 kB │ map: 3,490.21 kB
+#18 8.682
+#18 8.682 (!) Some chunks are larger than 500 kB after minification. Consider:
+#18 8.682 - Using dynamic import() to code-split the application
+#18 8.682 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#18 8.682 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#18 8.682 ✓ built in 3.44s
+#18 DONE 8.8s
+
+#19 [builder 15/15] RUN pnpm -C backend build
+#19 0.541 $ tsup src/server.ts --format cjs --dts --clean && tsup scripts/reset-admin.ts --format cjs --outDir dist/scripts --no-dts
+#19 0.704 CLI Building entry: src/server.ts
+#19 0.705 CLI Using tsconfig: tsconfig.json
+#19 0.705 CLI tsup v8.5.1
+#19 0.708 CLI Target: es2022
+#19 0.710 CLI Cleaning output folder
+#19 0.711 CJS Build start
+#19 0.766 CJS dist/server.js 591.43 KB
+#19 0.766 CJS ⚡️ Build success in 55ms
+#19 0.889 DTS Build start
+#19 3.661 DTS ⚡️ Build success in 2772ms
+#19 3.661 DTS dist/server.d.ts 499.00 B
+#19 3.882 CLI Building entry: scripts/reset-admin.ts
+#19 3.883 CLI Using tsconfig: tsconfig.json
+#19 3.883 CLI tsup v8.5.1
+#19 3.884 CLI Target: es2022
+#19 3.885 CJS Build start
+#19 3.894 CJS dist/scripts/reset-admin.js 5.05 KB
+#19 3.894 CJS ⚡️ Build success in 9ms
+#19 DONE 3.9s
+
+#20 [production 2/8] RUN apk add --no-cache libstdc++ openssh-client
+#20 CACHED
+
+#21 [production 3/8] WORKDIR /app
+#21 CACHED
+
+#22 [production 4/8] COPY --from=builder /app/frontend/dist ./frontend/dist
+#22 DONE 0.0s
+
+#23 [production 5/8] COPY --from=builder /app/backend/dist ./backend/dist
+#23 DONE 0.0s
+
+#24 [production 6/8] COPY --from=builder /app/backend/drizzle ./drizzle
+#24 DONE 0.0s
+
+#25 [production 7/8] COPY --from=builder /app/node_modules         ./node_modules
+#25 DONE 3.6s
+
+#26 [production 8/8] COPY --from=builder /app/backend/node_modules ./backend/node_modules
+#26 DONE 0.2s
+
+#27 exporting to image
+#27 exporting layers
+#27 exporting layers 8.3s done
+#27 exporting manifest sha256:1458ab4a495eab55248eb17962a67267c170fdb2794d2163654d57afd023bc4e done
+#27 exporting config sha256:4b37a1b58bf327d87939111b612a366bcf1f4bf17a53a4d26ed71bc8e2f261ff done
+#27 exporting attestation manifest sha256:676463f9e4640d04ff0660735cc8b4bdbbc6e16c81b93a412e29b525a24984cb done
+#27 exporting manifest list sha256:4647f8e74e71a1f3b81b0dbfbedb24050be7d807a5b86e15262890248b803908 done
+#27 naming to docker.io/library/homedash:session-secret-fix done
+#27 unpacking to docker.io/library/homedash:session-secret-fix
+#27 unpacking to docker.io/library/homedash:session-secret-fix 4.9s done
+#27 DONE 13.2s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/vsgvkrxyjd0879qgkz5g26uq9

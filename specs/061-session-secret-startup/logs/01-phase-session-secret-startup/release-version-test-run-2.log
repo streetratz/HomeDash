@@ -1,0 +1,17 @@
+$ node --test scripts/version-state.test.mjs
+✔ validates a consistent unreleased version state (1.218583ms)
+✔ increments only Main Version for a normal PR (0.164417ms)
+✔ promotes the exact Main Version across minor and patch gaps (0.091ms)
+✔ rejects promotion when Main and Release are equal (0.176292ms)
+✔ rejects inconsistent mirrors (0.113709ms)
+✔ rejects malformed stable versions (0.066584ms)
+✔ derives the first versions.json state from legacy mirrors (0.074ms)
+✔ requires every normal PR to advance Main without changing Release (0.113958ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44.182416

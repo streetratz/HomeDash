@@ -1,0 +1,10 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 $REPO/backend
+
+ ✓ tests/integration/oauth-flow.test.ts  (15 tests) 974ms
+
+ Test Files  1 passed (1)
+      Tests  15 passed (15)
+   Start at  20:10:40
+   Duration  1.88s (transform 276ms, setup 222ms, collect 543ms, tests 974ms, environment 0ms, prepare 32ms)

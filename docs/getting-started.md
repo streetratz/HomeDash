@@ -43,7 +43,6 @@ docker run -d \
   --name homedash \
   -p 3000:3000 \
   -v homedash-data:/app/data \
-  -e HOMEDASH_SESSION_SECRET="$(openssl rand -hex 32)" \
   homedash
 ```
 
@@ -60,7 +59,8 @@ services:
     volumes:
       - homedash-data:/app/data
     environment:
-      - HOMEDASH_SESSION_SECRET=${HOMEDASH_SESSION_SECRET:?set a persistent secret}
+      # Optional override; HomeDash otherwise generates a persistent secret in /app/data.
+      # - HOMEDASH_SESSION_SECRET=${HOMEDASH_SESSION_SECRET}
     restart: unless-stopped
 
 volumes:
@@ -74,12 +74,18 @@ volumes:
 | `HOST`                     | `0.0.0.0`          | Listen address                                           |
 | `PORT`                     | `3000`             | Listen port                                              |
 | `HOMEDASH_DATA_DIR`        | `./data`           | Directory for SQLite database and uploaded files         |
-| `HOMEDASH_SESSION_SECRET`  | _(required)_       | Session signing and credential-encryption secret         |
+| `HOMEDASH_SESSION_SECRET`  | generated once     | Optional session signing and credential-encryption secret |
 | `ALLOWED_ORIGINS`          | _(empty)_          | Comma-separated CORS allowlist; empty = same-origin only |
 | `TRUST_PROXY`              | _(unset)_          | Set when running behind a reverse proxy                  |
 | `LOG_LEVEL`                | `info`             | Log verbosity: `debug`, `info`, `warn`, `error`          |
 
-Generate the secret once and retain it across upgrades:
+When neither supported variable is set in production, HomeDash generates a random
+256-bit secret at `$HOMEDASH_DATA_DIR/.homedash-session-secret`, restricts the file to
+the container user, and reuses it across restarts. Keep the data volume persistent and
+include this file in host-level volume backups.
+
+To manage the secret outside the data volume instead, generate it once and retain it
+across upgrades:
 
 ```bash
 openssl rand -hex 32
@@ -90,13 +96,12 @@ value when renaming it to `HOMEDASH_SESSION_SECRET`: encrypted integration crede
 are derived from this secret and cannot be decrypted with a different value. If both
 variables are set, their values must match or HomeDash refuses to start.
 
-When upgrading from a release where no session-secret variable was configured, stop
-before changing the value: the old installation may have encrypted integration
-credentials using its previous effective secret. Configure that same value explicitly
-for the first upgraded start, then rotate it only after reconnecting encrypted
-integrations. Production now fails closed instead of selecting a known default.
-Development and test processes generate an ephemeral secret when neither variable is
-present.
+When upgrading from a release where no session-secret variable was configured,
+HomeDash creates the persistent generated-secret file automatically. Existing
+credentials encrypted with a different historical effective secret may need to be
+reconnected. Do not later add or change an environment secret without first accounting
+for those encrypted integrations. Development and test processes generate an
+ephemeral secret when neither variable is present.
 
 ### SSH (Docker over `ssh://`)
 
