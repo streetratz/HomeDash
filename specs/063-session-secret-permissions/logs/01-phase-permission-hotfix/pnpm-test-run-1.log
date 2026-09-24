@@ -1,0 +1,173 @@
+$ pnpm -r run test
+Scope: 2 of 3 workspace projects
+backend test$ vitest run
+frontend test$ vitest run
+backend test: [33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+frontend test:  RUN  v1.6.1 $REPO/frontend
+backend test:  RUN  v1.6.1 $REPO/backend
+frontend test:  ✓ src/hooks/__tests__/useIdleDetection.test.ts  (6 tests) 65ms
+frontend test:  ✓ src/hooks/__tests__/useTextOverflow.test.ts  (7 tests) 56ms
+frontend test:  ✓ tests/unit/useVisibility.test.ts  (5 tests) 34ms
+frontend test:  ✓ src/hooks/__tests__/useDocker.test.ts  (17 tests) 111ms
+frontend test:  ✓ src/components/widgets/__tests__/DockerWidget.test.tsx  (2 tests) 83ms
+frontend test:  ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (12 tests) 735ms
+frontend test:  ✓ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (2 tests) 638ms
+frontend test:  ✓ src/components/settings/__tests__/ManagementActionAccessibility.test.tsx  (2 tests) 529ms
+frontend test:  ✓ src/components/widgets/__tests__/publicWidgetMode.test.tsx  (2 tests) 143ms
+frontend test:  ✓ src/components/settings/__tests__/CalendarSourceEditing.test.tsx  (3 tests) 547ms
+frontend test:  ✓ src/components/widgets/__tests__/DockerConnectionPicker.test.tsx  (2 tests) 206ms
+backend test:  ✓ tests/integration/dashboardImport.test.ts  (22 tests) 1196ms
+frontend test:  ✓ src/components/sonos/__tests__/QueuePanel.test.tsx  (2 tests) 277ms
+frontend test: stderr | src/pages/LoginPage.test.tsx > LoginPage password visibility > reveals and re-masks the password without changing its value
+frontend test: ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+frontend test: ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+frontend test:  ✓ src/pages/LoginPage.test.tsx  (12 tests) 210ms
+frontend test:  ✓ src/components/widgets/__tests__/StocksConfigForm.ui.test.tsx  (1 test) 356ms
+frontend test:  ✓ src/components/__tests__/widgetVisibility.test.tsx  (3 tests) 211ms
+frontend test:  ✓ src/components/__tests__/PlaceholderConfigDialog.test.tsx  (3 tests) 542ms
+frontend test:  ✓ src/state/__tests__/appShortcutHooks.test.ts  (1 test) 17ms
+frontend test:  ✓ src/components/widgets/__tests__/ClockWidget.test.tsx  (1 test) 24ms
+frontend test:  ✓ src/components/settings/__tests__/MobileSectionSelect.test.tsx  (1 test) 308ms
+frontend test:  ✓ src/hooks/__tests__/useAdaptivePoll.test.ts  (9 tests) 3ms
+frontend test:  ✓ tests/unit/browseServices.test.ts  (10 tests) 2ms
+frontend test:  ✓ tests/unit/polling.test.ts  (12 tests) 1ms
+frontend test: stderr | src/components/__tests__/EmptyDashboard.test.tsx > EmptyDashboard > gives administrators a direct path to dashboard settings
+frontend test: ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+frontend test: ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+frontend test:  ✓ src/components/__tests__/EmptyDashboard.test.tsx  (2 tests) 154ms
+frontend test:  ✓ src/lib/parse-yahoo-csv.test.ts  (4 tests) 2ms
+frontend test:  ✓ src/components/settings/__tests__/WidgetsTab.test.tsx  (1 test) 137ms
+frontend test:  ✓ src/components/widgets/__tests__/WidgetPicker.ui.test.tsx  (1 test) 227ms
+frontend test:  ✓ src/components/settings/__tests__/SettingsDataState.test.tsx  (2 tests) 127ms
+frontend test:  ✓ src/lib/calendarDates.test.ts  (1 test) 2ms
+frontend test:  ✓ src/components/widgets/__tests__/WidgetConfigControls.test.tsx  (1 test) 404ms
+frontend test:  ✓ src/components/settings/__tests__/GroupsTab.test.ts  (1 test) 3ms
+frontend test:  ✓ src/components/widgets/__tests__/StocksConfigForm.test.ts  (6 tests) 3ms
+backend test:  ✓ tests/integration/dashboards.test.ts  (43 tests) 1742ms
+frontend test:  ✓ src/components/widgets/__tests__/WidgetPicker.test.ts  (3 tests) 3ms
+frontend test:  Test Files  32 passed (32)
+frontend test:       Tests  137 passed (137)
+frontend test:    Start at  21:53:23
+frontend test:    Duration  5.51s (transform 1.97s, setup 1ms, collect 12.76s, tests 6.16s, environment 18.69s, prepare 2.08s)
+frontend test: Done
+backend test: stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+backend test: [calendar-sync] Failed to update error status for source 12701a8a-0c6e-4740-96c4-8b7712ba06a5: TypeError: The database connection is not open
+backend test:     at Database.prepare ($REPO/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+backend test:     at BetterSQLiteSession.prepareQuery (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+backend test:     at BetterSQLiteSession.prepareOneTimeQuery (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+backend test:     at QueryPromise._prepare (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+backend test:     at QueryPromise.run (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+backend test:     at Module.syncSource ($REPO/backend/src/services/calendar-sync-service.ts:203:12)
+backend test:     at processTicksAndRejections (node:internal/process/task_queues:104:5)
+backend test: [calendar-sync] Error syncing source 12701a8a-0c6e-4740-96c4-8b7712ba06a5: iCal fetch failed: HTTP 404
+backend test: stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+backend test: [calendar-sync] Failed to update error status for source 2606d63b-72fc-41b4-a279-b692aae7cae5: TypeError: The database connection is not open
+backend test:     at Database.prepare ($REPO/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+backend test:     at BetterSQLiteSession.prepareQuery (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+backend test:     at BetterSQLiteSession.prepareOneTimeQuery (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+backend test:     at QueryPromise._prepare (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+backend test:     at QueryPromise.run (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+backend test:     at Module.syncSource ($REPO/backend/src/services/calendar-sync-service.ts:203:12)
+backend test:     at processTicksAndRejections (node:internal/process/task_queues:104:5)
+backend test: [calendar-sync] Error syncing source 2606d63b-72fc-41b4-a279-b692aae7cae5: iCal fetch failed: HTTP 404
+backend test:  ✓ tests/integration/ical-parser.test.ts  (26 tests) 496ms
+backend test:  ✓ tests/integration/calendar-phase7.test.ts  (22 tests) 842ms
+backend test:  ✓ tests/integration/todoSyncMicrosoft.test.ts  (16 tests) 520ms
+backend test:  ✓ tests/integration/appShortcuts.test.ts  (24 tests) 691ms
+backend test:  ✓ tests/integration/restore.test.ts  (7 tests) 1067ms
+backend test:  ✓ tests/integration/rbac.test.ts  (23 tests) 285ms
+backend test:  ✓ tests/integration/oauth-flow.test.ts  (15 tests) 1006ms
+backend test: stderr | tests/unit/dockerSshTransport.test.ts > process cleanup (FR-037, SC-011) > kills a hung dial and leaves no child process
+backend test: [calendar-sync] Failed to update error status for source a8eee16a-cf44-4ad7-bb48-05c5a15dd382: TypeError: The database connection is not open
+backend test:     at Database.prepare ($REPO/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+backend test:     at BetterSQLiteSession.prepareQuery (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+backend test:     at BetterSQLiteSession.prepareOneTimeQuery (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+backend test:     at QueryPromise._prepare (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+backend test:     at QueryPromise.run (file://$REPO/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+backend test:     at Module.syncSource ($REPO/backend/src/services/calendar-sync-service.ts:203:12)
+backend test:     at processTicksAndRejections (node:internal/process/task_queues:104:5)
+backend test: [calendar-sync] Error syncing source a8eee16a-cf44-4ad7-bb48-05c5a15dd382: fetch failed
+backend test:  ✓ tests/unit/dockerSshTransport.test.ts  (36 tests) 16626ms
+backend test:  ✓ tests/integration/dashboardExport.test.ts  (8 tests) 265ms
+backend test:  ✓ tests/integration/todoItems.test.ts  (17 tests) 301ms
+backend test: stderr | tests/integration/microsoft-calendar.test.ts > syncSource (Microsoft) > sets lastSyncError on fetch failure
+backend test: [calendar-sync] Error syncing source 2adc4289-5847-4207-9d50-2e6143b2c26b: Microsoft Graph API error 500: Internal Server Error
+backend test:  ✓ tests/integration/microsoft-calendar.test.ts  (8 tests) 151ms
+backend test:  ✓ tests/integration/widgetDataPermissions.test.ts  (65 tests) 542ms
+backend test: stderr | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – valid upload > updates logoAssetId in shell settings after upload
+backend test: [assetService] Failed to generate favicon variants: Error: Input buffer has corrupt header: VipsJpeg: premature end of JPEG image
+backend test: VipsJpeg: Invalid JPEG file structure: missing SOS marker
+backend test: VipsJpeg: premature end of JPEG image
+backend test: VipsJpeg: Invalid JPEG file structure: missing SOS marker
+backend test: VipsJpeg: premature end of JPEG image
+backend test:     at Sharp.toFile (file://$REPO/node_modules/.pnpm/sharp@0.35.4_@types+node@20.19.41/node_modules/sharp/dist/output.mjs:90:19)
+backend test:     at generateFaviconVariants ($REPO/backend/src/services/assetService.ts:302:8)
+backend test:     at Module.uploadLogo ($REPO/backend/src/services/assetService.ts:196:3)
+backend test:     at Object.<anonymous> ($REPO/backend/src/api/admin.ts:127:19)
+backend test:     at processTicksAndRejections (node:internal/process/task_queues:104:5)
+backend test:  ✓ tests/integration/logoUpload.test.ts  (9 tests) 1040ms
+backend test:  ✓ tests/unit/sonosDiscovery.test.ts  (14 tests) 1ms
+backend test:  ✓ tests/integration/todoSecurity.test.ts  (24 tests) 394ms
+backend test:  ✓ tests/unit/dockerApiVersion.test.ts  (16 tests) 12ms
+backend test:  ✓ tests/integration/adminShell.test.ts  (14 tests) 1391ms
+backend test:  ✓ tests/unit/dockerEndpoint.test.ts  (44 tests) 1ms
+backend test:  ✓ tests/integration/google-calendar.test.ts  (5 tests) 134ms
+backend test:  ✓ tests/integration/backup.test.ts  (8 tests) 246ms
+backend test:  ✓ tests/contract/openapi.test.ts  (28 tests) 56ms
+backend test:  ✓ tests/integration/dockerAuth.test.ts  (15 tests) 434ms
+backend test:  ✓ tests/integration/birthdayCalendar.test.ts  (5 tests) 243ms
+backend test:  ✓ tests/integration/dockerMultiHost.test.ts  (7 tests) 445ms
+backend test:  ✓ tests/integration/todoLists.test.ts  (12 tests) 243ms
+backend test:  ✓ tests/integration/migrationIntegrity.test.ts  (11 tests) 9ms
+backend test:  ✓ tests/unit/detectService.test.ts  (22 tests) 1ms
+backend test:  ✓ tests/integration/userPreferences.test.ts  (11 tests) 1048ms
+backend test:  ✓ tests/integration/auth.test.ts  (13 tests) 876ms
+backend test:  ✓ tests/unit/sonosServices.test.ts  (7 tests) 1ms
+backend test:  ✓ tests/integration/statusCheck.test.ts  (7 tests) 244ms
+backend test:  ✓ tests/integration/publicWidgets.test.ts  (3 tests) 307ms
+backend test:  ✓ tests/integration/publicBootstrapProjection.test.ts  (3 tests) 257ms
+backend test:  ✓ tests/integration/dockerAdoption.test.ts  (7 tests) 23ms
+backend test:  ✓ tests/integration/scheduledJobs.test.ts  (8 tests) 263ms
+backend test:  ✓ tests/integration/dockerContainers.test.ts  (9 tests) 262ms
+backend test:  ✓ tests/integration/publicVisibility.test.ts  (4 tests) 254ms
+backend test:  ✓ tests/unit/sonosLibrary.test.ts  (9 tests) 1ms
+backend test: stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback 1x1 PNG on fetch failure
+backend test: [artCache] Art fetch error: https://example.com/broken.jpg Error: network
+backend test:     at $REPO/backend/tests/unit/artCacheService.test.ts:68:53
+backend test:     at file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:135:14
+backend test:     at file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:60:26
+backend test:     at runTest (file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:781:17)
+backend test:     at runSuite (file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+backend test:     at runSuite (file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+backend test:     at runFiles (file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:958:5)
+backend test:     at startTests (file://$REPO/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:967:3)
+backend test:     at file://$REPO/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+backend test:     at withEnv (file://$REPO/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+backend test: stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback on non-200 response
+backend test: [artCache] Art fetch failed: https://example.com/missing.jpg (404)
+backend test:  ✓ tests/unit/artCacheService.test.ts  (9 tests) 58ms
+backend test:  ✓ tests/unit/url-validator.test.ts  (17 tests) 63ms
+backend test:  ✓ tests/integration/dockerAction.test.ts  (8 tests) 450ms
+backend test:  ✓ tests/unit/env.test.ts  (8 tests) 4ms
+backend test:  ✓ tests/integration/sonosArtProxy.test.ts  (5 tests) 239ms
+backend test:  ✓ tests/unit/birthdayCalendar.test.ts  (8 tests) 3ms
+backend test:  ✓ tests/unit/sonosLabels.test.ts  (11 tests) 4ms
+backend test:  ✓ tests/integration/firstRun.test.ts  (5 tests) 167ms
+backend test:  ✓ tests/integration/rememberMe.test.ts  (4 tests) 555ms
+backend test:  ✓ tests/integration/publicBootstrap.test.ts  (8 tests) 146ms
+backend test:  ✓ tests/integration/restorePreview.test.ts  (4 tests) 232ms
+backend test:  ✓ tests/integration/dockerConnectionUpgrade.test.ts  (7 tests) 21ms
+backend test:  ✓ tests/integration/scheduledJobService.test.ts  (6 tests) 22ms
+backend test:  ✓ tests/unit/publicWidgetSnapshotCache.test.ts  (3 tests) 2ms
+backend test:  ✓ tests/integration/rateLimit.test.ts  (2 tests) 1140ms
+backend test:  ✓ tests/integration/timezone.test.ts  (4 tests) 258ms
+backend test:  ✓ tests/integration/tokenEncryption.test.ts  (6 tests) 1ms
+backend test:  ✓ tests/integration/staticAssets.test.ts  (5 tests) 37ms
+backend test:  ✓ tests/unit/timezone-validation.test.ts  (4 tests) 1ms
+backend test:  ✓ tests/unit/stocksValidation.test.ts  (7 tests) 1ms
+backend test:  ✓ tests/unit/spotifySearch.test.ts  (1 test)
+backend test:  Test Files  61 passed (61)
+backend test:       Tests  779 passed (779)
+backend test:    Start at  21:53:23
+backend test:    Duration  41.32s (transform 807ms, setup 793ms, collect 2.92s, tests 37.32s, environment 0ms, prepare 83ms)
+backend test: Done

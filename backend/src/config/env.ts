@@ -151,6 +151,7 @@ function resolveGeneratedProductionSecret(dataDir: string): string {
       flag: 'wx',
       mode: 0o600,
     });
+    fs.chmodSync(secretPath, 0o600);
     return generated;
   } catch (error) {
     if (!isNodeError(error) || error.code !== 'EEXIST') {

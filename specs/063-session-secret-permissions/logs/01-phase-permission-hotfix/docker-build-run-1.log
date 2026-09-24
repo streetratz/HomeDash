@@ -1,0 +1,97 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 4.62kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.18.0-alpine
+#2 DONE 1.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 132B done
+#3 DONE 0.0s
+
+#4 [builder  1/15] FROM docker.io/library/node:24.18.0-alpine@sha256:a0b9bf06e4e6193cf7a0f58816cc935ff8c2a908f81e6f1a95432d679c54fbfd
+#4 resolve docker.io/library/node:24.18.0-alpine@sha256:a0b9bf06e4e6193cf7a0f58816cc935ff8c2a908f81e6f1a95432d679c54fbfd done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 56.80kB 0.0s done
+#5 DONE 0.0s
+
+#6 [builder  6/15] COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json ./
+#6 CACHED
+
+#7 [production 6/8] COPY --from=builder /app/backend/drizzle ./drizzle
+#7 CACHED
+
+#8 [builder 14/15] RUN pnpm -C frontend build
+#8 CACHED
+
+#9 [production 5/8] COPY --from=builder /app/backend/dist ./backend/dist
+#9 CACHED
+
+#10 [production 4/8] COPY --from=builder /app/frontend/dist ./frontend/dist
+#10 CACHED
+
+#11 [builder  3/15] WORKDIR /app
+#11 CACHED
+
+#12 [builder 10/15] RUN pnpm install --frozen-lockfile
+#12 CACHED
+
+#13 [production 7/8] COPY --from=builder /app/node_modules         ./node_modules
+#13 CACHED
+
+#14 [production 3/8] WORKDIR /app
+#14 CACHED
+
+#15 [builder  4/15] COPY .npmrc /root/.npmrc
+#15 CACHED
+
+#16 [builder 12/15] COPY backend/  ./backend/
+#16 CACHED
+
+#17 [production 2/8] RUN apk add --no-cache libstdc++ openssh-client
+#17 CACHED
+
+#18 [builder 13/15] COPY frontend/ ./frontend/
+#18 CACHED
+
+#19 [builder  2/15] RUN apk add --no-cache python3 make g++
+#19 CACHED
+
+#20 [builder  7/15] COPY backend/package.json  ./backend/
+#20 CACHED
+
+#21 [builder 11/15] COPY CHANGELOG.md ./
+#21 CACHED
+
+#22 [builder  5/15] RUN npm config set registry "https://packagefeedproxy.microsoft.io/npm/" && npm install -g pnpm@11.1.3
+#22 CACHED
+
+#23 [builder  8/15] COPY frontend/package.json ./frontend/
+#23 CACHED
+
+#24 [builder 15/15] RUN pnpm -C backend build
+#24 CACHED
+
+#25 [builder  9/15] COPY patches/ ./patches/
+#25 CACHED
+
+#26 [production 8/8] COPY --from=builder /app/backend/node_modules ./backend/node_modules
+#26 CACHED
+
+#27 exporting to image
+#27 exporting layers
+#27 exporting layers done
+#27 exporting manifest sha256:de3e1de93484ebd0a8a3c5e5b6d579a03fd2c7c722165d1830952f42677a604d done
+#27 exporting config sha256:f389850c20a57b68d1078fae75662624e513356d5fdb166cd6c7bbbbba34a0e7 done
+#27 exporting attestation manifest sha256:628750d19c29fb79893fbfb5dbe86d091c984731417f9b664d3638834bfe9418 done
+#27 exporting manifest list sha256:bdc78eb968395827a0ce7ccf1bbabe57c08025a2c180ad6ebdc3efc96a9333fa done
+#27 naming to docker.io/library/homedash:session-secret-permissions done
+#27 unpacking to docker.io/library/homedash:session-secret-permissions
+#27 unpacking to docker.io/library/homedash:session-secret-permissions 5.0s done
+#27 DONE 5.1s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/ocjrh3slc8eam99z32z8c1xru

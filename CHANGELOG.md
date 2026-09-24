@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [3.2.12] - 2026-09-24
+
+### Fixed
+
+- **Generated session-secret permissions on Synology** (#14) — HomeDash now
+  explicitly reapplies mode `0600` immediately after creating the persistent
+  production secret, preventing NAS ACL inheritance from leaving the file
+  group- or world-accessible.
+
 ## [3.2.11] - 2026-09-24
 
 ### Fixed
