@@ -47,7 +47,7 @@
 #14 0.589 Scope: all 3 workspace projects
 #14 0.703 ? Verifying lockfile against supply-chain policies (1208 entries)...
 #14 0.901 [WARN] GET https://packagefeedproxy.microsoft.io/npm/@babel%2Fcode-frame error (503). Will retry in 10 seconds. 2 retries left.
-#14 2.613 
+#14 2.613
 #14 2.613    ╭─────────────────────────────────────────╮
 #14 2.613    │                                         │
 #14 2.613    │   Update available! 11.1.3 → 12.4.2.    │
@@ -55,7 +55,7 @@
 #14 2.613    │    To update, run: pnpm add -g pnpm     │
 #14 2.613    │                                         │
 #14 2.613    ╰─────────────────────────────────────────╯
-#14 2.613 
+#14 2.613
 #14 11.16 [WARN] Request took 10444ms: https://packagefeedproxy.microsoft.io/npm/@babel%2Fcode-frame
 #14 71.74 ✓ Lockfile passes supply-chain policies (1208 entries in 1m 11s)
 #14 71.74 Lockfile is up to date, resolution step is skipped
@@ -174,9 +174,9 @@
 #14 141.1 .../node_modules/better-sqlite3 install:   COPY Release/test_extension.node
 #14 141.1 .../node_modules/better-sqlite3 install: rm 4292fa9a667d77b27488aa109b010a85bce8e4e7a1c7aa0370cea902395c3866.intermediate
 #14 141.1 .../node_modules/better-sqlite3 install: make: Leaving directory '/app/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/build'
-#14 141.1 .../node_modules/better-sqlite3 install: gyp info ok 
+#14 141.1 .../node_modules/better-sqlite3 install: gyp info ok
 #14 141.1 .../node_modules/better-sqlite3 install: Done
-#14 141.2 
+#14 141.2
 #14 141.2 devDependencies:
 #14 141.2 + @eslint/js 9.39.4
 #14 141.2 + eslint 9.39.4
@@ -187,7 +187,7 @@
 #14 141.2 + prettier 3.8.3
 #14 141.2 + typescript 5.9.3
 #14 141.2 + typescript-eslint 8.59.3
-#14 141.2 
+#14 141.2
 #14 141.3 Done in 2m 21.1s using pnpm v11.1.3
 #14 DONE 141.5s
 
@@ -330,7 +330,7 @@
 #18 8.682 dist/assets/vendor-BPv6mdeq.js                                      198.37 kB │ gzip:  64.89 kB │ map:   757.12 kB
 #18 8.682 dist/assets/dashboards-D6rL8JjW.js                                  384.17 kB │ gzip: 115.73 kB │ map: 1,840.94 kB
 #18 8.682 dist/assets/DashboardPage-CPH8tyop.js                             1,169.68 kB │ gzip: 247.24 kB │ map: 3,490.21 kB
-#18 8.682 
+#18 8.682
 #18 8.682 (!) Some chunks are larger than 500 kB after minification. Consider:
 #18 8.682 - Using dynamic import() to code-split the application
 #18 8.682 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks

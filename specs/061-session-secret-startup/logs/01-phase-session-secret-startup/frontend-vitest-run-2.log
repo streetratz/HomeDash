@@ -47,4 +47,3 @@ stderr | src/components/__tests__/EmptyDashboard.test.tsx > EmptyDashboard > giv
       Tests  137 passed (137)
    Start at  20:16:28
    Duration  3.57s (transform 1.95s, setup 2ms, collect 10.01s, tests 4.31s, environment 12.25s, prepare 1.72s)
-

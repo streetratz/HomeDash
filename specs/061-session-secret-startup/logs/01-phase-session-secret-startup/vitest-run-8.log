@@ -131,4 +131,3 @@ stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback on non-2
       Tests  779 passed (779)
    Start at  20:10:42
    Duration  37.26s (transform 427ms, setup 387ms, collect 1.72s, tests 34.97s, environment 0ms, prepare 31ms)
-

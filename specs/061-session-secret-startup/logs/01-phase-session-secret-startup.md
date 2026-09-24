@@ -53,6 +53,9 @@ session secret.
    frontend code. The required PR workflow does not run Playwright; the baseline repair
    is tracked separately in #12 and was explicitly accepted as non-blocking for this
    outage hotfix.
+6. PR #13 initially failed only its committed-diff whitespace check because raw Docker
+   and test logs preserved trailing spaces. The logs were normalized without changing
+   their substantive output, then the full lint and diff gates were rerun.
 
 ## Phase Checkpoint
 

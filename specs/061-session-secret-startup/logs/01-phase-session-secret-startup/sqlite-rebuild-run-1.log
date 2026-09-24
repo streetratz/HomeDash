@@ -75,4 +75,4 @@ $HOME/Library/Caches/node-gyp/24.18.0/include/node/node.h:1392:7: note: expanded
   CC(target) Release/obj.target/test_extension/deps/test_extension.o
   SOLINK_MODULE(target) Release/test_extension.node
 rm 4292fa9a667d77b27488aa109b010a85bce8e4e7a1c7aa0370cea902395c3866.intermediate
-gyp info ok 
+gyp info ok

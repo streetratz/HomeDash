@@ -98,7 +98,7 @@ AssertionError: expected [ { id: 'spotify', …(4) }, …(3) ] to deeply equal A
 
  ❯ tests/unit/browseServices.test.ts:56:20
      54|     const result = buildBrowseServices({ spotifyConnected: true, disco…
-     55| 
+     55|
      56|     expect(result).toEqual(
        |                    ^
      57|       expect.arrayContaining([
@@ -135,7 +135,7 @@ AssertionError: expected [ { id: 'library', …(3) }, …(1) ] to deeply equal [
 
  ❯ tests/unit/browseServices.test.ts:88:20
      86|     const result = buildBrowseServices({ spotifyConnected: false, disc…
-     87| 
+     87|
      88|     expect(result).toEqual([
        |                    ^
      89|       { id: 'radio', label: 'Radio', browsable: true, kind: 'radio' },
@@ -153,12 +153,12 @@ AssertionError: expected 'spotify' to be 'favorites:sid:12:sn:5' // Object.is eq
 + spotify
 
  ❯ tests/unit/browseServices.test.ts:109:58
-    107| 
+    107|
     108|   it('selects the currently playing provider account before its generi…
     109|     expect(getDefaultService(allServices, 'Spotify', 5)).toBe('favorit…
        |                                                          ^
     110|   });
-    111| 
+    111|
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
 
@@ -172,12 +172,12 @@ AssertionError: expected 'library' to be 'radio' // Object.is equality
 + library
 
  ❯ tests/unit/browseServices.test.ts:121:42
-    119| 
+    119|
     120|     const localOnly = buildBrowseServices({ spotifyConnected: false, d…
     121|     expect(getDefaultService(localOnly)).toBe('radio');
        |                                          ^
     122|   });
-    123| 
+    123|
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
 
