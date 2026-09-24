@@ -28,10 +28,18 @@ On first launch, you'll be prompted to create an admin account.
 ```bash
 pnpm dev          # Start both backend + frontend in watch mode
 pnpm test         # Run all tests (Vitest)
+pnpm --filter frontend test:e2e # Run Playwright against a clean production-mode instance
 pnpm lint         # ESLint with zero-warning policy
 pnpm typecheck    # TypeScript type checking (both workspaces)
 pnpm format       # Prettier formatting
 ```
+
+The Playwright command rebuilds the frontend, starts the backend on
+`http://127.0.0.1:3000` with isolated data under `frontend/.e2e`, completes
+first-run setup once, and runs the authenticated desktop and intentional mobile
+suites. No separately running HomeDash instance is required. To target a fresh,
+disposable server managed outside Playwright instead, set
+`PLAYWRIGHT_BASE_URL` to its origin.
 
 ## Docker Deployment
 
@@ -69,15 +77,15 @@ volumes:
 
 ## Environment Variables
 
-| Variable                   | Default            | Description                                              |
-| -------------------------- | ------------------ | -------------------------------------------------------- |
-| `HOST`                     | `0.0.0.0`          | Listen address                                           |
-| `PORT`                     | `3000`             | Listen port                                              |
-| `HOMEDASH_DATA_DIR`        | `./data`           | Directory for SQLite database and uploaded files         |
-| `HOMEDASH_SESSION_SECRET`  | generated once     | Optional session signing and credential-encryption secret |
-| `ALLOWED_ORIGINS`          | _(empty)_          | Comma-separated CORS allowlist; empty = same-origin only |
-| `TRUST_PROXY`              | _(unset)_          | Set when running behind a reverse proxy                  |
-| `LOG_LEVEL`                | `info`             | Log verbosity: `debug`, `info`, `warn`, `error`          |
+| Variable                  | Default        | Description                                               |
+| ------------------------- | -------------- | --------------------------------------------------------- |
+| `HOST`                    | `0.0.0.0`      | Listen address                                            |
+| `PORT`                    | `3000`         | Listen port                                               |
+| `HOMEDASH_DATA_DIR`       | `./data`       | Directory for SQLite database and uploaded files          |
+| `HOMEDASH_SESSION_SECRET` | generated once | Optional session signing and credential-encryption secret |
+| `ALLOWED_ORIGINS`         | _(empty)_      | Comma-separated CORS allowlist; empty = same-origin only  |
+| `TRUST_PROXY`             | _(unset)_      | Set when running behind a reverse proxy                   |
+| `LOG_LEVEL`               | `info`         | Log verbosity: `debug`, `info`, `warn`, `error`           |
 
 When neither supported variable is set in production, HomeDash generates a random
 256-bit secret at `$HOMEDASH_DATA_DIR/.homedash-session-secret`, restricts the file to

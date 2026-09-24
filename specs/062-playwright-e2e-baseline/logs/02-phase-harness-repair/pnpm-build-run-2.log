@@ -1,0 +1,8 @@
+# Command: node -v && corepack pnpm build
+# Phase:   02 — Harness Repair
+# Run:     2
+# Time:    2026-09-24 23:01 AEST
+v24.18.0
+$ pnpm -r run build
+sh: pnpm: command not found
+[ELIFECYCLE] Command failed.

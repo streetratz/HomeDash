@@ -1,34 +1,10 @@
-import { expect, test, type Page } from '@playwright/test';
-
-async function ensureAdminSession(page: Page): Promise<string> {
-  const bootstrap = await page.request.get('/api/public/bootstrap');
-  const state = (await bootstrap.json()) as { firstRunRequired: boolean };
-
-  if (state.firstRunRequired) {
-    const createAdmin = await page.request.post('/api/first-run/admin', {
-      data: {
-        username: 'admin',
-        displayName: 'Admin',
-        password: 'strongpassword1',
-      },
-    });
-    expect(createAdmin.ok()).toBe(true);
-  }
-
-  const login = await page.request.post('/api/auth/login', {
-    data: { username: 'admin', password: 'strongpassword1' },
-  });
-  expect(login.ok()).toBe(true);
-  return ((await login.json()) as { csrfToken: string }).csrfToken;
-}
+import { expect, test } from './support/admin.js';
 
 test.describe('Scheduled Jobs responsive layout', () => {
-  test('keeps job status and actions visible on mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    const csrf = await ensureAdminSession(page);
+  test('keeps job status and actions visible on mobile', async ({ page, csrfToken }) => {
     const jobName = `Mobile E2E Job ${Date.now()}`;
     const createJob = await page.request.post('/api/admin/scheduled-jobs', {
-      headers: { 'x-csrf-token': csrf },
+      headers: { 'x-csrf-token': csrfToken },
       data: {
         name: jobName,
         actionType: 'calendar_sync',
@@ -57,7 +33,7 @@ test.describe('Scheduled Jobs responsive layout', () => {
       expect(overflow).toBe(0);
     } finally {
       await page.request.delete(`/api/admin/scheduled-jobs/${job.id}`, {
-        headers: { 'x-csrf-token': csrf },
+        headers: { 'x-csrf-token': csrfToken },
       });
     }
   });
