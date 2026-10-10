@@ -125,7 +125,7 @@ export function SettingsNav({
     <nav
       id={SETTINGS_RAIL_ID}
       className={`hidden lg:block lg:shrink-0 lg:border-r lg:border-border ${
-        collapsed ? 'lg:w-14 lg:pr-2' : 'lg:w-56 lg:pr-4'
+        collapsed ? 'lg:w-14 lg:pr-2' : 'lg:w-48 lg:pr-4'
       }`}
       aria-label="Settings sections"
     >

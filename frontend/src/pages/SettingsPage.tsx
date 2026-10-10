@@ -177,7 +177,7 @@ export function SettingsPage() {
       onThemeToggle={handleThemeToggle}
       onLogout={() => void handleLogout()}
     >
-      <div className="mx-auto max-w-6xl space-y-6">
+      <div className="mx-auto max-w-7xl space-y-6">
         <div className="flex items-center gap-3">
           <SettingsNavTrigger
             activeLeafId={activeLeaf}
@@ -191,7 +191,7 @@ export function SettingsPage() {
           <h1 className="text-2xl font-semibold">Settings</h1>
         </div>
 
-        <div className="flex flex-col gap-4 lg:flex-row lg:gap-8">
+        <div className="flex flex-col gap-4 lg:flex-row lg:gap-6">
           <SettingsNav
             activeLeafId={activeLeaf}
             isAdmin={isAdmin}
