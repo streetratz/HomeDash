@@ -9,6 +9,7 @@ const stream: CollectionStream = {
   id: '06500000-0000-4000-8000-000000000001',
   name: 'Rubbish',
   color: '#123456',
+  icon: 'Trash2',
   enabled: true,
   schedule: { mode: 'regular', weekdays: [1], intervalWeeks: 2, anchorDate: '2026-10-12' },
   exceptions: [],
@@ -22,7 +23,7 @@ describe('independent regular stream editor', () => {
       ...stream,
       schedule: { ...stream.schedule, weekdays: [1, 4] },
     });
-    fireEvent.change(screen.getByLabelText('Stream name'), {
+    fireEvent.change(screen.getByLabelText('Event title'), {
       target: { value: 'Long same-colour service' },
     });
     expect(change.mock.calls.at(-1)?.[0].id).toBe(stream.id);
@@ -33,6 +34,7 @@ describe('independent regular stream editor', () => {
     const invalid: CollectionStream = {
       ...stream,
       color: 'red',
+      icon: 'Trash2',
       enabled: false,
       schedule: { mode: 'regular', weekdays: [], intervalWeeks: 53, anchorDate: '2026-10-15' },
       exceptions: [],
@@ -43,9 +45,9 @@ describe('independent regular stream editor', () => {
         .getByRole('button', { name: 'Change colour for Rubbish' })
         .getAttribute('aria-invalid'),
     ).toBe('true');
-    expect(screen.getByLabelText('Interval (weeks)').getAttribute('aria-invalid')).toBe('true');
+    expect(screen.getByLabelText('Every (weeks)').getAttribute('aria-invalid')).toBe('true');
     expect(screen.getByText('Choose at least one weekday.')).toBeTruthy();
-    expect(screen.getByLabelText('Normal collection date').getAttribute('aria-invalid')).toBe(
+    expect(screen.getByLabelText('Normal date (cycle anchor)').getAttribute('aria-invalid')).toBe(
       'true',
     );
   });

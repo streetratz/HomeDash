@@ -35,3 +35,40 @@ export const collectionRolePaths = {
   residentWidget: (id: string) => `/api/user/calendar/widgets/${id}/collections`,
   publicWidget: (id: string) => `/api/public/calendar/widgets/${id}/collections`,
 };
+
+/** Reset the isolated admin collection config to a confirmed, empty baseline. */
+export async function resetCollectionsToEmpty(request: APIRequestContext, csrf: string) {
+  const headers = { 'x-csrf-token': csrf };
+  const config = (await (await request.get('/api/admin/calendar/collections')).json()) as {
+    revision: number;
+    runtimeEpoch: string;
+    streams: { id: string }[];
+  };
+  const draft = {
+    expectedRevision: config.revision,
+    runtimeEpoch: config.runtimeEpoch,
+    timezone: 'Australia/Sydney',
+    providerLabel: null,
+    streams: [],
+    range: { from: '2026-10-10', to: '2026-11-10' },
+    confirmations: {
+      timezoneConfirmed: true,
+      deletedStreamIds: config.streams.map((s) => s.id),
+      removedExceptionIds: [],
+      clearedExplicitStreamIds: [],
+    },
+  };
+  const preview = await request.post('/api/admin/calendar/collections/preview', {
+    headers,
+    data: draft,
+  });
+  await expectApiOk(preview, 'Preview empty collection baseline');
+  const { previewDigest } = (await preview.json()) as { previewDigest: string };
+  await expectApiOk(
+    await request.put('/api/admin/calendar/collections', {
+      headers,
+      data: { ...draft, previewDigest },
+    }),
+    'Reset collections to empty baseline',
+  );
+}

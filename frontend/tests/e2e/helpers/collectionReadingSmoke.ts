@@ -12,6 +12,7 @@ export async function collectionReadingSmoke(page: Page, csrf: string) {
     id: crypto.randomUUID(),
     name: `${String(i + 1).padStart(2, '0')} ${'same colour collection '.repeat(4)}`.slice(0, 80),
     color: '#123456',
+    icon: 'CalendarDays',
     enabled: true,
     schedule: { mode: 'regular', weekdays: [3], intervalWeeks: 1, anchorDate: '2026-10-14' },
     exceptions: [],

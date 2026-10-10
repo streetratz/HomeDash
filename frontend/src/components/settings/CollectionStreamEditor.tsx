@@ -3,6 +3,7 @@ import type { CollectionStream } from '../../state/collectionHooks.js';
 import { Input } from '../ui/input.js';
 import { Button } from '../ui/button.js';
 import { ColorPicker } from '../ui/color-picker.js';
+import { CollectionIconPicker } from './CollectionIconPicker.js';
 import {
   CollectionExplicitDatesEditor,
   validCollectionDate,
@@ -10,6 +11,23 @@ import {
 import { CollectionExceptionEditor } from './CollectionExceptionEditor.js';
 
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+type Repeat = 'off' | 'weekly' | 'fortnightly' | 'custom';
+
+function repeatOf(stream: CollectionStream): Repeat {
+  if (stream.schedule.mode === 'explicit') return 'off';
+  if (stream.schedule.intervalWeeks === 1) return 'weekly';
+  if (stream.schedule.intervalWeeks === 2) return 'fortnightly';
+  return 'custom';
+}
+
+function firstDateOf(stream: CollectionStream): string {
+  if (stream.schedule.mode === 'explicit') {
+    return stream.schedule.dates.find(validCollectionDate) ?? '';
+  }
+  return stream.schedule.startDate || stream.schedule.anchorDate;
+}
+
 export function CollectionStreamEditor({
   stream,
   onChange,
@@ -20,9 +38,20 @@ export function CollectionStreamEditor({
   disabled?: boolean;
 }) {
   const id = useId();
-  const [modeChange, setModeChange] = useState(false);
+  const [pendingRepeat, setPendingRepeat] = useState<Repeat | null>(null);
+  const [advanced, setAdvanced] = useState(false);
   const regular = stream.schedule.mode === 'regular' ? stream.schedule : null;
   const exceptions = 'exceptions' in stream ? stream.exceptions : [];
+  const repeat = repeatOf(stream);
+
+  const common = {
+    id: stream.id,
+    name: stream.name,
+    color: stream.color,
+    icon: stream.icon,
+    enabled: stream.enabled,
+  };
+
   const date = regular ? new Date(`${regular.anchorDate}T00:00:00Z`) : null;
   const anchorValid =
     !!date &&
@@ -41,11 +70,71 @@ export function CollectionStreamEditor({
     Number.isInteger(regular.intervalWeeks) &&
     regular.intervalWeeks >= 1 &&
     regular.intervalWeeks <= 52;
+  const startDate = regular?.startDate ?? null;
+  const endDate = regular?.endDate ?? null;
+  const boundsValid = !startDate || !endDate || startDate <= endDate;
+  const explicitSingle =
+    stream.schedule.mode === 'explicit' ? (stream.schedule.dates[0] ?? '') : '';
+
+  // Build a regular schedule from a first date, preserving the chosen interval.
+  function toRegular(intervalWeeks: number): CollectionStream {
+    const first = firstDateOf(stream) || '2026-10-12';
+    const anchorDate = validCollectionDate(first) ? first : '2026-10-12';
+    const weekday = new Date(`${anchorDate}T00:00:00Z`).getUTCDay() || 7;
+    return {
+      ...common,
+      schedule: {
+        mode: 'regular',
+        weekdays: [weekday],
+        intervalWeeks,
+        anchorDate,
+        startDate: anchorDate,
+        endDate: null,
+      },
+      exceptions: [],
+    };
+  }
+
+  function commitRepeat(next: Repeat) {
+    setPendingRepeat(null);
+    if (next === 'off') {
+      const existing = firstDateOf(stream);
+      onChange(
+        { ...common, schedule: { mode: 'explicit', dates: existing ? [existing] : [] } },
+        true,
+      );
+      return;
+    }
+    if (repeat === 'off') {
+      onChange(toRegular(next === 'weekly' ? 1 : next === 'fortnightly' ? 2 : 1), true);
+      return;
+    }
+    if (!regular) return;
+    const intervalWeeks =
+      next === 'weekly' ? 1 : next === 'fortnightly' ? 2 : regular.intervalWeeks;
+    onChange({ ...stream, exceptions, schedule: { ...regular, intervalWeeks } });
+  }
+
+  function applyRepeat(next: Repeat) {
+    if (next === repeat) return;
+    const crossesFamily = (next === 'off') !== (repeat === 'off');
+    if (crossesFamily && (exceptions.length || explicitSingle)) {
+      setPendingRepeat(next);
+      return;
+    }
+    commitRepeat(next);
+  }
+
+  function setFirstDate(value: string) {
+    if (!regular) return;
+    onChange({ ...stream, exceptions, schedule: { ...regular, startDate: value || null } });
+  }
+
   return (
     <div className="min-w-0 space-y-3">
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
-        <label className="text-sm">
-          Stream name
+      <div className="flex flex-wrap items-end gap-3">
+        <label className="min-w-0 flex-1 text-sm">
+          Event title
           <Input
             value={stream.name}
             maxLength={80}
@@ -54,11 +143,17 @@ export function CollectionStreamEditor({
             onChange={(e) => onChange({ ...stream, name: e.target.value })}
           />
         </label>
+        <CollectionIconPicker
+          value={stream.icon}
+          name={stream.name}
+          disabled={disabled}
+          onChange={(icon) => onChange({ ...stream, icon })}
+        />
         <div className="space-y-1 text-sm">
           <p>Colour</p>
           <ColorPicker
             value={stream.color}
-            ariaLabel={`Change colour for ${stream.name || 'collection stream'}`}
+            ariaLabel={`Change colour for ${stream.name || 'custom event'}`}
             ariaInvalid={!colorValid}
             ariaDescribedBy={!colorValid ? `${id}-color` : undefined}
             className="h-11 w-11"
@@ -69,7 +164,7 @@ export function CollectionStreamEditor({
       </div>
       {!nameValid && (
         <p id={`${id}-name`} role="alert" className="text-sm text-destructive">
-          Enter a name of 1–80 characters without control characters.
+          Enter a title of 1–80 characters without control characters.
         </p>
       )}
       {!colorValid && (
@@ -85,71 +180,83 @@ export function CollectionStreamEditor({
         />
         Enabled
       </label>
-      <div className="space-y-2">
-        <p className="text-sm font-medium">
-          Schedule mode: {regular ? 'Regular cycle' : 'Explicit dates'}
-        </p>
-        <Button className="min-h-11" variant="outline" onClick={() => setModeChange(true)}>
-          Switch to {regular ? 'explicit dates' : 'regular cycle'}
-        </Button>
-        {modeChange && (
-          <div role="alert" className="space-y-2 text-sm">
-            <p>
-              {regular
-                ? 'Switching removes all regular exceptions and replaces the cycle with a finite explicit list.'
-                : 'Switching clears every explicit date and replaces the finite list with a regular cycle.'}{' '}
-              No date or exception is discarded until you confirm and save.
-            </p>
-            <Button
-              className="min-h-11"
-              variant="destructive"
-              onClick={() => {
-                const common = {
-                  id: stream.id,
-                  name: stream.name,
-                  color: stream.color,
-                  enabled: stream.enabled,
-                };
-                if (regular)
-                  onChange({ ...common, schedule: { mode: 'explicit', dates: [] } }, true);
-                else {
-                  const first =
-                    stream.schedule.mode === 'explicit'
-                      ? stream.schedule.dates.find(validCollectionDate)
-                      : undefined;
-                  const anchorDate = first ?? '2026-10-12';
-                  const weekday = new Date(`${anchorDate}T00:00:00Z`).getUTCDay() || 7;
-                  onChange(
-                    {
-                      ...common,
-                      schedule: {
-                        mode: 'regular',
-                        weekdays: [weekday],
-                        intervalWeeks: 1,
-                        anchorDate,
-                      },
-                      exceptions: [],
-                    },
-                    true,
-                  );
-                }
-                setModeChange(false);
-              }}
-            >
-              Confirm schedule mode change
-            </Button>
-            <Button className="min-h-11" variant="ghost" onClick={() => setModeChange(false)}>
-              Keep current mode
-            </Button>
-          </div>
-        )}
-      </div>
-      {stream.schedule.mode === 'explicit' && (
-        <CollectionExplicitDatesEditor
-          dates={stream.schedule.dates}
-          onChange={(dates) => onChange({ ...stream, schedule: { mode: 'explicit', dates } })}
-        />
+      <label className="block text-sm">
+        Repeat
+        <select
+          className="min-h-11 w-full rounded-md border border-border bg-background px-3"
+          value={repeat}
+          onChange={(e) => applyRepeat(e.target.value as Repeat)}
+        >
+          <option value="off">Off (single date)</option>
+          <option value="weekly">Weekly</option>
+          <option value="fortnightly">Every 2 weeks (fortnightly)</option>
+          <option value="custom">Custom (every N weeks)</option>
+        </select>
+      </label>
+      {pendingRepeat && (
+        <div role="alert" className="space-y-2 text-sm">
+          <p>
+            {pendingRepeat === 'off'
+              ? 'Turning off repeat removes this event’s recurrence rule and exceptions, keeping a single date. Nothing is discarded until you save.'
+              : 'Turning on repeat replaces the single/explicit dates with a recurring rule. Nothing is discarded until you save.'}
+          </p>
+          <Button
+            className="min-h-11"
+            variant="destructive"
+            onClick={() => commitRepeat(pendingRepeat)}
+          >
+            Confirm repeat change
+          </Button>
+          <Button className="min-h-11" variant="ghost" onClick={() => setPendingRepeat(null)}>
+            Keep current repeat
+          </Button>
+        </div>
       )}
+
+      {stream.schedule.mode === 'explicit' && (
+        <div className="space-y-3">
+          <label className="block text-sm">
+            Date
+            <Input
+              type="date"
+              min="1900-01-01"
+              max="2199-12-31"
+              value={explicitSingle}
+              onChange={(e) =>
+                onChange({
+                  ...stream,
+                  schedule: {
+                    mode: 'explicit',
+                    dates:
+                      stream.schedule.mode === 'explicit'
+                        ? e.target.value
+                          ? [e.target.value, ...stream.schedule.dates.slice(1)]
+                          : stream.schedule.dates.slice(1)
+                        : e.target.value
+                          ? [e.target.value]
+                          : [],
+                  },
+                })
+              }
+            />
+          </label>
+          <Button
+            type="button"
+            variant="ghost"
+            className="min-h-11 px-0 text-sm underline"
+            onClick={() => setAdvanced((prev) => !prev)}
+          >
+            {advanced ? 'Hide extra dates' : 'Add more dates (advanced)'}
+          </Button>
+          {advanced && stream.schedule.mode === 'explicit' && (
+            <CollectionExplicitDatesEditor
+              dates={stream.schedule.dates}
+              onChange={(dates) => onChange({ ...stream, schedule: { mode: 'explicit', dates } })}
+            />
+          )}
+        </div>
+      )}
+
       {regular && (
         <fieldset className="space-y-3">
           <legend className="text-sm font-medium">Collection days</legend>
@@ -187,30 +294,32 @@ export function CollectionStreamEditor({
             </p>
           )}
           <div className="grid gap-3 sm:grid-cols-2">
+            {repeat === 'custom' && (
+              <label className="text-sm">
+                Every (weeks)
+                <Input
+                  type="number"
+                  min={1}
+                  max={52}
+                  step={1}
+                  value={Number.isFinite(regular.intervalWeeks) ? regular.intervalWeeks : ''}
+                  aria-invalid={!intervalValid}
+                  aria-describedby={!intervalValid ? `${id}-interval` : undefined}
+                  onChange={(e) =>
+                    onChange({
+                      ...stream,
+                      exceptions,
+                      schedule: {
+                        ...regular,
+                        intervalWeeks: e.target.value === '' ? 0 : Number(e.target.value),
+                      },
+                    })
+                  }
+                />
+              </label>
+            )}
             <label className="text-sm">
-              Interval (weeks)
-              <Input
-                type="number"
-                min={1}
-                max={52}
-                step={1}
-                value={Number.isFinite(regular.intervalWeeks) ? regular.intervalWeeks : ''}
-                aria-invalid={!intervalValid}
-                aria-describedby={!intervalValid ? `${id}-interval` : undefined}
-                onChange={(e) =>
-                  onChange({
-                    ...stream,
-                    exceptions,
-                    schedule: {
-                      ...regular,
-                      intervalWeeks: e.target.value === '' ? 0 : Number(e.target.value),
-                    },
-                  })
-                }
-              />
-            </label>
-            <label className="text-sm">
-              Normal collection date
+              Normal date (cycle anchor)
               <Input
                 type="date"
                 min="1900-01-01"
@@ -241,15 +350,98 @@ export function CollectionStreamEditor({
               ? `Every ${regular.intervalWeeks} week${regular.intervalWeeks === 1 ? '' : 's'}, on each selected weekday of the active week. The normal date anchors the cycle, not a start boundary.`
               : 'Choose a valid normal date on a selected weekday.'}
           </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <label className="text-sm">
+              First date (optional)
+              <Input
+                type="date"
+                min="1900-01-01"
+                max="2199-12-31"
+                value={startDate ?? ''}
+                aria-describedby={`${id}-first`}
+                onChange={(e) => setFirstDate(e.target.value)}
+              />
+            </label>
+            <div className="text-sm">
+              <p className="mb-1">Ends</p>
+              <div className="flex flex-wrap items-center gap-2">
+                <label className="flex min-h-11 items-center gap-2">
+                  <input
+                    type="radio"
+                    name={`${id}-ends`}
+                    checked={!endDate}
+                    onChange={() =>
+                      onChange({ ...stream, exceptions, schedule: { ...regular, endDate: null } })
+                    }
+                  />
+                  Never
+                </label>
+                <label className="flex min-h-11 items-center gap-2">
+                  <input
+                    type="radio"
+                    name={`${id}-ends`}
+                    checked={!!endDate}
+                    onChange={() =>
+                      onChange({
+                        ...stream,
+                        exceptions,
+                        schedule: { ...regular, endDate: startDate ?? regular.anchorDate },
+                      })
+                    }
+                  />
+                  On date
+                </label>
+                {endDate && (
+                  <Input
+                    type="date"
+                    min="1900-01-01"
+                    max="2199-12-31"
+                    value={endDate}
+                    aria-label="End date"
+                    aria-invalid={!boundsValid}
+                    onChange={(e) =>
+                      onChange({
+                        ...stream,
+                        exceptions,
+                        schedule: { ...regular, endDate: e.target.value || null },
+                      })
+                    }
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+          <p id={`${id}-first`} className="text-sm text-muted-foreground">
+            A first date stops this event generating dates before it. Leave blank to keep the
+            original unbounded cycle.
+          </p>
+          {!boundsValid && (
+            <p role="alert" className="text-sm text-destructive">
+              The end date must be on or after the first date.
+            </p>
+          )}
         </fieldset>
       )}
+
       {regular && (
-        <CollectionExceptionEditor
-          exceptions={exceptions}
-          onChange={(next, confirmed) =>
-            onChange({ ...stream, schedule: regular, exceptions: next }, confirmed)
-          }
-        />
+        <div className="space-y-2">
+          <Button
+            type="button"
+            variant="ghost"
+            className="min-h-11 px-0 text-sm underline"
+            onClick={() => setAdvanced((prev) => !prev)}
+          >
+            {advanced ? 'Hide single-occurrence changes' : 'Single-occurrence changes (advanced)'}
+          </Button>
+          {advanced && (
+            <CollectionExceptionEditor
+              exceptions={exceptions}
+              onChange={(next, confirmed) =>
+                onChange({ ...stream, schedule: regular, exceptions: next }, confirmed)
+              }
+            />
+          )}
+        </div>
       )}
     </div>
   );

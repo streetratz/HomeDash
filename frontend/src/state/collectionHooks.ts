@@ -10,9 +10,22 @@ export type CollectionException =
   | { id: string; kind: 'skip'; originalDate: string }
   | { id: string; kind: 'replace'; originalDate: string; actualDate: string }
   | { id: string; kind: 'add'; actualDate: string };
-export type CollectionStream = { id: string; name: string; color: string; enabled: boolean } & (
+export type CollectionStream = {
+  id: string;
+  name: string;
+  color: string;
+  icon: string;
+  enabled: boolean;
+} & (
   | {
-      schedule: { mode: 'regular'; weekdays: number[]; intervalWeeks: number; anchorDate: string };
+      schedule: {
+        mode: 'regular';
+        weekdays: number[];
+        intervalWeeks: number;
+        anchorDate: string;
+        startDate?: string | null;
+        endDate?: string | null;
+      };
       exceptions: CollectionException[];
     }
   | { schedule: { mode: 'explicit'; dates: string[] } }

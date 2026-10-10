@@ -20,6 +20,7 @@
 | 14 | Collection settings polish | Validated — compact weekdays and shared colour picker | [14-phase-settings-polish.md](14-phase-settings-polish.md) |
 | 15 | Custom event scope revision | Complete — CH-03 replaces bin-only UI boundary; planning aligned | [15-phase-custom-event-planning.md](15-phase-custom-event-planning.md) |
 | 16 | Custom event backend foundation | Complete — icon/bounds engine + migrations; 835 tests, lint clean | [16-phase-custom-event-foundation.md](16-phase-custom-event-foundation.md) |
+| 17 | Custom event UI refactor | Complete — admin dialog launcher, offline icons, generic labels; 177 unit / 9 collection E2E, typecheck/build/lint clean | [17-phase-custom-event-ui.md](17-phase-custom-event-ui.md) |
 
 ## Overall Status
 

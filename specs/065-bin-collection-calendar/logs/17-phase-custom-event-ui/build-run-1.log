@@ -1,0 +1,4 @@
+$ pnpm build  (Node 24.18.0)
+frontend build: ✓ built in 2.84s
+(chunk-size advisory only; pre-existing, unrelated to this phase)
+backend build: Done

@@ -1,0 +1,6 @@
+$ pnpm lint   # eslint . --max-warnings=0  (Node 24.18.0)
+# First run: 2 errors in CollectionIconPicker.tsx
+#   react-hooks/static-components (Current component created during render)
+#   @typescript-eslint/no-unnecessary-type-assertion (icon as CollectionIcon)
+# Fixed via createElement(collectionIconComponent(value), ...) and dropping the cast.
+# Re-run: exit 0 — zero errors, zero warnings.

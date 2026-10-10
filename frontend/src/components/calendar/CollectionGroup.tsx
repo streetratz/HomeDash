@@ -1,9 +1,9 @@
-import { Trash2 } from 'lucide-react';
+import { collectionIconComponent } from '../../lib/collectionIcons.js';
 import { collectionDateLabel } from '../../lib/collectionDates.js';
 
 export interface CollectionDateGroup {
   date: string;
-  streams: { key: string; name: string; color: string }[];
+  streams: { key: string; name: string; color: string; icon?: string }[];
 }
 export interface CollectionGroupProps {
   group: CollectionDateGroup;
@@ -29,16 +29,19 @@ export function CollectionGroup({ group, today, timezone, next = false }: Collec
         <span className="text-xs text-muted-foreground">{timezone}</span>
       </div>
       <ul className="space-y-2" aria-label={next ? 'Next collection' : 'Later collection'}>
-        {group.streams.map((stream) => (
-          <li key={stream.key} className="flex min-w-0 items-start gap-2 text-sm text-foreground">
-            <Trash2
-              aria-hidden
-              className="mt-0.5 h-5 w-5 shrink-0"
-              style={{ color: stream.color }}
-            />
-            <span className="min-w-0 break-words [overflow-wrap:anywhere]">{stream.name}</span>
-          </li>
-        ))}
+        {group.streams.map((stream) => {
+          const Icon = collectionIconComponent(stream.icon);
+          return (
+            <li key={stream.key} className="flex min-w-0 items-start gap-2 text-sm text-foreground">
+              <Icon
+                aria-hidden
+                className="mt-0.5 h-5 w-5 shrink-0"
+                style={{ color: stream.color }}
+              />
+              <span className="min-w-0 break-words [overflow-wrap:anywhere]">{stream.name}</span>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );

@@ -3,15 +3,21 @@ import { expect } from '@playwright/test';
 import { expectApiOk } from '../support/admin.js';
 
 export async function collectionPresetSmoke(page: Page, csrf: string, mobile: boolean) {
-  await page.goto('/settings?tab=integrations');
-  if (mobile) {
-    await page.getByRole('combobox', { name: 'Integration' }).click();
-    await page.getByRole('option', { name: 'Calendars', exact: true }).click();
-  } else {
-    await page.getByRole('button', { name: 'Calendars', exact: true }).click();
+  async function openManager() {
+    await page.goto('/settings?tab=integrations');
+    if (mobile) {
+      await page.getByRole('combobox', { name: 'Integration' }).click();
+      await page.getByRole('option', { name: 'Calendars', exact: true }).click();
+    } else {
+      await page.getByRole('button', { name: 'Calendars', exact: true }).click();
+    }
+    await page.getByRole('button', { name: 'Custom Events' }).click();
+    const region = page.getByRole('region', { name: 'Custom events' });
+    await expect(region).toBeVisible();
+    return region;
   }
-  const manager = page.getByRole('region', { name: 'Household collections' });
-  await expect(manager).toBeVisible();
+
+  let manager = await openManager();
   const configResponse = await page.request.get('/api/admin/calendar/collections');
   await expectApiOk(configResponse, 'Read synthetic collection state');
   const config = (await configResponse.json()) as {
@@ -22,13 +28,32 @@ export async function collectionPresetSmoke(page: Page, csrf: string, mobile: bo
   };
   if (config.configured && !config.streams.some((s) => s.name === 'General waste')) {
     const streams = [
-      { name: 'General waste', color: '#EF4444', intervalWeeks: 1, anchorDate: '2026-10-14' },
-      { name: 'Recycling', color: '#EAB308', intervalWeeks: 2, anchorDate: '2026-10-14' },
-      { name: 'Garden', color: '#22C55E', intervalWeeks: 2, anchorDate: '2026-10-21' },
+      {
+        name: 'General waste',
+        color: '#EF4444',
+        icon: 'Trash2',
+        intervalWeeks: 1,
+        anchorDate: '2026-10-14',
+      },
+      {
+        name: 'Recycling',
+        color: '#EAB308',
+        icon: 'Recycle',
+        intervalWeeks: 2,
+        anchorDate: '2026-10-14',
+      },
+      {
+        name: 'Garden',
+        color: '#22C55E',
+        icon: 'Leaf',
+        intervalWeeks: 2,
+        anchorDate: '2026-10-21',
+      },
     ].map((s) => ({
       id: crypto.randomUUID(),
       name: s.name,
       color: s.color,
+      icon: s.icon,
       enabled: true,
       schedule: {
         mode: 'regular',
@@ -65,33 +90,26 @@ export async function collectionPresetSmoke(page: Page, csrf: string, mobile: bo
       }),
       'Save isolated existing preset',
     );
-    await page.reload();
-    if (mobile) {
-      await page.getByRole('combobox', { name: 'Integration' }).click();
-      await page.getByRole('option', { name: 'Calendars', exact: true }).click();
-    } else {
-      await page.getByRole('button', { name: 'Calendars', exact: true }).click();
-    }
+    manager = await openManager();
   }
   if (!config.configured) {
     await manager
       .getByRole('textbox', { name: 'Household timezone', exact: true })
       .fill('Australia/Sydney');
+    await manager.getByRole('checkbox', { name: /I confirm the household timezone/ }).check();
+    await manager.getByRole('button', { name: 'Set up custom events' }).click();
+    await manager.getByRole('button', { name: 'Add bin collection preset' }).click();
+    await manager
+      .getByRole('combobox', { name: 'Collection weekday', exact: true })
+      .selectOption('3');
     await manager.getByLabel('Normal Recycling collection date').fill('2026-10-14');
-    await manager.getByLabel('I confirm the household timezone and normal provider date').check();
-    await manager.getByRole('button', { name: 'Use weekly / alternating preset' }).click();
+    await manager.getByRole('button', { name: 'Append bin preset' }).click();
     await manager.getByRole('button', { name: 'Preview dates' }).click();
     await expect(manager.getByText('General waste', { exact: true }).first()).toBeVisible();
-    await expect(manager.getByRole('button', { name: 'Save collections' })).toBeEnabled();
-    await manager.getByRole('button', { name: 'Save collections' }).click();
+    await expect(manager.getByRole('button', { name: 'Save events' })).toBeEnabled();
+    await manager.getByRole('button', { name: 'Save events' }).click();
   }
-  await expect(
-    manager.getByRole('button', { name: 'Edit collection configuration' }),
-  ).toBeVisible();
-  await page.reload();
-  await expect(page.getByRole('button', { name: 'Use weekly / alternating preset' })).toHaveCount(
-    0,
-  );
+  await expect(manager.getByRole('button', { name: 'Manage custom events' })).toBeVisible();
   const savedResponse = await page.request.get('/api/admin/calendar/collections');
   const saved = (await savedResponse.json()) as { streams: { id: string }[] };
   const headers = { 'x-csrf-token': csrf };

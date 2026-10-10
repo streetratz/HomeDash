@@ -10,6 +10,7 @@ import {
   Plus,
   FileUp,
   CakeSlice,
+  CalendarClock,
   Clock3,
   Link2,
   FileText,
@@ -40,6 +41,8 @@ import {
 import { ICalSourceForm } from './ICalSourceForm.js';
 import { ICalFileSourceForm } from './ICalFileSourceForm.js';
 import { BirthdaySourceDialog } from './BirthdaySourceDialog.js';
+import { CustomEventsDialog } from './CustomEventsDialog.js';
+import { useAuthMe } from '../../state/bootstrap.js';
 import { SettingsErrorState, SettingsLoadingState } from './SettingsDataState.js';
 
 const TYPE_LABELS: Record<string, string> = {
@@ -88,6 +91,8 @@ function getSourceDetail(source: CalendarSource): {
 
 export function CalendarSourceList() {
   const sourcesQuery = useCalendarSources();
+  const authMe = useAuthMe();
+  const isAdmin = authMe.data?.user.isAdmin ?? false;
   const deleteMutation = useDeleteCalendarSource();
   const syncMutation = useSyncCalendarSource();
   const updateMutation = useUpdateCalendarSource();
@@ -95,6 +100,7 @@ export function CalendarSourceList() {
   const [urlFormOpen, setUrlFormOpen] = useState(false);
   const [fileFormOpen, setFileFormOpen] = useState(false);
   const [birthdayFormOpen, setBirthdayFormOpen] = useState(false);
+  const [customEventsOpen, setCustomEventsOpen] = useState(false);
   const [editSource, setEditSource] = useState<CalendarSource | undefined>(undefined);
 
   const sources = sourcesQuery.data ?? [];
@@ -192,6 +198,12 @@ export function CalendarSourceList() {
             <CakeSlice className="mr-1 h-3.5 w-3.5" />
             Add Birthdays
           </Button>
+          {isAdmin && (
+            <Button variant="outline" size="sm" onClick={() => setCustomEventsOpen(true)}>
+              <CalendarClock className="mr-1 h-3.5 w-3.5" />
+              Custom Events
+            </Button>
+          )}
         </div>
       </div>
 
@@ -203,8 +215,7 @@ export function CalendarSourceList() {
         {sources.map((source) => {
           const detail = getSourceDetail(source);
           const DetailIcon = detail.icon;
-          const editLabel =
-            source.type === 'birthday_local' ? 'Manage' : 'Edit';
+          const editLabel = source.type === 'birthday_local' ? 'Manage' : 'Edit';
           const canEdit =
             source.type === 'ical' ||
             source.type === 'ical_file' ||
@@ -335,6 +346,7 @@ export function CalendarSourceList() {
         onOpenChange={setBirthdayFormOpen}
         source={editSource?.type === 'birthday_local' ? editSource : undefined}
       />
+      {isAdmin && <CustomEventsDialog open={customEventsOpen} onOpenChange={setCustomEventsOpen} />}
     </div>
   );
 }

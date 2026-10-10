@@ -1,0 +1,12 @@
+$ pnpm --filter frontend test:e2e -- collections  (Node 24.18.0, isolated .e2e harness)
+Running 9 tests using 1 worker
+  ✓ [setup] auth.setup.ts
+  ✓ [chromium] collections-custom.spec.ts
+  ✓ [chromium] collections-irregular.spec.ts
+  ✓ [chromium] collections-preset.spec.ts
+  ✓ [chromium] collections-reading.spec.ts
+  ✓ [mobile-safari] collections-custom.mobile.spec.ts
+  ✓ [mobile-safari] collections-irregular.mobile.spec.ts
+  ✓ [mobile-safari] collections-preset.mobile.spec.ts
+  ✓ [mobile-safari] collections-reading.mobile.spec.ts
+  9 passed (20.3s)
