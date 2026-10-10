@@ -69,7 +69,7 @@ import {
 } from '../../hooks/useSonos.js';
 import { apiClient } from '../../lib/apiClient.js';
 import { queryClient } from '../../state/queryClient.js';
-import { MobileSectionSelect } from './MobileSectionSelect.js';
+import { SettingsSubNav } from './SettingsSubNav.js';
 import { SettingsErrorState, SettingsLoadingState } from './SettingsDataState.js';
 
 // ─── Service nav items ──────────────────────────────────────────────────────
@@ -1683,44 +1683,13 @@ export function IntegrationsTab({
   }
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 md:gap-6 md:min-h-[480px]">
-      <MobileSectionSelect
-        label="Integration"
-        value={activeService}
-        options={serviceItems.map((item) => ({ value: item.id, label: item.label }))}
-        onValueChange={selectService}
+    <div className="flex flex-col gap-4 md:flex-row md:gap-6">
+      <SettingsSubNav
+        ariaLabel="Integration sections"
+        groups={serviceGroups}
+        activeId={activeService}
+        onSelect={(id) => selectService(id as ServiceId)}
       />
-
-      {/* Service nav — desktop */}
-      <nav
-        className="hidden shrink-0 md:block md:w-44 md:border-r md:border-border md:pr-4"
-        aria-label="Integration sections"
-      >
-        <div className="flex flex-col gap-4">
-          {serviceGroups.map((group) => (
-            <div key={group.label} className="flex flex-col gap-0.5 shrink-0">
-              <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
-                {group.label}
-              </p>
-              {group.items.map((item) => (
-                <button
-                  type="button"
-                  key={item.id}
-                  onClick={() => selectService(item.id)}
-                  className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
-                    activeService === item.id
-                      ? 'bg-accent text-accent-foreground'
-                      : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
-                  }`}
-                >
-                  {item.icon}
-                  <span>{item.label}</span>
-                </button>
-              ))}
-            </div>
-          ))}
-        </div>
-      </nav>
 
       {/* Right content panel */}
       <div className="min-w-0 flex-1">

@@ -12,7 +12,7 @@ test.describe('Settings navigation', () => {
     );
 
     // The mobile drawer trigger is hidden on desktop.
-    await expect(page.getByRole('button', { name: /Section:/ })).toBeHidden();
+    await expect(page.getByRole('button', { name: 'Open settings navigation' })).toBeHidden();
   });
 
   test('deep link to a flattened leaf survives reload', async ({ page }) => {

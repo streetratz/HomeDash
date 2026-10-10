@@ -33,7 +33,7 @@ import { TimezoneSelector } from '../components/settings/TimezoneSelector.js';
 import { ScheduledJobsTab } from '../components/settings/ScheduledJobsTab.js';
 import { BackupRestoreSection } from '../components/settings/BackupRestoreSection.js';
 import { AboutTab } from '../components/settings/AboutTab.js';
-import { SettingsNav } from '../components/settings/SettingsNav.js';
+import { SettingsNav, SettingsNavTrigger, SettingsRailToggle } from '../components/settings/SettingsNav.js';
 import { getLeaf, resolveLeafId } from '../components/settings/settingsNavConfig.js';
 
 export function SettingsPage() {
@@ -52,6 +52,19 @@ export function SettingsPage() {
     () => new Set<string>([activeLeaf]),
   );
   const mountedLeaves = new Set(visitedLeaves).add(activeLeaf);
+
+  // The primary rail can collapse to icons in place to give a leaf's second-level
+  // rail more room. This is a user preference, not something we force on
+  // navigation: once set it stays put (and across reloads), so the rail never
+  // jumps when moving between leaves.
+  const [railCollapsed, setRailCollapsed] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return window.localStorage.getItem('homedash.settings.railCollapsed') === '1';
+  });
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem('homedash.settings.railCollapsed', railCollapsed ? '1' : '0');
+  }, [railCollapsed]);
 
   // Normalize unknown / inaccessible / retired tab (and stray panel) in the URL.
   useEffect(() => {
@@ -165,12 +178,31 @@ export function SettingsPage() {
       onLogout={() => void handleLogout()}
     >
       <div className="mx-auto max-w-6xl space-y-6">
-        <h1 className="text-2xl font-semibold">Settings</h1>
+        <div className="flex items-center gap-3">
+          <SettingsNavTrigger
+            activeLeafId={activeLeaf}
+            isAdmin={isAdmin}
+            onSelect={handleSelectLeaf}
+          />
+          <SettingsRailToggle
+            collapsed={railCollapsed}
+            onToggle={() => setRailCollapsed((value) => !value)}
+          />
+          <h1 className="text-2xl font-semibold">Settings</h1>
+        </div>
 
         <div className="flex flex-col gap-4 lg:flex-row lg:gap-8">
-          <SettingsNav activeLeafId={activeLeaf} isAdmin={isAdmin} onSelect={handleSelectLeaf} />
+          <SettingsNav
+            activeLeafId={activeLeaf}
+            isAdmin={isAdmin}
+            onSelect={handleSelectLeaf}
+            collapsed={railCollapsed}
+          />
 
           <div className="min-w-0 flex-1">
+            {activeLeafUsesPanel && (
+              <h2 className="mb-4 text-xl font-semibold">{getLeaf(activeLeaf)?.label}</h2>
+            )}
             {[...mountedLeaves].map((leafId) => (
               <div key={leafId} hidden={activeLeaf !== leafId}>
                 {renderLeaf(leafId)}

@@ -4,25 +4,26 @@ test.describe('Settings navigation', () => {
   test('mobile drawer flattens appearance panels into direct destinations', async ({ page }) => {
     await page.goto('/settings');
 
-    const trigger = page.getByRole('button', { name: /Section:/ });
-    await expect(trigger).toContainText('General');
+    const trigger = page.getByRole('button', { name: 'Open settings navigation' });
     await trigger.click();
 
     const drawer = page.getByRole('navigation', { name: 'Settings sections' });
     await drawer.getByRole('button', { name: 'Clock Strip' }).click();
 
     await expect(page).toHaveURL(/\/settings\?tab=clock-strip$/);
-    await expect(page.getByRole('button', { name: /Section:/ })).toContainText('Clock Strip');
+    await expect(page.getByRole('heading', { name: 'Clock Strip', level: 3 })).toBeVisible();
   });
 
   test('mobile integrations sub-panel selection persists in the URL', async ({ page }) => {
     await page.goto('/settings?tab=integrations');
 
-    const integrationSection = page.getByRole('combobox', { name: 'Integration' });
-    await integrationSection.click();
-    await page.getByRole('option', { name: 'Sonos' }).click();
+    const integrationNav = page.getByRole('navigation', { name: 'Integration sections' });
+    await integrationNav.getByRole('button', { name: 'Sonos' }).click();
 
-    await expect(integrationSection).toContainText('Sonos');
+    await expect(integrationNav.getByRole('button', { name: 'Sonos' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
     await expect(page).toHaveURL(/\/settings\?tab=integrations&panel=sonos$/);
   });
 });
