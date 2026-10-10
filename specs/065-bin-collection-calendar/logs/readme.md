@@ -24,6 +24,7 @@
 | 18 | CH-04 in-page editor + date picker | Complete — modal replaced with in-page panel, theme-visible/touch date pickers; 177 unit / 9 collection E2E, typecheck/build/lint clean | [18-phase-inpage-datepicker.md](18-phase-inpage-datepicker.md) |
 | 19 | Independent custom event review | Validated — public identity correction, 835 backend / 5 targeted browser tests; owner validation pending | [19-phase-custom-event-review.md](19-phase-custom-event-review.md) |
 | 20 | Custom event editor density | Validated — compact controls, anchored icon palette; 12 unit / 3 browser tests, typecheck/build/full lint | [20-phase-editor-density.md](20-phase-editor-density.md) |
+| 21 | Final design/code/migration review | Passed with documented intermittent reruns — Opus no significant findings, 835 backend / 179 unit / 9 browser; all migration suites and Docker upgrade passed | [21-phase-final-review.md](21-phase-final-review.md) |
 
 ## Overall Status
 
@@ -32,7 +33,13 @@ Current execution: implementation and local phase commits authorised on
 historical planning boundaries, not current execution restrictions.
 
 Runtime implementation and isolated local demonstration are delivered.
-Latest evidence: phase 19 passed 835 backend tests and 5 targeted browser tests
+Latest final review evidence: phase 21 passed 835 backend / 179 frontend unit /
+9 collection browser tests, both typechecks and full lint. Every migration suite
+and backup/restore suite passed; real Docker main→candidate upgrade preserved
+28 tables across migrations 32→35 with zero FK violations. Intermittent socket/
+wrapper failures and successful unchanged reruns are retained.
+
+Earlier evidence: phase 19 passed 835 backend tests and 5 targeted browser tests
 (including setup), both typechecks, build and full lint. Phase 18 passed 177
 frontend unit / 9 collection browser tests and Docker main→candidate upgrade.
 Final audit
