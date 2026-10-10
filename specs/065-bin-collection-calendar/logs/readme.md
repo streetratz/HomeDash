@@ -26,6 +26,7 @@
 | 20 | Custom event editor density | Validated — compact controls, anchored icon palette; 12 unit / 3 browser tests, typecheck/build/full lint | [20-phase-editor-density.md](20-phase-editor-density.md) |
 | 21 | Final design/code/migration review | Passed with documented intermittent reruns — Opus no significant findings, 835 backend / 179 unit / 9 browser; all migration suites and Docker upgrade passed | [21-phase-final-review.md](21-phase-final-review.md) |
 | 22 | PR preparation | Passed — 835 backend / 179 unit / 9 browser, build/typecheck/lint and real Docker upgrade; Main 3.2.15 | [22-phase-pr-preparation.md](22-phase-pr-preparation.md) |
+| 23 | Portable migration baseline | Passed locally — 835 backend, both typechecks, full lint and Docker upgrade; awaiting new CI | [23-phase-ci-baseline.md](23-phase-ci-baseline.md) |
 
 ## Overall Status
 

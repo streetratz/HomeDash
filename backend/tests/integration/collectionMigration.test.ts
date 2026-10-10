@@ -28,21 +28,22 @@ import {
 } from '../../src/db/schema/index.js';
 
 describe('additive collection migration', () => {
-  it('upgrades populated current-main bytes without changing any original table after restart', () => {
+  it('upgrades populated pre-feature main bytes without changing any original table after restart', () => {
     const root = path.resolve(__dirname, '../../..');
+    const baseline = 'c5bd8a1102cd2e7a1d22cbea93b68614be5903a5';
     const folder = mkdtempSync(path.join(tmpdir(), 'homedash065-main-migration-'));
     const file = path.join(folder, 'synthetic.sqlite');
     let raw = new Database(file);
     try {
       const migrationPaths = execFileSync(
         'git',
-        ['ls-tree', '-r', '--name-only', 'main', 'backend/drizzle'],
+        ['ls-tree', '-r', '--name-only', baseline, 'backend/drizzle'],
         { cwd: root, encoding: 'utf8' },
       )
         .trim()
         .split('\n')
         .filter((name) => name.endsWith('.sql') || name.endsWith('/_journal.json'));
-      const archive = execFileSync('git', ['archive', 'main', ...migrationPaths], { cwd: root });
+      const archive = execFileSync('git', ['archive', baseline, ...migrationPaths], { cwd: root });
       execFileSync('tar', ['-x', '-C', folder], { input: archive });
       raw.pragma('foreign_keys = OFF');
       const db = drizzle(raw);
