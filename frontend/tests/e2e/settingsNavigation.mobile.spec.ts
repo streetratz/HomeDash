@@ -18,12 +18,13 @@ test.describe('Settings navigation', () => {
     await page.goto('/settings?tab=integrations');
 
     const integrationNav = page.getByRole('navigation', { name: 'Integration sections' });
-    await integrationNav.getByRole('button', { name: 'Sonos' }).click();
 
-    await expect(integrationNav.getByRole('button', { name: 'Sonos' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
+    // Mobile renders a grouped disclosure: open it before the grouped list is reachable.
+    await integrationNav.getByRole('button', { expanded: false }).click();
+    await integrationNav.getByRole('button', { name: 'Sonos', exact: true }).click();
+
     await expect(page).toHaveURL(/\/settings\?tab=integrations&panel=sonos$/);
+    // Selecting collapses the disclosure; the trigger now reflects the active trail.
+    await expect(integrationNav.getByRole('button', { name: 'Media Sonos' })).toBeVisible();
   });
 });
