@@ -1,0 +1,9 @@
+# Command: bash -E -c 'trap '\''printf "Upgrade failure at script line %s\n" "$LINENO"'\'' ERR; source .github/skills/pre-pr-upgrade-gate/run.sh'
+# Phase:   12-phase-final-validation
+# Run:     1
+# Time:    2026-10-10T01:41:16+00:00
+# Exit:    0
+---
+Building baseline image from main...
+Building candidate image from current worktree...
+Upgrade gate passed: migrations 32 -> 33; 28 tables preserved; 0 FK violations.

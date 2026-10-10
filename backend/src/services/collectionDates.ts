@@ -5,7 +5,10 @@ export interface RegularSchedule {
   intervalWeeks: number;
   anchorDate: string;
 }
-export interface ExplicitSchedule { mode: 'explicit'; dates: string[] }
+export interface ExplicitSchedule {
+  mode: 'explicit';
+  dates: string[];
+}
 export type CollectionSchedule = RegularSchedule | ExplicitSchedule;
 export type CollectionException =
   | { id: string; kind: 'skip'; originalDate: string }
@@ -28,20 +31,29 @@ export function dateKey(ordinal: number): string {
   parseDate(key);
   return key;
 }
-export function addDays(key: string, days: number): string { return dateKey(parseDate(key) + days); }
-export function weekday(ordinal: number): number { return ((ordinal + 3) % 7 + 7) % 7 + 1; }
+export function addDays(key: string, days: number): string {
+  return dateKey(parseDate(key) + days);
+}
+export function weekday(ordinal: number): number {
+  return ((((ordinal + 3) % 7) + 7) % 7) + 1;
+}
 export function isBaseDate(schedule: RegularSchedule, key: string): boolean {
   const day = parseDate(key);
   const anchor = parseDate(schedule.anchorDate);
-  const weeks = ((day - weekday(day) + 1) - (anchor - weekday(anchor) + 1)) / 7;
-  return schedule.weekdays.includes(weekday(day)) &&
-    ((weeks % schedule.intervalWeeks) + schedule.intervalWeeks) % schedule.intervalWeeks === 0;
+  const weeks = (day - weekday(day) + 1 - (anchor - weekday(anchor) + 1)) / 7;
+  return (
+    schedule.weekdays.includes(weekday(day)) &&
+    ((weeks % schedule.intervalWeeks) + schedule.intervalWeeks) % schedule.intervalWeeks === 0
+  );
 }
 export function validateRange(from: string, to: string): void {
   const length = parseDate(to) - parseDate(from) + 1;
   if (length < 1 || length > 731) throw new RangeError('Range must contain 1–731 days');
 }
-export function exceptionBlockers(schedule: RegularSchedule, exceptions: CollectionException[]): string[] {
+export function exceptionBlockers(
+  schedule: RegularSchedule,
+  exceptions: CollectionException[],
+): string[] {
   const errors: string[] = [];
   const suppressed = new Set<string>();
   const targets = new Set<string>();
@@ -54,27 +66,37 @@ export function exceptionBlockers(schedule: RegularSchedule, exceptions: Collect
   }
   for (const entry of exceptions) {
     if (entry.kind === 'skip') continue;
-    if (entry.kind === 'replace' && entry.originalDate === entry.actualDate) errors.push('unchanged_move');
-    if (targets.has(entry.actualDate) ||
-        (isBaseDate(schedule, entry.actualDate) && !suppressed.has(entry.actualDate))) errors.push('duplicate_actual_date');
+    if (entry.kind === 'replace' && entry.originalDate === entry.actualDate)
+      errors.push('unchanged_move');
+    if (
+      targets.has(entry.actualDate) ||
+      (isBaseDate(schedule, entry.actualDate) && !suppressed.has(entry.actualDate))
+    )
+      errors.push('duplicate_actual_date');
     targets.add(entry.actualDate);
   }
   return errors;
 }
 export function collectionDates(
-  schedule: CollectionSchedule, exceptions: CollectionException[], from: string, to: string,
+  schedule: CollectionSchedule,
+  exceptions: CollectionException[],
+  from: string,
+  to: string,
 ): string[] {
   validateRange(from, to);
-  if (schedule.mode === 'explicit') return schedule.dates.filter(key => key >= from && key <= to).sort();
-  if (exceptionBlockers(schedule, exceptions).length) throw new RangeError('Collection exceptions conflict');
-  const suppressed = new Set(exceptions.flatMap(e => e.kind === 'add' ? [] : [e.originalDate]));
+  if (schedule.mode === 'explicit')
+    return schedule.dates.filter((key) => key >= from && key <= to).sort();
+  if (exceptionBlockers(schedule, exceptions).length)
+    throw new RangeError('Collection exceptions conflict');
+  const suppressed = new Set(exceptions.flatMap((e) => (e.kind === 'add' ? [] : [e.originalDate])));
   const dates: string[] = [];
   for (let day = parseDate(from), end = parseDate(to); day <= end; day++) {
     const key = dateKey(day);
     if (isBaseDate(schedule, key) && !suppressed.has(key)) dates.push(key);
   }
   for (const entry of exceptions) {
-    if (entry.kind !== 'skip' && entry.actualDate >= from && entry.actualDate <= to) dates.push(entry.actualDate);
+    if (entry.kind !== 'skip' && entry.actualDate >= from && entry.actualDate <= to)
+      dates.push(entry.actualDate);
   }
   return dates.sort();
 }

@@ -11,7 +11,11 @@
 | 05 | Plan and task consistency review | Complete — corrected artifact validation passed | [05-phase-plan-review.md](05-phase-plan-review.md) |
 | 06 | Implementation setup | Complete — baseline/typechecks/lint pass | [06-phase-setup.md](06-phase-setup.md) |
 | 07 | Foundation | Complete | [07-phase-foundational.md](07-phase-foundational.md) |
-| 08 | Household preset | In progress | [08-phase-preset.md](08-phase-preset.md) | [07-phase-foundational.md](07-phase-foundational.md) |
+| 08 | Household preset | Validated implementation increment — original test-first closure pending | [08-phase-preset.md](08-phase-preset.md) |
+| 09 | Custom regular streams | Validated implementation increment — exact matrix pending | [09-phase-custom-streams.md](09-phase-custom-streams.md) |
+| 10 | Safe reading | Validated implementation increment — full timezone/manual evidence pending | [10-phase-safe-reading.md](10-phase-safe-reading.md) |
+| 11 | Irregular dates | Validated implementation increment — broader acceptance closure pending | [11-phase-irregular-dates.md](11-phase-irregular-dates.md) |
+| 12 | Final validation | Gates passed; 78/97 tasks checked, full outcome closure pending | [12-phase-final-validation.md](12-phase-final-validation.md) |
 
 ## Overall Status
 
@@ -19,7 +23,14 @@ Current execution: implementation and local phase commits authorised on
 2026-10-10; no push/PR/release/version preparation. Earlier notes below are
 historical planning boundaries, not current execution restrictions.
 
-Planning and task generation are authorised; phase 05 records consistency review
+Runtime implementation and isolated local demonstration are delivered.
+Latest evidence: 824 backend / 173 frontend unit / 36 browser tests passing;
+typechecks, build, lint and Docker main→candidate upgrade passing. Final audit
+records formatter baseline, intermittent harness reruns, remaining exact
+coverage tasks, unavailable human/assistive evidence and unauthorized T091.
+The independent zero-context Opus 4.8 review is deferred to the parent handoff.
+
+Historically, planning and task generation were authorised; phase 05 records consistency review
 and artifact corrections only. Phase 04's counts below describe its initial output.
 Application implementation, commit/push/PR work and dependency PRs #2/#18 remain
 out of scope. Optional auto-commit hooks are skipped. Earlier phase outcomes

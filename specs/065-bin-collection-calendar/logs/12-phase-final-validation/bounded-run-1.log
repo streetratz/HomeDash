@@ -1,0 +1,45 @@
+# Command: pnpm --filter backend exec vitest run tests/integration/collectionPerformance.test.ts tests/integration/collectionMigration.test.ts tests/integration/migrationIntegrity.test.ts
+# Phase:   12-phase-final-validation
+# Run:     1
+# Time:    2026-10-10T01:23:39+00:00
+# Exit:    1
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/migrationIntegrity.test.ts  (11 tests) 17ms
+ ✓ tests/integration/collectionMigration.test.ts  (3 tests) 189ms
+ ❯ tests/integration/collectionPerformance.test.ts  (2 tests | 1 failed) 50ms
+   ❯ tests/integration/collectionPerformance.test.ts > independent collection oracle and bounded measurement > measures warm 90-day p95 and max-32-stream 731-day display without truncation
+     → Correct the collection fields
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/collectionPerformance.test.ts > independent collection oracle and bounded measurement > measures warm 90-day p95 and max-32-stream 731-day display without truncation
+AppError: Correct the collection fields
+ ❯ Object.validationError src/lib/errors.ts:72:5
+     70|   conflict: (msg: string) => new AppError(ErrorCode.RESOURCE_CONFLICT,…
+     71|   validationError: (msg: string, details?: unknown) =>
+     72|     new AppError(ErrorCode.VALIDATION_ERROR, msg, 422, details),
+       |     ^
+     73|   assetTooLarge: (msg: string) => new AppError(ErrorCode.ASSET_TOO_LAR…
+     74|   assetTypeInvalid: (msg: string) => new AppError(ErrorCode.ASSET_TYPE…
+ ❯ parse src/services/collectionService.ts:101:37
+ ❯ src/services/collectionService.ts:285:20
+ ❯ safeOperation src/services/collectionService.ts:106:16
+ ❯ Module.readCollectionDisplay src/services/collectionService.ts:284:10
+ ❯ tests/integration/collectionPerformance.test.ts:45:33
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'VALIDATION_ERROR', statusCode: 422, details: [ { path: [], message: 'Invalid or out-of-bounds value' } ] }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 15 passed (16)
+   Start at  12:23:38
+   Duration  1.15s (transform 268ms, setup 226ms, collect 539ms, tests 256ms, environment 0ms, prepare 29ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/integration/collectionPerformance.test.ts tests/integration/collectionMigration.test.ts tests/integration/migrationIntegrity.test.ts

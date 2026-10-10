@@ -1,0 +1,22 @@
+# Command: pnpm --filter backend exec vitest run tests/integration/collectionPerformance.test.ts tests/integration/collectionMigration.test.ts tests/integration/migrationIntegrity.test.ts
+# Phase:   12-phase-final-validation
+# Run:     2
+# Time:    2026-10-10T01:23:58+00:00
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/migrationIntegrity.test.ts  (11 tests) 36ms
+ ✓ tests/integration/collectionMigration.test.ts  (3 tests) 251ms
+stdout | tests/integration/collectionPerformance.test.ts > independent collection oracle and bounded measurement > measures warm 90-day p95 and max-32-stream 731-day display without truncation
+Collection display service: warm 90-day p95=26.26ms; 32-stream/731-day=74.99ms; 30 samples; HTTP/browser overhead excluded
+
+ ✓ tests/integration/collectionPerformance.test.ts  (2 tests) 624ms
+
+ Test Files  3 passed (3)
+      Tests  16 passed (16)
+   Start at  12:23:55
+   Duration  3.61s (transform 854ms, setup 476ms, collect 1.64s, tests 911ms, environment 0ms, prepare 60ms)
+

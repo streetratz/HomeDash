@@ -62,13 +62,18 @@ function useCurrentTime(): number {
 export function CalendarWidget({ widget }: WidgetDisplayProps) {
   const config = parseConfig(widget);
   const [expanded, setExpanded] = useState(false);
+  const closeMonth = useCallback(() => setExpanded(false), []);
   const { hour12 } = useClockFormat();
   const syncMutation = useSyncCalendarSource();
   const [syncing, setSyncing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const visible = useWidgetVisibility(containerRef);
   const collectionEnabled = config.collectionStreamIds.length > 0;
-  const collectionQuery = useCollectionDisplay(widget.id, { daysAhead: config.daysAhead }, collectionEnabled && visible && !expanded);
+  const collectionQuery = useCollectionDisplay(
+    widget.id,
+    { daysAhead: config.daysAhead },
+    collectionEnabled && visible && !expanded,
+  );
 
   const sourcesQuery = useCalendarSources({ enabled: config.sourceIds.length > 0 });
   const currentTime = useCurrentTime();
@@ -121,10 +126,10 @@ export function CalendarWidget({ widget }: WidgetDisplayProps) {
   const eventsQuery = useCalendarEvents(config.sourceIds, from, to);
 
   // Loading (initial load only — don't show skeleton on refetch/sync)
-  if (!collectionEnabled && (
-    (!sourcesQuery.data && sourcesQuery.isLoading) ||
-    (!eventsQuery.data && eventsQuery.isLoading)
-  )) {
+  if (
+    !collectionEnabled &&
+    ((!sourcesQuery.data && sourcesQuery.isLoading) || (!eventsQuery.data && eventsQuery.isLoading))
+  ) {
     return (
       <div className="flex flex-col gap-2 p-3">
         <Skeleton className="h-4 w-24" />
@@ -183,34 +188,75 @@ export function CalendarWidget({ widget }: WidgetDisplayProps) {
         >
           <Expand className="h-3 w-3" />
         </Button>
-        {config.sourceIds.length > 0 && <div className="flex items-center gap-1">
-          {lastSyncLabel && (
-            <span className="text-[10px] text-muted-foreground/60">Synced {lastSyncLabel}</span>
-          )}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-5 w-5"
-            title="Sync calendars"
-            onClick={() => void handleSync()}
-            disabled={syncing}
-          >
-            <RefreshCw className={`h-3 w-3 ${syncing ? 'animate-spin' : ''}`} />
-          </Button>
-        </div>}
+        {config.sourceIds.length > 0 && (
+          <div className="flex items-center gap-1">
+            {lastSyncLabel && (
+              <span className="text-[10px] text-muted-foreground/60">Synced {lastSyncLabel}</span>
+            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-5 w-5"
+              title="Sync calendars"
+              onClick={() => void handleSync()}
+              disabled={syncing}
+            >
+              <RefreshCw className={`h-3 w-3 ${syncing ? 'animate-spin' : ''}`} />
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Agenda */}
       <div className="min-h-0 flex-1 overflow-y-auto scrollbar-thin">
-        {collectionEnabled && collectionQuery.isLoading && <p role="status" className="text-sm">Loading collections…</p>}
-        {collectionEnabled && collectionQuery.isError && <div role="alert" className="text-sm">
-          {collectionQuery.denied ? 'Collections unavailable for this view.' : collectionQuery.stale ? 'Collections may be out of date.' : 'Collections unavailable.'}
-          <Button variant="outline" className="min-h-11" onClick={() => void collectionQuery.refetch()}>Retry collections</Button>
-        </div>}
-        {collectionQuery.data && collectionQuery.data.state !== 'ready' && <p className="py-3 text-sm text-muted-foreground">
-          {({ unconfigured: 'Household collections have not been configured.', not_selected: 'No collection streams selected.', disabled: 'Selected collection streams are disabled.', no_dates_in_range: 'No collections in this date range.', exhausted: 'The explicit collection dates have ended.', no_dates: 'No collections to show.', ready: '' })[collectionQuery.data.state]}
-        </p>}
-        {eventsQuery.isError && <p role="alert" className="text-sm">Provider events unavailable. <Button className="min-h-11" variant="outline" onClick={() => void eventsQuery.refetch()}>Retry calendars</Button></p>}
+        {collectionEnabled && collectionQuery.isLoading && (
+          <p role="status" className="text-sm">
+            Loading collections…
+          </p>
+        )}
+        {collectionEnabled && collectionQuery.isError && (
+          <div role="alert" className="text-sm">
+            {collectionQuery.denied
+              ? 'Collections unavailable for this view.'
+              : collectionQuery.stale
+                ? 'Collections may be out of date.'
+                : 'Collections unavailable.'}
+            <Button
+              variant="outline"
+              className="min-h-11"
+              onClick={() => void collectionQuery.refetch()}
+            >
+              Retry collections
+            </Button>
+          </div>
+        )}
+        {collectionQuery.data && collectionQuery.data.state !== 'ready' && (
+          <p className="py-3 text-sm text-muted-foreground">
+            {
+              {
+                unconfigured: 'Household collections have not been configured.',
+                not_selected: 'No collection streams selected.',
+                disabled: 'Selected collection streams are disabled.',
+                no_dates_in_range: 'No collections in this date range.',
+                exhausted: 'The explicit collection dates have ended.',
+                no_dates: 'No collections to show.',
+                ready: '',
+              }[collectionQuery.data.state]
+            }
+          </p>
+        )}
+        {eventsQuery.isError && (
+          <p role="alert" className="text-sm">
+            Provider events unavailable.{' '}
+            <Button
+              className="min-h-11"
+              variant="outline"
+              onClick={() => void eventsQuery.refetch()}
+            >
+              Retry calendars
+            </Button>
+          </p>
+        )}
         <AgendaView
           events={events}
           sources={sources}
@@ -228,7 +274,7 @@ export function CalendarWidget({ widget }: WidgetDisplayProps) {
             sourceIds={collectionEnabled ? config.sourceIds : sources.map((s) => s.id)}
             sources={sources}
             showPrivateEvents={config.showPrivateEvents}
-            onClose={() => setExpanded(false)}
+            onClose={closeMonth}
             collectionWidgetId={collectionEnabled ? widget.id : undefined}
             householdToday={collectionQuery.data?.householdToday ?? undefined}
           />,

@@ -181,16 +181,33 @@ const envelopeFields = {
   exportedAt: z.string(),
   summary: backupSummarySchema,
 };
-const v1Data = backupDataSchema.extend({
-  collectionHousehold: z.never().optional(),
-  collectionStreams: z.never().optional(),
-  collectionExplicitDates: z.never().optional(),
-  collectionExceptions: z.never().optional(),
-}).transform(data => ({ ...data, collectionHousehold: [], collectionStreams: [], collectionExplicitDates: [], collectionExceptions: [] }));
-export const backupFileSchema = z.union([
-  z.object({ ...envelopeFields, version: z.literal(1), data: v1Data }),
-  z.object({ ...envelopeFields, version: z.literal(2), data: backupDataSchema.extend(collectionBackupRowsSchema.shape) }),
-]).superRefine((backup, ctx) => {
-  try { validateCollectionBackup(backup.data); }
-  catch { ctx.addIssue({ code: 'custom', message: 'Invalid collection backup configuration' }); }
-});
+const v1Data = backupDataSchema
+  .extend({
+    collectionHousehold: z.never().optional(),
+    collectionStreams: z.never().optional(),
+    collectionExplicitDates: z.never().optional(),
+    collectionExceptions: z.never().optional(),
+  })
+  .transform((data) => ({
+    ...data,
+    collectionHousehold: [],
+    collectionStreams: [],
+    collectionExplicitDates: [],
+    collectionExceptions: [],
+  }));
+export const backupFileSchema = z
+  .union([
+    z.object({ ...envelopeFields, version: z.literal(1), data: v1Data }),
+    z.object({
+      ...envelopeFields,
+      version: z.literal(2),
+      data: backupDataSchema.extend(collectionBackupRowsSchema.shape),
+    }),
+  ])
+  .superRefine((backup, ctx) => {
+    try {
+      validateCollectionBackup(backup.data);
+    } catch {
+      ctx.addIssue({ code: 'custom', message: 'Invalid collection backup configuration' });
+    }
+  });

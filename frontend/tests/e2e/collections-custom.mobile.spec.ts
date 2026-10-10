@@ -11,7 +11,9 @@ test('360px custom editor exposes seven keyboard-operable weekdays', async ({ pa
   const initiallyChecked = await editor.getByLabel('Thursday', { exact: true }).isChecked();
   await editor.getByLabel('Thursday', { exact: true }).focus();
   await page.keyboard.press('Space');
-  await expect(editor.getByLabel('Thursday', { exact: true })).toBeChecked({ checked: !initiallyChecked });
+  await expect(editor.getByLabel('Thursday', { exact: true })).toBeChecked({
+    checked: !initiallyChecked,
+  });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.getByRole('button', { name: 'Cancel', exact: true }).click();
 });

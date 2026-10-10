@@ -36,6 +36,28 @@ security, UI, upgrade, or automated-test gate.
 
 ## Scope Review
 
+## Implemented threat mitigations (local candidate)
+
+This implementation evidence supplements, rather than retroactively changes,
+the specification-only review above. The LAN is not trusted.
+
+| Threat | Implemented mitigation | Actual evidence |
+| --- | --- | --- |
+| Guessed IDs, wrong/forged dashboard or device context | Real designated dashboard/widget lookup; saved public subset intersection; arbitrary query streams rejected; allowlisted DTO only | `backend/tests/integration/collectionPublic.test.ts` |
+| Resident/generic-manage admin bypass, expired or absent session, request forgery | Default-deny administrator middleware before parsing; supported session authentication and CSRF; no public mutations | `backend/tests/contract/collections.test.ts` |
+| Private rule/provider disclosure or restore failure leaks | Display excludes rules/providerLabel/revision/epoch; restore sanitizes errors before logger; backup secret exclusions unchanged | `collectionPublic.test.ts`, `collectionBackup.test.ts` |
+| Public cached data after revocation/logout | Context/account/widget/window query separation; denied active payload cleared; visibility/resume refresh and bounded foreground polling | `frontend/tests/unit/collectionHooks.test.tsx` |
+| Oversized/hostile payload and misleading dates | Strict schemas, 2 MiB body and explicit count/date/range bounds; full aggregate collision/orphan validation including disabled/out-of-range exceptions | `collections.test.ts`, `collectionExceptions.test.ts`, `collectionDates.test.ts` |
+| Concurrent save/restore and partial mutation | Revision + process epoch + preview digest; transaction; stable-ID exception destination swaps; destructive confirmations | `backend/tests/unit/collectionService.test.ts`, `collectionBackup.test.ts` |
+| Existing provider/birthday/widget data loss | Additive generated migration, independent authoritative rows, backup equality, repeated migrations and FK checks | `collectionMigration.test.ts`, `migrationIntegrity.test.ts`, `collectionPreset.test.ts` |
+
+The focused acceptance suite and both browser engines run against disposable
+data. This is not a claim of penetration testing, ten-person usability evidence
+or manual assistive-technology verification. Full Docker upgrade evidence is
+recorded separately in the final phase audit, including any environment blocker.
+
+## Historical specification scope
+
 No stack, route, storage schema, source type, or event-generation architecture is
 chosen. Existing calendar code was read for context only. Reuse is to be assessed
 during planning, particularly per-stream colours and household timezone semantics;

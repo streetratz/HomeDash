@@ -3,13 +3,38 @@ import { expect } from '@playwright/test';
 import { expectApiOk } from '../support/admin.js';
 export async function collectionIrregularSmoke(page: Page, csrf: string, mobile: boolean) {
   const headers = { 'x-csrf-token': csrf };
-  const config = await (await page.request.get('/api/admin/calendar/collections')).json() as { revision: number; runtimeEpoch: string; streams: { id: string }[] };
-  const empty = { expectedRevision: config.revision, runtimeEpoch: config.runtimeEpoch, timezone: 'Australia/Sydney', providerLabel: null, streams: [],
-    range: { from: '2026-10-10', to: '2026-11-10' }, confirmations: { timezoneConfirmed: true, deletedStreamIds: config.streams.map(s => s.id), removedExceptionIds: [], clearedExplicitStreamIds: [] } };
-  const preview = await page.request.post('/api/admin/calendar/collections/preview', { headers, data: empty });
+  const config = (await (await page.request.get('/api/admin/calendar/collections')).json()) as {
+    revision: number;
+    runtimeEpoch: string;
+    streams: { id: string }[];
+  };
+  const empty = {
+    expectedRevision: config.revision,
+    runtimeEpoch: config.runtimeEpoch,
+    timezone: 'Australia/Sydney',
+    providerLabel: null,
+    streams: [],
+    range: { from: '2026-10-10', to: '2026-11-10' },
+    confirmations: {
+      timezoneConfirmed: true,
+      deletedStreamIds: config.streams.map((s) => s.id),
+      removedExceptionIds: [],
+      clearedExplicitStreamIds: [],
+    },
+  };
+  const preview = await page.request.post('/api/admin/calendar/collections/preview', {
+    headers,
+    data: empty,
+  });
   await expectApiOk(preview, 'Reset isolated collection fixture');
-  const result = await preview.json() as { previewDigest: string };
-  await expectApiOk(await page.request.put('/api/admin/calendar/collections', { headers, data: { ...empty, previewDigest: result.previewDigest } }), 'Save empty synthetic fixture');
+  const result = (await preview.json()) as { previewDigest: string };
+  await expectApiOk(
+    await page.request.put('/api/admin/calendar/collections', {
+      headers,
+      data: { ...empty, previewDigest: result.previewDigest },
+    }),
+    'Save empty synthetic fixture',
+  );
   await page.goto('/settings?tab=integrations');
   if (mobile) {
     await page.getByRole('combobox', { name: 'Integration' }).click();
@@ -43,6 +68,11 @@ export async function collectionIrregularSmoke(page: Page, csrf: string, mobile:
   await manager.getByRole('button', { name: 'Preview dates' }).click();
   await expect(manager.getByRole('button', { name: 'Save collections' })).toBeEnabled();
   await manager.getByRole('button', { name: 'Save collections' }).click();
-  const saved = await (await page.request.get('/api/admin/calendar/collections')).json() as { streams: { schedule: { mode: string; dates: string[] } }[] };
-  expect(saved.streams[0]?.schedule).toEqual({ mode: 'explicit', dates: ['2026-12-14', '2027-01-18'] });
+  const saved = (await (await page.request.get('/api/admin/calendar/collections')).json()) as {
+    streams: { schedule: { mode: string; dates: string[] } }[];
+  };
+  expect(saved.streams[0]?.schedule).toEqual({
+    mode: 'explicit',
+    dates: ['2026-12-14', '2027-01-18'],
+  });
 }

@@ -1,0 +1,24 @@
+# Command: pnpm --filter backend exec vitest run tests/integration/collectionMigration.test.ts tests/integration/migrationIntegrity.test.ts && pnpm typecheck
+# Phase:   12-phase-final-validation
+# Run:     2
+# Time:    2026-10-10T01:35:51+00:00
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/collectionMigration.test.ts  (4 tests) 314ms
+ ✓ tests/integration/migrationIntegrity.test.ts  (11 tests) 11ms
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  12:35:43
+   Duration  1.39s (transform 309ms, setup 241ms, collect 692ms, tests 325ms, environment 0ms, prepare 40ms)
+
+$ pnpm -r run typecheck
+Scope: 2 of 3 workspace projects
+backend typecheck$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+frontend typecheck$ tsc --noEmit
+frontend typecheck: Done
+backend typecheck: Done

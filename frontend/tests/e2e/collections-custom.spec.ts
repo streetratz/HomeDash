@@ -1,12 +1,16 @@
 import { test, expect } from './support/admin.js';
-test('custom-first regular stream supports multiweekday, disable and deliberate removal', async ({ page }) => {
+test('custom-first regular stream supports multiweekday, disable and deliberate removal', async ({
+  page,
+}) => {
   await page.goto('/settings?tab=integrations');
   await page.getByRole('button', { name: 'Calendars', exact: true }).click();
   const manager = page.getByRole('region', { name: 'Household collections' });
   if (await manager.getByRole('button', { name: 'Edit collection configuration' }).count()) {
     await manager.getByRole('button', { name: 'Edit collection configuration' }).click();
   } else {
-    await manager.getByRole('textbox', { name: 'Household timezone', exact: true }).fill('Australia/Sydney');
+    await manager
+      .getByRole('textbox', { name: 'Household timezone', exact: true })
+      .fill('Australia/Sydney');
     await manager.getByRole('checkbox', { name: /I confirm/ }).check();
     await manager.getByRole('button', { name: 'Start custom without preset' }).click();
   }

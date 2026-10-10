@@ -18,6 +18,44 @@ made public.
 
 ---
 
+## Collection configuration, backup and recovery
+
+Collection configuration is authoritative household data, separate from synced
+provider events and birthdays. The additive collection migration creates four
+initially empty tables; no preset is seeded. Existing Calendar/provider selections
+are preserved. Removing a stream prunes only its collection selections.
+
+Preview/save is a whole-configuration transaction. A concurrent save or restore
+invalidates an older revision/runtime epoch and returns a conflict; retain the
+draft, reload/rebase deliberately, review destructive/timezone confirmations and
+preview again. Validation blockers cause no partial writes. Failed requests
+retain entered fields. For diagnostics, capture the safe error code and request
+ID, not private provider labels, backup contents or credentials.
+
+Portable **v2** backups include all four collection tables, stable IDs/order,
+disabled streams, exceptions, explicit dates and widget/public selections.
+They store rules, not generated occurrences. The new reader accepts collection-free
+**v1**, with an explicit full-replacement warning: restoring it removes current
+collection configuration. An old v1-only reader cannot read v2. Full restore
+validates the complete input before deleting anything and rolls back failed
+inserts. Successful restore rotates the runtime epoch and invalidates sessions;
+log in again. Existing secret exclusions and provider OAuth reauthentication
+requirements remain in force.
+
+Before upgrading, retain a consistent SQLite backup and the matching prior
+container image. On a disposable copy, check `PRAGMA foreign_key_check` after
+migration/restart. Downgrade recovery means restoring the **pre-upgrade database**
+with its matching older image, not attempting a down-migration or feeding a v2
+portable file to an older reader. Never test upgrade/restore against live data.
+
+Public collection reads expose only the selected widget's permitted names,
+colours and household date context. They do not expose rules, management state,
+provider labels, revisions or epochs. Revoking the public subset or designated
+dashboard denies subsequent reads; active views remove a denied cached payload
+on their next fetch (foreground polling is 30 seconds, resume refresh is immediate).
+
+---
+
 ## Break-Glass: Admin Password Reset
 
 If you lose access to the admin account, use the `reset-admin` script to reset

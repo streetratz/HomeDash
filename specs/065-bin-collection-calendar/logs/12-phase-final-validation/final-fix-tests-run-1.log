@@ -1,0 +1,44 @@
+# Command: pnpm --filter backend exec vitest run tests/unit/collectionService.test.ts && pnpm --filter frontend exec vitest run tests/unit/CollectionManager.test.tsx
+# Phase:   12-phase-final-validation
+# Run:     1
+# Time:    2026-10-10T01:32:52+00:00
+# Exit:    1
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/unit/collectionService.test.ts  (7 tests) 260ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  12:32:50
+   Duration  1.12s (transform 264ms, setup 209ms, collect 526ms, tests 260ms, environment 0ms, prepare 31ms)
+
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ❯ tests/unit/CollectionManager.test.tsx  (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/CollectionManager.test.tsx [ tests/unit/CollectionManager.test.tsx ]
+Error: Transform failed with 1 error:
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/settings/CollectionManager.tsx:541:10: ERROR: Unexpected closing "div" tag does not match opening "fieldset" tag
+ ❯ failureErrorWithLog ../node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:1472:15
+ ❯ ../node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:755:50
+ ❯ responseCallbacks.<computed> ../node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:622:9
+ ❯ handleIncomingPacket ../node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:677:12
+ ❯ Socket.readFromStdout ../node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:600:7
+ ❯ Socket.emit node:events:509:28
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  12:32:51
+   Duration  506ms (transform 22ms, setup 0ms, collect 0ms, tests 0ms, environment 248ms, prepare 33ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/CollectionManager.test.tsx
