@@ -17,7 +17,7 @@ test.describe('Scheduled Jobs responsive layout', () => {
     const job = (await createJob.json()) as { id: string };
 
     try {
-      await page.goto('/settings?tab=system');
+      await page.goto('/settings?tab=scheduled-jobs');
 
       const card = page.getByRole('region', { name: jobName });
       await expect(card).toBeVisible();

@@ -1663,8 +1663,24 @@ function ServicePanel({ serviceId }: { serviceId: ServiceId }) {
 
 // ─── Main tab ───────────────────────────────────────────────────────────────
 
-export function IntegrationsTab() {
-  const [activeService, setActiveService] = useState<ServiceId>('docker');
+export function IntegrationsTab({
+  panel,
+  onPanelChange,
+}: {
+  panel?: string | null | undefined;
+  onPanelChange?: ((panel: string) => void) | undefined;
+}) {
+  const [localService, setLocalService] = useState<ServiceId>('docker');
+  const activeService: ServiceId = serviceItems.some((item) => item.id === panel)
+    ? (panel as ServiceId)
+    : onPanelChange
+      ? 'docker'
+      : localService;
+
+  function selectService(serviceId: ServiceId) {
+    if (onPanelChange) onPanelChange(serviceId);
+    else setLocalService(serviceId);
+  }
 
   return (
     <div className="flex flex-col md:flex-row gap-4 md:gap-6 md:min-h-[480px]">
@@ -1672,7 +1688,7 @@ export function IntegrationsTab() {
         label="Integration"
         value={activeService}
         options={serviceItems.map((item) => ({ value: item.id, label: item.label }))}
-        onValueChange={setActiveService}
+        onValueChange={selectService}
       />
 
       {/* Service nav — desktop */}
@@ -1690,7 +1706,7 @@ export function IntegrationsTab() {
                 <button
                   type="button"
                   key={item.id}
-                  onClick={() => setActiveService(item.id)}
+                  onClick={() => selectService(item.id)}
                   className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
                     activeService === item.id
                       ? 'bg-accent text-accent-foreground'

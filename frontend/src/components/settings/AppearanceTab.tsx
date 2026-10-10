@@ -1,16 +1,13 @@
 /**
- * Appearance settings tab — Admin-only visual/layout configuration.
- * Sidebar layout with 4 panels: Branding, Header & Footer, Clock Strip, Screensaver.
+ * Appearance settings panels — Admin-only visual/layout configuration.
+ * Four panels (Branding, Header & Footer, Clock Strip, Screensaver) rendered as
+ * first-class Settings leaves via {@link AppearancePanelContent}.
  * Each panel reads current server state and merges its own fields when saving.
  */
 
-import { useState, useCallback, type ReactNode } from 'react';
+import { useState, useCallback } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import {
-  Type,
-  Ruler,
-  Clock,
-  MonitorPlay,
   Upload,
   Save,
   Plus,
@@ -46,39 +43,11 @@ import {
   ExtraTimezoneRow,
 } from './shell-helpers.js';
 import { FieldRow } from './FieldRow.js';
-import { MobileSectionSelect } from './MobileSectionSelect.js';
 import { SettingsErrorState } from './SettingsDataState.js';
 
-// ─── Sidebar types ──────────────────────────────────────────────────────────
+// ─── Panel identifiers ──────────────────────────────────────────────────────
 
-type PanelId = 'branding' | 'header-footer' | 'clock-strip' | 'screensaver';
-
-interface NavItem {
-  id: PanelId;
-  label: string;
-  icon: ReactNode;
-}
-
-interface NavGroup {
-  label: string;
-  items: NavItem[];
-}
-
-const navGroups: NavGroup[] = [
-  {
-    label: 'Layout',
-    items: [
-      { id: 'branding', label: 'Branding', icon: <Type className="h-4 w-4" /> },
-      { id: 'header-footer', label: 'Header & Footer', icon: <Ruler className="h-4 w-4" /> },
-      { id: 'clock-strip', label: 'Clock Strip', icon: <Clock className="h-4 w-4" /> },
-    ],
-  },
-  {
-    label: 'Behavior',
-    items: [{ id: 'screensaver', label: 'Screensaver', icon: <MonitorPlay className="h-4 w-4" /> }],
-  },
-];
-const navItems = navGroups.flatMap((group) => group.items);
+export type AppearancePanelId = 'branding' | 'header-footer' | 'clock-strip' | 'screensaver';
 
 // ─── Screensaver types & hooks ──────────────────────────────────────────────
 
@@ -1342,7 +1311,7 @@ function ScreensaverPanel() {
 
 // ─── Panel renderer ─────────────────────────────────────────────────────────
 
-function PanelContent({ panelId }: { panelId: PanelId }) {
+export function AppearancePanelContent({ panelId }: { panelId: AppearancePanelId }) {
   switch (panelId) {
     case 'branding':
       return <BrandingPanel />;
@@ -1353,74 +1322,4 @@ function PanelContent({ panelId }: { panelId: PanelId }) {
     case 'screensaver':
       return <ScreensaverPanel />;
   }
-}
-
-// ─── Main tab ───────────────────────────────────────────────────────────────
-
-export function AppearanceTab() {
-  const [activePanel, setActivePanel] = useState<PanelId>('branding');
-  const [visitedPanels, setVisitedPanels] = useState<Set<PanelId>>(
-    () => new Set<PanelId>(['branding']),
-  );
-
-  function handlePanelChange(panelId: PanelId) {
-    setVisitedPanels((current) => {
-      if (current.has(panelId)) return current;
-      return new Set(current).add(panelId);
-    });
-    setActivePanel(panelId);
-  }
-
-  return (
-    <div className="flex flex-col gap-4 md:flex-row md:gap-6 md:min-h-[480px]">
-      <MobileSectionSelect
-        label="Appearance section"
-        value={activePanel}
-        options={navItems.map((item) => ({ value: item.id, label: item.label }))}
-        onValueChange={handlePanelChange}
-      />
-
-      {/* Left sidebar nav — desktop */}
-      <nav
-        className="hidden md:flex md:w-44 md:shrink-0 md:flex-col md:space-y-4 md:border-r md:border-border md:pr-4"
-        aria-label="Appearance sections"
-      >
-        {navGroups.map((group) => (
-          <div key={group.label}>
-            <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
-              {group.label}
-            </p>
-            <div className="space-y-0.5">
-              {group.items.map((item) => (
-                <button
-                  type="button"
-                  key={item.id}
-                  onClick={() => handlePanelChange(item.id)}
-                  className={`flex w-full items-center gap-2 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                    activePanel === item.id
-                      ? 'bg-accent text-accent-foreground'
-                      : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
-                  }`}
-                >
-                  {item.icon}
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
-      </nav>
-
-      {/* Right content panel */}
-      <div className="min-w-0 flex-1">
-        {navItems
-          .filter((item) => visitedPanels.has(item.id))
-          .map((item) => (
-            <div key={item.id} hidden={activePanel !== item.id}>
-              <PanelContent panelId={item.id} />
-            </div>
-          ))}
-      </div>
-    </div>
-  );
 }
