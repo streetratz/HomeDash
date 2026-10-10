@@ -1,0 +1,396 @@
+v24.18.0
+3.2.15
+$ vitest run
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/dashboardImport.test.ts  (22 tests) 584ms
+ ✓ tests/integration/dashboards.test.ts  (43 tests) 1056ms
+stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+[calendar-sync] Failed to update error status for source 48938cb9-8cb3-45b8-b24c-886fd9d2bdb2: TypeError: The database connection is not open
+    at Database.prepare (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/calendar-sync-service.ts:203:12)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+[calendar-sync] Error syncing source 48938cb9-8cb3-45b8-b24c-886fd9d2bdb2: iCal fetch failed: HTTP 404
+
+stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+[calendar-sync] Failed to update error status for source a417c271-261e-468a-93de-7e842d4e8fc8: TypeError: The database connection is not open
+    at Database.prepare (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/calendar-sync-service.ts:203:12)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+[calendar-sync] Error syncing source a417c271-261e-468a-93de-7e842d4e8fc8: iCal fetch failed: HTTP 404
+
+ ✓ tests/integration/ical-parser.test.ts  (26 tests) 390ms
+ ✓ tests/integration/calendar-phase7.test.ts  (22 tests) 676ms
+ ✓ tests/integration/todoSyncMicrosoft.test.ts  (16 tests) 436ms
+ ✓ tests/integration/appShortcuts.test.ts  (24 tests) 580ms
+ ✓ tests/integration/restore.test.ts  (7 tests) 925ms
+ ✓ tests/integration/rbac.test.ts  (23 tests) 244ms
+ ✓ tests/integration/oauth-flow.test.ts  (15 tests) 848ms
+ ✓ tests/unit/collectionService.test.ts  (7 tests) 200ms
+stderr | tests/unit/dockerSshTransport.test.ts > process cleanup (FR-037, SC-011) > kills a hung dial and leaves no child process
+[calendar-sync] Failed to update error status for source 63e905c0-4356-4af2-96f9-3a9903fa8620: TypeError: The database connection is not open
+    at Database.prepare (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/calendar-sync-service.ts:203:12)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+[calendar-sync] Error syncing source 63e905c0-4356-4af2-96f9-3a9903fa8620: fetch failed
+
+ ✓ tests/unit/dockerSshTransport.test.ts  (36 tests) 16638ms
+ ✓ tests/integration/dashboardExport.test.ts  (8 tests) 241ms
+ ✓ tests/integration/collectionCustomEvents.test.ts  (11 tests) 150ms
+ ✓ tests/integration/todoItems.test.ts  (17 tests) 248ms
+stderr | tests/integration/microsoft-calendar.test.ts > syncSource (Microsoft) > sets lastSyncError on fetch failure
+[calendar-sync] Error syncing source 6faa9283-d639-4874-bdbb-54e8990fb574: Microsoft Graph API error 500: Internal Server Error
+
+ ✓ tests/integration/microsoft-calendar.test.ts  (8 tests) 120ms
+ ✓ tests/integration/widgetDataPermissions.test.ts  (65 tests) 487ms
+stderr | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – valid upload > updates logoAssetId in shell settings after upload
+[assetService] Failed to generate favicon variants: Error: Input buffer has corrupt header: VipsJpeg: premature end of JPEG image
+VipsJpeg: Invalid JPEG file structure: missing SOS marker
+VipsJpeg: premature end of JPEG image
+VipsJpeg: Invalid JPEG file structure: missing SOS marker
+VipsJpeg: premature end of JPEG image
+    at Sharp.toFile (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/sharp@0.35.4_@types+node@20.19.41/node_modules/sharp/dist/output.mjs:90:19)
+    at generateFaviconVariants (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/assetService.ts:302:8)
+    at Module.uploadLogo (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/assetService.ts:196:3)
+    at Object.<anonymous> (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin.ts:127:19)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+ ✓ tests/integration/logoUpload.test.ts  (9 tests) 918ms
+ ✓ tests/unit/sonosDiscovery.test.ts  (14 tests) 2ms
+ ✓ tests/integration/collectionMigration.test.ts  (4 tests) 219ms
+ ✓ tests/integration/todoSecurity.test.ts  (24 tests) 366ms
+ ✓ tests/unit/dockerApiVersion.test.ts  (16 tests) 10ms
+ ✓ tests/integration/adminShell.test.ts  (14 tests) 1266ms
+ ✓ tests/unit/dockerEndpoint.test.ts  (44 tests) 1ms
+ ✓ tests/integration/google-calendar.test.ts  (5 tests) 116ms
+ ✓ tests/integration/collectionExceptions.test.ts  (4 tests) 39ms
+ ✓ tests/integration/backup.test.ts  (8 tests) 229ms
+ ✓ tests/contract/collections.test.ts  (4 tests) 353ms
+ ✓ tests/contract/openapi.test.ts  (28 tests) 66ms
+ ✓ tests/integration/dockerAuth.test.ts  (15 tests) 415ms
+ ✓ tests/integration/birthdayCalendar.test.ts  (5 tests) 227ms
+ ✓ tests/integration/publicBootstrapProjection.test.ts  (4 tests) 236ms
+ ✓ tests/integration/collectionBackup.test.ts  (4 tests) 152ms
+ ✓ tests/integration/dockerMultiHost.test.ts  (7 tests) 404ms
+ ✓ tests/integration/todoLists.test.ts  (12 tests) 225ms
+ ✓ tests/integration/migrationIntegrity.test.ts  (11 tests) 9ms
+ ✓ tests/unit/detectService.test.ts  (22 tests) 1ms
+ ✓ tests/integration/collectionCustom.test.ts  (4 tests) 128ms
+ ✓ tests/integration/userPreferences.test.ts  (11 tests) 1004ms
+ ✓ tests/integration/auth.test.ts  (13 tests) 810ms
+ ✓ tests/integration/collectionPublic.test.ts  (5 tests) 190ms
+ ✓ tests/unit/sonosServices.test.ts  (7 tests) 1ms
+ ✓ tests/integration/statusCheck.test.ts  (7 tests) 219ms
+ ✓ tests/integration/publicWidgets.test.ts  (3 tests) 300ms
+ ✓ tests/integration/dockerAdoption.test.ts  (7 tests) 24ms
+ ✓ tests/integration/scheduledJobs.test.ts  (8 tests) 226ms
+ ✓ tests/integration/dockerContainers.test.ts  (9 tests) 226ms
+ ✓ tests/integration/publicVisibility.test.ts  (4 tests) 229ms
+ ✓ tests/unit/sonosLibrary.test.ts  (9 tests) 1ms
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback 1x1 PNG on fetch failure
+[artCache] Art fetch error: https://example.com/broken.jpg Error: network
+    at /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/unit/artCacheService.test.ts:68:53
+    at file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:781:17)
+    at runSuite (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:958:5)
+    at startTests (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:967:3)
+    at file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+    at withEnv (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback on non-200 response
+[artCache] Art fetch failed: https://example.com/missing.jpg (404)
+
+ ✓ tests/unit/artCacheService.test.ts  (9 tests) 56ms
+ ✓ tests/unit/url-validator.test.ts  (17 tests) 9ms
+ ✓ tests/integration/dockerAction.test.ts  (8 tests) 414ms
+ ✓ tests/unit/env.test.ts  (8 tests) 4ms
+ ✓ tests/integration/sonosArtProxy.test.ts  (5 tests) 217ms
+ ✓ tests/unit/birthdayCalendar.test.ts  (8 tests) 1ms
+Collection display service: warm 90-day p95=8.44ms; 32-stream/731-day=55.80ms; 30 samples; HTTP/browser overhead excluded
+ ✓ tests/integration/collectionPerformance.test.ts  (2 tests) 354ms
+ ✓ tests/unit/sonosLabels.test.ts  (11 tests)
+ ✓ tests/integration/firstRun.test.ts  (5 tests) 127ms
+ ✓ tests/integration/rememberMe.test.ts  (4 tests) 503ms
+ ✓ tests/integration/publicBootstrap.test.ts  (8 tests) 136ms
+ ✓ tests/integration/restorePreview.test.ts  (4 tests) 222ms
+ ✓ tests/integration/dockerConnectionUpgrade.test.ts  (7 tests) 25ms
+ ✓ tests/integration/scheduledJobService.test.ts  (6 tests) 23ms
+ ✓ tests/integration/collectionPreset.test.ts  (1 test) 123ms
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 23ms
+ ✓ tests/unit/publicWidgetSnapshotCache.test.ts  (3 tests) 1ms
+ ✓ tests/integration/rateLimit.test.ts  (2 tests) 1066ms
+ ✓ tests/integration/timezone.test.ts  (4 tests) 229ms
+ ✓ tests/integration/tokenEncryption.test.ts  (6 tests)
+ ✓ tests/integration/staticAssets.test.ts  (5 tests) 37ms
+ ✓ tests/unit/collectionWidgetConfig.test.ts  (2 tests)
+ ✓ tests/unit/timezone-validation.test.ts  (4 tests)
+ ✓ tests/unit/stocksValidation.test.ts  (7 tests)
+ ✓ tests/unit/spotifySearch.test.ts  (1 test)
+
+ Test Files  73 passed (73)
+      Tests  835 passed (835)
+   Start at  17:44:46
+   Duration  38.86s (transform 506ms, setup 454ms, collect 2.19s, tests 36.01s, environment 0ms, prepare 43ms)
+
+$ vitest run src tests/unit
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/useVisibility.test.ts  (5 tests) 9ms
+ ✓ src/hooks/__tests__/useDocker.test.ts  (17 tests) 77ms
+ ✓ src/components/widgets/__tests__/publicWidgetMode.test.tsx  (2 tests) 72ms
+ ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (12 tests) 401ms
+ ✓ tests/unit/collectionCalendar.test.tsx  (8 tests) 420ms
+ ✓ src/components/settings/__tests__/CalendarSourceEditing.test.tsx  (3 tests) 278ms
+ ✓ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (2 tests) 309ms
+ ✓ tests/unit/CollectionManager.test.tsx  (5 tests) 449ms
+ ✓ tests/unit/CollectionStreamEditor.test.tsx  (7 tests) 524ms
+ ✓ src/hooks/__tests__/useTextOverflow.test.ts  (7 tests) 15ms
+ ✓ src/components/widgets/__tests__/DockerWidget.test.tsx  (2 tests) 26ms
+ ✓ src/hooks/__tests__/useIdleDetection.test.ts  (6 tests) 30ms
+ ✓ src/state/__tests__/appShortcutHooks.test.ts  (1 test) 27ms
+ ✓ src/components/widgets/__tests__/DockerConnectionPicker.test.tsx  (2 tests) 127ms
+ ✓ src/components/__tests__/PlaceholderConfigDialog.test.tsx  (3 tests) 266ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.ui.test.tsx  (1 test) 199ms
+stderr | src/pages/LoginPage.test.tsx > LoginPage password visibility > reveals and re-masks the password without changing its value
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/LoginPage.test.tsx  (12 tests) 111ms
+ ✓ src/components/settings/__tests__/ManagementActionAccessibility.test.tsx  (2 tests) 220ms
+ ✓ src/components/sonos/__tests__/QueuePanel.test.tsx  (2 tests) 171ms
+ ✓ src/components/settings/__tests__/MobileSectionSelect.test.tsx  (1 test) 160ms
+ ✓ src/components/__tests__/widgetVisibility.test.tsx  (3 tests) 84ms
+ ✓ src/components/widgets/__tests__/ClockWidget.test.tsx  (1 test) 23ms
+ ✓ tests/unit/CollectionExceptionEditor.test.tsx  (1 test) 158ms
+stderr | src/components/__tests__/EmptyDashboard.test.tsx > EmptyDashboard > gives administrators a direct path to dashboard settings
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/components/__tests__/EmptyDashboard.test.tsx  (2 tests) 112ms
+ ✓ tests/unit/CollectionExplicitDatesEditor.test.tsx  (1 test) 113ms
+ ✓ tests/unit/collectionVisibility.test.tsx  (1 test) 2ms
+ ✓ tests/unit/collectionRestoreWarning.test.tsx  (1 test) 24ms
+ ✓ src/components/settings/__tests__/WidgetsTab.test.tsx  (1 test) 88ms
+ ✓ src/hooks/__tests__/useAdaptivePoll.test.ts  (9 tests) 2ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.ui.test.tsx  (1 test) 222ms
+ ✓ tests/unit/polling.test.ts  (12 tests) 3ms
+ ✓ src/components/settings/__tests__/SettingsDataState.test.tsx  (2 tests) 93ms
+ ✓ src/components/sonos/__tests__/selectPreferredSonosGroup.test.ts  (5 tests) 1ms
+ ✓ tests/unit/browseServices.test.ts  (10 tests) 5ms
+ ✓ src/components/widgets/__tests__/WidgetConfigControls.test.tsx  (1 test) 230ms
+ ✓ tests/unit/collectionDates.test.ts  (5 tests) 4ms
+ ✓ src/lib/parse-yahoo-csv.test.ts  (4 tests) 2ms
+ ✓ src/lib/calendarDates.test.ts  (1 test) 2ms
+ ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 1ms
+ ✓ src/components/settings/__tests__/GroupsTab.test.ts  (1 test) 1ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.test.ts  (6 tests) 1ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.test.ts  (3 tests) 1ms
+ ✓ tests/unit/collectionHooks.test.tsx  (7 tests) 3304ms
+
+ Test Files  43 passed (43)
+      Tests  179 passed (179)
+   Start at  17:45:25
+   Duration  4.54s (transform 2.66s, setup 2ms, collect 10.41s, tests 8.37s, environment 15.27s, prepare 2.12s)
+
+$ pnpm -r run typecheck
+Scope: 2 of 3 workspace projects
+backend typecheck$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+frontend typecheck$ tsc --noEmit
+frontend typecheck: Done
+backend typecheck: Done
+$ pnpm -r run build
+Scope: 2 of 3 workspace projects
+backend build$ tsup src/server.ts --format cjs --dts --clean && tsup scripts/reset-admin.ts --format cjs --outDir dist/scripts --no-dts
+frontend build$ tsc --noEmit && vite build
+backend build: CLI Building entry: src/server.ts
+backend build: CLI Using tsconfig: tsconfig.json
+backend build: CLI tsup v8.5.1
+backend build: CLI Target: es2022
+backend build: CLI Cleaning output folder
+backend build: CJS Build start
+backend build: CJS dist/server.js 637.50 KB
+backend build: CJS ⚡️ Build success in 115ms
+backend build: DTS Build start
+backend build: DTS ⚡️ Build success in 2299ms
+backend build: DTS dist/server.d.ts 499.00 B
+backend build: CLI Building entry: scripts/reset-admin.ts
+backend build: CLI Using tsconfig: tsconfig.json
+backend build: CLI tsup v8.5.1
+backend build: CLI Target: es2022
+backend build: CJS Build start
+backend build: CJS dist/scripts/reset-admin.js 5.05 KB
+backend build: CJS ⚡️ Build success in 33ms
+backend build: Done
+frontend build: vite v5.4.21 building for production...
+frontend build: transforming...
+frontend build: ✓ 2423 modules transformed.
+frontend build: rendering chunks...
+frontend build: computing gzip size...
+frontend build: dist/index.html                                                       0.99 kB │ gzip:   0.54 kB
+frontend build: dist/assets/fira-code-symbols2-wght-normal-CE6EOz_n.woff2             4.12 kB
+frontend build: dist/assets/poppins-latin-ext-700-normal-cby-RkWa.woff2               5.43 kB
+frontend build: dist/assets/poppins-latin-ext-500-normal-CK-6C4Hw.woff2               5.48 kB
+frontend build: dist/assets/poppins-latin-ext-400-normal-by3JarPu.woff2               5.64 kB
+frontend build: dist/assets/space-grotesk-vietnamese-wght-normal-D0rl6rjA.woff2       6.71 kB
+frontend build: dist/assets/fira-sans-vietnamese-400-normal-DUVG35gE.woff             6.81 kB
+frontend build: dist/assets/fira-sans-vietnamese-700-normal-DFi88MGY.woff             6.84 kB
+frontend build: dist/assets/fira-sans-vietnamese-500-normal-UV7M6ot_.woff             6.86 kB
+frontend build: dist/assets/fira-sans-greek-ext-400-normal-ClCfNE6D.woff              6.97 kB
+frontend build: dist/assets/fira-sans-greek-ext-700-normal-C8J5qYMq.woff              7.08 kB
+frontend build: dist/assets/fira-sans-greek-ext-500-normal-Bem4H9fH.woff              7.12 kB
+frontend build: dist/assets/poppins-latin-ext-700-normal-DctTR6Tg.woff                7.33 kB
+frontend build: dist/assets/poppins-latin-ext-500-normal-CgAe2rWW.woff                7.37 kB
+frontend build: dist/assets/poppins-latin-ext-400-normal-DaBSavcJ.woff                7.46 kB
+frontend build: dist/assets/jetbrains-mono-vietnamese-wght-normal-Bt-aOZkq.woff2      7.50 kB
+frontend build: dist/assets/poppins-latin-500-normal-C8OXljZJ.woff2                   7.75 kB
+frontend build: dist/assets/poppins-latin-700-normal-Qrb0O0WB.woff2                   7.82 kB
+frontend build: dist/assets/poppins-latin-400-normal-cpxAROuN.woff2                   7.88 kB
+frontend build: dist/assets/fira-sans-greek-ext-400-normal-ByG7UNQ2.woff2             7.96 kB
+frontend build: dist/assets/fira-sans-greek-ext-500-normal-nq-cjB3m.woff2             8.13 kB
+frontend build: dist/assets/fira-sans-greek-ext-700-normal-C1m6bE4Q.woff2             8.34 kB
+frontend build: dist/assets/fira-sans-vietnamese-500-normal-ChEXCnJy.woff2            8.45 kB
+frontend build: dist/assets/fira-sans-vietnamese-400-normal-ljDTQFsx.woff2            8.50 kB
+frontend build: dist/assets/fira-code-greek-ext-wght-normal-wWus70Ix.woff2            8.61 kB
+frontend build: dist/assets/fira-sans-vietnamese-700-normal-j5oLGLJY.woff2            8.85 kB
+frontend build: dist/assets/fira-sans-cyrillic-400-normal-D9eUeF-O.woff               8.88 kB
+frontend build: dist/assets/fira-sans-cyrillic-700-normal-KyW5QH4H.woff               8.89 kB
+frontend build: dist/assets/fira-sans-cyrillic-500-normal-Daski1k2.woff               8.94 kB
+frontend build: dist/assets/jetbrains-mono-greek-wght-normal-Bw9x6K1M.woff2           9.00 kB
+frontend build: dist/assets/roboto-flex-vietnamese-wght-normal-AVFfiTln.woff2         9.77 kB
+frontend build: dist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2              10.25 kB
+frontend build: dist/assets/poppins-latin-500-normal-DGXqpDMm.woff                   10.37 kB
+frontend build: dist/assets/roboto-flex-cyrillic-ext-wght-normal-CVcCQn0y.woff2      10.39 kB
+frontend build: dist/assets/poppins-latin-700-normal-BVuQR_eA.woff                   10.43 kB
+frontend build: dist/assets/poppins-latin-400-normal-BOb3E3N0.woff                   10.53 kB
+frontend build: dist/assets/fira-sans-cyrillic-400-normal-CKu2TFQr.woff2             10.79 kB
+frontend build: dist/assets/fira-sans-cyrillic-500-normal-CXfldnQ8.woff2             10.82 kB
+frontend build: dist/assets/fira-sans-greek-400-normal-DQ8sF22y.woff                 10.90 kB
+frontend build: dist/assets/fira-sans-greek-700-normal-CJu31rC4.woff                 10.96 kB
+frontend build: dist/assets/fira-sans-greek-500-normal-C9KT8sAy.woff                 11.03 kB
+frontend build: dist/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2               11.23 kB
+frontend build: dist/assets/roboto-flex-greek-wght-normal-DeN4rzfy.woff2             11.44 kB
+frontend build: dist/assets/fira-sans-cyrillic-700-normal-Bl-HczEO.woff2             11.55 kB
+frontend build: dist/assets/fira-code-cyrillic-wght-normal-Y3u8pIsh.woff2            11.98 kB
+frontend build: dist/assets/jetbrains-mono-cyrillic-wght-normal-D73BlboJ.woff2       12.11 kB
+frontend build: dist/assets/fira-sans-greek-400-normal-BFCFncbp.woff2                12.78 kB
+frontend build: dist/assets/fira-sans-greek-500-normal-Cy-TUuxE.woff2                12.98 kB
+frontend build: dist/assets/fira-code-latin-ext-wght-normal-Dvfvaomy.woff2           13.27 kB
+frontend build: dist/assets/fira-code-greek-wght-normal-B2SviObF.woff2               13.78 kB
+frontend build: dist/assets/fira-sans-greek-700-normal-BVfcrbV7.woff2                13.82 kB
+frontend build: dist/assets/outfit-latin-ext-wght-normal-DdQaqQDo.woff2              14.81 kB
+frontend build: dist/assets/jetbrains-mono-latin-ext-wght-normal-DBQx-q_a.woff2      15.20 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-400-normal-Dd5dApAy.woff          15.20 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-700-normal-Gcpdxicj.woff          15.44 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-500-normal-Cixivk4R.woff          15.45 kB
+frontend build: dist/assets/roboto-flex-cyrillic-wght-normal-BJ-nQEdz.woff2          15.65 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-400-normal-Cycyekte.woff2         17.69 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-500-normal-Dkk5LlrU.woff2         17.88 kB
+frontend build: dist/assets/dm-sans-latin-ext-wght-normal-BOFOeGcA.woff2             18.23 kB
+frontend build: dist/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2                18.75 kB
+frontend build: dist/assets/space-grotesk-latin-ext-wght-normal-D9tNdqV9.woff2       18.94 kB
+frontend build: dist/assets/inter-greek-wght-normal-CkhJZR-_.woff2                   19.00 kB
+frontend build: dist/assets/fira-sans-cyrillic-ext-700-normal-BfO9TR-w.woff2         19.47 kB
+frontend build: dist/assets/fira-sans-latin-400-normal-66xCkunx.woff                 21.88 kB
+frontend build: dist/assets/fira-sans-latin-700-normal-DgqLm3Fi.woff                 22.12 kB
+frontend build: dist/assets/fira-sans-latin-500-normal-Bkfzcwmr.woff                 22.12 kB
+frontend build: dist/assets/fira-code-cyrillic-ext-wght-normal-DhYMMuQd.woff2        22.13 kB
+frontend build: dist/assets/space-grotesk-latin-wght-normal-BhU9QXUp.woff2           22.29 kB
+frontend build: dist/assets/roboto-flex-latin-ext-wght-normal-gysdOMcS.woff2         23.48 kB
+frontend build: dist/assets/fira-sans-latin-400-normal-a0AnQzuD.woff2                23.87 kB
+frontend build: dist/assets/fira-sans-latin-500-normal-Bvbxc8ch.woff2                24.06 kB
+frontend build: dist/assets/fira-sans-latin-700-normal-CRhwpWTq.woff2                25.01 kB
+frontend build: dist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2            25.96 kB
+frontend build: dist/assets/outfit-latin-wght-normal-Bc-8i84L.woff2                  32.29 kB
+frontend build: dist/assets/roboto-flex-latin-wght-normal-n-dP9qr2.woff2             34.32 kB
+frontend build: dist/assets/fira-code-latin-wght-normal-CHoedHDv.woff2               36.28 kB
+frontend build: dist/assets/dm-sans-latin-wght-normal-Xz1IZZA0.woff2                 36.93 kB
+frontend build: dist/assets/poppins-devanagari-500-normal-BIdkeU1p.woff2             39.08 kB
+frontend build: dist/assets/poppins-devanagari-700-normal-O-jipLrW.woff2             39.25 kB
+frontend build: dist/assets/poppins-devanagari-400-normal-CJDn6rn8.woff2             39.66 kB
+frontend build: dist/assets/jetbrains-mono-latin-wght-normal-B9CIFXIH.woff2          40.40 kB
+frontend build: dist/assets/fira-sans-latin-ext-400-normal-BCUwhuGB.woff             41.39 kB
+frontend build: dist/assets/fira-sans-latin-ext-700-normal-cfTxGFzJ.woff             42.03 kB
+frontend build: dist/assets/fira-sans-latin-ext-500-normal-CFRf4jcC.woff             42.06 kB
+frontend build: dist/assets/fira-sans-latin-ext-400-normal-BLG_mAEf.woff2            46.40 kB
+frontend build: dist/assets/fira-sans-latin-ext-500-normal-OO1QnNpY.woff2            47.00 kB
+frontend build: dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2                   48.26 kB
+frontend build: dist/assets/fira-sans-latin-ext-700-normal-g2Yrd4J5.woff2            50.37 kB
+frontend build: dist/assets/poppins-devanagari-700-normal-fHs-vx92.woff              52.25 kB
+frontend build: dist/assets/poppins-devanagari-500-normal-DMPDjHtT.woff              52.42 kB
+frontend build: dist/assets/poppins-devanagari-400-normal-CqVvlrh5.woff              52.98 kB
+frontend build: dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2               85.07 kB
+frontend build: dist/assets/index-NTKDRLbd.css                                        0.72 kB │ gzip:   0.35 kB
+frontend build: dist/assets/index-Dqr6y4op.css                                        0.73 kB │ gzip:   0.36 kB
+frontend build: dist/assets/index-DYVl74dH.css                                        1.10 kB │ gzip:   0.43 kB
+frontend build: dist/assets/400-DSpZquNv.css                                          1.16 kB │ gzip:   0.45 kB
+frontend build: dist/assets/500-BXkefx-V.css                                          1.16 kB │ gzip:   0.45 kB
+frontend build: dist/assets/700-CwZnzum0.css                                          1.16 kB │ gzip:   0.45 kB
+frontend build: dist/assets/index-CwmJlCc0.css                                        1.90 kB │ gzip:   0.59 kB
+frontend build: dist/assets/index-CHCa7mkw.css                                        2.00 kB │ gzip:   0.57 kB
+frontend build: dist/assets/index-CJjU_8H4.css                                        2.03 kB │ gzip:   0.60 kB
+frontend build: dist/assets/400-AaHvJgaU.css                                          2.42 kB │ gzip:   0.67 kB
+frontend build: dist/assets/500-D-7kwSSS.css                                          2.42 kB │ gzip:   0.68 kB
+frontend build: dist/assets/700-CbtLBIA2.css                                          2.42 kB │ gzip:   0.68 kB
+frontend build: dist/assets/index-BFlYNOnv.css                                        4.60 kB │ gzip:   2.69 kB
+frontend build: dist/assets/dashboards-ECv-A2F7.css                                   7.86 kB │ gzip:   1.54 kB
+frontend build: dist/assets/DashboardPage-B4DexIfW.css                                8.82 kB │ gzip:   2.21 kB
+frontend build: dist/assets/index-BaUD2j6x.css                                      106.25 kB │ gzip:  17.71 kB
+frontend build: dist/assets/user-plus-DlPJBB5H.js                                     0.53 kB │ gzip:   0.37 kB │ map:     1.37 kB
+frontend build: dist/assets/eye-off-DYCXhYxk.js                                       0.65 kB │ gzip:   0.41 kB │ map:     1.44 kB
+frontend build: dist/assets/log-in--bLpATdw.js                                        0.83 kB │ gzip:   0.42 kB │ map:     2.07 kB
+frontend build: dist/assets/FirstRunPage-BL5auHTB.js                                  2.30 kB │ gzip:   1.03 kB │ map:     6.93 kB
+frontend build: dist/assets/LoginPage-DGhbs2EJ.js                                     3.41 kB │ gzip:   1.56 kB │ map:    10.10 kB
+frontend build: dist/assets/card-CffC1cSR.js                                         37.78 kB │ gzip:  12.31 kB │ map:   194.23 kB
+frontend build: dist/assets/index-BE6q2ENa.js                                        42.35 kB │ gzip:  12.97 kB │ map:   113.92 kB
+frontend build: dist/assets/query-C98bdNS6.js                                        55.48 kB │ gzip:  16.83 kB │ map:   198.84 kB
+frontend build: dist/assets/grid-Clhrb2AM.js                                         84.81 kB │ gzip:  23.12 kB │ map:   381.20 kB
+frontend build: dist/assets/vendor-BPv6mdeq.js                                      198.37 kB │ gzip:  64.89 kB │ map:   757.12 kB
+frontend build: dist/assets/SettingsPage--9jpA2_R.js                                214.55 kB │ gzip:  49.21 kB │ map:   675.92 kB
+frontend build: dist/assets/dashboards-CGEX40r1.js                                  419.14 kB │ gzip: 125.34 kB │ map: 1,932.33 kB
+frontend build: dist/assets/DashboardPage-BtgN6GjM.js                             1,149.80 kB │ gzip: 244.05 kB │ map: 3,445.26 kB
+frontend build: ✓ built in 2.99s
+frontend build: (!) Some chunks are larger than 500 kB after minification. Consider:
+frontend build: - Using dynamic import() to code-split the application
+frontend build: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+frontend build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+frontend build: Done
+[2m[WebServer] [22m[2m$ node scripts/start-e2e-server.mjs[22m
+[2m[WebServer] [22m[2m$ tsc --noEmit && vite build[22m
+[2m[WebServer] [22m[33m
+[2m[WebServer] [22m(!) Some chunks are larger than 500 kB after minification. Consider:
+[2m[WebServer] [22m- Using dynamic import() to code-split the application
+[2m[WebServer] [22m- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[2m[WebServer] [22m- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+
+Running 9 tests using 1 worker
+
+  ✓  1 [setup] › tests/e2e/auth.setup.ts:17:3 › Authenticated E2E setup › completes first-run and stores the admin session (901ms)
+  ✓  2 [chromium] › tests/e2e/collections-custom.spec.ts:4:1 › custom event supports weekly multiweekday repeat, disable and deliberate deletion (1.1s)
+  ✓  3 [chromium] › tests/e2e/collections-irregular.spec.ts:3:1 › holiday move followed by deliberate explicit switch persists only finite dates (675ms)
+  ✓  4 [chromium] › tests/e2e/collections-preset.spec.ts:3:1 › preset setup, existing Calendar, month detail and reload offline (757ms)
+  ✓  5 [chromium] › tests/e2e/collections-reading.spec.ts:4:1 › foreign visitor sees all 32 complete named collections and restored dialog focus (334ms)
+  ✓  6 [mobile-safari] › tests/e2e/collections-custom.mobile.spec.ts:4:1 › 360px custom editor exposes seven keyboard-operable weekdays (3.0s)
+  ✓  7 [mobile-safari] › tests/e2e/collections-irregular.mobile.spec.ts:3:1 › 360px WebKit holiday move and explicit dates with destructive confirmation (1.7s)
+  ✓  8 [mobile-safari] › tests/e2e/collections-preset.mobile.spec.ts:3:1 › 360px WebKit preset reading and complete month detail (1.7s)
+  ✓  9 [mobile-safari] › tests/e2e/collections-reading.mobile.spec.ts:4:1 › 360px WebKit crowded names, keyboard and light-dark reduced motion (784ms)
+
+  9 passed (21.7s)
+$ eslint . --max-warnings=0

@@ -25,6 +25,7 @@
 | 19 | Independent custom event review | Validated — public identity correction, 835 backend / 5 targeted browser tests; owner validation pending | [19-phase-custom-event-review.md](19-phase-custom-event-review.md) |
 | 20 | Custom event editor density | Validated — compact controls, anchored icon palette; 12 unit / 3 browser tests, typecheck/build/full lint | [20-phase-editor-density.md](20-phase-editor-density.md) |
 | 21 | Final design/code/migration review | Passed with documented intermittent reruns — Opus no significant findings, 835 backend / 179 unit / 9 browser; all migration suites and Docker upgrade passed | [21-phase-final-review.md](21-phase-final-review.md) |
+| 22 | PR preparation | Passed — 835 backend / 179 unit / 9 browser, build/typecheck/lint and real Docker upgrade; Main 3.2.15 | [22-phase-pr-preparation.md](22-phase-pr-preparation.md) |
 
 ## Overall Status
 
