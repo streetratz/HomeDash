@@ -1,0 +1,64 @@
+# Command: pnpm --filter backend exec vitest run tests/unit/collectionWidgetConfig.test.ts
+# Phase:   07-phase-foundational
+# Run:     1
+# Time:    2026-10-10T00:34:56+00:00
+# Exit:    1
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ❯ tests/unit/collectionWidgetConfig.test.ts  (2 tests | 2 failed) 6ms
+   ❯ tests/unit/collectionWidgetConfig.test.ts > Calendar collection selections > defaults both lists empty without changing existing source IDs
+     → expected undefined to deeply equal []
+   ❯ tests/unit/collectionWidgetConfig.test.ts > Calendar collection selections > accepts unique public subset only, <=32 UUIDs, independent of sources
+     → expected false to be true // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/collectionWidgetConfig.test.ts > Calendar collection selections > defaults both lists empty without changing existing source IDs
+AssertionError: expected undefined to deeply equal []
+
+- Expected: 
+Array []
+
++ Received: 
+undefined
+
+ ❯ tests/unit/collectionWidgetConfig.test.ts:8:40
+      6|     const config = CalendarConfigSchema.parse({ sourceIds: [collection…
+      7|     expect(config.sourceIds).toEqual([collectionIds.provider]);
+      8|     expect(config.collectionStreamIds).toEqual([]);
+       |                                        ^
+      9|     expect(config.publicCollectionStreamIds).toEqual([]);
+     10|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/unit/collectionWidgetConfig.test.ts > Calendar collection selections > accepts unique public subset only, <=32 UUIDs, independent of sources
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/unit/collectionWidgetConfig.test.ts:13:134
+     11|   it('accepts unique public subset only, <=32 UUIDs, independent of so…
+     12|     const ids = [collectionIds.general, collectionIds.recycling];
+     13|     expect(CalendarConfigSchema.safeParse({ sourceIds: [], collectionS…
+       |                                                                                                                                      ^
+     14|     for (const config of [
+     15|       { collectionStreamIds: ids, publicCollectionStreamIds: [collecti…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  11:34:55
+   Duration  495ms (transform 74ms, setup 287ms, collect 31ms, tests 6ms, environment 0ms, prepare 58ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/collectionWidgetConfig.test.ts

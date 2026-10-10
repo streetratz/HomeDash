@@ -1,0 +1,17 @@
+# Command: pnpm lint
+# Phase:   07-phase-foundational
+# Run:     1
+# Time:    2026-10-10T00:40:23+00:00
+# Exit:    1
+---
+$ eslint . --max-warnings=0
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/collectionService.ts
+  18:17  error  Unexpected control character(s) in regular expression: \x00, \x1f  no-control-regex
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/unit/collectionService.test.ts
+  43:25  error  '_exceptions' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 2 problems (2 errors, 0 warnings)
+
+[ELIFECYCLE] Command failed with exit code 1.

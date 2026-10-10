@@ -1,0 +1,46 @@
+# Command: pnpm --filter backend exec vitest run tests/unit/collectionDates.test.ts tests/unit/collectionService.test.ts tests/unit/collectionWidgetConfig.test.ts tests/integration/collectionMigration.test.ts tests/integration/collectionBackup.test.ts tests/integration/publicBootstrapProjection.test.ts tests/integration/backup.test.ts tests/integration/restore.test.ts && pnpm --filter frontend exec vitest run tests/unit/collectionDates.test.ts tests/unit/collectionRestoreWarning.test.tsx
+# Phase:   07-phase-foundational
+# Run:     2
+# Time:    2026-10-10T00:37:15+00:00
+# Exit:    1
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ❯ tests/integration/restore.test.ts  (0 test)
+ ❯ tests/integration/backup.test.ts  (0 test)
+ ❯ tests/unit/collectionService.test.ts  (0 test)
+ ❯ tests/integration/publicBootstrapProjection.test.ts  (0 test)
+ ❯ tests/integration/collectionBackup.test.ts  (0 test)
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 28ms
+ ❯ tests/integration/collectionMigration.test.ts  (0 test)
+ ✓ tests/unit/collectionWidgetConfig.test.ts  (2 tests) 2ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/backup.test.ts [ tests/integration/backup.test.ts ]
+ FAIL  tests/integration/collectionBackup.test.ts [ tests/integration/collectionBackup.test.ts ]
+ FAIL  tests/integration/collectionMigration.test.ts [ tests/integration/collectionMigration.test.ts ]
+ FAIL  tests/integration/publicBootstrapProjection.test.ts [ tests/integration/publicBootstrapProjection.test.ts ]
+ FAIL  tests/integration/restore.test.ts [ tests/integration/restore.test.ts ]
+ FAIL  tests/unit/collectionService.test.ts [ tests/unit/collectionService.test.ts ]
+Error: Transform failed with 1 error:
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/publicVisibility.ts:97:2: ERROR: Unexpected "export"
+ ❯ failureErrorWithLog ../node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:1472:15
+ ❯ ../node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:755:50
+ ❯ responseCallbacks.<computed> ../node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:622:9
+ ❯ handleIncomingPacket ../node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:677:12
+ ❯ Socket.readFromStdout ../node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:600:7
+ ❯ Socket.emit node:events:509:28
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ Test Files  6 failed | 2 passed (8)
+      Tests  9 passed (9)
+   Start at  11:37:14
+   Duration  760ms (transform 135ms, setup 281ms, collect 12ms, tests 30ms, environment 0ms, prepare 58ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/collectionDates.test.ts tests/unit/collectionService.test.ts tests/unit/collectionWidgetConfig.test.ts tests/integration/collectionMigration.test.ts tests/integration/collectionBackup.test.ts tests/integration/publicBootstrapProjection.test.ts tests/integration/backup.test.ts tests/integration/restore.test.ts

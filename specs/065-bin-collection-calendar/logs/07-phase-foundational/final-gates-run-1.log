@@ -1,0 +1,39 @@
+# Command: pnpm --filter backend exec vitest run tests/unit/collectionDates.test.ts tests/unit/collectionService.test.ts tests/unit/collectionWidgetConfig.test.ts tests/integration/collectionMigration.test.ts tests/integration/collectionBackup.test.ts tests/integration/publicBootstrapProjection.test.ts tests/integration/backup.test.ts tests/integration/restore.test.ts tests/integration/migrationIntegrity.test.ts && pnpm --filter frontend exec vitest run tests/unit/collectionDates.test.ts tests/unit/collectionRestoreWarning.test.tsx && pnpm --filter backend typecheck && pnpm --filter frontend typecheck && pnpm lint
+# Phase:   07-phase-foundational
+# Run:     1
+# Time:    2026-10-10T00:41:21+00:00
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/restore.test.ts  (7 tests) 1274ms
+ ✓ tests/unit/collectionService.test.ts  (7 tests) 217ms
+ ✓ tests/integration/backup.test.ts  (8 tests) 246ms
+ ✓ tests/integration/publicBootstrapProjection.test.ts  (4 tests) 264ms
+ ✓ tests/integration/migrationIntegrity.test.ts  (11 tests) 10ms
+ ✓ tests/integration/collectionBackup.test.ts  (4 tests) 162ms
+ ✓ tests/integration/collectionMigration.test.ts  (3 tests) 134ms
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 24ms
+ ✓ tests/unit/collectionWidgetConfig.test.ts  (2 tests) 1ms
+
+ Test Files  9 passed (9)
+      Tests  53 passed (53)
+   Start at  11:40:49
+   Duration  3.77s (transform 375ms, setup 256ms, collect 1.04s, tests 2.33s, environment 0ms, prepare 40ms)
+
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionDates.test.ts  (5 tests) 12ms
+ ✓ tests/unit/collectionRestoreWarning.test.tsx  (1 test) 18ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  11:40:53
+   Duration  866ms (transform 44ms, setup 0ms, collect 215ms, tests 30ms, environment 374ms, prepare 64ms)
+
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+$ tsc --noEmit
+$ eslint . --max-warnings=0

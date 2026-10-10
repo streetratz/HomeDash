@@ -16,7 +16,8 @@ import {
   type BackupSummary,
   type RestorePreview,
 } from './backupTypes.js';
-import { Errors } from '../lib/errors.js';
+import { AppError, ErrorCode, Errors } from '../lib/errors.js';
+import { invalidateCollectionEpoch, validateCollectionBackup } from './collectionService.js';
 import { getAppLogger } from '../lib/logger.js';
 import type { SQLiteTable } from 'drizzle-orm/sqlite-core';
 import { eq } from 'drizzle-orm';
@@ -87,6 +88,10 @@ const TABLE_MAP: Record<keyof BackupData, SQLiteTable> = {
   scheduledJobs: schema.scheduledJobs,
   caldavAccounts: schema.caldavAccounts,
   oauthAccounts: schema.oauthAccounts,
+  collectionHousehold: schema.collectionHousehold,
+  collectionStreams: schema.collectionStreams,
+  collectionExplicitDates: schema.collectionExplicitDates,
+  collectionExceptions: schema.collectionExceptions,
 };
 
 /** FK-safe insertion order: parents before children. */
@@ -118,6 +123,10 @@ const INSERT_ORDER: (keyof BackupData)[] = [
   'todoLists',
   'todoItems',
   'scheduledJobs',
+  'collectionHousehold',
+  'collectionStreams',
+  'collectionExplicitDates',
+  'collectionExceptions',
 ];
 
 /** FK-safe deletion order: exact reverse of parent-first insertion. */
@@ -321,7 +330,7 @@ export function previewRestore(raw: unknown): RestorePreview {
   const result = backupFileSchema.safeParse(raw);
   if (!result.success) {
     throw Errors.badRequest(
-      `Invalid backup file: ${result.error.errors.map((e) => e.message).join(', ')}`,
+      'Invalid or unsupported backup file. Collection backups require a v2-capable HomeDash reader.',
     );
   }
   const backup = result.data;
@@ -333,6 +342,7 @@ export function previewRestore(raw: unknown): RestorePreview {
   }
 
   const warnings: string[] = [];
+  if (backup.version === 1) warnings.push('This v1 backup contains no collections. Full replacement will remove all current collection configuration.');
 
   if (backup.data.oauthAccounts.length > 0) {
     warnings.push(
@@ -384,18 +394,19 @@ export function previewRestore(raw: unknown): RestorePreview {
 
 // ── Restore ──────────────────────────────────────────────────────────────────
 
-export function executeRestore(backup: BackupFile, restoringUserId: string): BackupSummary {
+export function executeRestore(raw: unknown, restoringUserId: string): BackupSummary {
   if (restoreInProgress) {
     throw Errors.conflict('A restore operation is already in progress.');
   }
 
   restoreInProgress = true;
   const log = getAppLogger();
-  log.info(
-    { component: 'restore', tableCount: Object.keys(backup.data).length },
-    'Restore started',
-  );
+  log.info({ component: 'restore' }, 'Restore started');
   try {
+    const parsed = backupFileSchema.safeParse(raw);
+    if (!parsed.success) throw Errors.validationError('Invalid backup configuration');
+    const backup = parsed.data;
+    validateCollectionBackup(backup.data);
     const db = getDb();
     const restoreData = prepareRestoreData(backup, restoringUserId);
 
@@ -424,16 +435,19 @@ export function executeRestore(backup: BackupFile, restoringUserId: string): Bac
       }
     });
 
+    invalidateCollectionEpoch();
     log.info({ component: 'restore', summary: backup.summary }, 'Restore complete');
     return backup.summary;
   } catch (err) {
-    log.error({ component: 'restore', err }, 'Restore failed; transaction rolled back');
+    // Never hand driver errors to pino: Drizzle may include full SQL bind values.
+    log.error({ component: 'restore', reason: err instanceof AppError ? err.code : 'storage_failure' }, 'Restore failed; transaction rolled back');
     if (isSqliteConstraintError(err)) {
       throw Errors.validationError(
         'Backup data violates database integrity constraints and could not be restored.',
       );
     }
-    throw err;
+    if (err instanceof AppError) throw err;
+    throw new AppError(ErrorCode.INTERNAL, 'Restore failed; no data was replaced. Retry the request.', 500);
   } finally {
     restoreInProgress = false;
   }

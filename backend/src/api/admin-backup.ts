@@ -104,10 +104,10 @@ export function registerAdminBackupRoutes(app: FastifyInstance): void {
       // Validate the backup payload
       const result = backupFileSchema.safeParse(body.backup);
       if (!result.success) {
-        throw Errors.badRequest(`Invalid backup file: ${result.error.errors.map((e) => e.message).join(', ')}`);
+        throw Errors.badRequest('Invalid or unsupported backup file. Collection backups require a v2-capable reader.');
       }
 
-      const summary = executeRestore(result.data, request.user!.id);
+      const summary = executeRestore(body.backup, request.user!.id);
       return reply.send({ success: true, summary });
     },
   });

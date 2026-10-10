@@ -11,8 +11,75 @@ import {
   uniqueIndex,
   index,
   check,
+  primaryKey,
 } from 'drizzle-orm/sqlite-core';
 import { relations, sql } from 'drizzle-orm';
+
+// Authoritative household civil-date configuration, independent of providers.
+export const collectionHousehold = sqliteTable('collection_household', {
+  id: text('id').primaryKey(),
+  timezone: text('timezone').notNull(),
+  providerLabel: text('provider_label'),
+  revision: integer('revision').notNull(),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+}, t => [
+  check('collection_household_singleton', sql`${t.id} = 'global'`),
+  check('collection_household_revision', sql`${t.revision} >= 1`),
+]);
+
+export const collectionStreams = sqliteTable('collection_streams', {
+  id: text('id').primaryKey(),
+  householdId: text('household_id').notNull().references(() => collectionHousehold.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  color: text('color').notNull(),
+  enabled: integer('enabled', { mode: 'boolean' }).notNull(),
+  sortOrder: integer('sort_order').notNull(),
+  scheduleMode: text('schedule_mode', { enum: ['regular', 'explicit'] }).notNull(),
+  weekdaysMask: integer('weekdays_mask'),
+  intervalWeeks: integer('interval_weeks'),
+  anchorDate: text('anchor_date'),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+}, t => [
+  index('collection_streams_household_idx').on(t.householdId),
+  check('collection_streams_order', sql`${t.sortOrder} BETWEEN 0 AND 31`),
+  check('collection_streams_enabled', sql`${t.enabled} IN (0,1)`),
+  check('collection_streams_shape', sql`(
+    ${t.scheduleMode} = 'regular' AND ${t.weekdaysMask} IS NOT NULL AND ${t.weekdaysMask} BETWEEN 1 AND 127
+    AND ${t.intervalWeeks} IS NOT NULL AND ${t.intervalWeeks} BETWEEN 1 AND 52 AND ${t.anchorDate} IS NOT NULL
+  ) OR (
+    ${t.scheduleMode} = 'explicit' AND ${t.weekdaysMask} IS NULL AND ${t.intervalWeeks} IS NULL AND ${t.anchorDate} IS NULL
+  )`),
+]);
+
+export const collectionExplicitDates = sqliteTable('collection_explicit_dates', {
+  streamId: text('stream_id').notNull().references(() => collectionStreams.id, { onDelete: 'cascade' }),
+  date: text('date').notNull(),
+}, t => [
+  primaryKey({ columns: [t.streamId, t.date] }),
+]);
+
+export const collectionExceptions = sqliteTable('collection_exceptions', {
+  id: text('id').primaryKey(),
+  streamId: text('stream_id').notNull().references(() => collectionStreams.id, { onDelete: 'cascade' }),
+  kind: text('kind', { enum: ['skip', 'replace', 'add'] }).notNull(),
+  originalDate: text('original_date'),
+  actualDate: text('actual_date'),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+}, t => [
+  index('collection_exceptions_stream_idx').on(t.streamId),
+  uniqueIndex('collection_exceptions_origin_idx').on(t.streamId, t.originalDate),
+  uniqueIndex('collection_exceptions_actual_idx').on(t.streamId, t.actualDate),
+  check('collection_exceptions_shape', sql`(
+    ${t.kind} = 'skip' AND ${t.originalDate} IS NOT NULL AND ${t.actualDate} IS NULL
+  ) OR (
+    ${t.kind} = 'replace' AND ${t.originalDate} IS NOT NULL AND ${t.actualDate} IS NOT NULL AND ${t.originalDate} != ${t.actualDate}
+  ) OR (
+    ${t.kind} = 'add' AND ${t.originalDate} IS NULL AND ${t.actualDate} IS NOT NULL
+  )`),
+]);
 
 // ─── Users ───────────────────────────────────────────────────────────────────
 

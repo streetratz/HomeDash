@@ -1,0 +1,86 @@
+# Command: pnpm --filter backend exec vitest run tests/integration/collectionMigration.test.ts tests/integration/collectionBackup.test.ts
+# Phase:   07-phase-foundational
+# Run:     1
+# Time:    2026-10-10T00:32:18+00:00
+# Exit:    1
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ❯ tests/integration/collectionBackup.test.ts  (2 tests | 2 failed) 89ms
+   ❯ tests/integration/collectionBackup.test.ts > portable collection format > exports v2 with all four arrays, required rather than optional
+     → expected 1 to be 2 // Object.is equality
+   ❯ tests/integration/collectionBackup.test.ts > portable collection format > warns that collection-free v1 is full replacement and rejects collection-bearing v1
+     → expected 'Your current administrator username a…' to match /no collections.*remov/i
+ ❯ tests/integration/collectionMigration.test.ts  (2 tests | 1 failed) 34ms
+   ❯ tests/integration/collectionMigration.test.ts > additive collection migration > creates four empty authoritative tables without seeding a preset
+     → expected [] to have a length of 4 but got +0
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/collectionBackup.test.ts > portable collection format > exports v2 with all four arrays, required rather than optional
+AssertionError: expected 1 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 1
+
+ ❯ tests/integration/collectionBackup.test.ts:12:28
+     10|   it('exports v2 with all four arrays, required rather than optional',…
+     11|     const backup = exportBackup();
+     12|     expect(backup.version).toBe(2);
+       |                            ^
+     13|     for (const key of ['collectionHousehold', 'collectionStreams', 'co…
+     14|       expect(backup.data).toHaveProperty(key, []);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/integration/collectionBackup.test.ts > portable collection format > warns that collection-free v1 is full replacement and rejects collection-bearing v1
+AssertionError: expected 'Your current administrator username a…' to match /no collections.*remov/i
+
+- Expected: 
+/no collections.*remov/i
+
++ Received: 
+"Your current administrator username and password will be preserved. Other restored users will require a password reset. All current sessions will be invalidated — all users will need to log in again. All existing data will be replaced with the backup contents."
+
+ ❯ tests/integration/collectionBackup.test.ts:24:52
+     22|     raw.version = 1;
+     23|     for (const key of ['collectionHousehold', 'collectionStreams', 'co…
+     24|     expect(previewRestore(raw).warnings.join(' ')).toMatch(/no collect…
+       |                                                    ^
+     25|     raw.data['collectionHousehold'] = [];
+     26|     expect(backupFileSchema.safeParse(raw).success).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/integration/collectionMigration.test.ts > additive collection migration > creates four empty authoritative tables without seeding a preset
+AssertionError: expected [] to have a length of 4 but got +0
+
+- Expected
++ Received
+
+- 4
++ 0
+
+ ❯ tests/integration/collectionMigration.test.ts:14:20
+     12|     const sqlite = getSqliteDb();
+     13|     const tables = sqlite.prepare("SELECT name FROM sqlite_master WHER…
+     14|     expect(tables).toHaveLength(4);
+       |                    ^
+     15|     for (const row of tables as { name: string }[]) {
+     16|       expect(sqlite.prepare(`SELECT count(*) AS count FROM ${row.name}…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+ Test Files  2 failed (2)
+      Tests  3 failed | 1 passed (4)
+   Start at  11:32:16
+   Duration  1.24s (transform 298ms, setup 240ms, collect 727ms, tests 123ms, environment 0ms, prepare 41ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/integration/collectionMigration.test.ts tests/integration/collectionBackup.test.ts

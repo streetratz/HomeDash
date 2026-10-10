@@ -1,0 +1,35 @@
+# Command: pnpm --filter backend exec vitest run tests/unit/collectionDates.test.ts tests/unit/collectionService.test.ts tests/unit/collectionWidgetConfig.test.ts tests/integration/collectionMigration.test.ts tests/integration/collectionBackup.test.ts tests/integration/publicBootstrapProjection.test.ts tests/integration/backup.test.ts tests/integration/restore.test.ts && pnpm --filter frontend exec vitest run tests/unit/collectionDates.test.ts tests/unit/collectionRestoreWarning.test.tsx
+# Phase:   07-phase-foundational
+# Run:     3
+# Time:    2026-10-10T00:38:49+00:00
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/restore.test.ts  (7 tests) 1177ms
+ ✓ tests/integration/backup.test.ts  (8 tests) 290ms
+ ✓ tests/unit/collectionService.test.ts  (6 tests) 46ms
+ ✓ tests/integration/publicBootstrapProjection.test.ts  (3 tests) 270ms
+ ✓ tests/integration/collectionBackup.test.ts  (4 tests) 162ms
+ ✓ tests/integration/collectionMigration.test.ts  (3 tests) 147ms
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 25ms
+ ✓ tests/unit/collectionWidgetConfig.test.ts  (2 tests) 1ms
+
+ Test Files  8 passed (8)
+      Tests  40 passed (40)
+   Start at  11:38:44
+   Duration  3.56s (transform 356ms, setup 297ms, collect 985ms, tests 2.12s, environment 0ms, prepare 44ms)
+
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionDates.test.ts  (5 tests) 12ms
+ ✓ tests/unit/collectionRestoreWarning.test.tsx  (1 test) 20ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  11:38:48
+   Duration  950ms (transform 59ms, setup 0ms, collect 235ms, tests 32ms, environment 404ms, prepare 83ms)
+

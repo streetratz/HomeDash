@@ -2,7 +2,7 @@
  * T017: Backup & restore TanStack Query hooks.
  */
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { apiClient } from '../lib/apiClient.js';
 
@@ -103,9 +103,14 @@ export function usePreviewRestore() {
 // ── Execute restore ───────────────────────────────────────────────────────────
 
 export function useExecuteRestore() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (backup: unknown): Promise<{ success: boolean; summary: BackupSummary }> => {
       return apiClient.post('/api/admin/backup/restore', { backup, confirmationWord: 'RESTORE' });
+    },
+    onSuccess: async () => {
+      queryClient.removeQueries({ queryKey: ['collections'] });
+      await queryClient.invalidateQueries({ queryKey: ['collections'] });
     },
   });
 }

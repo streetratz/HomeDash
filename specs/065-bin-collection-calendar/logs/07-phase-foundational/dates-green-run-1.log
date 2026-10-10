@@ -1,0 +1,17 @@
+# Command: pnpm --filter backend exec vitest run tests/unit/collectionDates.test.ts
+# Phase:   07-phase-foundational
+# Run:     1
+# Time:    2026-10-10T00:33:12+00:00
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 28ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  11:33:11
+   Duration  407ms (transform 46ms, setup 228ms, collect 8ms, tests 28ms, environment 0ms, prepare 34ms)
+

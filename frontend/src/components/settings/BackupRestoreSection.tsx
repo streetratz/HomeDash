@@ -108,6 +108,8 @@ export function BackupRestoreSection() {
           <CardTitle className="text-base">Backup & Restore</CardTitle>
           <CardDescription>
             Download a portable configuration backup or restore one into this installation.
+            Collection configuration uses backup v2; older readers must be upgraded
+            before restoring a v2 file. Restoring v1 replaces current collections with none.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
