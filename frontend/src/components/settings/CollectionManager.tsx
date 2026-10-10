@@ -5,6 +5,7 @@ import { CollectionGroup } from '../calendar/CollectionGroup.js';
 import { Button } from '../ui/button.js';
 import { Input } from '../ui/input.js';
 import { ApiRequestError } from '../../lib/apiClient.js';
+import { CollectionStreamEditor } from './CollectionStreamEditor.js';
 
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 export function buildCollectionPreset(weekday: number, anchorDate: string): CollectionStream[] {
@@ -32,6 +33,7 @@ export function CollectionManager() {
   const [confirmed, setConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [conflict, setConflict] = useState(false);
+  const [removeId, setRemoveId] = useState<string | null>(null);
   const busy = previewMutation.isPending || saveMutation.isPending;
   const change = (next: CollectionDraft) => { setDraft(next); setPreview(null); setError(null); };
   function begin(preset: boolean) {
@@ -67,9 +69,33 @@ export function CollectionManager() {
   async function rebase() {
     const latest = await config.refetch();
     if (draft && latest.data) {
-      change({ ...draft, expectedRevision: latest.data.revision, runtimeEpoch: latest.data.runtimeEpoch });
+      change({ ...draft, expectedRevision: latest.data.revision, runtimeEpoch: latest.data.runtimeEpoch,
+        confirmations: { timezoneConfirmed: false, deletedStreamIds: [], removedExceptionIds: [], clearedExplicitStreamIds: [] } });
       setConflict(false);
     }
+  }
+  function addRegular() {
+    if (!draft || draft.streams.length >= 32) return;
+    const candidate = new Date(`${draft.range.from}T00:00:00Z`);
+    const normal = Number.isFinite(candidate.getTime()) ? addCollectionDays(draft.range.from, (8 - (candidate.getUTCDay() || 7)) % 7) : '2026-10-12';
+    change({ ...draft, streams: [...draft.streams, { id: crypto.randomUUID(), name: 'New collection', color: '#64748B', enabled: true,
+      schedule: { mode: 'regular', weekdays: [1], intervalWeeks: 1, anchorDate: normal }, exceptions: [] }] });
+  }
+  function removeStream(id: string) {
+    if (!draft) return;
+    const persisted = config.data?.streams.find(s => s.id === id);
+    change({ ...draft, streams: draft.streams.filter(s => s.id !== id), confirmations: {
+      ...draft.confirmations, deletedStreamIds: persisted ? [...new Set([...draft.confirmations.deletedStreamIds, id])] : draft.confirmations.deletedStreamIds,
+    } });
+    setRemoveId(null);
+  }
+  function reorder(index: number, direction: number) {
+    if (!draft) return;
+    const streams = [...draft.streams];
+    const other = index + direction;
+    if (other < 0 || other >= streams.length) return;
+    [streams[index], streams[other]] = [streams[other]!, streams[index]!];
+    change({ ...draft, streams });
   }
   if (config.isLoading) return <p role="status">Loading household collections…</p>;
   if (config.isError) return <div role="alert">Collections unavailable. <Button onClick={() => void config.refetch()}>Retry</Button></div>;
@@ -114,7 +140,23 @@ export function CollectionManager() {
           <label className="block text-sm">Household timezone<Input value={draft.timezone} maxLength={100} onChange={e => change({ ...draft, timezone: e.target.value, confirmations: { ...draft.confirmations, timezoneConfirmed: false } })} /></label>
           <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" checked={draft.confirmations.timezoneConfirmed} onChange={e => change({ ...draft, confirmations: { ...draft.confirmations, timezoneConfirmed: e.target.checked } })} />Confirm household timezone</label>
           <label className="block text-sm">Provider label (private, optional)<Input value={draft.providerLabel ?? ''} maxLength={120} onChange={e => change({ ...draft, providerLabel: e.target.value || null })} /></label>
-          <ul className="space-y-1 text-sm">{draft.streams.map(s => <li key={s.id}>{s.name} · {s.schedule.mode === 'regular' ? `Every ${s.schedule.intervalWeeks} week${s.schedule.intervalWeeks === 1 ? '' : 's'}` : 'Explicit dates'}</li>)}</ul>
+          <p className="text-sm text-muted-foreground">Up to 32 independent streams. New streams are not selected or published automatically. Disabled streams keep their rules and phase.</p>
+          {!draft.streams.length && <p className="text-sm">No streams configured. Add a regular stream or save an empty household configuration.</p>}
+          {draft.streams.map((s, index) => <fieldset key={s.id} aria-label={`Collection stream ${index + 1}: ${s.name}`} className="min-w-0 space-y-3 rounded-lg border border-border p-3">
+            <legend className="max-w-full break-words px-1 text-sm font-semibold">{s.name || `Stream ${index + 1}`}</legend>
+            <CollectionStreamEditor stream={s} onChange={next => change({ ...draft, streams: draft.streams.map(existing => existing.id === s.id ? next : existing) })} />
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" className="min-h-11" disabled={index === 0} onClick={() => reorder(index, -1)}>Move up</Button>
+              <Button variant="outline" className="min-h-11" disabled={index === draft.streams.length - 1} onClick={() => reorder(index, 1)}>Move down</Button>
+              <Button variant="outline" className="min-h-11" onClick={() => setRemoveId(s.id)}>Remove stream</Button>
+            </div>
+            {removeId === s.id && <div role="alert" className="space-y-2 text-sm">
+              <p>Remove {s.name}, its dates and exceptions, and its Calendar selections? Other streams and providers are unchanged. Removal applies only when you save.</p>
+              <Button className="min-h-11" variant="destructive" onClick={() => removeStream(s.id)}>Confirm remove stream</Button>
+              <Button className="min-h-11" variant="ghost" onClick={() => setRemoveId(null)}>Keep stream</Button>
+            </div>}
+          </fieldset>)}
+          <Button className="min-h-11" variant="outline" disabled={busy || draft.streams.length >= 32} onClick={addRegular}>Add regular stream</Button>
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="text-sm">Preview from<Input type="date" value={draft.range.from} onChange={e => change({ ...draft, range: { ...draft.range, from: e.target.value } })} /></label>
             <label className="text-sm">Preview to<Input type="date" value={draft.range.to} onChange={e => change({ ...draft, range: { ...draft.range, to: e.target.value } })} /></label>

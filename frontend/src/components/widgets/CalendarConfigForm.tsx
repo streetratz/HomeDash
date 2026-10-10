@@ -4,7 +4,7 @@
  * Source selection, view mode, days ahead, max events, show location toggle.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Pencil, Check } from 'lucide-react';
 import { toast } from 'sonner';
@@ -68,6 +68,16 @@ export function CalendarConfigForm({ config, onChange }: WidgetConfigFormProps) 
   const sources = sourcesQuery.data ?? [];
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
+  useEffect(() => {
+    if (!collections.data) return;
+    const previous = parseConfig(config);
+    const available = new Set(collections.data.streams.map(s => s.id));
+    const selected = previous.collectionStreamIds.filter(id => available.has(id));
+    const published = previous.publicCollectionStreamIds.filter(id => selected.includes(id));
+    if (selected.length !== previous.collectionStreamIds.length || published.length !== previous.publicCollectionStreamIds.length) {
+      onChange({ ...previous, collectionStreamIds: selected, publicCollectionStreamIds: published });
+    }
+  }, [collections.data, config, onChange]);
 
   function update(patch: Partial<CalendarConfigValues>) {
     onChange({ ...c, ...patch });

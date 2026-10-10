@@ -1,0 +1,13 @@
+# Command: pnpm --filter frontend exec playwright test tests/e2e/collections-custom.spec.ts tests/e2e/collections-custom.mobile.spec.ts --project=chromium --project=mobile-safari
+# Phase:   09-phase-custom-streams
+# Run:     1
+# Time:    2026-10-10T01:03:06+00:00
+# Exit:    1
+---
+[2m[WebServer] [22m[2m$ node scripts/start-e2e-server.mjs[22m
+[2m[WebServer] [22m[2m$ tsc --noEmit && vite build[22m
+Error: Process from config.webServer was not able to start. Exit code: 2
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test tests/e2e/collections-custom.spec.ts tests/e2e/collections-custom.mobile.spec.ts '--project=chromium' '--project=mobile-safari'
