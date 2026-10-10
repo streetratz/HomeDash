@@ -16,6 +16,7 @@
 | 10 | Safe reading | Validated implementation increment — full timezone/manual evidence pending | [10-phase-safe-reading.md](10-phase-safe-reading.md) |
 | 11 | Irregular dates | Validated implementation increment — broader acceptance closure pending | [11-phase-irregular-dates.md](11-phase-irregular-dates.md) |
 | 12 | Final validation | Gates passed; 78/97 tasks checked, full outcome closure pending | [12-phase-final-validation.md](12-phase-final-validation.md) |
+| 13 | Fresh-context Opus 4.8 review | Scoped today-marker correction validated; owner validation pending | [13-phase-opus-review.md](13-phase-opus-review.md) |
 
 ## Overall Status
 
@@ -28,7 +29,8 @@ Latest evidence: 824 backend / 173 frontend unit / 36 browser tests passing;
 typechecks, build, lint and Docker main→candidate upgrade passing. Final audit
 records formatter baseline, intermittent harness reruns, remaining exact
 coverage tasks, unavailable human/assistive evidence and unauthorized T091.
-The independent zero-context Opus 4.8 review is deferred to the parent handoff.
+The independent fresh-context Opus 4.8 review found no Critical/High defects and
+one Medium today-marker inconsistency; phase 13 records correction and validation.
 
 Historically, planning and task generation were authorised; phase 05 records consistency review
 and artifact corrections only. Phase 04's counts below describe its initial output.

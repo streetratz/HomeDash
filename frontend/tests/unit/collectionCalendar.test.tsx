@@ -19,6 +19,7 @@ afterEach(() => {
   cleanup();
   events.mockClear();
   collections.data = undefined;
+  vi.useRealTimers();
 });
 describe('complete civil collection group', () => {
   it('renders all same-colour stream names and household date without interpreting markup', () => {
@@ -111,6 +112,46 @@ describe('complete civil collection group', () => {
       createdAt: '2026-10-10T00:00:00.000Z',
       updatedAt: '2026-10-10T00:00:00.000Z',
     }));
+    it('marks household today separately from browser today and keeps both navigation controls explicit', () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date(2026, 9, 13, 12));
+      const view = render(
+        <FullScreenCalendar
+          sourceIds={[]}
+          sources={sources}
+          collectionWidgetId="widget"
+          householdToday="2026-10-14"
+          onClose={() => {}}
+        />,
+      );
+      const household = screen.getByRole('button', { name: /2026-10-14, Household Today/ });
+      expect(household.querySelector('span')?.className).toContain('bg-primary');
+      const browser = screen.getByRole('button', { name: /2026-10-13, Browser Today/ });
+      expect(browser.querySelector('span')?.className).not.toContain('bg-primary');
+      fireEvent.click(screen.getByRole('button', { name: 'Browser Today (provider events)' }));
+      expect(browser.className).toContain('bg-accent');
+      fireEvent.click(screen.getByRole('button', { name: 'Household Today' }));
+      expect(household.className).toContain('bg-accent');
+
+      vi.setSystemTime(new Date(2026, 9, 14, 12));
+      view.rerender(
+        <FullScreenCalendar
+          sourceIds={[]}
+          sources={sources}
+          collectionWidgetId="widget"
+          householdToday="2026-10-15"
+          onClose={() => {}}
+        />,
+      );
+      expect(
+        screen.getByRole('button', { name: /2026-10-15, Household Today/ }).querySelector('span')
+          ?.className,
+      ).toContain('bg-primary');
+      fireEvent.click(screen.getByRole('button', { name: 'Browser Today (provider events)' }));
+      expect(screen.getByRole('button', { name: /2026-10-14, Browser Today/ }).className).toContain(
+        'bg-accent',
+      );
+    });
     it('empty means none in collection-enabled mode despite existing provider/birthday sources', () => {
       render(
         <FullScreenCalendar

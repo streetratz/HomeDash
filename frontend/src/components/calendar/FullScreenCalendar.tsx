@@ -44,7 +44,12 @@ function getFirstDayOfWeek(year: number, month: number): number {
   return new Date(year, month, 1).getDay();
 }
 
-function formatTimeRange(startAt: string, endAt: string, hour12?: boolean, startTz?: string): string {
+function formatTimeRange(
+  startAt: string,
+  endAt: string,
+  hour12?: boolean,
+  startTz?: string,
+): string {
   const opts: Intl.DateTimeFormatOptions = {
     hour: 'numeric',
     minute: '2-digit',
@@ -57,11 +62,18 @@ function formatTimeRange(startAt: string, endAt: string, hour12?: boolean, start
   return `${start} – ${end}`;
 }
 
-export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onClose, collectionWidgetId, householdToday }: FullScreenCalendarProps) {
+export function FullScreenCalendar({
+  sourceIds,
+  sources,
+  showPrivateEvents,
+  onClose,
+  collectionWidgetId,
+  householdToday,
+}: FullScreenCalendarProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const navigated = useRef(false);
   const previousHousehold = useRef(householdToday);
-  const todayKey = useMemo(() => toDateKey(new Date()), []);
+  const todayKey = toDateKey(new Date());
   const { hour12 } = useClockFormat();
 
   const [currentMonth, setCurrentMonth] = useState(() => {
@@ -73,7 +85,11 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
     from: `${currentMonth.year}-${pad(currentMonth.month + 1)}-01`,
     to: `${currentMonth.year}-${pad(currentMonth.month + 1)}-${pad(getDaysInMonth(currentMonth.year, currentMonth.month))}`,
   };
-  const collectionQuery = useCollectionDisplay(collectionWidgetId ?? '', range, !!collectionWidgetId);
+  const collectionQuery = useCollectionDisplay(
+    collectionWidgetId ?? '',
+    range,
+    !!collectionWidgetId,
+  );
   const householdKey = collectionQuery.data?.householdToday ?? householdToday;
   useEffect(() => {
     if (!householdKey || householdKey === previousHousehold.current) return;
@@ -116,14 +132,24 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
     const previous = document.activeElement;
     dialogRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
     function handleKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') { e.preventDefault(); onClose(); }
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+      }
       if (e.key !== 'Tab') return;
-      const controls = dialogRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), [tabindex="0"]');
+      const controls = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), [tabindex="0"]',
+      );
       if (!controls?.length) return;
       const first = controls[0]!;
       const last = controls[controls.length - 1]!;
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
     document.addEventListener('keydown', handleKey);
     return () => {
@@ -176,8 +202,8 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
 
   const goToToday = useCallback(() => {
     navigated.current = true;
-    const now = new Date();
-    setCurrentMonth({ year: now.getFullYear(), month: now.getMonth() });
+    const [y, m] = todayKey.split('-').map(Number);
+    setCurrentMonth({ year: y!, month: m! - 1 });
     setSelectedDate(todayKey);
   }, [todayKey]);
 
@@ -206,182 +232,277 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
   })();
 
   return (
-    <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Calendar month view" className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+    <div
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Calendar month view"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+    >
       <div className="flex h-full w-full sm:h-[85vh] sm:w-[85vw] max-w-[1400px] flex-col overflow-hidden rounded-none sm:rounded-xl border border-border bg-background/90 shadow-2xl backdrop-blur">
-      {/* Top bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <Button aria-label="Previous month" className="min-h-11 min-w-11" disabled={collectionWidgetId ? year === 1900 && month === 0 : false} variant="ghost" size="icon" onClick={prevMonth}>
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-          <h2 className="text-lg font-semibold">{monthLabel}</h2>
-          <Button aria-label="Next month" className="min-h-11 min-w-11" disabled={collectionWidgetId ? year === 2199 && month === 11 : false} variant="ghost" size="icon" onClick={nextMonth}>
-            <ChevronRight className="h-5 w-5" />
-          </Button>
-          <Button variant="outline" size="sm" className="ml-2 min-h-11" onClick={goToToday}>
-            {collectionWidgetId ? 'Provider Today' : 'Today'}
-          </Button>
-          {collectionWidgetId && <Button variant="outline" className="min-h-11" onClick={() => {
-            const key = collectionQuery.data?.householdToday ?? householdToday;
-            if (!key) return;
-            const [y, m] = key.split('-').map(Number);
-            navigated.current = false;
-            setCurrentMonth({ year: y!, month: m! - 1 }); setSelectedDate(key);
-          }}>Household Today</Button>}
-        </div>
-        <Button aria-label="Close month view" className="min-h-11 min-w-11" variant="ghost" size="icon" onClick={onClose}>
-          <X className="h-5 w-5" />
-        </Button>
-      </div>
-
-      {/* Main content: calendar grid + day detail sidebar */}
-      <div className="flex min-h-0 flex-1 flex-col sm:flex-row overflow-y-auto sm:overflow-hidden">
-        {/* Month grid */}
-        <div className="flex flex-1 flex-col p-4">
-          {/* Day-of-week headers */}
-          <div className="grid grid-cols-7 border-b pb-2 text-center text-xs font-medium text-muted-foreground">
-            {DAY_LABELS.map((label) => (
-              <div key={label}>{label}</div>
-            ))}
+        {/* Top bar */}
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              aria-label="Previous month"
+              className="min-h-11 min-w-11"
+              disabled={collectionWidgetId ? year === 1900 && month === 0 : false}
+              variant="ghost"
+              size="icon"
+              onClick={prevMonth}
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            <h2 className="text-lg font-semibold">{monthLabel}</h2>
+            <Button
+              aria-label="Next month"
+              className="min-h-11 min-w-11"
+              disabled={collectionWidgetId ? year === 2199 && month === 11 : false}
+              variant="ghost"
+              size="icon"
+              onClick={nextMonth}
+            >
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+            <Button variant="outline" size="sm" className="ml-2 min-h-11" onClick={goToToday}>
+              {collectionWidgetId ? 'Browser Today (provider events)' : 'Today'}
+            </Button>
+            {collectionWidgetId && (
+              <Button
+                variant="outline"
+                className="min-h-11"
+                onClick={() => {
+                  const key = collectionQuery.data?.householdToday ?? householdToday;
+                  if (!key) return;
+                  const [y, m] = key.split('-').map(Number);
+                  navigated.current = false;
+                  setCurrentMonth({ year: y!, month: m! - 1 });
+                  setSelectedDate(key);
+                }}
+              >
+                Household Today
+              </Button>
+            )}
           </div>
+          <Button
+            aria-label="Close month view"
+            className="min-h-11 min-w-11"
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+          >
+            <X className="h-5 w-5" />
+          </Button>
+        </div>
 
-          {/* Calendar grid — fill available space */}
-          <div className="grid flex-1 grid-cols-7 grid-rows-6">
-            {cells.map((day, i) => {
-              if (day === null) {
-                return <div key={`empty-${i}`} className="border-b border-r border-border/30" />;
-              }
+        {/* Main content: calendar grid + day detail sidebar */}
+        <div className="flex min-h-0 flex-1 flex-col sm:flex-row overflow-y-auto sm:overflow-hidden">
+          {/* Month grid */}
+          <div className="flex flex-1 flex-col p-4">
+            {/* Day-of-week headers */}
+            <div className="grid grid-cols-7 border-b pb-2 text-center text-xs font-medium text-muted-foreground">
+              {DAY_LABELS.map((label) => (
+                <div key={label}>{label}</div>
+              ))}
+            </div>
 
-              const dateKey = `${year}-${pad(month + 1)}-${pad(day)}`;
-              const isToday = dateKey === todayKey;
-              const isSelected = dateKey === selectedDate;
-              const dayEvents = eventsByDate.get(dateKey) ?? [];
-              const collectionGroup = collectionQuery.data?.groups.find(g => g.date === dateKey);
+            {/* Calendar grid — fill available space */}
+            <div className="grid flex-1 grid-cols-7 grid-rows-6">
+              {cells.map((day, i) => {
+                if (day === null) {
+                  return <div key={`empty-${i}`} className="border-b border-r border-border/30" />;
+                }
 
-              return (
-                <button
-                  key={dateKey}
-                  type="button"
-                  onClick={() => { navigated.current = true; setSelectedDate(dateKey); }}
-                  onKeyDown={e => {
-                    const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key];
-                    if (delta === undefined) return;
-                    e.preventDefault();
-                    const key = addCollectionDays(dateKey, delta);
-                    if (key < '1900-01-01' || key > '2199-12-31') return;
-                    navigated.current = true;
-                    const [y, m] = key.split('-').map(Number);
-                    setCurrentMonth({ year: y!, month: m! - 1 }); setSelectedDate(key);
-                    requestAnimationFrame(() => dialogRef.current?.querySelector<HTMLButtonElement>(`[data-date="${key}"]`)?.focus());
-                  }}
-                  data-date={dateKey}
-                  aria-label={`${dateKey}: ${dayEvents.length} provider events, ${collectionGroup?.streams.length ?? 0} collection streams. Open complete day detail`}
-                  className={`relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring ${
-                    isSelected ? 'bg-accent' : ''
-                  }`}
-                >
-                  <span
-                    className={`mb-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full text-xs shrink-0 ${
-                      isToday
-                        ? 'bg-primary text-primary-foreground font-bold'
-                        : 'text-foreground'
+                const dateKey = `${year}-${pad(month + 1)}-${pad(day)}`;
+                const isToday = dateKey === (collectionWidgetId ? householdKey : todayKey);
+                const isBrowserToday =
+                  !!collectionWidgetId && dateKey === todayKey && todayKey !== householdKey;
+                const isSelected = dateKey === selectedDate;
+                const dayEvents = eventsByDate.get(dateKey) ?? [];
+                const collectionGroup = collectionQuery.data?.groups.find(
+                  (g) => g.date === dateKey,
+                );
+
+                return (
+                  <button
+                    key={dateKey}
+                    type="button"
+                    onClick={() => {
+                      navigated.current = true;
+                      setSelectedDate(dateKey);
+                    }}
+                    onKeyDown={(e) => {
+                      const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[
+                        e.key
+                      ];
+                      if (delta === undefined) return;
+                      e.preventDefault();
+                      const key = addCollectionDays(dateKey, delta);
+                      if (key < '1900-01-01' || key > '2199-12-31') return;
+                      navigated.current = true;
+                      const [y, m] = key.split('-').map(Number);
+                      setCurrentMonth({ year: y!, month: m! - 1 });
+                      setSelectedDate(key);
+                      requestAnimationFrame(() =>
+                        dialogRef.current
+                          ?.querySelector<HTMLButtonElement>(`[data-date="${key}"]`)
+                          ?.focus(),
+                      );
+                    }}
+                    data-date={dateKey}
+                    aria-label={`${dateKey}${isToday ? (collectionWidgetId ? ', Household Today' : ', Today') : ''}${isBrowserToday ? ', Browser Today (provider events)' : ''}: ${dayEvents.length} provider events, ${collectionGroup?.streams.length ?? 0} collection streams. Open complete day detail`}
+                    className={`relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring ${
+                      isSelected ? 'bg-accent' : ''
                     }`}
                   >
-                    {day}
-                  </span>
-                  {collectionGroup && <div className="space-y-px text-[10px]">
-                    {collectionGroup.streams.slice(0, 2).map(s => <p key={s.key} className="truncate text-foreground">{s.name}</p>)}
-                    {collectionGroup.streams.length > 2 && <p className="text-muted-foreground">+{collectionGroup.streams.length - 2} more collections</p>}
-                  </div>}
-                  {/* Event list */}
-                  {dayEvents.length > 0 && (
-                    <div className="flex min-h-0 flex-1 flex-col gap-px overflow-hidden">
-                      {dayEvents.slice(0, 3).map((evt) => {
-                        const source = sourceMap.get(evt.sourceId);
-                        const color = source?.color ?? '#3b82f6';
-                        return (
-                          <div
-                            key={evt.id}
-                            className="flex items-center gap-1 truncate rounded px-1 py-px text-[10px] leading-tight"
-                            style={{ backgroundColor: `${color}20`, borderLeft: `2px solid ${color}` }}
-                          >
-                            <span className="truncate">{evt.title}</span>
-                          </div>
-                        );
-                      })}
-                      {dayEvents.length > 3 && (
-                        <span className="px-1 text-[9px] text-muted-foreground">+{dayEvents.length - 3} more</span>
-                      )}
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Day detail sidebar */}
-        <div className="w-full sm:w-80 shrink-0 overflow-y-auto border-t sm:border-t-0 sm:border-l p-4">
-          <h3 className="mb-3 text-sm font-semibold">{selectedDateFormatted}</h3>
-          {collectionQuery.isLoading && collectionWidgetId && <p role="status">Loading collections…</p>}
-          {collectionQuery.isError && collectionWidgetId && <div role="alert">
-            {collectionQuery.stale ? 'Collections may be out of date.' : 'Collections unavailable.'}
-            <Button className="min-h-11" variant="outline" onClick={() => void collectionQuery.refetch()}>Retry collections</Button>
-          </div>}
-          {collectionQuery.data?.timezone && collectionQuery.data.householdToday &&
-            collectionQuery.data.groups.filter(g => g.date === selectedDate).map(g =>
-              <CollectionGroup key={g.date} group={g} today={collectionQuery.data!.householdToday!} timezone={collectionQuery.data!.timezone!} next />)}
-          {selectedEvents.length === 0 ? (
-            <div className="flex flex-col items-center justify-center gap-2 py-8 text-muted-foreground">
-              <Calendar className="h-6 w-6" />
-              <p className="text-sm">No events on this day</p>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-2">
-              {selectedEvents.map((event) => {
-                const source = sourceMap.get(event.sourceId);
-                const color = source?.color ?? '#3b82f6';
-                return (
-                  <div
-                    key={event.id}
-                    className="widget-panel flex items-start gap-2.5 rounded-lg border px-3 py-2.5 transition-colors hover:bg-card/75"
-                  >
-                    {/* Colored dot */}
-                    <div
-                      className="mt-1.5 h-2 w-2 shrink-0 rounded-full"
-                      style={{ backgroundColor: color, boxShadow: `0 0 8px ${color}60` }}
-                    />
-                    {/* Event info */}
-                    <div className="flex-1 min-w-0">
-                      <p className="truncate text-sm font-medium text-foreground">{event.title}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">
-                        {event.isAllDay
-                          ? 'All Day'
-                          : formatTimeRange(event.startAt, event.endAt, hour12, event.startTz ?? undefined)}
-                      </p>
-                      {event.location && (
-                        <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground/70 truncate">
-                          <MapPin className="h-3 w-3 shrink-0" />
-                          <span className="truncate">{event.location}</span>
-                        </p>
-                      )}
-                    </div>
-                    {/* Source badge — uses configured name from settings */}
-                    {source?.name && (
-                      <span
-                        className="shrink-0 mt-0.5 text-[10px] px-2 py-0.5 rounded-full border border-white/[0.1]"
-                        style={{ color }}
-                      >
-                        {source.name}
-                      </span>
+                    <span
+                      className={`mb-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full text-xs shrink-0 ${
+                        isToday
+                          ? 'bg-primary text-primary-foreground font-bold'
+                          : isBrowserToday
+                            ? 'ring-1 ring-muted-foreground text-foreground'
+                            : 'text-foreground'
+                      }`}
+                    >
+                      {day}
+                    </span>
+                    {collectionGroup && (
+                      <div className="space-y-px text-[10px]">
+                        {collectionGroup.streams.slice(0, 2).map((s) => (
+                          <p key={s.key} className="truncate text-foreground">
+                            {s.name}
+                          </p>
+                        ))}
+                        {collectionGroup.streams.length > 2 && (
+                          <p className="text-muted-foreground">
+                            +{collectionGroup.streams.length - 2} more collections
+                          </p>
+                        )}
+                      </div>
                     )}
-                  </div>
+                    {/* Event list */}
+                    {dayEvents.length > 0 && (
+                      <div className="flex min-h-0 flex-1 flex-col gap-px overflow-hidden">
+                        {dayEvents.slice(0, 3).map((evt) => {
+                          const source = sourceMap.get(evt.sourceId);
+                          const color = source?.color ?? '#3b82f6';
+                          return (
+                            <div
+                              key={evt.id}
+                              className="flex items-center gap-1 truncate rounded px-1 py-px text-[10px] leading-tight"
+                              style={{
+                                backgroundColor: `${color}20`,
+                                borderLeft: `2px solid ${color}`,
+                              }}
+                            >
+                              <span className="truncate">{evt.title}</span>
+                            </div>
+                          );
+                        })}
+                        {dayEvents.length > 3 && (
+                          <span className="px-1 text-[9px] text-muted-foreground">
+                            +{dayEvents.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </button>
                 );
               })}
             </div>
-          )}
+          </div>
+
+          {/* Day detail sidebar */}
+          <div className="w-full sm:w-80 shrink-0 overflow-y-auto border-t sm:border-t-0 sm:border-l p-4">
+            <h3 className="mb-3 text-sm font-semibold">{selectedDateFormatted}</h3>
+            {collectionQuery.isLoading && collectionWidgetId && (
+              <p role="status">Loading collections…</p>
+            )}
+            {collectionQuery.isError && collectionWidgetId && (
+              <div role="alert">
+                {collectionQuery.stale
+                  ? 'Collections may be out of date.'
+                  : 'Collections unavailable.'}
+                <Button
+                  className="min-h-11"
+                  variant="outline"
+                  onClick={() => void collectionQuery.refetch()}
+                >
+                  Retry collections
+                </Button>
+              </div>
+            )}
+            {collectionQuery.data?.timezone &&
+              collectionQuery.data.householdToday &&
+              collectionQuery.data.groups
+                .filter((g) => g.date === selectedDate)
+                .map((g) => (
+                  <CollectionGroup
+                    key={g.date}
+                    group={g}
+                    today={collectionQuery.data!.householdToday!}
+                    timezone={collectionQuery.data!.timezone!}
+                    next
+                  />
+                ))}
+            {selectedEvents.length === 0 ? (
+              <div className="flex flex-col items-center justify-center gap-2 py-8 text-muted-foreground">
+                <Calendar className="h-6 w-6" />
+                <p className="text-sm">No events on this day</p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                {selectedEvents.map((event) => {
+                  const source = sourceMap.get(event.sourceId);
+                  const color = source?.color ?? '#3b82f6';
+                  return (
+                    <div
+                      key={event.id}
+                      className="widget-panel flex items-start gap-2.5 rounded-lg border px-3 py-2.5 transition-colors hover:bg-card/75"
+                    >
+                      {/* Colored dot */}
+                      <div
+                        className="mt-1.5 h-2 w-2 shrink-0 rounded-full"
+                        style={{ backgroundColor: color, boxShadow: `0 0 8px ${color}60` }}
+                      />
+                      {/* Event info */}
+                      <div className="flex-1 min-w-0">
+                        <p className="truncate text-sm font-medium text-foreground">
+                          {event.title}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {event.isAllDay
+                            ? 'All Day'
+                            : formatTimeRange(
+                                event.startAt,
+                                event.endAt,
+                                hour12,
+                                event.startTz ?? undefined,
+                              )}
+                        </p>
+                        {event.location && (
+                          <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground/70 truncate">
+                            <MapPin className="h-3 w-3 shrink-0" />
+                            <span className="truncate">{event.location}</span>
+                          </p>
+                        )}
+                      </div>
+                      {/* Source badge — uses configured name from settings */}
+                      {source?.name && (
+                        <span
+                          className="shrink-0 mt-0.5 text-[10px] px-2 py-0.5 rounded-full border border-white/[0.1]"
+                          style={{ color }}
+                        >
+                          {source.name}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );

@@ -1,0 +1,15 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/collectionCalendar.test.tsx
+# Phase: 13 — Opus review
+# Run: 1
+# Date: 2026-10-10
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionCalendar.test.tsx  (8 tests) 154ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  12:56:13
+   Duration  926ms (transform 50ms, setup 0ms, collect 156ms, tests 154ms, environment 358ms, prepare 29ms)
+
