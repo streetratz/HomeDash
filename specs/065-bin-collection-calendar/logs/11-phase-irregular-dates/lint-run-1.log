@@ -1,0 +1,19 @@
+# Command: node --version && pnpm lint
+# Phase:   11-phase-irregular-dates
+# Run:     1
+# Time:    2026-10-10T01:18:28+00:00
+# Exit:    1
+---
+v24.18.0
+$ eslint . --max-warnings=0
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/integration/collectionExceptions.test.ts
+  92:23  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/settings/CollectionExceptionEditor.tsx
+  25:147  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+✖ 2 problems (2 errors, 0 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
+[ELIFECYCLE] Command failed with exit code 1.

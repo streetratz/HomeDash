@@ -14,7 +14,27 @@ export async function collectionPresetSmoke(page: Page, csrf: string, mobile: bo
   await expect(manager).toBeVisible();
   const configResponse = await page.request.get('/api/admin/calendar/collections');
   await expectApiOk(configResponse, 'Read synthetic collection state');
-  const config = await configResponse.json() as { configured: boolean; streams: { id: string }[] };
+  const config = await configResponse.json() as { configured: boolean; revision: number; runtimeEpoch: string; streams: { id: string; name: string }[] };
+  if (config.configured && !config.streams.some(s => s.name === 'General waste')) {
+    const streams = [
+      { name: 'General waste', color: '#EF4444', intervalWeeks: 1, anchorDate: '2026-10-14' },
+      { name: 'Recycling', color: '#EAB308', intervalWeeks: 2, anchorDate: '2026-10-14' },
+      { name: 'Garden', color: '#22C55E', intervalWeeks: 2, anchorDate: '2026-10-21' },
+    ].map(s => ({ id: crypto.randomUUID(), name: s.name, color: s.color, enabled: true, schedule: { mode: 'regular', weekdays: [3], intervalWeeks: s.intervalWeeks, anchorDate: s.anchorDate }, exceptions: [] }));
+    const draft = { expectedRevision: config.revision, runtimeEpoch: config.runtimeEpoch, timezone: 'Australia/Sydney', providerLabel: null, streams,
+      range: { from: '2026-10-14', to: '2026-11-11' }, confirmations: { timezoneConfirmed: true, deletedStreamIds: config.streams.map(s => s.id), removedExceptionIds: [], clearedExplicitStreamIds: [] } };
+    const preview = await page.request.post('/api/admin/calendar/collections/preview', { headers: { 'x-csrf-token': csrf }, data: draft });
+    await expectApiOk(preview, 'Isolate existing configured preset fixture');
+    const result = await preview.json() as { previewDigest: string };
+    await expectApiOk(await page.request.put('/api/admin/calendar/collections', { headers: { 'x-csrf-token': csrf }, data: { ...draft, previewDigest: result.previewDigest } }), 'Save isolated existing preset');
+    await page.reload();
+    if (mobile) {
+      await page.getByRole('combobox', { name: 'Integration' }).click();
+      await page.getByRole('option', { name: 'Calendars', exact: true }).click();
+    } else {
+      await page.getByRole('button', { name: 'Calendars', exact: true }).click();
+    }
+  }
   if (!config.configured) {
     await manager.getByRole('textbox', { name: 'Household timezone', exact: true }).fill('Australia/Sydney');
     await manager.getByLabel('Normal Recycling collection date').fill('2026-10-14');

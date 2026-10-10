@@ -37,7 +37,7 @@ describe('portable collection format', () => {
     const config = getCollectionConfig();
     const preset = collectionPreset();
     const input = { ...preset, streams: [
-      { ...preset.streams[0], exceptions: [{ id: collectionIds.exceptionA, kind: 'replace', originalDate: '2026-10-14', actualDate: '2026-10-15' }] },
+      { ...preset.streams[0], enabled: false, exceptions: [{ id: collectionIds.exceptionA, kind: 'replace', originalDate: '2026-10-14', actualDate: '2026-10-15' }] },
       preset.streams[1],
       { id: collectionIds.garden, name: 'Garden', color: '#00AA00', enabled: true, schedule: { mode: 'explicit', dates: ['2026-10-21', '2028-02-29'] } },
     ], expectedRevision: config.revision, runtimeEpoch: config.runtimeEpoch,

@@ -34,6 +34,8 @@ export function CollectionManager() {
   const [error, setError] = useState<string | null>(null);
   const [conflict, setConflict] = useState(false);
   const [removeId, setRemoveId] = useState<string | null>(null);
+  const [reviewDestructive, setReviewDestructive] = useState(false);
+  const [presetDraft, setPresetDraft] = useState(false);
   const busy = previewMutation.isPending || saveMutation.isPending;
   const change = (next: CollectionDraft) => { setDraft(next); setPreview(null); setError(null); };
   function begin(preset: boolean) {
@@ -41,6 +43,7 @@ export function CollectionManager() {
     try {
       const streams = config.data.configured ? structuredClone(config.data.streams) : preset ? buildCollectionPreset(weekday, anchor) : [];
       const from = anchor || new Date().toISOString().slice(0, 10);
+      setPresetDraft(!config.data.configured && preset);
       change({ expectedRevision: config.data.revision, runtimeEpoch: config.data.runtimeEpoch,
         timezone: config.data.timezone ?? timezone, providerLabel: config.data.providerLabel,
         streams, range: { from, to: addCollectionDays(from, 28) },
@@ -49,6 +52,11 @@ export function CollectionManager() {
   }
   async function runPreview() {
     if (!draft) return;
+    if (presetDraft && new Date(`${draft.range.to}T00:00:00Z`).getTime() - new Date(`${draft.range.from}T00:00:00Z`).getTime() < 28 * 86_400_000) {
+      setError('Preview at least four weeks before accepting the household preset.');
+      setPreview(null);
+      return;
+    }
     setError(null); setConflict(false);
     try { setPreview(await previewMutation.mutateAsync(draft)); }
     catch (cause) {
@@ -86,6 +94,8 @@ export function CollectionManager() {
     const persisted = config.data?.streams.find(s => s.id === id);
     change({ ...draft, streams: draft.streams.filter(s => s.id !== id), confirmations: {
       ...draft.confirmations, deletedStreamIds: persisted ? [...new Set([...draft.confirmations.deletedStreamIds, id])] : draft.confirmations.deletedStreamIds,
+      removedExceptionIds: draft.confirmations.removedExceptionIds.filter(key => !persisted || !('exceptions' in persisted) || !persisted.exceptions.some(e => e.id === key)),
+      clearedExplicitStreamIds: draft.confirmations.clearedExplicitStreamIds.filter(key => key !== id),
     } });
     setRemoveId(null);
   }
@@ -96,6 +106,31 @@ export function CollectionManager() {
     if (other < 0 || other >= streams.length) return;
     [streams[index], streams[other]] = [streams[other]!, streams[index]!];
     change({ ...draft, streams });
+  }
+  function updateStream(next: CollectionStream, confirmedRemoval = false) {
+    if (!draft) return;
+    const streams = draft.streams.map(existing => existing.id === next.id ? next : existing);
+    let confirmations = draft.confirmations;
+    if (confirmedRemoval) {
+      const removedExceptionIds = (config.data?.streams ?? []).flatMap(old => {
+        const current = streams.find(s => s.id === old.id);
+        return current && 'exceptions' in old ? old.exceptions.filter(e => !('exceptions' in current) || !current.exceptions.some(n => n.id === e.id)).map(e => e.id) : [];
+      });
+      const clearedExplicitStreamIds = (config.data?.streams ?? []).filter(old => old.schedule.mode === 'explicit' && streams.some(s => s.id === old.id && s.schedule.mode === 'regular')).map(s => s.id);
+      confirmations = { ...confirmations, removedExceptionIds, clearedExplicitStreamIds };
+    }
+    change({ ...draft, streams, confirmations });
+  }
+  function confirmRetainedRemovals() {
+    if (!draft || !config.data) return;
+    const deletedStreamIds = config.data.streams.filter(old => !draft.streams.some(next => next.id === old.id)).map(s => s.id);
+    const removedExceptionIds = config.data.streams.flatMap(old => {
+      const current = draft.streams.find(s => s.id === old.id);
+      return current && 'exceptions' in old ? old.exceptions.filter(e => !('exceptions' in current) || !current.exceptions.some(n => n.id === e.id)).map(e => e.id) : [];
+    });
+    const clearedExplicitStreamIds = config.data.streams.filter(old => old.schedule.mode === 'explicit' && draft.streams.some(next => next.id === old.id && next.schedule.mode === 'regular')).map(s => s.id);
+    change({ ...draft, confirmations: { ...draft.confirmations, deletedStreamIds, removedExceptionIds, clearedExplicitStreamIds } });
+    setReviewDestructive(false);
   }
   if (config.isLoading) return <p role="status">Loading household collections…</p>;
   if (config.isError) return <div role="alert">Collections unavailable. <Button onClick={() => void config.refetch()}>Retry</Button></div>;
@@ -132,6 +167,12 @@ export function CollectionManager() {
                 <Button className="min-h-11" disabled={!timezone || !anchor || !confirmed} onClick={() => begin(true)}>Use weekly / alternating preset</Button>
                 <Button variant="outline" className="min-h-11" disabled={!timezone || !confirmed} onClick={() => begin(false)}>Start custom without preset</Button>
               </div>
+              <Button className="min-h-11" variant="outline" onClick={() => setReviewDestructive(true)}>Review retained destructive changes</Button>
+              {reviewDestructive && <div role="alert" className="space-y-2 text-sm">
+                <p>Confirm all stream removals, cleared explicit lists and removed exceptions in this retained draft relative to the latest loaded configuration. This may include changes made by another administrator. Verify every stream above before confirming. A new preview is required.</p>
+                <Button className="min-h-11" variant="destructive" onClick={confirmRetainedRemovals}>Confirm retained draft removals</Button>
+                <Button className="min-h-11" variant="ghost" onClick={() => setReviewDestructive(false)}>Keep reviewing</Button>
+              </div>}
             </div>
           )}
         </>
@@ -144,7 +185,7 @@ export function CollectionManager() {
           {!draft.streams.length && <p className="text-sm">No streams configured. Add a regular stream or save an empty household configuration.</p>}
           {draft.streams.map((s, index) => <fieldset key={s.id} aria-label={`Collection stream ${index + 1}: ${s.name}`} className="min-w-0 space-y-3 rounded-lg border border-border p-3">
             <legend className="max-w-full break-words px-1 text-sm font-semibold">{s.name || `Stream ${index + 1}`}</legend>
-            <CollectionStreamEditor stream={s} onChange={next => change({ ...draft, streams: draft.streams.map(existing => existing.id === s.id ? next : existing) })} />
+            <CollectionStreamEditor stream={s} onChange={updateStream} />
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" className="min-h-11" disabled={index === 0} onClick={() => reorder(index, -1)}>Move up</Button>
               <Button variant="outline" className="min-h-11" disabled={index === draft.streams.length - 1} onClick={() => reorder(index, 1)}>Move down</Button>

@@ -1,10 +1,14 @@
-import { useId } from 'react';
+import { useId, useState } from 'react';
 import type { CollectionStream } from '../../state/collectionHooks.js';
 import { Input } from '../ui/input.js';
+import { Button } from '../ui/button.js';
+import { CollectionExplicitDatesEditor, validCollectionDate } from './CollectionExplicitDatesEditor.js';
+import { CollectionExceptionEditor } from './CollectionExceptionEditor.js';
 
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-export function CollectionStreamEditor({ stream, onChange }: { stream: CollectionStream; onChange: (stream: CollectionStream) => void }) {
+export function CollectionStreamEditor({ stream, onChange }: { stream: CollectionStream; onChange: (stream: CollectionStream, confirmedRemoval?: boolean) => void }) {
   const id = useId();
+  const [modeChange, setModeChange] = useState(false);
   const regular = stream.schedule.mode === 'regular' ? stream.schedule : null;
   const exceptions = 'exceptions' in stream ? stream.exceptions : [];
   const date = regular ? new Date(`${regular.anchorDate}T00:00:00Z`) : null;
@@ -21,6 +25,26 @@ export function CollectionStreamEditor({ stream, onChange }: { stream: Collectio
     {!nameValid && <p id={`${id}-name`} role="alert" className="text-sm text-destructive">Enter a name of 1–80 characters without control characters.</p>}
     {!colorValid && <p id={`${id}-color`} role="alert" className="text-sm text-destructive">Use a six-digit hex colour such as #DC2626.</p>}
     <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" checked={stream.enabled} onChange={e => onChange({ ...stream, enabled: e.target.checked })} />Enabled</label>
+    <div className="space-y-2">
+      <p className="text-sm font-medium">Schedule mode: {regular ? 'Regular cycle' : 'Explicit dates'}</p>
+      <Button className="min-h-11" variant="outline" onClick={() => setModeChange(true)}>Switch to {regular ? 'explicit dates' : 'regular cycle'}</Button>
+      {modeChange && <div role="alert" className="space-y-2 text-sm">
+        <p>{regular ? 'Switching removes all regular exceptions and replaces the cycle with a finite explicit list.' : 'Switching clears every explicit date and replaces the finite list with a regular cycle.'} No date or exception is discarded until you confirm and save.</p>
+        <Button className="min-h-11" variant="destructive" onClick={() => {
+          const common = { id: stream.id, name: stream.name, color: stream.color, enabled: stream.enabled };
+          if (regular) onChange({ ...common, schedule: { mode: 'explicit', dates: [] } }, true);
+          else {
+            const first = stream.schedule.mode === 'explicit' ? stream.schedule.dates.find(validCollectionDate) : undefined;
+            const anchorDate = first ?? '2026-10-12';
+            const weekday = new Date(`${anchorDate}T00:00:00Z`).getUTCDay() || 7;
+            onChange({ ...common, schedule: { mode: 'regular', weekdays: [weekday], intervalWeeks: 1, anchorDate }, exceptions: [] }, true);
+          }
+          setModeChange(false);
+        }}>Confirm schedule mode change</Button>
+        <Button className="min-h-11" variant="ghost" onClick={() => setModeChange(false)}>Keep current mode</Button>
+      </div>}
+    </div>
+    {stream.schedule.mode === 'explicit' && <CollectionExplicitDatesEditor dates={stream.schedule.dates} onChange={dates => onChange({ ...stream, schedule: { mode: 'explicit', dates } })} />}
     {regular && <fieldset className="space-y-3">
       <legend className="text-sm font-medium">Active weekdays (Monday–Sunday week)</legend>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -34,5 +58,6 @@ export function CollectionStreamEditor({ stream, onChange }: { stream: Collectio
       {!intervalValid && <p id={`${id}-interval`} role="alert" className="text-sm text-destructive">Choose an integer interval from 1 to 52 weeks.</p>}
       <p id={`${id}-anchor`} className={`text-sm ${anchorValid ? 'text-muted-foreground' : 'text-destructive'}`}>{anchorValid ? `Every ${regular.intervalWeeks} week${regular.intervalWeeks === 1 ? '' : 's'}, on each selected weekday of the active week. The normal date anchors the cycle, not a start boundary.` : 'Choose a valid normal date on a selected weekday.'}</p>
     </fieldset>}
+    {regular && <CollectionExceptionEditor exceptions={exceptions} onChange={(next, confirmed) => onChange({ ...stream, schedule: regular, exceptions: next }, confirmed)} />}
   </div>;
 }

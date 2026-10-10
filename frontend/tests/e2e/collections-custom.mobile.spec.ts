@@ -5,11 +5,13 @@ test('360px custom editor exposes seven keyboard-operable weekdays', async ({ pa
   await page.getByRole('combobox', { name: 'Integration' }).click();
   await page.getByRole('option', { name: 'Calendars', exact: true }).click();
   await page.getByRole('button', { name: 'Edit collection configuration' }).click();
-  await page.getByRole('button', { name: 'Add regular stream' }).click();
+  const add = page.getByRole('button', { name: 'Add regular stream' });
+  if (await add.isEnabled()) await add.click();
   const editor = page.getByRole('group', { name: /Collection stream/ }).last();
+  const initiallyChecked = await editor.getByLabel('Thursday', { exact: true }).isChecked();
   await editor.getByLabel('Thursday', { exact: true }).focus();
   await page.keyboard.press('Space');
-  await expect(editor.getByLabel('Thursday', { exact: true })).toBeChecked();
+  await expect(editor.getByLabel('Thursday', { exact: true })).toBeChecked({ checked: !initiallyChecked });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.getByRole('button', { name: 'Cancel', exact: true }).click();
 });

@@ -1,0 +1,883 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/collectionCalendar.test.tsx && pnpm --filter frontend exec playwright test tests/e2e/collections-preset.spec.ts tests/e2e/collections-preset.mobile.spec.ts tests/e2e/collections-custom.spec.ts tests/e2e/collections-custom.mobile.spec.ts tests/e2e/collections-reading.spec.ts tests/e2e/collections-reading.mobile.spec.ts tests/e2e/collections-irregular.spec.ts tests/e2e/collections-irregular.mobile.spec.ts --project=chromium --project=mobile-safari
+# Phase:   11-phase-irregular-dates
+# Run:     1
+# Time:    2026-10-10T01:19:31+00:00
+# Exit:    1
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ❯ tests/unit/collectionCalendar.test.tsx  (7 tests | 1 failed) 132ms
+   ❯ tests/unit/collectionCalendar.test.tsx > complete civil collection group > renders a cross-month actual target once with every same-date stream, never inventing an origin
+     → Unable to find an accessible element with the role "button" and name `/2027-01-02/`
+
+Here are the accessible roles:
+
+  dialog:
+
+  Name "Calendar month view":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Calendar month view"[39m
+    [33maria-modal[39m=[32m"true"[39m
+    [33mclass[39m=[32m"fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"[39m
+    [33mrole[39m=[32m"dialog"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Previous month":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Previous month"[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+  [36m/>[39m
+
+  Name "Next month":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Next month"[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+  [36m/>[39m
+
+  Name "Provider Today":
+  [36m<button[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs ml-2 min-h-11"[39m
+  [36m/>[39m
+
+  Name "Household Today":
+  [36m<button[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 min-h-11"[39m
+  [36m/>[39m
+
+  Name "Close month view":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Close month view"[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+  [36m/>[39m
+
+  Name "2026-12-01: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-01: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-01"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-02: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-02: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-02"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-03: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-03: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-03"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-04: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-04: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-04"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-05: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-05: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-05"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-06: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-06: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-06"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-07: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-07: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-07"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-08: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-08: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-08"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-09: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-09: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-09"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-10: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-10: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-10"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-11: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-11: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-11"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-12: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-12: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-12"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-13: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-13: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-13"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-14: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-14: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-14"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-15: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-15: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-15"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-16: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-16: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-16"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-17: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-17: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-17"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-18: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-18: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-18"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-19: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-19: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-19"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-20: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-20: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-20"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-21: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-21: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-21"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-22: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-22: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-22"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-23: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-23: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-23"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-24: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-24: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-24"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-25: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-25: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-25"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-26: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-26: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-26"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-27: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-27: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-27"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-28: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-28: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-28"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-29: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-29: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-29"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-30: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-30: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-30"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-31: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-31: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring bg-accent"[39m
+    [33mdata-date[39m=[32m"2026-12-31"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "December 2026":
+  [36m<h2[39m
+    [33mclass[39m=[32m"text-lg font-semibold"[39m
+  [36m/>[39m
+
+  Name "Thursday, December 31, 2026":
+  [36m<h3[39m
+    [33mclass[39m=[32m"mb-3 text-sm font-semibold"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-sm"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33maria-label[39m=[32m"Calendar month view"[39m
+      [33maria-modal[39m=[32m"true"[39m
+      [33mclass[39m=[32m"fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"[39m
+      [33mrole[39m=[32m"dialog"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex h-full w-full sm:h-[85vh] sm:w-[85vw] max-w-[1400px] flex-col overflow-hidden rounded-none sm:rounded-xl border border-border bg-background/90 shadow-2xl backdrop-blur"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex flex-wrap items-center gap-2"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-label[39m=[32m"Previous month"[39m
+              [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-chevron-left h-5 w-5"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"m15 18-6-6 6-6"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</button>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"text-lg font-semibold"[39m
+            [36m>[39m
+              [0mDecember 2026[0m
+            [36m</h2>[39m
+            [36m<button[39m
+              [33maria-label[39m=[32m"Next month"[39m
+              [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-chevron-right h-5 w-5"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"m9 18 6-6-6-6"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs ml-2 min-h-11"[39m
+            [36m>[39m
+              [0mProvider Today[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 min-h-11"[39m
+            [36m>[39m
+              [0mHousehold Today[0m
+            [36m</button>[39m
+          [36m</div>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"Close month view"[39m
+            [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-x h-5 w-5"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M18 6 6 18"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m6 6 12 12"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex min-h-0 flex-1 flex-col sm:flex-row overflow-y-auto sm:over...
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/collectionCalendar.test.tsx > complete civil collection group > renders a cross-month actual target once with every same-date stream, never inventing an origin
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/2027-01-02/`
+
+Here are the accessible roles:
+
+  dialog:
+
+  Name "Calendar month view":
+  [36m<div[39m
+    [33maria-label[39m=[32m"Calendar month view"[39m
+    [33maria-modal[39m=[32m"true"[39m
+    [33mclass[39m=[32m"fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"[39m
+    [33mrole[39m=[32m"dialog"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Previous month":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Previous month"[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+  [36m/>[39m
+
+  Name "Next month":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Next month"[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+  [36m/>[39m
+
+  Name "Provider Today":
+  [36m<button[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs ml-2 min-h-11"[39m
+  [36m/>[39m
+
+  Name "Household Today":
+  [36m<button[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 min-h-11"[39m
+  [36m/>[39m
+
+  Name "Close month view":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Close month view"[39m
+    [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+  [36m/>[39m
+
+  Name "2026-12-01: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-01: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-01"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-02: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-02: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-02"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-03: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-03: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-03"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-04: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-04: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-04"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-05: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-05: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-05"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-06: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-06: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-06"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-07: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-07: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-07"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-08: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-08: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-08"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-09: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-09: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-09"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-10: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-10: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-10"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-11: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-11: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-11"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-12: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-12: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-12"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-13: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-13: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-13"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-14: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-14: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-14"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-15: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-15: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-15"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-16: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-16: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-16"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-17: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-17: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-17"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-18: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-18: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-18"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-19: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-19: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-19"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-20: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-20: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-20"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-21: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-21: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-21"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-22: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-22: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-22"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-23: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-23: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-23"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-24: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-24: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-24"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-25: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-25: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-25"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-26: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-26: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-26"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-27: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-27: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-27"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-28: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-28: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-28"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-29: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-29: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-29"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-30: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-30: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring "[39m
+    [33mdata-date[39m=[32m"2026-12-30"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "2026-12-31: 0 provider events, 0 collection streams. Open complete day detail":
+  [36m<button[39m
+    [33maria-label[39m=[32m"2026-12-31: 0 provider events, 0 collection streams. Open complete day detail"[39m
+    [33mclass[39m=[32m"relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring bg-accent"[39m
+    [33mdata-date[39m=[32m"2026-12-31"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "December 2026":
+  [36m<h2[39m
+    [33mclass[39m=[32m"text-lg font-semibold"[39m
+  [36m/>[39m
+
+  Name "Thursday, December 31, 2026":
+  [36m<h3[39m
+    [33mclass[39m=[32m"mb-3 text-sm font-semibold"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  [36m<p[39m
+    [33mclass[39m=[32m"text-sm"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33maria-label[39m=[32m"Calendar month view"[39m
+      [33maria-modal[39m=[32m"true"[39m
+      [33mclass[39m=[32m"fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"[39m
+      [33mrole[39m=[32m"dialog"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex h-full w-full sm:h-[85vh] sm:w-[85vw] max-w-[1400px] flex-col overflow-hidden rounded-none sm:rounded-xl border border-border bg-background/90 shadow-2xl backdrop-blur"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex flex-wrap items-center gap-2"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-label[39m=[32m"Previous month"[39m
+              [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-chevron-left h-5 w-5"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"m15 18-6-6 6-6"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</button>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"text-lg font-semibold"[39m
+            [36m>[39m
+              [0mDecember 2026[0m
+            [36m</h2>[39m
+            [36m<button[39m
+              [33maria-label[39m=[32m"Next month"[39m
+              [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-chevron-right h-5 w-5"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"m9 18 6-6-6-6"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs ml-2 min-h-11"[39m
+            [36m>[39m
+              [0mProvider Today[0m
+            [36m</button>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 min-h-11"[39m
+            [36m>[39m
+              [0mHousehold Today[0m
+            [36m</button>[39m
+          [36m</div>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"Close month view"[39m
+            [33mclass[39m=[32m"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-9 w-9 min-h-11 min-w-11"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-x h-5 w-5"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M18 6 6 18"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m6 6 12 12"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex min-h-0 flex-1 flex-col sm:flex-row overflow-y-auto sm:over...
+ ❯ Object.getElementError ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/unit/collectionCalendar.test.tsx:40:28
+     38|     collections.data = display;
+     39|     render(<FullScreenCalendar sourceIds={[]} sources={[]} collectionW…
+     40|     fireEvent.click(screen.getByRole('button', { name: /2027-01-02/ })…
+       |                            ^
+     41|     expect(screen.getAllByText('Moved waste').length).toBeGreaterThan(…
+     42|     expect(screen.getAllByText('Finite garden').length).toBeGreaterTha…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  12:19:31
+   Duration  718ms (transform 47ms, setup 0ms, collect 135ms, tests 132ms, environment 250ms, prepare 33ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/collectionCalendar.test.tsx
