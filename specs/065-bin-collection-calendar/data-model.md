@@ -36,12 +36,14 @@ explicit confirmation; shell clock edits never silently change collections.
 | householdId | TEXT NOT NULL FK household id, ON DELETE CASCADE |
 | name | TEXT NOT NULL, trimmed 1–80 chars, no controls; duplicate names allowed |
 | color | TEXT NOT NULL exact `#RRGGBB` (normalise hex case); duplicate colours allowed |
+| icon | TEXT NOT NULL bundled allowlisted icon key; legacy default `Trash2` |
 | enabled | INTEGER boolean NOT NULL |
 | sortOrder | INTEGER 0–31; aggregate validator requires consecutive unique order; request array order canonical |
 | scheduleMode | TEXT `regular` or `explicit` |
 | weekdaysMask | nullable INTEGER 1–127; bit 0 Monday through bit 6 Sunday |
 | intervalWeeks | nullable INTEGER 1–52 |
 | anchorDate | nullable date key; on a selected weekday for regular mode |
+| startDate / endDate | nullable inclusive regular occurrence bounds; null preserves legacy phase; explicit schedules require null |
 | createdAt / updatedAt | UTC ISO audit instants, server-assigned |
 
 Regular mode requires mask, interval and anchor. Explicit mode requires all

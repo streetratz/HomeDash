@@ -3,7 +3,30 @@
 **Branch**: `065-bin-collection-calendar` | **Date**: 2026-10-10 UTC+11 | **Spec**: [spec.md](spec.md)  
 **Input**: Feature specification from `specs/065-bin-collection-calendar/spec.md`,
 including owner-confirmed CH-02 Calendar-only icon-and-text scope.  
-**Status**: Planning only; no application implementation or task generation.
+**Status**: Implemented baseline; CH-03 custom-event refactor authorised.
+
+## CH-03 Implementation Revision
+
+Use a Custom Events button alongside Birthdays in CalendarSourceList. It mounts
+a dialog manager with a compact event list and one expanded editor. Keep the
+existing collection engine/API/table/widget-key names as compatibility internals;
+do not duplicate scheduling into provider events or rewrite unrelated sources.
+UI wording becomes custom events, with Add Event and additive bin preset.
+
+Extend stream storage with a bundled allowlisted icon (legacy default Trash2),
+nullable startDate and endDate for regular schedules. New events default to an
+explicit one-date schedule; new repeating schedules have a first-date bound.
+Existing null boundaries preserve their phase, even before anchor. Validate
+ordered bounds and exception origins/destinations before preview/save/restore.
+Use a new generated additive migration. Backup v2 accepts missing legacy fields
+with compatibility defaults and preserves new fields in current readers; older
+bin-only readers cannot restore these expanded v2 rows.
+
+**Constitution Check — CH-03**: PASS design: no new auth boundary/network call/
+dependency; bundled icon allowlist and dates validated at input and backup;
+same public selected projections, 32-event/range limits and atomic writes;
+additive upgrade without destructive cleanup; keyboard/mobile manager tests,
+phase logs and spec changelog required. No PR/version/push authorised.
 
 ## Summary
 

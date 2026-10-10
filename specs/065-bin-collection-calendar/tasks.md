@@ -286,6 +286,23 @@ while any mandatory gate fails. A later PR requires separate authorization.
 
 ## Dependencies & Execution Order
 
+### CH-03 Refactor Tasks (owner authorised 2026-10-10)
+
+Original checked tasks remain historical evidence, not proof of the revised
+candidate. Outstanding original matrices/human evidence are not marked complete.
+
+- [ ] R001 Update issue #19, spec CH-03, plan, model, UI/API contracts and phase audit before implementation.
+- [ ] R002 Extend recurrence bounds and icon allowlist with positive/negative date/validation tests (Prerequisite: R001).
+- [ ] R003 Generate additive migration; preserve old event IDs/rules/selections and backup v2 legacy defaults (Prerequisite: R002).
+- [ ] R004 Validate save/public/restore and migration compatibility; commit foundation phase after lint (Prerequisite: R003).
+- [ ] R005 Add Custom Events button/dialog beside Birthdays; remove inline household manager (Prerequisite: R004).
+- [ ] R006 Implement compact event list with one expanded series editor, Add Event, default one-off and additive bin preset (Prerequisite: R005).
+- [ ] R007 Add title/icon/colour, Repeat Off/Weekly/Fortnightly/Custom, first/end dates and advanced occurrences (Prerequisite: R006).
+- [ ] R008 Update agenda/fullscreen icons and custom-event selection/empty labels without changing provider behavior (Prerequisite: R007).
+- [ ] R009 Test one-off create/edit, recurrence stop, legacy rules, isolated delete, cancelled drafts and public icon selection (Prerequisite: R008).
+- [ ] R010 Run desktop/mobile browser flows, unit suites, typecheck/build and full lint; update docs/audit and commit UI phase (Prerequisite: R009).
+- [ ] R011 Verify rebuilt isolated preview and final review; no push/PR or data wipe (Prerequisite: R010).
+
 ### Phase and story graph
 
 ```text

@@ -1,12 +1,36 @@
-# Feature Specification: Bin Collection Calendar
+# Feature Specification: Custom Calendar Events
 
 **Feature Branch**: `065-bin-collection-calendar`  
 **Created**: 2026-10-10  
-**Status**: Draft — specification validated; implementation not started  
-**Issue**: [#19 — Calendar: Track recurring bin collection days](https://github.com/streetratz/HomeDash/issues/19)  
+**Status**: Owner-approved scope revision CH-03 — implementation in progress  
+**Issue**: [#19 — Calendar: Custom all-day events and bin preset](https://github.com/streetratz/HomeDash/issues/19)  
 **Input**: Specify recurring household collections using the owner's configurable
 AU/NZ preset, official council research, and independent schedules for other
-locations. Deliver specification and audit artifacts only.
+locations, expanded by the owner into editable local custom events.
+
+## Owner-Approved Revision — CH-03
+
+Custom events supersede the bin-only product boundary. Keep the branch/directory
+and historical stories for traceability: throughout those stories, a stream is
+an independently scheduled custom event; bin-specific scenarios remain preset
+acceptance tests. No separate widget, external lookup, or timed event feature.
+
+A **Custom Events** button beside Birthdays opens a compact manager. Show a list
+of event summaries and edit one event at a time, rather than all expanded forms
+on the settings page. Every event has a title, local bundled icon, colour and
+enabled state. Repeat is Off by default (one date); Weekly, Fortnightly and Custom
+N-week schedules support selected weekdays, a first date and optional inclusive
+end date. Advanced explicit date lists and reversible Skip/Move/Add exceptions
+are retained. Title/icon/colour edits apply to the series; occurrence date
+changes are explicitly distinguished from series edits.
+
+New repeating events start at their first date, never before it. Existing bin
+rules retain their phase and historical behaviour unless the administrator
+explicitly sets a start/end boundary. End dates bound actual occurrences,
+including exception destinations: out-of-bound destinations/origins must be
+resolved before saving, not silently dropped. Bin preset remains a shortcut,
+not a separate editor. Monthly/yearly rules, times/durations and notifications
+remain deferred.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -185,6 +209,32 @@ using differing visitor timezones and permitted/forbidden roles.
   backups, and unrelated calendar settings remain intact.
 
 ## Requirements *(mandatory)*
+
+### Custom Event Revision Requirements
+
+- **FR-024**: Admin Calendar settings MUST expose Custom Events beside Birthdays;
+  editing MUST occur in a mobile-friendly dialog with one expanded event at a time.
+- **FR-025**: Events MUST have a stable identity, title, validated bundled icon,
+  colour picker and enabled state. No external image URL/icon fetch is required.
+  Display MUST use the selected icon and visible title in agenda and fullscreen.
+- **FR-026**: New events MUST default to Repeat Off with one editable all-day date.
+  Weekly, Fortnightly and Custom every 1–52 weeks MUST be supported. An optional
+  inclusive end date MUST not precede the first date. No generated date may fall
+  before that first date or after the end date.
+- **FR-027**: Existing configured bins, date lists, exception IDs and Calendar
+  selections MUST survive the refactor and backup/restore. Missing legacy icons
+  become the bin icon; missing boundaries preserve legacy unbounded phase.
+- **FR-028**: The manager MUST offer Add Event and Use Bin Collection Preset.
+  The preset appends editable events without deleting existing custom events.
+  Duplicate preset application MUST require deliberate user action.
+- **FR-029**: Series edits and one-occurrence Skip/Move/Add MUST be explicitly
+  labelled. Invalidated exceptions/boundaries MUST block saving with feedback.
+  One-off edits MUST not create recurrence; deleting one event MUST not affect
+  other custom events, Birthdays or synced calendar sources.
+- **FR-030**: Custom events MUST reuse existing admin/CSRF/public-selection
+  safeguards, date-only household context, bounded validation and atomic preview/
+  save semantics. Superseded inline bin UI may be removed, but saved/live data
+  MUST NOT be wiped.
 
 ### Functional Requirements
 
@@ -376,7 +426,9 @@ using differing visitor timezones and permitted/forbidden roles.
   exception tests, critical setup/display flow tests, migration/upgrade evidence,
   and operational documentation under constitution 2.4.0. Spec-phase validation
   does not claim any of those implementation tests have passed.
-- This invocation stops after specification, changelog, research, checklist, and audit
-  artifacts. A plan/tasks, Main Version increment, commit with required trailers,
-  push, PR, and implementation are not performed here; applicable release gates
-  remain mandatory before a future implementation PR.
+- Under CH-03 the owner authorised the full Custom Calendar Events refactor, so the
+  plan, data model, contracts, tasks, and implementation are produced and committed
+  on this branch in audited phases. Main Version increment, push, PR, merge, and
+  release promotion are still deliberately **not** performed here and remain gated
+  for a separately authorised implementation PR; all mandatory local gates (lint,
+  upgrade proof, code and design review) still apply before any such PR.

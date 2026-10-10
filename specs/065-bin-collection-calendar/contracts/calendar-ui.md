@@ -1,7 +1,22 @@
 # Calendar UI Contract — Collection Branch
 
-**Scope**: Existing Calendar agenda/fullscreen and existing admin Calendars
-settings panel only. Planned behavior, no UI code produced.
+**Scope**: Existing Calendar agenda/fullscreen and admin Calendars settings.
+CH-03 generalises collections to custom all-day events.
+
+## CH-03 Manager Revision (supersedes bin-only presentation below)
+
+Custom Events button beside Birthdays opens a responsive dialog. Present event
+summaries and expand one editor at a time. Add Event defaults to one date/Repeat
+Off; Weekly/Fortnightly/Custom recurrence adds first date, weekday buttons and
+optional inclusive end date. Title, bundled icon, colour and enabled state are
+editable. Advanced date lists and Skip/Move/Add occurrence editing remain
+available but collapsed until requested. Clearly distinguish series changes from
+one-occurrence date changes. Use Bin Collection Preset appends three events
+without replacing the current list; household timezone stays explicit.
+
+Public/display DTO adds only the allowlisted `icon` presentation field; no
+start/end rules or private config. Existing saved IDs and widget selection keys
+are preserved; UI labels become Custom events and Public custom events.
 
 ## Admin Management
 

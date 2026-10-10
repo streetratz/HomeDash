@@ -4,6 +4,7 @@
 
 - [CH-01 : Specify independent bin collection schedules](#ch-01--specify-independent-bin-collection-schedules--2026-oct-10-1033-utc11)
 - [CH-02 : Confirm existing calendar bin presentation](#ch-02--confirm-existing-calendar-bin-presentation--2026-oct-10-1047-utc11)
+- [CH-03 : Expand to custom all-day events](#ch-03--expand-to-custom-all-day-events--2026-oct-10-1346-utc11)
 
 ---
 
@@ -38,3 +39,19 @@ without treating unrelated draft defaults as confirmed.
 | US4 scenario 1 / FR-016 | Pair configured-colour bin icons with visible stream names, group by date, emphasise the next collection, and stack narrow-screen rows without hiding names. |
 | FR-014 | Explicitly exclude a separate Bin Days widget; retain existing agenda and fullscreen calendar integration. |
 | Assumptions | Promote calendar-only/icon-and-text scope to owner-confirmed; keep one-household and manual-entry scope as draft defaults. |
+
+---
+
+## CH-03 : Expand to custom all-day events : 2026-Oct-10 1346 UTC+11
+
+**Type**: Revised / New FR  
+**Summary**: Owner approved a Birthdays-style Custom Events manager with title,
+icon, colour, one-off/repeating schedules and end dates, keeping bins as a preset.
+Supersede the bin-only UI without wiping saved data or changing external feeds.
+
+| ID | Description |
+| --- | --- |
+| FR-024–FR-025 | Compact dialog/list editor and per-event bundled icons/colour/title. |
+| FR-026–FR-027 | Default one-off, bounded N-week recurrence and legacy preservation. |
+| FR-028–FR-030 | Additive bin preset, occurrence/series distinction and unchanged safe access/atomicity. |
+| Historical US1–US4 / FR-005–FR-017 | Generalise streams to custom events; retain bin scenarios as regression coverage. Selected icons supersede fixed bin icons; new first-date bounds supersede unbounded anchor semantics only for new/bounded events. |
