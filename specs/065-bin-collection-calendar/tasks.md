@@ -300,7 +300,7 @@ candidate. Outstanding original matrices/human evidence are not marked complete.
 - [x] R007 Add title/icon/colour, Repeat Off/Weekly/Fortnightly/Custom, first/end dates and advanced occurrences (Prerequisite: R006).
 - [x] R008 Update agenda/fullscreen icons and custom-event selection/empty labels without changing provider behavior (Prerequisite: R007).
 - [x] R009 Test one-off create/edit, recurrence stop, legacy rules, isolated delete, cancelled drafts and public icon selection (Prerequisite: R008).
-- [ ] R010 Run desktop/mobile browser flows, unit suites, typecheck/build and full lint; update docs/audit and commit UI phase (Prerequisite: R009).
+- [x] R010 Run desktop/mobile browser flows, unit suites, typecheck/build and full lint; update docs/audit and commit UI phase (Prerequisite: R009).
 - [ ] R011 Verify rebuilt isolated preview and final review; no push/PR or data wipe (Prerequisite: R010).
 
 ### CH-04 Correction Tasks (owner review 2026-10-10 1507 UTC+11)

@@ -71,6 +71,13 @@ All under Node 24.18.0 / pnpm 11.
   [`18-phase-inpage-datepicker/build.log`](18-phase-inpage-datepicker/build.log).
 - `pnpm lint` (`eslint . --max-warnings=0`) — clean, zero warnings; raw log in
   [`18-phase-inpage-datepicker/eslint.log`](18-phase-inpage-datepicker/eslint.log).
+- `pre-pr-upgrade-gate` / `pnpm test:upgrade` (repo-local `TMPDIR`) — **passed**:
+  migrations 32 → 35, 28 tables preserved, 0 FK violations. The gate builds the
+  baseline image from `main` (no collection tables) and the candidate image from
+  this worktree, starts the candidate on the baseline-created database volume, and
+  confirms the candidate startup migrations create all new collection tables /
+  columns without data loss or FK violations. Raw log in
+  [`18-phase-inpage-datepicker/upgrade-gate.log`](18-phase-inpage-datepicker/upgrade-gate.log).
 
 ## Errors & Fixes
 
