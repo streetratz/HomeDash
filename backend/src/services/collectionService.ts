@@ -21,6 +21,7 @@ import {
   collectionDates,
   addDays,
 } from './collectionDates.js';
+import { COLLECTION_ICONS, DEFAULT_COLLECTION_ICON } from './collectionIcons.js';
 
 const unique = <T>(values: T[]) => new Set(values).size === values.length;
 const boundedText = (max: number) =>
@@ -71,8 +72,14 @@ const regularSchedule = z
       .transform((days) => days.sort()),
     intervalWeeks: z.number().int().min(1).max(52),
     anchorDate: collectionDateSchema,
+    startDate: collectionDateSchema.nullable().optional(),
+    endDate: collectionDateSchema.nullable().optional(),
   })
-  .strict();
+  .strict()
+  .refine((s) => s.startDate == null || s.endDate == null || s.startDate <= s.endDate, {
+    message: 'End date must not precede the first date',
+    path: ['endDate'],
+  });
 const explicitSchedule = z
   .object({
     mode: z.literal('explicit'),
@@ -103,6 +110,7 @@ const streamFields = {
     .string()
     .regex(/^#[0-9a-fA-F]{6}$/)
     .transform((c) => c.toUpperCase()),
+  icon: z.enum(COLLECTION_ICONS),
   enabled: z.boolean(),
 };
 export const collectionStreamSchema = z.union([
@@ -214,7 +222,7 @@ export interface CollectionConfig {
 }
 export interface CollectionGroup {
   date: string;
-  streams: { key: string; name: string; color: string }[];
+  streams: { key: string; name: string; color: string; icon: string }[];
 }
 export type CollectionState =
   | 'unconfigured'
@@ -314,7 +322,13 @@ function persistedStream(
   dates: (typeof collectionExplicitDates.$inferSelect)[],
   exceptions: (typeof collectionExceptions.$inferSelect)[],
 ): CollectionStream {
-  const common = { id: row.id, name: row.name, color: row.color, enabled: row.enabled };
+  const common = {
+    id: row.id,
+    name: row.name,
+    color: row.color,
+    icon: row.icon,
+    enabled: row.enabled,
+  };
   return parse(
     collectionStreamSchema,
     row.scheduleMode === 'explicit'
@@ -328,6 +342,8 @@ function persistedStream(
             ),
             intervalWeeks: row.intervalWeeks,
             anchorDate: row.anchorDate,
+            startDate: row.startDate,
+            endDate: row.endDate,
           },
           exceptions: exceptions.map((e) => ({
             id: e.id,
@@ -441,7 +457,12 @@ export function collectionGroups(
         group = { date, streams: [] };
         groups.set(date, group);
       }
-      group.streams.push({ key: `collection:${s.id}:${date}`, name: s.name, color: s.color });
+      group.streams.push({
+        key: `collection:${s.id}:${date}`,
+        name: s.name,
+        color: s.color,
+        icon: s.icon,
+      });
     }
   }
   return [...groups.values()].sort((a, b) => a.date.localeCompare(b.date));
@@ -523,6 +544,7 @@ export function saveCollections(raw: unknown): CollectionConfig {
             householdId: 'global',
             name: s.name,
             color: s.color,
+            icon: s.icon,
             enabled: s.enabled,
             sortOrder: index,
             scheduleMode: s.schedule.mode,
@@ -531,6 +553,8 @@ export function saveCollections(raw: unknown): CollectionConfig {
               : null,
             intervalWeeks: regular?.intervalWeeks ?? null,
             anchorDate: regular?.anchorDate ?? null,
+            startDate: regular?.startDate ?? null,
+            endDate: regular?.endDate ?? null,
           };
           if (!old)
             tx.insert(collectionStreams)
@@ -738,12 +762,15 @@ const householdRowSchema = z
 const streamRowSchema = z
   .object({
     ...streamFields,
+    icon: z.enum(COLLECTION_ICONS).default(DEFAULT_COLLECTION_ICON),
     householdId: z.literal('global'),
     sortOrder: z.number().int().min(0).max(31),
     scheduleMode: z.enum(['regular', 'explicit']),
     weekdaysMask: z.number().int().min(1).max(127).nullable(),
     intervalWeeks: z.number().int().min(1).max(52).nullable(),
     anchorDate: collectionDateSchema.nullable(),
+    startDate: collectionDateSchema.nullable().default(null),
+    endDate: collectionDateSchema.nullable().default(null),
     createdAt: timestamp,
     updatedAt: timestamp,
   })
@@ -751,8 +778,16 @@ const streamRowSchema = z
   .refine((s) =>
     s.scheduleMode === 'regular'
       ? s.weekdaysMask !== null && s.intervalWeeks !== null && s.anchorDate !== null
-      : s.weekdaysMask === null && s.intervalWeeks === null && s.anchorDate === null,
-  );
+      : s.weekdaysMask === null &&
+        s.intervalWeeks === null &&
+        s.anchorDate === null &&
+        s.startDate === null &&
+        s.endDate === null,
+  )
+  .refine((s) => s.startDate === null || s.endDate === null || s.startDate <= s.endDate, {
+    message: 'End date must not precede the first date',
+    path: ['endDate'],
+  });
 const explicitRowSchema = z.object({ streamId: uuid, date: collectionDateSchema }).strict();
 const exceptionRowSchema = z
   .object({

@@ -33,12 +33,15 @@ export const collectionStreams = sqliteTable('collection_streams', {
   householdId: text('household_id').notNull().references(() => collectionHousehold.id, { onDelete: 'cascade' }),
   name: text('name').notNull(),
   color: text('color').notNull(),
+  icon: text('icon').notNull().default('Trash2'),
   enabled: integer('enabled', { mode: 'boolean' }).notNull(),
   sortOrder: integer('sort_order').notNull(),
   scheduleMode: text('schedule_mode', { enum: ['regular', 'explicit'] }).notNull(),
   weekdaysMask: integer('weekdays_mask'),
   intervalWeeks: integer('interval_weeks'),
   anchorDate: text('anchor_date'),
+  startDate: text('start_date'),
+  endDate: text('end_date'),
   createdAt: text('created_at').notNull(),
   updatedAt: text('updated_at').notNull(),
 }, t => [
@@ -48,8 +51,10 @@ export const collectionStreams = sqliteTable('collection_streams', {
   check('collection_streams_shape', sql`(
     ${t.scheduleMode} = 'regular' AND ${t.weekdaysMask} IS NOT NULL AND ${t.weekdaysMask} BETWEEN 1 AND 127
     AND ${t.intervalWeeks} IS NOT NULL AND ${t.intervalWeeks} BETWEEN 1 AND 52 AND ${t.anchorDate} IS NOT NULL
+    AND (${t.startDate} IS NULL OR ${t.endDate} IS NULL OR ${t.startDate} <= ${t.endDate})
   ) OR (
     ${t.scheduleMode} = 'explicit' AND ${t.weekdaysMask} IS NULL AND ${t.intervalWeeks} IS NULL AND ${t.anchorDate} IS NULL
+    AND ${t.startDate} IS NULL AND ${t.endDate} IS NULL
   )`),
 ]);
 

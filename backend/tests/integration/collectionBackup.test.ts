@@ -86,6 +86,7 @@ describe('portable collection format', () => {
           id: collectionIds.garden,
           name: 'Garden',
           color: '#00AA00',
+          icon: 'Leaf' as const,
           enabled: true,
           schedule: { mode: 'explicit', dates: ['2026-10-21', '2028-02-29'] },
         },

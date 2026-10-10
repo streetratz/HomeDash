@@ -18,7 +18,8 @@
 | 12 | Final validation | Gates passed; 78/97 tasks checked, full outcome closure pending | [12-phase-final-validation.md](12-phase-final-validation.md) |
 | 13 | Fresh-context Opus 4.8 review | Scoped today-marker correction validated; owner validation pending | [13-phase-opus-review.md](13-phase-opus-review.md) |
 | 14 | Collection settings polish | Validated — compact weekdays and shared colour picker | [14-phase-settings-polish.md](14-phase-settings-polish.md) |
-| 15 | Custom event scope revision | In progress — CH-03 replaces bin-only UI boundary | [15-phase-custom-event-planning.md](15-phase-custom-event-planning.md) |
+| 15 | Custom event scope revision | Complete — CH-03 replaces bin-only UI boundary; planning aligned | [15-phase-custom-event-planning.md](15-phase-custom-event-planning.md) |
+| 16 | Custom event backend foundation | Complete — icon/bounds engine + migrations; 835 tests, lint clean | [16-phase-custom-event-foundation.md](16-phase-custom-event-foundation.md) |
 
 ## Overall Status
 

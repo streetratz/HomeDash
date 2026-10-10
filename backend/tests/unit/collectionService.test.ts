@@ -86,7 +86,13 @@ describe('strict collection aggregate and atomic diff', () => {
     const explicit = { ...base.streams[0], schedule: { mode: 'explicit', dates: ['2026-10-14'] } };
     expect(collectionDraftSchema.safeParse({ ...base, streams: [explicit] }).success).toBe(false); // regular exceptions forbidden
     const first = base.streams[0]!;
-    const common = { id: first.id, name: first.name, color: first.color, enabled: first.enabled };
+    const common = {
+      id: first.id,
+      name: first.name,
+      color: first.color,
+      icon: first.icon,
+      enabled: first.enabled,
+    };
     for (const dates of [
       [],
       ['2026-10-14', '2026-10-14'],

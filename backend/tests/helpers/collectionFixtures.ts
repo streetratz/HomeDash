@@ -41,6 +41,7 @@ export function collectionPreset() {
         id: collectionIds.general,
         name: 'General waste',
         color: '#DC2626',
+        icon: 'Trash2' as const,
         enabled: true,
         schedule: {
           mode: 'regular' as const,
@@ -54,6 +55,7 @@ export function collectionPreset() {
         id: collectionIds.recycling,
         name: 'Recycling',
         color: '#EAB308',
+        icon: 'Recycle' as const,
         enabled: true,
         schedule: {
           mode: 'regular' as const,
@@ -67,6 +69,7 @@ export function collectionPreset() {
         id: collectionIds.garden,
         name: 'Garden waste',
         color: '#16A34A',
+        icon: 'Leaf' as const,
         enabled: true,
         schedule: {
           mode: 'regular' as const,

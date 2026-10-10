@@ -127,7 +127,7 @@ describe('public collection widget scope', () => {
       'timezone',
     ]);
     expect(Object.keys(body.groups[0]).sort()).toEqual(['date', 'streams']);
-    expect(Object.keys(body.groups[0].streams[0]).sort()).toEqual(['color', 'key', 'name']);
+    expect(Object.keys(body.groups[0].streams[0]).sort()).toEqual(['color', 'icon', 'key', 'name']);
     const denied = await app.app.inject({
       method: 'GET',
       url: `${url}?bad=true`,

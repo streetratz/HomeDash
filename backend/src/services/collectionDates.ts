@@ -4,6 +4,10 @@ export interface RegularSchedule {
   weekdays: number[];
   intervalWeeks: number;
   anchorDate: string;
+  /** Inclusive first date; null preserves legacy unbounded anchor phase. */
+  startDate?: string | null | undefined;
+  /** Inclusive last date; null means the cycle never ends. */
+  endDate?: string | null | undefined;
 }
 export interface ExplicitSchedule {
   mode: 'explicit';
@@ -37,11 +41,17 @@ export function addDays(key: string, days: number): string {
 export function weekday(ordinal: number): number {
   return ((((ordinal + 3) % 7) + 7) % 7) + 1;
 }
+export function withinBounds(schedule: RegularSchedule, key: string): boolean {
+  if (schedule.startDate != null && key < schedule.startDate) return false;
+  if (schedule.endDate != null && key > schedule.endDate) return false;
+  return true;
+}
 export function isBaseDate(schedule: RegularSchedule, key: string): boolean {
   const day = parseDate(key);
   const anchor = parseDate(schedule.anchorDate);
   const weeks = (day - weekday(day) + 1 - (anchor - weekday(anchor) + 1)) / 7;
   return (
+    withinBounds(schedule, key) &&
     schedule.weekdays.includes(weekday(day)) &&
     ((weeks % schedule.intervalWeeks) + schedule.intervalWeeks) % schedule.intervalWeeks === 0
   );
@@ -68,6 +78,7 @@ export function exceptionBlockers(
     if (entry.kind === 'skip') continue;
     if (entry.kind === 'replace' && entry.originalDate === entry.actualDate)
       errors.push('unchanged_move');
+    if (!withinBounds(schedule, entry.actualDate)) errors.push('out_of_bounds_actual');
     if (
       targets.has(entry.actualDate) ||
       (isBaseDate(schedule, entry.actualDate) && !suppressed.has(entry.actualDate))

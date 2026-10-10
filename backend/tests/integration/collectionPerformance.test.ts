@@ -50,6 +50,7 @@ describe('independent collection oracle and bounded measurement', () => {
       id: crypto.randomUUID(),
       name: `Synthetic ${i + 1}`,
       color: '#123456',
+      icon: 'Trash2' as const,
       enabled: true,
       schedule: {
         mode: 'regular' as const,

@@ -291,10 +291,10 @@ while any mandatory gate fails. A later PR requires separate authorization.
 Original checked tasks remain historical evidence, not proof of the revised
 candidate. Outstanding original matrices/human evidence are not marked complete.
 
-- [ ] R001 Update issue #19, spec CH-03, plan, model, UI/API contracts and phase audit before implementation.
-- [ ] R002 Extend recurrence bounds and icon allowlist with positive/negative date/validation tests (Prerequisite: R001).
-- [ ] R003 Generate additive migration; preserve old event IDs/rules/selections and backup v2 legacy defaults (Prerequisite: R002).
-- [ ] R004 Validate save/public/restore and migration compatibility; commit foundation phase after lint (Prerequisite: R003).
+- [x] R001 Update issue #19, spec CH-03, plan, model, UI/API contracts and phase audit before implementation.
+- [x] R002 Extend recurrence bounds and icon allowlist with positive/negative date/validation tests (Prerequisite: R001).
+- [x] R003 Generate additive migration; preserve old event IDs/rules/selections and backup v2 legacy defaults (Prerequisite: R002).
+- [x] R004 Validate save/public/restore and migration compatibility; commit foundation phase after lint (Prerequisite: R003).
 - [ ] R005 Add Custom Events button/dialog beside Birthdays; remove inline household manager (Prerequisite: R004).
 - [ ] R006 Implement compact event list with one expanded series editor, Add Event, default one-off and additive bin preset (Prerequisite: R005).
 - [ ] R007 Add title/icon/colour, Repeat Off/Weekly/Fortnightly/Custom, first/end dates and advanced occurrences (Prerequisite: R006).

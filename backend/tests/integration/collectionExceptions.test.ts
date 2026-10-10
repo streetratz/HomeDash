@@ -38,6 +38,7 @@ describe('irregular aggregate acceptance', () => {
         id: collectionIds.general,
         name: 'Weekly',
         color: '#123456',
+        icon: 'Trash2',
         enabled: true,
         schedule: { mode: 'regular', weekdays: [5], intervalWeeks: 1, anchorDate: '2026-12-25' },
         exceptions: [
@@ -53,6 +54,7 @@ describe('irregular aggregate acceptance', () => {
         id: collectionIds.recycling,
         name: 'Fortnightly',
         color: '#123456',
+        icon: 'Trash2',
         enabled: true,
         schedule: { mode: 'regular', weekdays: [5], intervalWeeks: 2, anchorDate: '2026-12-25' },
         exceptions: [
@@ -68,6 +70,7 @@ describe('irregular aggregate acceptance', () => {
         id: collectionIds.garden,
         name: 'Explicit',
         color: '#123456',
+        icon: 'Trash2',
         enabled: true,
         schedule: { mode: 'explicit', dates: ['2026-12-14', '2027-01-18', '2027-02-15'] },
       },
@@ -142,6 +145,7 @@ describe('irregular aggregate acceptance', () => {
             id: s.id,
             name: s.name,
             color: s.color,
+            icon: s.icon,
             enabled: s.enabled,
             schedule: {
               mode: 'regular',
@@ -167,6 +171,7 @@ describe('irregular aggregate acceptance', () => {
       id: collectionIds.general,
       name: 'Twice weekly',
       color: '#123456',
+      icon: 'Trash2',
       enabled: true,
       schedule: { mode: 'regular', weekdays: [1, 4], intervalWeeks: 1, anchorDate: '2026-12-28' },
       exceptions: [
