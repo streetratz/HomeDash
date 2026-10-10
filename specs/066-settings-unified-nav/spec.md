@@ -132,7 +132,11 @@ their member sections and that every pre-existing section appears exactly once.
 - **FR-005**: The active leaf and sub-panel MUST be encoded in the URL using
   the `?tab=<leaf>` parameter plus an optional `?panel=<sub-panel>` for leaves
   that retain internal navigation (currently only Integrations, e.g.
-  `?tab=integrations&panel=docker`). Leaf ids MUST be the clean names matching
+  `?tab=integrations&panel=docker`). The `panel` value MUST be treated as an
+  opaque, leaf-interpreted sub-selector — not an Integrations-specific field —
+  so other leaves (e.g. a future Widgets per-widget view, `?tab=widgets&panel=
+  <widgetId>`) can reuse the same grammar without a new parameter or resolver
+  change. Leaf ids MUST be the clean names matching
   the new structure: `general`, `branding`, `header-footer`, `clock-strip`,
   `screensaver`, `dashboards`, `widgets`, `integrations`, `users`, `groups`,
   `timezone`, `scheduled-jobs`, `backup`, `about`. The owning group is derived
@@ -157,7 +161,9 @@ their member sections and that every pre-existing section appears exactly once.
   changes.
 - **FR-012**: The `Settings → Widgets` section MUST remain present as the
   designated home for per-widget settings (shared seam with #20); this spec
-  does not change its current content.
+  does not change its current content. The generic `?panel=` sub-selector from
+  FR-005 MUST remain available to this leaf so #20 can introduce
+  `?tab=widgets&panel=<widgetId>` with no navigation or routing rework.
 
 ### Key Entities
 
