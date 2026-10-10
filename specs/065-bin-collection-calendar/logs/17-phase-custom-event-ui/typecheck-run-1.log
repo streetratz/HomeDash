@@ -1,0 +1,5 @@
+$ pnpm typecheck  (Node 24.18.0)
+backend typecheck$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+frontend typecheck$ tsc --noEmit
+frontend typecheck: Done
+backend typecheck: Done

@@ -9,7 +9,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:unit": "vitest run src",
+    "test:unit": "vitest run src tests/unit",
     "test:e2e": "playwright test",
     "test:e2e:server": "node scripts/start-e2e-server.mjs",
     "test:e2e:ui": "playwright test --ui",

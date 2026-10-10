@@ -1,0 +1,108 @@
+# Command: find /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src -iname "*calendar*" -o -iname "*backup*" -o -iname "*permission*"; find /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src -iname "*calendar*" -o -iname "*poll*" -o -iname "*visibility*"; rg -n "calendar|backup|restore" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/index.ts; rg -n "COPILOT|copilot|SPECKIT|update_existing|update_agent_file" /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/update-agent-context.sh; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/calendar.ts
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:51:24 +1100
+# Exit:    1
+---
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/permissions.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-backup.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-calendar.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/microsoft-calendar-service.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/birthday-calendar-service.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/calendar-types.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/backupService.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/backupTypes.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/calendar-sync-service.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/google-calendar-service.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/widgetVisibility.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/settings/__tests__/CalendarSourceEditing.test.tsx
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/settings/CalendarSourceList.tsx
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/calendar
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/calendar/FullScreenCalendar.tsx
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/__tests__/widgetVisibility.test.tsx
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/widgets/CalendarWidget.tsx
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/widgets/CalendarConfigForm.tsx
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/hooks/useAdaptivePoll.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/hooks/useDocumentVisibility.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/hooks/useWidgetVisibility.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/hooks/__tests__/useAdaptivePoll.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/lib/calendarDates.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/lib/calendarDates.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/index.ts:15:import { registerCalendarRoutes } from './admin-calendar.js';
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/index.ts:30:import { registerAdminBackupRoutes } from './admin-backup.js';
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:43:  calendarSources: many(calendarSources),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:389:  calendarSources: many(calendarSources),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:394:export const calendarSources = sqliteTable(
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:395:  'calendar_sources',
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:420:    userIdIdx: index('calendar_sources_user_id_idx').on(t.userId),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:421:    oauthAccountIdIdx: index('calendar_sources_oauth_account_id_idx').on(t.oauthAccountId),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:425:export const calendarSourcesRelations = relations(calendarSources, ({ one, many }) => ({
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:426:  user: one(users, { fields: [calendarSources.userId], references: [users.id] }),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:428:    fields: [calendarSources.oauthAccountId],
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:431:  calendarEvents: many(calendarEvents),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:432:  birthdays: many(calendarBirthdays),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:437:export const calendarEvents = sqliteTable(
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:438:  'calendar_events',
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:443:      .references(() => calendarSources.id, { onDelete: 'cascade' }),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:455:    calendarName: text('calendar_name'),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:461:    sourceStartIdx: index('calendar_events_source_start_idx').on(t.sourceId, t.startAt),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:462:    sourceProviderIdx: uniqueIndex('calendar_events_source_provider_idx').on(
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:469:export const calendarEventsRelations = relations(calendarEvents, ({ one }) => ({
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:470:  source: one(calendarSources, {
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:471:    fields: [calendarEvents.sourceId],
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:472:    references: [calendarSources.id],
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:478:export const calendarBirthdays = sqliteTable(
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:479:  'calendar_birthdays',
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:484:      .references(() => calendarSources.id, { onDelete: 'cascade' }),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:495:    sourceIdIdx: index('calendar_birthdays_source_id_idx').on(t.sourceId),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:499:export const calendarBirthdaysRelations = relations(calendarBirthdays, ({ one }) => ({
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:500:  source: one(calendarSources, {
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:501:    fields: [calendarBirthdays.sourceId],
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:502:    references: [calendarSources.id],
+38:# Agent types: claude|gemini|copilot|cursor-agent|qwen|opencode|codex|windsurf|kilocode|auggie|roo|codebuddy|amp|shai|q|agy|bob|qodercli
+64:COPILOT_FILE="$REPO_ROOT/.github/agents/copilot-instructions.md"
+364:update_existing_agent_file() {
+508:update_agent_file() {
+513:        log_error "update_agent_file requires target_file and agent_name parameters"
+567:        if update_existing_agent_file "$target_file" "$current_date"; then
+587:            update_agent_file "$CLAUDE_FILE" "Claude Code"
+590:            update_agent_file "$GEMINI_FILE" "Gemini CLI"
+592:        copilot)
+593:            update_agent_file "$COPILOT_FILE" "GitHub Copilot"
+596:            update_agent_file "$CURSOR_FILE" "Cursor IDE"
+599:            update_agent_file "$QWEN_FILE" "Qwen Code"
+602:            update_agent_file "$AGENTS_FILE" "opencode"
+605:            update_agent_file "$AGENTS_FILE" "Codex CLI"
+608:            update_agent_file "$WINDSURF_FILE" "Windsurf"
+611:            update_agent_file "$KILOCODE_FILE" "Kilo Code"
+614:            update_agent_file "$AUGGIE_FILE" "Auggie CLI"
+617:            update_agent_file "$ROO_FILE" "Roo Code"
+620:            update_agent_file "$CODEBUDDY_FILE" "CodeBuddy CLI"
+623:            update_agent_file "$QODER_FILE" "Qoder CLI"
+626:            update_agent_file "$AMP_FILE" "Amp"
+629:            update_agent_file "$SHAI_FILE" "SHAI"
+632:            update_agent_file "$Q_FILE" "Amazon Q Developer CLI"
+635:            update_agent_file "$AGY_FILE" "Antigravity"
+638:            update_agent_file "$BOB_FILE" "IBM Bob"
+645:            log_error "Expected: claude|gemini|copilot|cursor-agent|qwen|opencode|codex|windsurf|kilocode|auggie|roo|codebuddy|amp|shai|q|agy|bob|qodercli|generic"
+656:        update_agent_file "$CLAUDE_FILE" "Claude Code"
+661:        update_agent_file "$GEMINI_FILE" "Gemini CLI"
+665:    if [[ -f "$COPILOT_FILE" ]]; then
+666:        update_agent_file "$COPILOT_FILE" "GitHub Copilot"
+671:        update_agent_file "$CURSOR_FILE" "Cursor IDE"
+676:        update_agent_file "$QWEN_FILE" "Qwen Code"
+681:        update_agent_file "$AGENTS_FILE" "Codex/opencode"
+686:        update_agent_file "$WINDSURF_FILE" "Windsurf"
+691:        update_agent_file "$KILOCODE_FILE" "Kilo Code"
+696:        update_agent_file "$AUGGIE_FILE" "Auggie CLI"
+701:        update_agent_file "$ROO_FILE" "Roo Code"
+706:        update_agent_file "$CODEBUDDY_FILE" "CodeBuddy CLI"
+711:        update_agent_file "$SHAI_FILE" "SHAI"
+716:        update_agent_file "$QODER_FILE" "Qoder CLI"
+721:        update_agent_file "$Q_FILE" "Amazon Q Developer CLI"
+726:        update_agent_file "$AGY_FILE" "Antigravity"
+730:        update_agent_file "$BOB_FILE" "IBM Bob"
+737:        update_agent_file "$CLAUDE_FILE" "Claude Code"
+758:    log_info "Usage: $0 [claude|gemini|copilot|cursor-agent|qwen|opencode|codex|windsurf|kilocode|auggie|roo|codebuddy|amp|shai|q|agy|bob|qodercli]"
+cat: /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/calendar.ts: No such file or directory

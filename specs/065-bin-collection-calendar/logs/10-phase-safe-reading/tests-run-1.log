@@ -1,0 +1,32 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/collectionRefresh.test.tsx tests/unit/collectionVisibility.test.tsx tests/unit/collectionHooks.test.tsx tests/unit/collectionCalendar.test.tsx && pnpm --filter backend exec vitest run tests/integration/collectionPublic.test.ts && pnpm --filter backend typecheck && pnpm --filter frontend typecheck
+# Phase:   10-phase-safe-reading
+# Run:     1
+# Time:    2026-10-10T01:06:48+00:00
+# Exit:    0
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 10ms
+ ✓ tests/unit/collectionVisibility.test.tsx  (1 test) 1ms
+ ✓ tests/unit/collectionHooks.test.tsx  (5 tests) 120ms
+ ✓ tests/unit/collectionCalendar.test.tsx  (4 tests) 75ms
+
+ Test Files  4 passed (4)
+      Tests  11 passed (11)
+   Start at  12:06:36
+   Duration  945ms (transform 134ms, setup 0ms, collect 370ms, tests 206ms, environment 1.75s, prepare 141ms)
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/collectionPublic.test.ts  (5 tests) 287ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  12:06:37
+   Duration  1.29s (transform 289ms, setup 232ms, collect 655ms, tests 287ms, environment 0ms, prepare 30ms)
+
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+$ tsc --noEmit

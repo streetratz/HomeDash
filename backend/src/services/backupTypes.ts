@@ -4,10 +4,11 @@
  */
 
 import { z } from 'zod';
+import { collectionBackupRowsSchema, validateCollectionBackup } from './collectionService.js';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-export const BACKUP_VERSION = 1;
+export const BACKUP_VERSION = 2;
 export const BACKUP_FORMAT = 'homedash-backup' as const;
 
 /** Tables included in backup (in FK-safe insertion order). */
@@ -39,6 +40,10 @@ export const INCLUDED_TABLES = [
   'scheduledJobs',
   'caldavAccounts',
   'oauthAccounts',
+  'collectionHousehold',
+  'collectionStreams',
+  'collectionExplicitDates',
+  'collectionExceptions',
 ] as const;
 
 /** Tables explicitly excluded from backup. */
@@ -77,6 +82,10 @@ export interface BackupSummary {
 }
 
 export interface BackupData {
+  collectionHousehold: Record<string, unknown>[];
+  collectionStreams: Record<string, unknown>[];
+  collectionExplicitDates: Record<string, unknown>[];
+  collectionExceptions: Record<string, unknown>[];
   users: Record<string, unknown>[];
   userPreferences: Record<string, unknown>[];
   appShellSettings: Record<string, unknown>[];
@@ -166,11 +175,39 @@ const backupDataSchema = z.object({
   oauthAccounts: z.array(z.record(z.unknown())),
 });
 
-export const backupFileSchema = z.object({
+const envelopeFields = {
   format: z.literal(BACKUP_FORMAT),
-  version: z.number().int().min(1).max(BACKUP_VERSION),
   appVersion: z.string(),
   exportedAt: z.string(),
   summary: backupSummarySchema,
-  data: backupDataSchema,
-});
+};
+const v1Data = backupDataSchema
+  .extend({
+    collectionHousehold: z.never().optional(),
+    collectionStreams: z.never().optional(),
+    collectionExplicitDates: z.never().optional(),
+    collectionExceptions: z.never().optional(),
+  })
+  .transform((data) => ({
+    ...data,
+    collectionHousehold: [],
+    collectionStreams: [],
+    collectionExplicitDates: [],
+    collectionExceptions: [],
+  }));
+export const backupFileSchema = z
+  .union([
+    z.object({ ...envelopeFields, version: z.literal(1), data: v1Data }),
+    z.object({
+      ...envelopeFields,
+      version: z.literal(2),
+      data: backupDataSchema.extend(collectionBackupRowsSchema.shape),
+    }),
+  ])
+  .superRefine((backup, ctx) => {
+    try {
+      validateCollectionBackup(backup.data);
+    } catch {
+      ctx.addIssue({ code: 'custom', message: 'Invalid collection backup configuration' });
+    }
+  });

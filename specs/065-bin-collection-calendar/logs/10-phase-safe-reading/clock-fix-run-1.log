@@ -1,0 +1,66 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/collectionHooks.test.tsx tests/unit/collectionCalendar.test.tsx tests/unit/collectionRefresh.test.tsx && pnpm --filter frontend typecheck && pnpm lint
+# Phase:   10-phase-safe-reading
+# Run:     1
+# Time:    2026-10-10T01:09:35+00:00
+# Exit:    1
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 10ms
+ ✓ tests/unit/collectionCalendar.test.tsx  (4 tests) 73ms
+stderr | tests/unit/collectionHooks.test.tsx > collection query separation > rolls household date and range over on the single foreground 30-second query poll
+TypeError: Cannot read properties of null (reading 'today')
+    at Module.useCollectionDisplay (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/collectionHooks.ts:102:71)
+    at __vi_import_1__.renderHook.wrapper.wrapper (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/unit/collectionHooks.test.tsx:71:37)
+    at TestComponent (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@testing-library+react@16.3.2_@testing-library+dom@10.4.1_@types+react-dom@18.3.7_@type_8105afb30b3aed617b9ca863f1e5e96d/node_modules/@testing-library/react/dist/pure.js:330:27)
+    at renderWithHooks (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at updateFunctionComponent (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:19617:20)
+    at beginWork (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21640:16)
+    at HTMLUnknownElement.callCallback (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/generated/idl/EventListener.js:26:30)
+    at innerInvokeEventListeners (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@1.8.0/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+TypeError: Cannot read properties of null (reading 'today')
+    at Module.useCollectionDisplay (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/collectionHooks.ts:102:71)
+    at __vi_import_1__.renderHook.wrapper.wrapper (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/unit/collectionHooks.test.tsx:71:37)
+    at TestComponent (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@testing-library+react@16.3.2_@testing-library+dom@10.4.1_@types+react-dom@18.3.7_@type_8105afb30b3aed617b9ca863f1e5e96d/node_modules/@testing-library/react/dist/pure.js:330:27)
+    at renderWithHooks (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at updateFunctionComponent (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:19617:20)
+    at beginWork (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:21640:16)
+    at beginWork$1 (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+
+ ✓ tests/unit/collectionHooks.test.tsx  (7 tests) 3895ms
+
+ Test Files  3 passed (3)
+      Tests  12 passed (12)
+   Start at  12:09:10
+   Duration  4.43s (transform 113ms, setup 0ms, collect 271ms, tests 3.98s, environment 840ms, prepare 93ms)
+
+$ tsc --noEmit
+$ eslint . --max-warnings=0
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/collectionHooks.ts
+  94:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/collectionHooks.ts:94:5
+  92 |   useEffect(() => {
+  93 |     if (!foreground) return;
+> 94 |     setClock(previous => {
+     |     ^^^^^^^^ Avoid calling setState() directly within an effect
+  95 |       if (!previous?.timezone) return previous;
+  96 |       const today = householdToday(previous.serverNow, previous.timezone, performance.now() - previous.receivedAt);
+  97 |       return today === previous.today ? previous : { ...previous, today };  react-hooks/set-state-in-effect
+
+✖ 1 problem (1 error, 0 warnings)
+
+[ELIFECYCLE] Command failed with exit code 1.

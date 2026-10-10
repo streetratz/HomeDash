@@ -1,0 +1,625 @@
+# Command: cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/authMiddleware.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/csrf.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardAccessService.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/errors.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/hooks/useAdaptivePoll.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/widgetVisibility.ts; sed -n "945,1085p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/specs/065-bin-collection-calendar/logs/03-phase-planning/calendar-run-1.log; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/workflows/task_generation.json
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:52:36 +1100
+# Exit:    1
+---
+/**
+ * T048 (US1): Auth middleware — load session from cookie and attach user to request.
+ *
+ * Registers a global `onRequest` hook that:
+ * 1. Reads the session cookie (`homedash_sid`).
+ * 2. Loads the corresponding session row (joined with user) from SQLite.
+ * 3. Attaches `request.user` and `request.csrfSecret` for downstream handlers.
+ * 4. Opportunistically touches the session (updates `lastSeenAt`).
+ */
+
+import type { FastifyInstance, FastifyRequest } from 'fastify';
+import '@fastify/cookie'; // ensure cookie type augmentation is applied
+import { SESSION_COOKIE_NAME, getSession, touchSession } from './sessionStore.js';
+
+// ─── Fastify type augmentation ────────────────────────────────────────────────
+
+export interface AuthUser {
+  id: string;
+  username: string;
+  displayName: string;
+  role: 'admin' | 'standard';
+  /** Effective permissions from all group memberships (additive union). */
+  permissions: Set<string>;
+  /** Group IDs the user belongs to. */
+  groupIds: string[];
+  /** True if user is a member of the Administrators built-in group. */
+  isAdmin: boolean;
+}
+
+declare module 'fastify' {
+  interface FastifyRequest {
+    /** Authenticated user, populated by auth middleware. Null for unauthenticated requests. */
+    user: AuthUser | null;
+    /** Active session ID (from cookie), populated by auth middleware. */
+    sessionId: string | null;
+    /** Per-session CSRF secret, populated by auth middleware for authenticated requests. */
+    csrfSecret: string | null;
+  }
+}
+
+/**
+ * Register the auth middleware on the Fastify instance.
+ * Must be called once during server setup, after cookie plugin registration.
+ */
+export function registerAuthMiddleware(app: FastifyInstance): void {
+  // Decorate request with default values before any hook runs
+  app.decorateRequest('user', null);
+  app.decorateRequest('sessionId', null);
+  app.decorateRequest('csrfSecret', null);
+
+  app.addHook('onRequest', (request: FastifyRequest, _reply, done) => {
+    const sessionId = request.cookies?.[SESSION_COOKIE_NAME];
+    if (!sessionId) { done(); return; }
+
+    try {
+      const session = getSession(sessionId);
+      if (!session) { done(); return; }
+
+      request.user = {
+        id: session.userId,
+        username: session.username,
+        displayName: session.displayName,
+        role: session.role,
+        permissions: session.permissions,
+        groupIds: session.groupIds,
+        isAdmin: session.isAdmin,
+      };
+      request.sessionId = session.sessionId;
+      request.csrfSecret = session.csrfSecret;
+
+      // Best-effort touch (sync — better-sqlite3 is synchronous)
+      touchSession(sessionId);
+    } catch (e) {
+      // Session lookup failure should not break unauthenticated requests
+      console.warn('[auth] Session lookup failed:', e instanceof Error ? e.message : e);
+    }
+    done();
+  });
+}
+/**
+ * T047 (US1): CSRF token issuance and verification.
+ *
+ * Strategy: Synchronizer token pattern.
+ * - Each session has a persisted `csrfSecret` (random 32-byte hex string).
+ * - The server generates a time-keyed HMAC token from (timestamp + nonce + secret).
+ * - Clients must include this token in `X-CSRF-Token` for all state-changing requests.
+ * - The server verifies the HMAC to confirm the request originates from a valid session holder.
+ *
+ * Token format: `<timestamp_hex>.<nonce_hex>.<hmac_hex>`
+ */
+
+import crypto from 'node:crypto';
+import type { FastifyRequest, FastifyReply } from 'fastify';
+import { Errors } from '../lib/errors.js';
+
+/** Token TTL: 24 hours. Tokens older than this are rejected. */
+const TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Generate a CSRF token tied to the given secret.
+ * The token is safe to include in a JSON response body.
+ */
+export function generateCsrfToken(secret: string): string {
+  const timestamp = Date.now().toString(16);
+  const nonce = crypto.randomBytes(16).toString('hex');
+  const hmac = computeHmac(secret, `${timestamp}.${nonce}`);
+  return `${timestamp}.${nonce}.${hmac}`;
+}
+
+/**
+ * Verify a CSRF token against the session secret.
+ * Returns true if valid and not expired; false otherwise.
+ */
+export function verifyCsrfToken(token: string, secret: string): boolean {
+  const parts = token.split('.');
+  if (parts.length !== 3) return false;
+
+  const [timestamp, nonce, hmac] = parts as [string, string, string];
+
+  // Check timestamp is valid hex and not too old
+  const ts = parseInt(timestamp, 16);
+  if (isNaN(ts)) return false;
+  if (Date.now() - ts > TOKEN_TTL_MS) return false;
+
+  // Verify HMAC using constant-time comparison
+  const expected = computeHmac(secret, `${timestamp}.${nonce}`);
+  try {
+    return crypto.timingSafeEqual(Buffer.from(hmac, 'hex'), Buffer.from(expected, 'hex'));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Assert that the inbound request carries a valid CSRF token.
+ * Call this at the top of any state-changing route handler.
+ * Throws AppError(CSRF_INVALID, 403) if validation fails.
+ * Must be async for Fastify preHandler compatibility.
+ */
+// eslint-disable-next-line @typescript-eslint/require-await
+export async function assertCsrf(request: FastifyRequest, _reply: FastifyReply): Promise<void> {
+  const csrfSecret = (request as unknown as { csrfSecret?: string | null }).csrfSecret;
+  if (!csrfSecret) {
+    throw Errors.forbidden('CSRF validation requires an active session');
+  }
+
+  const token =
+    (request.headers['x-csrf-token'] as string | undefined) ??
+    (request.headers['x-xsrf-token'] as string | undefined);
+
+  if (!token || !verifyCsrfToken(token, csrfSecret)) {
+    throw Errors.forbidden('Invalid or missing CSRF token');
+  }
+}
+
+// ─── Internal ─────────────────────────────────────────────────────────────────
+
+function computeHmac(secret: string, payload: string): string {
+  return crypto.createHmac('sha256', secret).update(payload).digest('hex');
+}
+cat: /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardAccessService.ts: No such file or directory
+/**
+ * T020: Centralized API error handling with typed error codes.
+ */
+
+import type { FastifyError, FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+
+/** Machine-readable error codes returned in API responses. */
+export const ErrorCode = {
+  // Generic
+  INTERNAL: 'INTERNAL_ERROR',
+  NOT_FOUND: 'NOT_FOUND',
+  BAD_REQUEST: 'BAD_REQUEST',
+  METHOD_NOT_ALLOWED: 'METHOD_NOT_ALLOWED',
+  // Auth
+  UNAUTHORIZED: 'UNAUTHORIZED',
+  FORBIDDEN: 'FORBIDDEN',
+  CSRF_INVALID: 'CSRF_INVALID',
+  // Rate limiting
+  TOO_MANY_REQUESTS: 'TOO_MANY_REQUESTS',
+  // Domain
+  FIRST_RUN_COMPLETE: 'FIRST_RUN_COMPLETE',
+  USER_CONFLICT: 'USER_CONFLICT',
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
+  ASSET_TOO_LARGE: 'ASSET_TOO_LARGE',
+  ASSET_TYPE_INVALID: 'ASSET_TYPE_INVALID',
+  RESOURCE_CONFLICT: 'RESOURCE_CONFLICT',
+  SONOS_UPSTREAM_UNAVAILABLE: 'SONOS_UPSTREAM_UNAVAILABLE',
+  // Docker endpoint (043) — see data-model.md § DockerEndpointError.
+  // These are deliberately NOT collapsed into one "connection failed" code:
+  // each maps to different operator action, and #181 was hard to diagnose
+  // precisely because every failure looked the same.
+  DOCKER_INVALID_ENDPOINT: 'DOCKER_INVALID_ENDPOINT',
+  DOCKER_ENDPOINT_NOT_CONFIGURED: 'DOCKER_ENDPOINT_NOT_CONFIGURED',
+  DOCKER_ENDPOINT_UNREACHABLE: 'DOCKER_ENDPOINT_UNREACHABLE',
+  DOCKER_SSH_AUTH_FAILED: 'DOCKER_SSH_AUTH_FAILED',
+  DOCKER_SSH_HOST_KEY_FAILED: 'DOCKER_SSH_HOST_KEY_FAILED',
+  DOCKER_SSH_CLIENT_MISSING: 'DOCKER_SSH_CLIENT_MISSING',
+  DOCKER_REMOTE_UNAVAILABLE: 'DOCKER_REMOTE_UNAVAILABLE',
+  DOCKER_API_VERSION_UNSUPPORTED: 'DOCKER_API_VERSION_UNSUPPORTED',
+} as const;
+
+export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode];
+
+export interface ApiErrorBody {
+  error: ErrorCode;
+  message: string;
+  details?: unknown;
+}
+
+/** Application-level error that maps to a typed API error code. */
+export class AppError extends Error {
+  constructor(
+    public readonly code: ErrorCode,
+    message: string,
+    public readonly statusCode: number = 400,
+    public readonly details?: unknown,
+  ) {
+    super(message);
+    this.name = 'AppError';
+  }
+}
+
+/** Convenience constructors */
+export const Errors = {
+  notFound: (msg = 'Not found') => new AppError(ErrorCode.NOT_FOUND, msg, 404),
+  unauthorized: (msg = 'Authentication required') => new AppError(ErrorCode.UNAUTHORIZED, msg, 401),
+  forbidden: (msg = 'Insufficient permissions') => new AppError(ErrorCode.FORBIDDEN, msg, 403),
+  badRequest: (msg: string, details?: unknown) =>
+    new AppError(ErrorCode.BAD_REQUEST, msg, 400, details),
+  conflict: (msg: string) => new AppError(ErrorCode.RESOURCE_CONFLICT, msg, 409),
+  validationError: (msg: string, details?: unknown) =>
+    new AppError(ErrorCode.VALIDATION_ERROR, msg, 422, details),
+  assetTooLarge: (msg: string) => new AppError(ErrorCode.ASSET_TOO_LARGE, msg, 413),
+  assetTypeInvalid: (msg: string) => new AppError(ErrorCode.ASSET_TYPE_INVALID, msg, 415),
+  tooManyRequests: (msg = 'Too many requests') =>
+    new AppError(ErrorCode.TOO_MANY_REQUESTS, msg, 429),
+} as const;
+
+/**
+ * Docker endpoint failure categories (043 / FR-010, FR-011, FR-029, FR-036).
+ *
+ * Every Docker connectivity failure maps to exactly one of these so the UI can
+ * render actionable text. Never collapse them into a generic failure, and never
+ * include credentials, key material or key paths' contents in `msg`.
+ *
+ * `notConfigured` is 409 rather than 404: the widget exists, it just has no
+ * Docker connection linked. A 404 would be indistinguishable from "no such
+ * widget", which is the ambiguity FR-010 exists to remove.
+ */
+export const DockerErrors = {
+  invalidEndpoint: (msg: string, details?: unknown) =>
+    new AppError(ErrorCode.DOCKER_INVALID_ENDPOINT, msg, 400, details),
+  notConfigured: (msg = 'This widget has no Docker connection configured.') =>
+    new AppError(ErrorCode.DOCKER_ENDPOINT_NOT_CONFIGURED, msg, 409),
+  unreachable: (msg: string) => new AppError(ErrorCode.DOCKER_ENDPOINT_UNREACHABLE, msg, 502),
+  sshAuthFailed: (msg: string) => new AppError(ErrorCode.DOCKER_SSH_AUTH_FAILED, msg, 502),
+  sshHostKeyFailed: (msg: string) => new AppError(ErrorCode.DOCKER_SSH_HOST_KEY_FAILED, msg, 502),
+  sshClientMissing: (msg: string) => new AppError(ErrorCode.DOCKER_SSH_CLIENT_MISSING, msg, 500),
+  remoteUnavailable: (msg: string) => new AppError(ErrorCode.DOCKER_REMOTE_UNAVAILABLE, msg, 502),
+  apiVersionUnsupported: (msg: string) =>
+    new AppError(ErrorCode.DOCKER_API_VERSION_UNSUPPORTED, msg, 502),
+} as const;
+
+/** Send a typed error response. */
+export function sendError(
+  reply: FastifyReply,
+  code: ErrorCode,
+  message: string,
+  statusCode: number,
+  details?: unknown,
+): void {
+  const body: ApiErrorBody = { error: code, message };
+  if (details !== undefined) body.details = details;
+  void reply.status(statusCode).send(body);
+}
+
+/**
+ * Register the global error handler on the Fastify instance.
+ * Catches AppError, Zod errors, and unexpected errors.
+ */
+export function registerErrorHandler(app: FastifyInstance): void {
+  app.setErrorHandler(
+    (error: FastifyError | AppError | Error, request: FastifyRequest, reply: FastifyReply) => {
+      // AppError: known domain errors
+      if (error instanceof AppError) {
+        if (error.statusCode >= 500) {
+          request.log.error({ err: error }, 'AppError (server)');
+        } else {
+          request.log.warn({ err: error }, 'AppError (client)');
+        }
+        return sendError(reply, error.code, error.message, error.statusCode, error.details);
+      }
+
+      // Fastify validation errors (FST_ERR_VALIDATION)
+      const fastifyError = error as FastifyError;
+      if (fastifyError.validation) {
+        return sendError(
+          reply,
+          ErrorCode.VALIDATION_ERROR,
+          'Request validation failed',
+          400,
+          fastifyError.validation,
+        );
+      }
+
+      // Fastify 404
+      if (fastifyError.statusCode === 404) {
+        return sendError(reply, ErrorCode.NOT_FOUND, 'Route not found', 404);
+      }
+
+      // Rate limit errors from @fastify/rate-limit
+      if (fastifyError.statusCode === 429) {
+        return sendError(reply, ErrorCode.TOO_MANY_REQUESTS, error.message, 429);
+      }
+
+      // CSRF errors
+      if (fastifyError.statusCode === 403 && fastifyError.message?.includes('csrf')) {
+        return sendError(reply, ErrorCode.CSRF_INVALID, 'CSRF token invalid or missing', 403);
+      }
+
+      // Unexpected errors — log full stack, return safe message
+      request.log.error({ err: error }, 'Unhandled error');
+      return sendError(reply, ErrorCode.INTERNAL, 'An unexpected error occurred', 500);
+    },
+  );
+}
+
+/**
+ * Detect SQLite unique-constraint violations from better-sqlite3.
+ * The driver throws a SqliteError with code 'SQLITE_CONSTRAINT_UNIQUE'.
+ */
+export function isUniqueConstraintError(err: unknown): boolean {
+  return (
+    err instanceof Error &&
+    'code' in err &&
+    (err as { code: string }).code === 'SQLITE_CONSTRAINT_UNIQUE'
+  );
+}
+/**
+ * useAdaptivePoll — Returns polling intervals based on playback state and view mode.
+ *
+ * View modes:
+ *   compact    — only metadata + playback (no volume/queue/playMode shown)
+ *   expanded   — all endpoints, Tier 2 slowed to 30s fallback
+ *   fullscreen — all endpoints, groups slowed to 60s
+ *
+ * Playback tiers:
+ *   PLAYING  → aggressive metadata/playback (5s)
+ *   PAUSED   → moderate   (15s)
+ *   IDLE     → lazy       (30s)
+ *
+ * When `isVisible` is false all intervals return `false` (polling disabled).
+ */
+
+export type SonosViewMode = 'compact' | 'expanded' | 'fullscreen';
+
+export interface AdaptiveIntervals {
+  metadataInterval: number | false;
+  playbackInterval: number | false;
+  groupsInterval: number | false;
+  volumeInterval: number | false;
+  playModeInterval: number | false;
+  queueInterval: number | false;
+}
+
+type PlaybackStateString = string | undefined;
+
+const DISABLED: AdaptiveIntervals = {
+  metadataInterval: false,
+  playbackInterval: false,
+  groupsInterval: false,
+  volumeInterval: false,
+  playModeInterval: false,
+  queueInterval: false,
+};
+
+// Tier 1: metadata + playback — always fast, these change constantly
+const TIER1 = {
+  PLAYING: { metadata: 5_000, playback: 5_000 },
+  PAUSED:  { metadata: 15_000, playback: 15_000 },
+  IDLE:    { metadata: 30_000, playback: 30_000 },
+} as const;
+
+// Tier 2: volume, playMode, queue — only change on user action (30s fallback)
+const TIER2 = {
+  PLAYING: { volume: 30_000, playMode: 30_000, queue: 30_000 },
+  PAUSED:  { volume: 30_000, playMode: 30_000, queue: 30_000 },
+  IDLE:    { volume: 60_000, playMode: 60_000, queue: 60_000 },
+} as const;
+
+// Tier 3: groups/rooms — rarely changes (60s fallback + manual refresh)
+const TIER3 = {
+  PLAYING: { groups: 60_000 },
+  PAUSED:  { groups: 60_000 },
+  IDLE:    { groups: 120_000 },
+} as const;
+
+function resolveState(playbackState: PlaybackStateString): 'PLAYING' | 'PAUSED' | 'IDLE' {
+  if (!playbackState) return 'IDLE';
+  if (playbackState.includes('PLAYING') || playbackState.includes('BUFFERING')) return 'PLAYING';
+  if (playbackState.includes('PAUSED')) return 'PAUSED';
+  return 'IDLE';
+}
+
+export function useAdaptivePoll(
+  playbackState: PlaybackStateString,
+  isVisible: boolean,
+  mode: SonosViewMode = 'expanded',
+): AdaptiveIntervals {
+  if (!isVisible) return DISABLED;
+
+  const state = resolveState(playbackState);
+  const t1 = TIER1[state];
+  const t2 = TIER2[state];
+  const t3 = TIER3[state];
+
+  if (mode === 'compact') {
+    // Compact: only metadata + playback (no volume/queue/playMode shown)
+    return {
+      metadataInterval: t1.metadata,
+      playbackInterval: t1.playback,
+      groupsInterval: t3.groups,
+      volumeInterval: false,
+      playModeInterval: false,
+      queueInterval: false,
+    };
+  }
+
+  // Expanded and fullscreen get all tiers
+  return {
+    metadataInterval: t1.metadata,
+    playbackInterval: t1.playback,
+    groupsInterval: t3.groups,
+    volumeInterval: t2.volume,
+    playModeInterval: t2.playMode,
+    queueInterval: t2.queue,
+  };
+}
+export type PublicVisibility = 'hidden' | 'read-only' | 'visible';
+
+export const PUBLICLY_CONFIGURABLE_WIDGET_TYPES = new Set([
+  'pihole',
+  'unifi',
+  'sonos_music',
+  'stocks',
+  'app_shortcuts',
+]);
+
+export const INTRINSIC_PUBLIC_WIDGET_TYPES = new Set([
+  'clock',
+  'weather',
+  'calendar',
+  'links_list',
+  'single_link',
+  'markdown',
+  'iframe',
+  'photo_frame',
+]);
+
+export const SENSITIVE_PUBLIC_WIDGET_TYPES = new Set([
+  'pihole',
+  'unifi',
+  'sonos_music',
+  'stocks',
+]);
+
+export function visibilityLabel(visibility: PublicVisibility): string {
+  switch (visibility) {
+    case 'hidden':
+      return 'Hidden';
+    case 'read-only':
+      return 'Read-only';
+    case 'visible':
+      return 'Visible';
+  }
+}
+  recurrenceRule: string | null;
+  calendarName: string | null;
+}
+
+export interface OAuthAccount {
+  id: string;
+  provider: 'microsoft' | 'google' | 'spotify' | 'sonos';
+  email: string | null;
+  displayName: string | null;
+  status: 'active' | 'error';
+  lastError: string | null;
+  createdAt: string;
+}
+
+export interface OAuthProviders {
+  microsoft: boolean;
+  google: boolean;
+  spotify: boolean;
+  sonos: boolean;
+}
+
+export interface BirthdayRecord {
+  id: string;
+  sourceId: string;
+  firstName: string;
+  lastName: string | null;
+  month: number;
+  day: number;
+  birthYear: number | null;
+  notes: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BirthdayInput {
+  firstName: string;
+  lastName?: string | null;
+  month: number;
+  day: number;
+  birthYear?: number | null;
+  notes?: string | null;
+}
+
+export interface BirthdayCsvPreview {
+  rows: Array<
+    BirthdayInput & { birthYear: number | null; notes: string | null; rowNumber: number }
+  >;
+  errors: Array<{ rowNumber: number; message: string }>;
+  validCount: number;
+  invalidCount: number;
+}
+
+export interface BirthdayExport {
+  fileName: string;
+  mimeType: string;
+  content: string;
+}
+
+// ── Query keys ────────────────────────────────────────────────────────────────
+
+export const calendarKeys = {
+  sources: ['calendar-sources'] as const,
+  events: (sourceIds: string[], from: string, to: string) =>
+    ['calendar-events', sourceIds, from, to] as const,
+  oauthAccounts: ['oauth-accounts'] as const,
+  oauthProviders: ['oauth-providers'] as const,
+  birthdays: (sourceId: string) => ['calendar-birthdays', sourceId] as const,
+};
+
+// ── Queries ───────────────────────────────────────────────────────────────────
+
+export function useCalendarSources() {
+  return useQuery({
+    queryKey: calendarKeys.sources,
+    queryFn: () => apiClient.get<CalendarSource[]>('/api/user/calendar/sources'),
+  });
+}
+
+export function useCalendarEvents(sourceIds: string[], from: string, to: string) {
+  return useQuery({
+    queryKey: calendarKeys.events(sourceIds, from, to),
+    queryFn: () =>
+      apiClient.get<CalendarEvent[]>(
+        `/api/public/calendar/events?sourceIds=${sourceIds.join(',')}&from=${from}&to=${to}`,
+      ),
+    enabled: sourceIds.length > 0,
+    staleTime: 60_000,
+  });
+}
+
+export function useOAuthAccounts() {
+  return useQuery({
+    queryKey: calendarKeys.oauthAccounts,
+    queryFn: () => apiClient.get<OAuthAccount[]>('/api/user/oauth/accounts'),
+  });
+}
+
+export function useOAuthProviders() {
+  return useQuery({
+    queryKey: calendarKeys.oauthProviders,
+    queryFn: () => apiClient.get<OAuthProviders>('/api/user/oauth/providers'),
+  });
+}
+
+export function useBirthdays(sourceId: string | undefined) {
+  return useQuery({
+    queryKey: calendarKeys.birthdays(sourceId ?? ''),
+    queryFn: () =>
+      apiClient.get<BirthdayRecord[]>(`/api/admin/calendar/sources/${sourceId}/birthdays`),
+    enabled: Boolean(sourceId),
+  });
+}
+
+// ── Mutations ─────────────────────────────────────────────────────────────────
+
+export function useDeleteOAuthAccount() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => apiClient.delete(`/api/admin/oauth/accounts/${id}`),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: calendarKeys.oauthAccounts });
+      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+    },
+  });
+}
+
+export function useCreateCalendarSource() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (data: {
+      type: 'ical';
+      name: string;
+      url: string;
+      color?: string;
+      syncIntervalSeconds?: number;
+    }) => apiClient.post<CalendarSource>('/api/admin/calendar/sources', data),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+    },
+  });
+}
+cat: /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/workflows/task_generation.json: No such file or directory

@@ -127,7 +127,7 @@ describe('GET /api/admin/backup', () => {
 
     const backup = res.body as Record<string, unknown>;
     expect(backup['format']).toBe('homedash-backup');
-    expect(backup['version']).toBe(1);
+    expect(backup['version']).toBe(2);
     expect(backup).toHaveProperty('appVersion');
     expect(typeof backup['appVersion']).toBe('string');
     expect(backup).toHaveProperty('exportedAt');

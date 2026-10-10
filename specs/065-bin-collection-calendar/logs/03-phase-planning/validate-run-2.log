@@ -1,0 +1,13 @@
+# Command: python3 /tmp/homedash-validate-plan.py
+# Phase:   03 — Technical Planning
+# Run:     2
+# Time:    2026-10-10 11:01:28 +1100
+# Exit:    0
+---
+PASS required artifacts, unresolved-placeholder checks and local Markdown links
+PASS standard plan sections, latest CH-02 and no task generation
+PASS changed-file boundary and tracked/new deliverable whitespace
+PASS 17 recorded raw sidecar links/headers; preserved failed attempts
+PASS independent civil-date/preset oracle: 24+ months, negative phase, 52-week, leap, multi-day, no-shift replacement
+PASS task-generation document prerequisites; setup-tasks not run
+PASS PLANNING VALIDATION ONLY: no application tests, lint, migration, approval, commit or task generation claimed

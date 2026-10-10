@@ -40,6 +40,10 @@ function mutation(overrides: Record<string, unknown> = {}) {
   };
 }
 
+vi.mock('../../../state/bootstrap.js', () => ({
+  useAuthMe: () => ({ data: { user: { isAdmin: false } }, isSuccess: true }),
+}));
+
 vi.mock('../../../state/calendarHooks.js', () => ({
   useCalendarSources: () => ({ data: [source] }),
   useDeleteCalendarSource: () => mutation(),
@@ -101,10 +105,7 @@ describe('calendar source editing', () => {
     expect(screen.getByRole('button', { name: 'Delete Family Birthdays' })).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: 'Sync Family Birthdays' }));
-    expect(mocks.syncSource).toHaveBeenCalledWith(
-      source.id,
-      expect.anything(),
-    );
+    expect(mocks.syncSource).toHaveBeenCalledWith(source.id, expect.anything());
   });
 
   it('renames an uploaded ICS calendar without requiring a replacement file', () => {

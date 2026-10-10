@@ -1,0 +1,151 @@
+# Command: cat /tmp/homedash-validate-065-tasks.py
+# Phase:   04 — Task Generation
+# Run:     2
+# Time:    2026-10-10T11:11:00.762211+11:00
+# Exit:    0
+---
+from pathlib import Path
+from collections import Counter
+import hashlib
+import re
+import subprocess
+
+root = Path("/Users/streetratz/Personal/MyGH-Personal/HomeDash")
+feature = root / "specs/065-bin-collection-calendar"
+text = (feature / "tasks.md").read_text()
+lines = text.splitlines()
+pattern = re.compile(r"^- \[ \] (T\d{3})(?: (\[P\]))?(?: (\[US\d+\]))? (.+)$")
+tasks = []
+phase = None
+phase_order = []
+for line in lines:
+    if line.startswith("## Phase "):
+        phase = line
+        phase_order.append(phase)
+    if line.startswith("- ["):
+        match = pattern.fullmatch(line)
+        assert match, f"Malformed checklist: {line}"
+        task_id, parallel, story, description = match.groups()
+        assert phase, f"Task outside phase: {task_id}"
+        assert "(Prerequisites: " in description, f"Missing prerequisites: {task_id}"
+        paths = [value for value in re.findall(r"`([^`]+)`", description)
+                 if "/" in value or (root / value).is_file()]
+        assert paths, f"Missing explicit file path: {task_id}"
+        assert any(re.search(r"\.(?:md|ts|tsx|json|sql|log)", p) for p in paths), task_id
+        phase_story = re.search(r"User Story (\d+)", phase)
+        expected_story = f"[US{phase_story.group(1)}]" if phase_story else None
+        assert story == expected_story, f"Phase/story mismatch: {task_id}"
+        tasks.append((task_id, bool(parallel), story, description, phase, paths))
+
+assert len(tasks) == 97, len(tasks)
+assert [t[0] for t in tasks] == [f"T{i:03d}" for i in range(1, 98)]
+assert len(phase_order) == 7, phase_order
+assert [re.search(r"User Story (\d+)", p).group(1)
+        for p in phase_order if "User Story" in p] == ["1", "2", "4", "3"]
+story_counts = Counter(t[2] for t in tasks if t[2])
+assert story_counts == {"[US1]": 19, "[US2]": 11, "[US4]": 16, "[US3]": 14}
+assert sum(t[1] for t in tasks) == 25
+ids = {t[0] for t in tasks}
+edges = []
+for task_id, parallel, story, description, phase, paths in tasks:
+    prereq = description.split("(Prerequisites: ", 1)[1].rstrip(").")
+    # Expand inclusive ranges, then individual references.
+    expanded = set()
+    for low, high in re.findall(r"T(\d{3})[–-]T(\d{3})", prereq):
+        assert int(low) <= int(high), (task_id, low, high)
+        expanded.update(f"T{i:03d}" for i in range(int(low), int(high) + 1))
+    prereq_without_ranges = re.sub(r"T\d{3}[–-]T\d{3}", "", prereq)
+    expanded.update(re.findall(r"T\d{3}", prereq_without_ranges))
+    assert expanded or task_id == "T001", f"No concrete prerequisite: {task_id}"
+    for dependency in sorted(expanded):
+        assert dependency in ids, f"Unknown dependency {dependency} for {task_id}"
+        assert int(dependency[1:]) < int(task_id[1:]), f"Forward/cyclic dependency: {task_id}"
+        edges.append((task_id, dependency))
+
+batches = [
+    ("T003", "T004"), ("T006", "T007", "T008", "T009"),
+    ("T025", "T026", "T027", "T028", "T029"),
+    ("T044", "T045", "T046"), ("T055", "T056", "T057", "T058"),
+    ("T071", "T072", "T073", "T074"), ("T085", "T086", "T087"),
+]
+by_id = {t[0]: t for t in tasks}
+assert {i for batch in batches for i in batch} == {t[0] for t in tasks if t[1]}
+for batch in batches:
+    seen = set()
+    for task_id in batch:
+        # A task can mention other context files, but these batches have no overlap at all.
+        paths = set(by_id[task_id][5])
+        assert not seen & paths, f"Parallel file overlap in {batch}: {seen & paths}"
+        seen.update(paths)
+    assert not any(a in batch and b in batch for a, b in edges), batch
+
+for doc in ("spec.md", "plan.md", "data-model.md", "research.md", "quickstart.md",
+            "contracts/collection-api.md", "contracts/calendar-ui.md"):
+    path = feature / doc
+    assert path.is_file(), f"Missing design input {doc}"
+    print(f"INPUT {doc}: sha256={hashlib.sha256(path.read_bytes()).hexdigest()}")
+baseline_log = feature / "logs/04-phase-task-generation/task-validator-run-3.log"
+if baseline_log.exists():
+    for doc, expected_hash in re.findall(r"INPUT ([^:]+): sha256=([0-9a-f]{64})",
+                                        baseline_log.read_text()):
+        assert hashlib.sha256((feature / doc).read_bytes()).hexdigest() == expected_hash, \
+            f"Design input changed since successful generation check: {doc}"
+assert "CH-02" in text and "CH-03" in text
+assert "ALL TASKS PENDING" in text
+assert not re.search(r"^- \[[xX]\]", text, re.M)
+assert "## Coverage and Independent Verification" in text
+for i in range(1, 24):
+    # Coverage table may use ranges, so require explicit range endpoints/groups.
+    spec = (feature / "spec.md").read_text()
+    assert f"FR-{i:03d}" in spec
+for i in range(1, 9):
+    assert f"SC-{i:03d}" in text, f"Missing success-criteria trace: SC-{i:03d}"
+for obligation in ("CSRF", "731", "8,192", "2 MiB", "52", "1900", "2199",
+                   "runtime", "epoch", "v1", "v2", "midnight", "60s",
+                   "mobile-safari", "Chromium", "screen-reader",
+                   "code-review-standard", "design-taste", "emil-design-eng",
+                   "pre-pr-upgrade-gate", "lint-gate", "version:bump-main",
+                   "#2/#18", "visible", "icons"):
+    assert obligation in text, f"Missing load-bearing obligation: {obligation}"
+
+for path in [feature / "tasks.md", feature / "logs/04-phase-task-generation.md",
+             feature / "logs/readme.md"]:
+    for n, line in enumerate(path.read_text().splitlines(), 1):
+        trailing = line[len(line.rstrip()):]
+        assert not trailing or trailing == "  ", f"Whitespace {path.name}:{n}"
+    for target in re.findall(r"\]\(([^)]+)\)", path.read_text()):
+        if target.startswith("#") or "://" in target:
+            continue
+        assert (path.parent / target.split("#", 1)[0]).exists(), f"Broken link {path}: {target}"
+for sidecar in sorted((feature / "logs/04-phase-task-generation").glob("*.log")):
+    head = sidecar.read_text().splitlines()[:6]
+    assert len(head) == 6
+    for line, prefix in zip(head[:5], ("# Command:", "# Phase:", "# Run:", "# Time:", "# Exit:")):
+        assert line.startswith(prefix), f"Header {sidecar}: {line}"
+    assert head[5] == "---"
+    assert sidecar.name in (feature / "logs/04-phase-task-generation.md").read_text(), \
+        f"Unindexed phase04 raw sidecar: {sidecar.name}"
+    print(f"AUDIT {sidecar.name}: headers OK")
+
+status = subprocess.run(["git", "--no-pager", "status", "--short"],
+                        cwd=root, capture_output=True, text=True, check=True).stdout
+expected_baseline = {
+    ".github/agents/copilot-instructions.md", ".github/copilot-instructions.md",
+    ".specify/feature.json",
+}
+for line in status.splitlines():
+    path = line[3:]
+    assert path in expected_baseline or path.startswith("specs/065-bin-collection-calendar/"), \
+        f"Unexpected changed path: {path}"
+diff = subprocess.run(["git", "--no-pager", "diff", "--check"],
+                      cwd=root, capture_output=True, text=True)
+assert diff.returncode == 0, diff.stdout + diff.stderr
+print("SCOPE: existing instruction/feature-pointer dirt preserved; no tracked app changes")
+print("FORMAT: 97/97 unchecked tasks; sequential IDs, exact target paths and correct story labels")
+print("STORIES: US1=19 US2=11 US4=16 US3=14; Setup=4 Foundation=19 Polish=14")
+print("DEPENDENCIES:", len(edges), "explicit edges; no unknown/forward/cyclic references")
+print("PARALLEL: 25 tasks across 7 disjoint-file prerequisite batches")
+print("PHASES: Setup -> Foundation -> US1(P1) -> US2(P1) -> US4(P1) -> US3(P2) -> Polish")
+print("COVERAGE: all FR groups/SC IDs and critical API/UI/date/durability/gates manually mapped")
+print("BOUNDARY: no application test/migration/gate/version/commit/PR result claimed")
+print("PASS: task artifact consistency and audit structural validation only")

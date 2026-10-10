@@ -1,0 +1,17 @@
+# Command: pnpm --filter backend exec vitest run tests/integration/publicWidgets.test.ts
+# Phase:   12-phase-final-validation
+# Run:     1
+# Time:    2026-10-10T01:44:38+00:00
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/publicWidgets.test.ts  (3 tests) 398ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  12:44:37
+   Duration  1.38s (transform 289ms, setup 230ms, collect 628ms, tests 398ms, environment 0ms, prepare 30ms)
+

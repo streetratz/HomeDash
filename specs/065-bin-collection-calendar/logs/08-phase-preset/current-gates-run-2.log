@@ -1,0 +1,19 @@
+# Command: pnpm --filter backend typecheck && pnpm --filter frontend typecheck && pnpm --filter frontend exec vitest run tests/unit/CollectionManager.test.tsx tests/unit/collectionHooks.test.tsx tests/unit/collectionCalendar.test.tsx && pnpm lint
+# Phase:   08-phase-preset
+# Run:     2
+# Time:    2026-10-10T00:48:23+00:00
+# Exit:    2
+---
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+$ tsc --noEmit
+src/components/widgets/CalendarWidget.tsx(214,10): error TS2375: Type '{ events: CalendarEvent[]; sources: CalendarSource[]; showLocation: boolean; compact: boolean; hour12: boolean; collections: CollectionDisplay | undefined; }' is not assignable to type 'AgendaViewProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'collections' are incompatible.
+    Type 'CollectionDisplay | undefined' is not assignable to type 'CollectionDisplay'.
+      Type 'undefined' is not assignable to type 'CollectionDisplay'.
+src/components/widgets/CalendarWidget.tsx(227,12): error TS2375: Type '{ sourceIds: string[]; sources: CalendarSource[]; showPrivateEvents: boolean; onClose: () => void; collectionWidgetId: string | undefined; householdToday: string | undefined; }' is not assignable to type 'FullScreenCalendarProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'collectionWidgetId' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] frontend@0.1.0 typecheck: `tsc --noEmit`
+Exit status 2

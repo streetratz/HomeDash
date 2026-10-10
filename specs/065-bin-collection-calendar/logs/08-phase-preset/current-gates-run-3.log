@@ -1,0 +1,33 @@
+# Command: pnpm --filter backend typecheck && pnpm --filter frontend typecheck && pnpm --filter frontend exec vitest run tests/unit/CollectionManager.test.tsx tests/unit/collectionHooks.test.tsx tests/unit/collectionCalendar.test.tsx && pnpm lint
+# Phase:   08-phase-preset
+# Run:     3
+# Time:    2026-10-10T00:49:09+00:00
+# Exit:    1
+---
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+$ tsc --noEmit
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionHooks.test.tsx  (1 test) 2ms
+ ✓ tests/unit/CollectionManager.test.tsx  (2 tests) 1ms
+ ✓ tests/unit/collectionCalendar.test.tsx  (1 test) 63ms
+
+ Test Files  3 passed (3)
+      Tests  4 passed (4)
+   Start at  11:48:52
+   Duration  666ms (transform 73ms, setup 0ms, collect 263ms, tests 66ms, environment 800ms, prepare 108ms)
+
+$ eslint . --max-warnings=0
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-collections.ts
+  13:33  error  Async arrow function has no 'await' expression  @typescript-eslint/require-await
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/collectionHooks.ts
+  87:6   warning  React Hook useEffect has a missing dependency: 'key'. Either include it or remove the dependency array                                    react-hooks/exhaustive-deps
+  87:39  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+  97:6   warning  React Hook useEffect has a missing dependency: 'query'. Either include it or remove the dependency array                                  react-hooks/exhaustive-deps
+
+✖ 4 problems (1 error, 3 warnings)
+
+[ELIFECYCLE] Command failed with exit code 1.

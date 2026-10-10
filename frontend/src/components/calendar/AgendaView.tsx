@@ -5,6 +5,8 @@
 import { Calendar } from 'lucide-react';
 import type { CalendarEvent, CalendarSource } from '../../state/calendarHooks.js';
 import { toCalendarDateKey } from '../../lib/calendarDates.js';
+import { CollectionGroup } from './CollectionGroup.js';
+import type { CollectionDisplay } from '../../state/collectionHooks.js';
 
 export interface AgendaViewProps {
   events: CalendarEvent[];
@@ -12,6 +14,7 @@ export interface AgendaViewProps {
   showLocation?: boolean;
   compact?: boolean;
   hour12?: boolean;
+  collections?: CollectionDisplay | undefined;
 }
 
 function getDayInfo(dateKey: string): { label: string; dayNum: string; isToday: boolean } {
@@ -54,10 +57,11 @@ function formatTimeRange(startAt: string, endAt: string, hour12?: boolean, start
   return `${start} – ${end}`;
 }
 
-export function AgendaView({ events, sources, showLocation = true, compact = false, hour12 }: AgendaViewProps) {
+export function AgendaView({ events, sources, showLocation = true, compact = false, hour12, collections }: AgendaViewProps) {
   const sourceMap = new Map(sources.map((s) => [s.id, s]));
 
-  if (events.length === 0) {
+  if (events.length === 0 && !collections?.groups.length) {
+    if (collections) return null; // The collection branch owns its permitted empty-state copy.
     return (
       <div className="flex flex-col items-center justify-center gap-2 py-8 text-muted-foreground">
         <Calendar className="h-8 w-8" />
@@ -78,12 +82,13 @@ export function AgendaView({ events, sources, showLocation = true, compact = fal
     }
   }
 
-  const sortedKeys = [...grouped.keys()].sort();
+  const sortedKeys = [...new Set([...grouped.keys(), ...(collections?.groups.map(g => g.date) ?? [])])].sort();
 
   return (
     <div className="flex flex-col gap-5">
       {sortedKeys.map((dateKey) => {
-        const dayEvents = grouped.get(dateKey)!;
+        const dayEvents = grouped.get(dateKey) ?? [];
+        const collectionGroup = collections?.groups.find(g => g.date === dateKey);
         dayEvents.sort((a, b) => {
           if (a.isAllDay !== b.isAllDay) return a.isAllDay ? -1 : 1;
           return new Date(a.startAt).getTime() - new Date(b.startAt).getTime();
@@ -93,8 +98,10 @@ export function AgendaView({ events, sources, showLocation = true, compact = fal
 
         return (
           <div key={dateKey} className="flex flex-col gap-1.5">
+            {collectionGroup && collections?.timezone && collections.householdToday &&
+              <CollectionGroup group={collectionGroup} timezone={collections.timezone} today={collections.householdToday} next={dateKey === collections.groups[0]?.date} />}
             {/* Date header row */}
-            <div className="flex items-center gap-2">
+            {dayEvents.length > 0 && <div className="flex items-center gap-2">
               <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
                 {label}
               </span>
@@ -107,7 +114,7 @@ export function AgendaView({ events, sources, showLocation = true, compact = fal
               >
                 {dayNum}
               </span>
-            </div>
+            </div>}
 
             {/* Timeline + events */}
             <div className="relative flex flex-col gap-2 border-l-2 border-white/10 ml-3 pl-4">

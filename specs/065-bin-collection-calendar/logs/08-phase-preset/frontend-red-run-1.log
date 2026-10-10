@@ -1,0 +1,67 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/collectionHooks.test.tsx tests/unit/collectionCalendar.test.tsx
+# Phase:   08-phase-preset
+# Run:     1
+# Time:    2026-10-10T00:45:46+00:00
+# Exit:    1
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ❯ tests/unit/collectionHooks.test.tsx  (1 test | 1 failed) 4ms
+   ❯ tests/unit/collectionHooks.test.tsx > collection query separation > separates public/auth/session/widget/window and shares the agreed restore prefix
+     → expected [ 'collections', 'widget' ] to not deeply equal [ 'collections', 'widget' ]
+ ❯ tests/unit/collectionCalendar.test.tsx  (1 test | 1 failed) 11ms
+   ❯ tests/unit/collectionCalendar.test.tsx > complete civil collection group > renders all same-colour stream names and household date without interpreting markup
+     → Unable to find an element with the text: General waste. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/collectionCalendar.test.tsx > complete civil collection group > renders all same-colour stream names and household date without interpreting markup
+TestingLibraryElementError: Unable to find an element with the text: General waste. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../node_modules/.pnpm/@testing-library+dom@10.4.1/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ tests/unit/collectionCalendar.test.tsx:11:19
+      9|       { key: 'b', name: '<script>untrusted</script>', color: '#EAB308'…
+     10|     ] }} today="2026-10-14" timezone="Australia/Sydney" next />);
+     11|     expect(screen.getByText('General waste')).toBeTruthy();
+       |                   ^
+     12|     expect(screen.getByText('<script>untrusted</script>')).toBeTruthy(…
+     13|     expect(screen.getByRole('heading').textContent).toContain('Today ·…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/unit/collectionHooks.test.tsx > collection query separation > separates public/auth/session/widget/window and shares the agreed restore prefix
+AssertionError: expected [ 'collections', 'widget' ] to not deeply equal [ 'collections', 'widget' ]
+
+Compared values have no visual difference.
+
+ ❯ tests/unit/collectionHooks.test.tsx:8:22
+      6|     const auth = collectionKeys.display('auth:one', 'widget', { daysAh…
+      7|     expect(auth[0]).toBe('collections');
+      8|     expect(auth).not.toEqual(collectionKeys.display('public', 'widget'…
+       |                      ^
+      9|     expect(auth).not.toEqual(collectionKeys.display('auth:two', 'widge…
+     10|     expect(auth).not.toEqual(collectionKeys.display('auth:one', 'other…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  2 failed (2)
+      Tests  2 failed (2)
+   Start at  11:45:45
+   Duration  537ms (transform 34ms, setup 0ms, collect 75ms, tests 15ms, environment 523ms, prepare 64ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/collectionHooks.test.tsx tests/unit/collectionCalendar.test.tsx

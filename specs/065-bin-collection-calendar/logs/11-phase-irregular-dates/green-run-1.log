@@ -1,0 +1,35 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/CollectionExplicitDatesEditor.test.tsx tests/unit/CollectionExceptionEditor.test.tsx tests/unit/CollectionStreamEditor.test.tsx tests/unit/CollectionManager.test.tsx && pnpm --filter backend exec vitest run tests/integration/collectionExceptions.test.ts tests/integration/collectionBackup.test.ts tests/unit/collectionDates.test.ts tests/unit/collectionService.test.ts && pnpm --filter backend typecheck && pnpm --filter frontend typecheck
+# Phase:   11-phase-irregular-dates
+# Run:     1
+# Time:    2026-10-10T01:15:07+00:00
+# Exit:    0
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/CollectionStreamEditor.test.tsx  (2 tests) 35ms
+ ✓ tests/unit/CollectionExplicitDatesEditor.test.tsx  (1 test) 75ms
+ ✓ tests/unit/CollectionExceptionEditor.test.tsx  (1 test) 93ms
+ ✓ tests/unit/CollectionManager.test.tsx  (3 tests) 194ms
+
+ Test Files  4 passed (4)
+      Tests  7 passed (7)
+   Start at  12:14:55
+   Duration  826ms (transform 146ms, setup 0ms, collect 450ms, tests 397ms, environment 1.11s, prepare 135ms)
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/unit/collectionService.test.ts  (7 tests) 247ms
+ ✓ tests/integration/collectionBackup.test.ts  (4 tests) 167ms
+ ✓ tests/integration/collectionExceptions.test.ts  (3 tests) 35ms
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 24ms
+
+ Test Files  4 passed (4)
+      Tests  21 passed (21)
+   Start at  12:14:57
+   Duration  1.41s (transform 277ms, setup 230ms, collect 584ms, tests 473ms, environment 0ms, prepare 29ms)
+
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+$ tsc --noEmit

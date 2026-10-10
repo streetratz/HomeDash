@@ -1,0 +1,44 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/collectionHooks.test.tsx tests/unit/collectionRefresh.test.tsx tests/unit/collectionCalendar.test.tsx && pnpm --filter frontend typecheck && pnpm lint
+# Phase:   10-phase-safe-reading
+# Run:     1
+# Time:    2026-10-10T01:09:53+00:00
+# Exit:    1
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 9ms
+ ✓ tests/unit/collectionCalendar.test.tsx  (4 tests) 73ms
+ ❯ tests/unit/collectionHooks.test.tsx  (7 tests | 1 failed) 4002ms
+   ❯ tests/unit/collectionHooks.test.tsx > collection query separation > keeps last-good data explicitly stale for a transient 500, but clears it on subsequent revocation
+     → expected false to be true // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/collectionHooks.test.tsx > collection query separation > keeps last-good data explicitly stale for a transient 500, but clears it on subsequent revocation
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/unit/collectionHooks.test.tsx:103:40
+    101|     mocks.get.mockRejectedValue(new ApiRequestError(404, { error: 'NOT…
+    102|     await act(async () => { await hook.result.current.refetch(); });
+    103|     expect(hook.result.current.denied).toBe(true);
+       |                                        ^
+    104|     expect(hook.result.current.data).toBeUndefined();
+    105|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 11 passed (12)
+   Start at  12:09:49
+   Duration  4.58s (transform 107ms, setup 0ms, collect 272ms, tests 4.08s, environment 810ms, prepare 106ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/collectionHooks.test.tsx tests/unit/collectionRefresh.test.tsx tests/unit/collectionCalendar.test.tsx

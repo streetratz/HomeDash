@@ -1,0 +1,147 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/collectionCalendar.test.tsx && pnpm --filter frontend exec playwright test tests/e2e/collections-preset.spec.ts tests/e2e/collections-preset.mobile.spec.ts tests/e2e/collections-custom.spec.ts tests/e2e/collections-custom.mobile.spec.ts tests/e2e/collections-reading.spec.ts tests/e2e/collections-reading.mobile.spec.ts tests/e2e/collections-irregular.spec.ts tests/e2e/collections-irregular.mobile.spec.ts --project=chromium --project=mobile-safari
+# Phase:   11-phase-irregular-dates
+# Run:     2
+# Time:    2026-10-10T01:20:46+00:00
+# Exit:    1
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionCalendar.test.tsx  (7 tests) 107ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  12:19:45
+   Duration  712ms (transform 49ms, setup 0ms, collect 134ms, tests 107ms, environment 249ms, prepare 28ms)
+
+[2m[WebServer] [22m[2m$ node scripts/start-e2e-server.mjs[22m
+[2m[WebServer] [22m[2m$ tsc --noEmit && vite build[22m
+[2m[WebServer] [22m[33m
+[2m[WebServer] [22m(!) Some chunks are larger than 500 kB after minification. Consider:
+[2m[WebServer] [22m- Using dynamic import() to code-split the application
+[2m[WebServer] [22m- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[2m[WebServer] [22m- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+
+Running 9 tests using 1 worker
+
+  ✓  1 [setup] › tests/e2e/auth.setup.ts:17:3 › Authenticated E2E setup › completes first-run and stores the admin session (783ms)
+  ✓  2 [chromium] › tests/e2e/collections-custom.spec.ts:2:1 › custom-first regular stream supports multiweekday, disable and deliberate removal (810ms)
+  ✓  3 [chromium] › tests/e2e/collections-irregular.spec.ts:3:1 › holiday move followed by deliberate explicit switch persists only finite dates (1.1s)
+  ✘  4 [chromium] › tests/e2e/collections-preset.spec.ts:3:1 › preset setup, existing Calendar, month detail and reload offline (5.3s)
+  ✓  5 [chromium] › tests/e2e/collections-reading.spec.ts:4:1 › foreign visitor sees all 32 complete named collections and restored dialog focus (705ms)
+  ✘  6 [mobile-safari] › tests/e2e/collections-custom.mobile.spec.ts:2:1 › 360px custom editor exposes seven keyboard-operable weekdays (30.1s)
+  ✓  7 [mobile-safari] › tests/e2e/collections-irregular.mobile.spec.ts:3:1 › 360px WebKit holiday move and explicit dates with destructive confirmation (1.9s)
+  ✘  8 [mobile-safari] › tests/e2e/collections-preset.mobile.spec.ts:3:1 › 360px WebKit preset reading and complete month detail (6.0s)
+  ✓  9 [mobile-safari] › tests/e2e/collections-reading.mobile.spec.ts:4:1 › 360px WebKit crowded names, keyboard and light-dark reduced motion (1.3s)
+
+
+  1) [chromium] › tests/e2e/collections-preset.spec.ts:3:1 › preset setup, existing Calendar, month detail and reload offline 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('region', { name: 'Household collections' }).getByRole('button', { name: 'Edit collection configuration' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('region', { name: 'Household collections' }).getByRole('button', { name: 'Edit collection configuration' })[22m
+
+
+       at helpers/collectionPresetSmoke.ts:42
+
+      40 |     await manager.getByRole('button', { name: 'Save collections' }).click();
+      41 |   }
+    > 42 |   await expect(manager.getByRole('button', { name: 'Edit collection configuration' })).toBeVisible();
+         |                                                                                        ^
+      43 |   await page.reload();
+      44 |   await expect(page.getByRole('button', { name: 'Use weekly / alternating preset' })).toHaveCount(0);
+      45 |   const savedResponse = await page.request.get('/api/admin/calendar/collections');
+        at collectionPresetSmoke (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/helpers/collectionPresetSmoke.ts:42:88)
+        at /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/collections-preset.spec.ts:4:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/collections-preset-preset--69ea9-h-detail-and-reload-offline-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/collections-preset-preset--69ea9-h-detail-and-reload-offline-chromium/error-context.md
+
+  2) [mobile-safari] › tests/e2e/collections-custom.mobile.spec.ts:2:1 › 360px custom editor exposes seven keyboard-operable weekdays 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByRole('button', { name: 'Add regular stream' })[22m
+    [2m    - locator resolved to <button disabled class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 mi…>Add regular stream</button>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is not enabled[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is not enabled[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    56 × waiting for element to be visible, enabled and stable[22m
+    [2m       - element is not enabled[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+
+
+       6 |   await page.getByRole('option', { name: 'Calendars', exact: true }).click();
+       7 |   await page.getByRole('button', { name: 'Edit collection configuration' }).click();
+    >  8 |   await page.getByRole('button', { name: 'Add regular stream' }).click();
+         |                                                                  ^
+       9 |   const editor = page.getByRole('group', { name: /Collection stream/ }).last();
+      10 |   await editor.getByLabel('Thursday', { exact: true }).focus();
+      11 |   await page.keyboard.press('Space');
+        at /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/collections-custom.mobile.spec.ts:8:66
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/collections-custom.mobile--9a11c--keyboard-operable-weekdays-mobile-safari/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/collections-custom.mobile--9a11c--keyboard-operable-weekdays-mobile-safari/error-context.md
+
+  3) [mobile-safari] › tests/e2e/collections-preset.mobile.spec.ts:3:1 › 360px WebKit preset reading and complete month detail 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('region', { name: 'Household collections' }).getByRole('button', { name: 'Edit collection configuration' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('region', { name: 'Household collections' }).getByRole('button', { name: 'Edit collection configuration' })[22m
+
+
+       at helpers/collectionPresetSmoke.ts:42
+
+      40 |     await manager.getByRole('button', { name: 'Save collections' }).click();
+      41 |   }
+    > 42 |   await expect(manager.getByRole('button', { name: 'Edit collection configuration' })).toBeVisible();
+         |                                                                                        ^
+      43 |   await page.reload();
+      44 |   await expect(page.getByRole('button', { name: 'Use weekly / alternating preset' })).toHaveCount(0);
+      45 |   const savedResponse = await page.request.get('/api/admin/calendar/collections');
+        at collectionPresetSmoke (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/helpers/collectionPresetSmoke.ts:42:88)
+        at /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/collections-preset.mobile.spec.ts:5:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/collections-preset.mobile--9cddf-g-and-complete-month-detail-mobile-safari/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/collections-preset.mobile--9cddf-g-and-complete-month-detail-mobile-safari/error-context.md
+
+  3 failed
+    [chromium] › tests/e2e/collections-preset.spec.ts:3:1 › preset setup, existing Calendar, month detail and reload offline 
+    [mobile-safari] › tests/e2e/collections-custom.mobile.spec.ts:2:1 › 360px custom editor exposes seven keyboard-operable weekdays 
+    [mobile-safari] › tests/e2e/collections-preset.mobile.spec.ts:3:1 › 360px WebKit preset reading and complete month detail 
+  6 passed (59.6s)
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test tests/e2e/collections-preset.spec.ts tests/e2e/collections-preset.mobile.spec.ts tests/e2e/collections-custom.spec.ts tests/e2e/collections-custom.mobile.spec.ts tests/e2e/collections-reading.spec.ts tests/e2e/collections-reading.mobile.spec.ts tests/e2e/collections-irregular.spec.ts tests/e2e/collections-irregular.mobile.spec.ts '--project=chromium' '--project=mobile-safari'

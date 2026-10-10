@@ -1,0 +1,65 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/collectionHooks.test.tsx tests/unit/collectionCalendar.test.tsx tests/unit/collectionRefresh.test.tsx tests/unit/collectionVisibility.test.tsx && pnpm --filter backend exec vitest run tests/integration/collectionPublic.test.ts tests/integration/calendar-phase7.test.ts tests/integration/birthdayCalendar.test.ts && pnpm --filter backend typecheck && pnpm --filter frontend typecheck && pnpm lint
+# Phase:   10-phase-safe-reading
+# Run:     1
+# Time:    2026-10-10T01:08:54+00:00
+# Exit:    1
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 10ms
+ ✓ tests/unit/collectionVisibility.test.tsx  (1 test) 1ms
+ ✓ tests/unit/collectionCalendar.test.tsx  (4 tests) 72ms
+ ✓ tests/unit/collectionHooks.test.tsx  (7 tests) 3296ms
+
+ Test Files  4 passed (4)
+      Tests  13 passed (13)
+   Start at  12:08:21
+   Duration  3.95s (transform 161ms, setup 0ms, collect 401ms, tests 3.38s, environment 1.60s, prepare 141ms)
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/calendar-phase7.test.ts  (22 tests) 790ms
+ ✓ tests/integration/birthdayCalendar.test.ts  (5 tests) 236ms
+ ✓ tests/integration/collectionPublic.test.ts  (5 tests) 212ms
+
+ Test Files  3 passed (3)
+      Tests  32 passed (32)
+   Start at  12:08:26
+   Duration  2.28s (transform 299ms, setup 306ms, collect 614ms, tests 1.24s, environment 0ms, prepare 30ms)
+
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+$ tsc --noEmit
+$ eslint . --max-warnings=0
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/collectionHooks.ts
+  89:46   error  Error: Cannot call impure function during render
+
+`performance.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/collectionHooks.ts:89:46
+  87 |   });
+  88 |   const denied = collectionDenied(query.error);
+> 89 |   const clock = useMemo(() => ({ receivedAt: performance.now(), version: query.dataUpdatedAt }), [query.dataUpdatedAt]);
+     |                                              ^^^^^^^^^^^^^^^^^ Cannot call impure function
+  90 |   const data = query.data && !denied ? {
+  91 |     ...query.data,
+  92 |     householdToday: query.data.timezone ? householdToday(query.data.serverNow, query.data.timezone, performance.now() - clock.receivedAt) : query.data.householdToday,  react-hooks/purity
+  92:101  error  Error: Cannot call impure function during render
+
+`performance.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/collectionHooks.ts:92:101
+  90 |   const data = query.data && !denied ? {
+  91 |     ...query.data,
+> 92 |     householdToday: query.data.timezone ? householdToday(query.data.serverNow, query.data.timezone, performance.now() - clock.receivedAt) : query.data.householdToday,
+     |                                                                                                     ^^^^^^^^^^^^^^^^^ Cannot call impure function
+  93 |   } : undefined;
+  94 |   const { refetch } = query;
+  95 |   useEffect(() => {                                                       react-hooks/purity
+
+✖ 2 problems (2 errors, 0 warnings)
+
+[ELIFECYCLE] Command failed with exit code 1.

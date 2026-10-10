@@ -1,0 +1,18 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/CollectionStreamEditor.test.tsx && node --version && pnpm lint
+# Phase:   09-phase-custom-streams
+# Run:     1
+# Time:    2026-10-10T01:04:56+00:00
+# Exit:    0
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/CollectionStreamEditor.test.tsx  (2 tests) 28ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  12:04:40
+   Duration  544ms (transform 26ms, setup 0ms, collect 63ms, tests 28ms, environment 251ms, prepare 31ms)
+
+v24.18.0
+$ eslint . --max-warnings=0

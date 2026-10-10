@@ -1,0 +1,51 @@
+# Command: pnpm --filter backend exec vitest run tests/contract/collections.test.ts tests/integration/collectionPublic.test.ts tests/integration/collectionPreset.test.ts tests/integration/collectionBackup.test.ts tests/unit/collectionDates.test.ts tests/unit/collectionService.test.ts && pnpm --filter frontend exec vitest run tests/unit/CollectionManager.test.tsx tests/unit/collectionCalendar.test.tsx tests/unit/collectionHooks.test.tsx tests/unit/collectionDates.test.ts && pnpm --filter backend typecheck && pnpm --filter frontend typecheck && pnpm lint
+# Phase:   08-phase-preset
+# Run:     2
+# Time:    2026-10-10T00:56:50+00:00
+# Exit:    1
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/unit/collectionService.test.ts  (7 tests) 242ms
+ ✓ tests/contract/collections.test.ts  (4 tests) 363ms
+ ✓ tests/integration/collectionBackup.test.ts  (4 tests) 156ms
+ ✓ tests/integration/collectionPublic.test.ts  (4 tests) 195ms
+ ✓ tests/integration/collectionPreset.test.ts  (1 test) 124ms
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 24ms
+
+ Test Files  6 passed (6)
+      Tests  27 passed (27)
+   Start at  11:56:22
+   Duration  2.10s (transform 288ms, setup 225ms, collect 644ms, tests 1.10s, environment 0ms, prepare 30ms)
+
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionDates.test.ts  (5 tests) 11ms
+ ✓ tests/unit/collectionHooks.test.tsx  (1 test) 1ms
+ ✓ tests/unit/collectionCalendar.test.tsx  (4 tests) 72ms
+ ✓ tests/unit/CollectionManager.test.tsx  (3 tests) 102ms
+
+ Test Files  4 passed (4)
+      Tests  13 passed (13)
+   Start at  11:56:24
+   Duration  715ms (transform 89ms, setup 0ms, collect 319ms, tests 186ms, environment 812ms, prepare 129ms)
+
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+$ tsc --noEmit
+$ eslint . --max-warnings=0
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/unit/CollectionManager.test.tsx
+  31:13  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+  34:13  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+  38:33  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+  40:13  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+  42:33  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+  45:13  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+
+✖ 6 problems (6 errors, 0 warnings)
+  6 errors and 0 warnings potentially fixable with the `--fix` option.
+
+[ELIFECYCLE] Command failed with exit code 1.

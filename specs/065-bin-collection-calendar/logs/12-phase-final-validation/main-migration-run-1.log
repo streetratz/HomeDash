@@ -1,0 +1,10 @@
+# Command: pnpm --filter backend exec vitest run tests/integration/collectionMigration.test.ts tests/integration/migrationIntegrity.test.ts && pnpm typecheck
+# Exit: 1
+# Evidence: failure excerpt only; binary git archive buffer was excluded.
+---
+FAIL tests/integration/collectionMigration.test.ts > additive collection migration > upgrades populated current-main bytes without changing any original table after restart
+Error: spawnSync git ENOBUFS
+
+The initial fixture archived unnecessary generated snapshots, exceeding the
+child-process buffer. The corrected fixture archives only SQL and the journal.
+See main-migration-run-2.log for the successful raw rerun.

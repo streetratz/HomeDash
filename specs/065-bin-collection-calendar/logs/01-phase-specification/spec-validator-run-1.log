@@ -1,0 +1,43 @@
+# Command: python3 /tmp/homedash-bin-spec-audit.py validate --inner
+# Phase:   01 — Specification
+# Run:     1
+# Time:    2026-10-10 10:36 UTC+11
+# Exit:    1
+---
+PASS: mandatory template sections and order
+PASS: 23 unique sequential functional requirements
+PASS: 8 unique sequential measurable outcomes
+PASS: four independently testable stories
+PASS: independent test per story
+PASS: acceptance scenarios per story
+PASS: no unresolved spec markers or template placeholders
+PASS: 16 of 16 quality checklist items complete
+PASS: downstream feature directory pointer
+PASS: relative link exists: constitution-check.md -> logs/readme.md
+PASS: relative link exists: constitution-check.md -> logs/01-phase-specification.md
+PASS: relative link exists: constitution-check.md -> changelog-spec.md
+PASS: relative link exists: spec.md -> research.md
+PASS: relative link exists: checklists/requirements.md -> ../spec.md
+PASS: relative link exists: logs/01-phase-specification.md -> readme.md
+PASS: relative link exists: logs/01-phase-specification.md -> 01-phase-specification/git-run-1.log
+PASS: relative link exists: logs/readme.md -> 01-phase-specification.md
+PASS: CH-01 contemporaneous initial-spec coverage
+PASS: explicit bounded scope, recurrence, date, accessibility and offline semantics
+PASS: expected local feature branch
+PASS: branch base preserved; no new commit
+Traceback (most recent call last):
+  File "/tmp/homedash-bin-spec-audit.py", line 173, in <module>
+    validate()
+    ~~~~~~~~^^
+  File "/tmp/homedash-bin-spec-audit.py", line 126, in validate
+    check(
+    ~~~~~^
+        all(p.startswith("specs/065-bin-collection-calendar/") for p in changed + untracked),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "no tracked or untracked changes outside requested feature artifacts",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/homedash-bin-spec-audit.py", line 42, in check
+    raise AssertionError(label)
+AssertionError: no tracked or untracked changes outside requested feature artifacts

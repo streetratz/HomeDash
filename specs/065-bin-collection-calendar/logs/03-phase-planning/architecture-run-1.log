@@ -1,0 +1,923 @@
+# Command: cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/widgets/CalendarWidget.tsx; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/widgets/CalendarConfigForm.tsx; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/calendar/FullScreenCalendar.tsx; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/lib/calendarDates.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/requireRole.ts; rg -n "calendar|sourceIds|requirePermission|widget" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/public.ts
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:51:40 +1100
+# Exit:    0
+---
+/**
+ * 004 Phase 5 (T026): Calendar widget display component.
+ *
+ * Default view: today's agenda list with an expand button that opens
+ * a full-screen month view overlay with prev/next month navigation.
+ */
+
+import { useMemo, useState, useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { Expand, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Button } from '../ui/button.js';
+import { Skeleton } from '../ui/skeleton.js';
+import type { WidgetDisplayProps } from './registry.js';
+import {
+  useCalendarEvents,
+  useCalendarSources,
+  useSyncCalendarSource,
+} from '../../state/calendarHooks.js';
+import { AgendaView } from '../calendar/AgendaView.js';
+import { FullScreenCalendar } from '../calendar/FullScreenCalendar.js';
+import { useClockFormat } from '../../state/bootstrap.js';
+import { toCalendarDateKey, toLocalDateKey } from '../../lib/calendarDates.js';
+
+interface CalendarConfig {
+  sourceIds: string[];
+  viewMode: 'compact' | 'expanded';
+  daysAhead: number;
+  maxEvents: number;
+  showLocation: boolean;
+  showPrivateEvents: boolean;
+}
+
+function parseConfig(widget: WidgetDisplayProps['widget']): CalendarConfig {
+  const raw = (widget.config ?? {}) as Partial<CalendarConfig>;
+  return {
+    sourceIds: raw.sourceIds ?? [],
+    viewMode: raw.viewMode === 'compact' ? 'compact' : 'expanded',
+    daysAhead: raw.daysAhead ?? 7,
+    maxEvents: raw.maxEvents ?? 25,
+    showLocation: raw.showLocation ?? true,
+    showPrivateEvents: raw.showPrivateEvents ?? false,
+  };
+}
+
+function useCurrentTime(): number {
+  const [currentTime, setCurrentTime] = useState(() => Date.now());
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return currentTime;
+}
+
+export function CalendarWidget({ widget }: WidgetDisplayProps) {
+  const config = parseConfig(widget);
+  const [expanded, setExpanded] = useState(false);
+  const { hour12 } = useClockFormat();
+  const syncMutation = useSyncCalendarSource();
+  const [syncing, setSyncing] = useState(false);
+
+  const sourcesQuery = useCalendarSources();
+  const currentTime = useCurrentTime();
+
+  // Compute most recent sync time across configured sources
+  const lastSyncLabel = useMemo(() => {
+    const sources = sourcesQuery.data ?? [];
+    const syncTimes = sources
+      .filter((s) => config.sourceIds.includes(s.id) && s.lastSyncAt)
+      .map((s) => new Date(s.lastSyncAt!).getTime());
+    if (syncTimes.length === 0) return null;
+    const latest = Math.max(...syncTimes);
+    const mins = Math.round((currentTime - latest) / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    return `${hrs}h ago`;
+  }, [sourcesQuery.data, config.sourceIds, currentTime]);
+
+  const handleSync = useCallback(async () => {
+    setSyncing(true);
+    try {
+      await Promise.all(config.sourceIds.map((sid) => syncMutation.mutateAsync(sid)));
+      // Brief minimum spin so user sees feedback
+      await new Promise((r) => setTimeout(r, 600));
+    } finally {
+      setSyncing(false);
+    }
+  }, [config.sourceIds, syncMutation]);
+
+  // Stable date range — start of today to daysAhead days out.
+  // Uses start-of-day so past events today still appear in the agenda.
+  const { from, to, visibleFrom, visibleTo } = useMemo(() => {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const end = new Date(start);
+    end.setDate(end.getDate() + config.daysAhead);
+    const queryStart = new Date(start);
+    queryStart.setDate(queryStart.getDate() - 1);
+    const queryEnd = new Date(end);
+    queryEnd.setDate(queryEnd.getDate() + 1);
+    return {
+      from: queryStart.toISOString(),
+      to: queryEnd.toISOString(),
+      visibleFrom: toLocalDateKey(start),
+      visibleTo: toLocalDateKey(end),
+    };
+  }, [config.daysAhead]);
+
+  const eventsQuery = useCalendarEvents(config.sourceIds, from, to);
+
+  // Loading (initial load only — don't show skeleton on refetch/sync)
+  if (
+    (!sourcesQuery.data && sourcesQuery.isLoading) ||
+    (!eventsQuery.data && eventsQuery.isLoading)
+  ) {
+    return (
+      <div className="flex flex-col gap-2 p-3">
+        <Skeleton className="h-4 w-24" />
+        <Skeleton className="h-12 w-full" />
+        <Skeleton className="h-12 w-full" />
+        <Skeleton className="h-12 w-full" />
+      </div>
+    );
+  }
+
+  // No sources configured
+  if (config.sourceIds.length === 0) {
+    return (
+      <div className="flex h-full items-center justify-center p-4 text-center text-sm text-muted-foreground">
+        Configure calendar sources in Settings
+      </div>
+    );
+  }
+
+  // Error
+  if (eventsQuery.isError) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-2 p-4 text-center">
+        <AlertTriangle className="h-6 w-6 text-status-warning" />
+        <p className="text-sm text-muted-foreground">Calendar unavailable</p>
+        <Button variant="outline" size="sm" onClick={() => void eventsQuery.refetch()}>
+          <RefreshCw className="mr-1 h-3.5 w-3.5" />
+          Retry
+        </Button>
+      </div>
+    );
+  }
+
+  const rawEvents = eventsQuery.data ?? [];
+  const visibleEvents = rawEvents.filter((event) => {
+    const key = toCalendarDateKey(event.startAt, event.isAllDay);
+    return key >= visibleFrom && key <= visibleTo;
+  });
+  // Filter private events unless config says to show them
+  const filteredEvents = config.showPrivateEvents
+    ? visibleEvents
+    : visibleEvents.filter((ev) => !ev.isPrivate);
+  const events = filteredEvents.slice(0, config.maxEvents);
+  const sources = sourcesQuery.data ?? [];
+
+  return (
+    <div className="flex h-full flex-col px-3 py-2">
+      {/* Toolbar: expand left, sync right */}
+      <div className="flex items-center justify-between shrink-0 pb-1">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-5 w-5"
+          title="Open month view"
+          onClick={() => setExpanded(true)}
+        >
+          <Expand className="h-3 w-3" />
+        </Button>
+        <div className="flex items-center gap-1">
+          {lastSyncLabel && (
+            <span className="text-[10px] text-muted-foreground/60">Synced {lastSyncLabel}</span>
+          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-5 w-5"
+            title="Sync calendars"
+            onClick={() => void handleSync()}
+            disabled={syncing}
+          >
+            <RefreshCw className={`h-3 w-3 ${syncing ? 'animate-spin' : ''}`} />
+          </Button>
+        </div>
+      </div>
+
+      {/* Agenda */}
+      <div className="min-h-0 flex-1 overflow-y-auto scrollbar-thin">
+        <AgendaView
+          events={events}
+          sources={sources}
+          showLocation={config.viewMode === 'expanded' && config.showLocation}
+          compact={config.viewMode === 'compact'}
+          hour12={hour12}
+        />
+      </div>
+
+      {/* Full-screen month overlay — portalled to body to escape widget transforms */}
+      {expanded &&
+        createPortal(
+          <FullScreenCalendar
+            sourceIds={sources.map((s) => s.id)}
+            sources={sources}
+            showPrivateEvents={config.showPrivateEvents}
+            onClose={() => setExpanded(false)}
+          />,
+          document.body,
+        )}
+    </div>
+  );
+}
+/**
+ * 004 Phase 6 (T029): Calendar widget configuration form.
+ *
+ * Source selection, view mode, days ahead, max events, show location toggle.
+ */
+
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Pencil, Check } from 'lucide-react';
+import { toast } from 'sonner';
+import { Input } from '../ui/input.js';
+import { Label } from '../ui/label.js';
+import { Switch } from '../ui/switch.js';
+import { ColorPicker } from '../ui/color-picker.js';
+import type { WidgetConfigFormProps } from './registry.js';
+import { useCalendarSources, useUpdateCalendarSource, type CalendarSource } from '../../state/calendarHooks.js';
+
+interface CalendarConfigValues {
+  sourceIds: string[];
+  viewMode: 'compact' | 'expanded';
+  daysAhead: number;
+  maxEvents: number;
+  showLocation: boolean;
+  showPrivateEvents: boolean;
+}
+
+function parseConfig(config: unknown): CalendarConfigValues {
+  const raw = (config ?? {}) as Partial<CalendarConfigValues>;
+  return {
+    sourceIds: raw.sourceIds ?? [],
+    viewMode: raw.viewMode === 'compact' ? 'compact' : 'expanded',
+    daysAhead: raw.daysAhead ?? 7,
+    maxEvents: raw.maxEvents ?? 25,
+    showLocation: raw.showLocation ?? true,
+    showPrivateEvents: raw.showPrivateEvents ?? false,
+  };
+}
+
+function groupByType(sources: CalendarSource[]): Map<string, CalendarSource[]> {
+  const map = new Map<string, CalendarSource[]>();
+  for (const s of sources) {
+    const list = map.get(s.type);
+    if (list) {
+      list.push(s);
+    } else {
+      map.set(s.type, [s]);
+    }
+  }
+  return map;
+}
+
+const TYPE_LABELS: Record<string, string> = {
+  microsoft: 'Microsoft',
+  google: 'Google',
+  ical: 'iCal',
+};
+
+export function CalendarConfigForm({ config, onChange }: WidgetConfigFormProps) {
+  const c = parseConfig(config);
+  const sourcesQuery = useCalendarSources();
+  const updateSourceMutation = useUpdateCalendarSource();
+  const sources = sourcesQuery.data ?? [];
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editName, setEditName] = useState('');
+
+  function update(patch: Partial<CalendarConfigValues>) {
+    onChange({ ...c, ...patch });
+  }
+
+  function toggleSource(sourceId: string, checked: boolean) {
+    const next = checked
+      ? [...c.sourceIds, sourceId]
+      : c.sourceIds.filter((id) => id !== sourceId);
+    update({ sourceIds: next });
+  }
+
+  function startRename(source: CalendarSource) {
+    setEditingId(source.id);
+    setEditName(source.name);
+  }
+
+  function handleColorChange(sourceId: string, color: string) {
+    updateSourceMutation.mutate(
+      { id: sourceId, color },
+      {
+        onError: () => toast.error('Failed to update color'),
+      },
+    );
+  }
+
+  function saveRename(sourceId: string) {
+    const trimmed = editName.trim();
+    if (!trimmed) {
+      setEditingId(null);
+      return;
+    }
+    updateSourceMutation.mutate(
+      { id: sourceId, name: trimmed },
+      {
+        onSuccess: () => {
+          toast.success('Source renamed');
+          setEditingId(null);
+        },
+        onError: () => toast.error('Failed to rename'),
+      },
+    );
+  }
+
+  if (sources.length === 0 && !sourcesQuery.isLoading) {
+    return (
+      <div className="flex flex-col gap-2 text-sm text-muted-foreground">
+        <p>No calendar sources connected.</p>
+        <Link to="/settings" className="text-primary underline hover:text-primary/80">
+          Go to Settings to add calendars
+        </Link>
+      </div>
+    );
+  }
+
+  const grouped = groupByType(sources);
+
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Source selection */}
+      <div className="flex flex-col gap-1.5">
+        <Label>Calendar Sources</Label>
+        {[...grouped.entries()].map(([type, typeSources]) => (
+          <div key={type} className="flex flex-col gap-1">
+            <span className="text-xs font-medium text-muted-foreground">
+              {TYPE_LABELS[type] ?? type}
+            </span>
+            {typeSources.map((source) => (
+              <div
+                key={source.id}
+                className="flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent"
+              >
+                <input
+                  id={`calendar-source-${source.id}`}
+                  type="checkbox"
+                  checked={c.sourceIds.includes(source.id)}
+                  onChange={(e) => toggleSource(source.id, e.target.checked)}
+                  className="h-4 w-4 rounded border-border"
+                />
+                <ColorPicker
+                  value={source.color}
+                  onChange={(color) => handleColorChange(source.id, color)}
+                />
+                {editingId === source.id ? (
+                  <form
+                    className="flex flex-1 items-center gap-1"
+                    onSubmit={(e) => { e.preventDefault(); saveRename(source.id); }}
+                  >
+                    <input
+                      autoFocus
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      onBlur={() => saveRename(source.id)}
+                      className="flex-1 rounded border border-border bg-background px-1.5 py-0.5 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    />
+                    <button
+                      type="submit"
+                      className="flex min-h-11 min-w-11 items-center justify-center text-muted-foreground hover:text-primary"
+                      aria-label={`Save name for ${source.name}`}
+                    >
+                      <Check className="h-3.5 w-3.5" />
+                    </button>
+                  </form>
+                ) : (
+                  <>
+                    <label
+                      htmlFor={`calendar-source-${source.id}`}
+                      className="flex-1 cursor-pointer text-sm"
+                    >
+                      {source.name}
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => startRename(source)}
+                      className="flex min-h-11 min-w-11 items-center justify-center text-muted-foreground/50 hover:text-primary"
+                      title="Rename source"
+                      aria-label={`Rename ${source.name}`}
+                    >
+                      <Pencil className="h-3 w-3" />
+                    </button>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* View mode */}
+      <div className="flex flex-col gap-1.5">
+        <Label>View Mode</Label>
+        <div className="flex gap-2" role="group" aria-label="Calendar view mode">
+          <button
+            type="button"
+            className={`rounded-md border px-3 py-1.5 text-sm ${
+              c.viewMode === 'expanded'
+                ? 'border-primary bg-primary/10 text-primary'
+                : 'border-border text-muted-foreground hover:border-primary/50'
+            }`}
+            onClick={() => update({ viewMode: 'expanded' })}
+            aria-pressed={c.viewMode === 'expanded'}
+          >
+            Expanded
+          </button>
+          <button
+            type="button"
+            className={`rounded-md border px-3 py-1.5 text-sm ${
+              c.viewMode === 'compact'
+                ? 'border-primary bg-primary/10 text-primary'
+                : 'border-border text-muted-foreground hover:border-primary/50'
+            }`}
+            onClick={() => update({ viewMode: 'compact' })}
+            aria-pressed={c.viewMode === 'compact'}
+          >
+            Compact
+          </button>
+        </div>
+      </div>
+
+      {/* Days ahead */}
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="calendar-days-ahead">Days Ahead</Label>
+        <Input
+          id="calendar-days-ahead"
+          type="number"
+          min={1}
+          max={90}
+          value={c.daysAhead}
+          onChange={(e) => update({ daysAhead: Math.max(1, Math.min(90, Number(e.target.value) || 7)) })}
+        />
+      </div>
+
+      {/* Max events */}
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="calendar-max-events">Max Events</Label>
+        <Input
+          id="calendar-max-events"
+          type="number"
+          min={5}
+          max={100}
+          value={c.maxEvents}
+          onChange={(e) => update({ maxEvents: Math.max(5, Math.min(100, Number(e.target.value) || 25)) })}
+        />
+      </div>
+
+      {/* Show location */}
+      <div className="flex items-center justify-between">
+        <Label htmlFor="calendar-show-location">Show Location</Label>
+        <Switch
+          id="calendar-show-location"
+          checked={c.showLocation}
+          onCheckedChange={(checked) => update({ showLocation: checked })}
+        />
+      </div>
+
+      {/* Show private events */}
+      <div className="flex items-center justify-between">
+        <Label htmlFor="calendar-show-private">Show Private Events</Label>
+        <Switch
+          id="calendar-show-private"
+          checked={c.showPrivateEvents}
+          onCheckedChange={(checked) => update({ showPrivateEvents: checked })}
+        />
+      </div>
+    </div>
+  );
+}
+/**
+ * Full-screen month calendar overlay.
+ *
+ * Opened from the CalendarWidget expand button. Shows a month grid with
+ * prev/next navigation and a day detail panel on click.
+ */
+
+import { useState, useMemo, useCallback, useEffect } from 'react';
+import { X, ChevronLeft, ChevronRight, MapPin, Calendar } from 'lucide-react';
+import { Button } from '../ui/button.js';
+import type { CalendarEvent, CalendarSource } from '../../state/calendarHooks.js';
+import { useCalendarEvents } from '../../state/calendarHooks.js';
+import { useClockFormat } from '../../state/bootstrap.js';
+import { toCalendarDateKey } from '../../lib/calendarDates.js';
+
+export interface FullScreenCalendarProps {
+  /** All configured source IDs to fetch events for (empty = use all sources passed) */
+  sourceIds: string[];
+  sources: CalendarSource[];
+  showPrivateEvents?: boolean;
+  onClose: () => void;
+}
+
+const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+function pad(n: number): string {
+  return String(n).padStart(2, '0');
+}
+
+function toDateKey(date: Date): string {
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+function getDaysInMonth(year: number, month: number): number {
+  return new Date(year, month + 1, 0).getDate();
+}
+
+function getFirstDayOfWeek(year: number, month: number): number {
+  return new Date(year, month, 1).getDay();
+}
+
+function formatTimeRange(startAt: string, endAt: string, hour12?: boolean, startTz?: string): string {
+  const opts: Intl.DateTimeFormatOptions = {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12,
+    timeZone: startTz || undefined,
+  };
+  const fmt = new Intl.DateTimeFormat(undefined, opts);
+  const start = fmt.format(new Date(startAt));
+  const end = fmt.format(new Date(endAt));
+  return `${start} – ${end}`;
+}
+
+export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onClose }: FullScreenCalendarProps) {
+  const todayKey = useMemo(() => toDateKey(new Date()), []);
+  const { hour12 } = useClockFormat();
+
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    const now = new Date();
+    return { year: now.getFullYear(), month: now.getMonth() };
+  });
+  const [selectedDate, setSelectedDate] = useState<string>(todayKey);
+
+  // Fetch events for the full visible month range (includes overflow days from prev/next month)
+  const [from, to] = useMemo(() => {
+    const { year, month } = currentMonth;
+    const start = new Date(year, month, 1);
+    // Go back to fill the first week row
+    start.setDate(start.getDate() - start.getDay());
+    const end = new Date(year, month + 1, 0);
+    // Go forward to fill the last week row
+    end.setDate(end.getDate() + (6 - end.getDay()) + 1);
+    // Include UTC-midnight all-day events on the visible edge dates.
+    start.setDate(start.getDate() - 1);
+    end.setDate(end.getDate() + 1);
+    return [start.toISOString(), end.toISOString()] as const;
+  }, [currentMonth]);
+
+  const allSourceIds = useMemo(
+    () => (sourceIds.length > 0 ? sourceIds : sources.map((s) => s.id)),
+    [sourceIds, sources],
+  );
+
+  const eventsQuery = useCalendarEvents(allSourceIds, from, to);
+  const events = useMemo(() => {
+    const raw = eventsQuery.data ?? [];
+    return showPrivateEvents ? raw : raw.filter((ev) => !ev.isPrivate);
+  }, [eventsQuery.data, showPrivateEvents]);
+
+  // Close on Escape key
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose();
+    }
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [onClose]);
+
+  const sourceMap = useMemo(() => new Map(sources.map((s) => [s.id, s])), [sources]);
+
+  // Build event map: dateKey → CalendarEvent[]
+  const eventsByDate = useMemo(() => {
+    const map = new Map<string, CalendarEvent[]>();
+    for (const event of events) {
+      const key = toCalendarDateKey(event.startAt, event.isAllDay);
+      const list = map.get(key);
+      if (list) {
+        list.push(event);
+      } else {
+        map.set(key, [event]);
+      }
+    }
+    return map;
+  }, [events]);
+
+  const { year, month } = currentMonth;
+  const daysInMonth = getDaysInMonth(year, month);
+  const firstDay = getFirstDayOfWeek(year, month);
+
+  const monthLabel = new Intl.DateTimeFormat(undefined, {
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date(year, month, 1));
+
+  const prevMonth = useCallback(() => {
+    setCurrentMonth((prev) => {
+      if (prev.month === 0) return { year: prev.year - 1, month: 11 };
+      return { ...prev, month: prev.month - 1 };
+    });
+  }, []);
+
+  const nextMonth = useCallback(() => {
+    setCurrentMonth((prev) => {
+      if (prev.month === 11) return { year: prev.year + 1, month: 0 };
+      return { ...prev, month: prev.month + 1 };
+    });
+  }, []);
+
+  const goToToday = useCallback(() => {
+    const now = new Date();
+    setCurrentMonth({ year: now.getFullYear(), month: now.getMonth() });
+    setSelectedDate(todayKey);
+  }, [todayKey]);
+
+  // Grid cells
+  const cells: (number | null)[] = [];
+  for (let i = 0; i < firstDay; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+  while (cells.length < 42) cells.push(null);
+
+  // Selected day events
+  const selectedEvents = (eventsByDate.get(selectedDate) ?? []).sort((a, b) => {
+    if (a.isAllDay !== b.isAllDay) return a.isAllDay ? -1 : 1;
+    return new Date(a.startAt).getTime() - new Date(b.startAt).getTime();
+  });
+
+  // Format selected date for header
+  const selectedDateFormatted = (() => {
+    const [y, m, d] = selectedDate.split('-').map(Number) as [number, number, number];
+    const date = new Date(y, m - 1, d);
+    return new Intl.DateTimeFormat(undefined, {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }).format(date);
+  })();
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="flex h-full w-full sm:h-[85vh] sm:w-[85vw] max-w-[1400px] flex-col overflow-hidden rounded-none sm:rounded-xl border border-border bg-background/90 shadow-2xl backdrop-blur">
+      {/* Top bar */}
+      <div className="flex items-center justify-between border-b px-4 py-3">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" onClick={prevMonth}>
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+          <h2 className="text-lg font-semibold">{monthLabel}</h2>
+          <Button variant="ghost" size="icon" onClick={nextMonth}>
+            <ChevronRight className="h-5 w-5" />
+          </Button>
+          <Button variant="outline" size="sm" className="ml-2" onClick={goToToday}>
+            Today
+          </Button>
+        </div>
+        <Button variant="ghost" size="icon" onClick={onClose}>
+          <X className="h-5 w-5" />
+        </Button>
+      </div>
+
+      {/* Main content: calendar grid + day detail sidebar */}
+      <div className="flex min-h-0 flex-1 flex-col sm:flex-row overflow-y-auto sm:overflow-hidden">
+        {/* Month grid */}
+        <div className="flex flex-1 flex-col p-4">
+          {/* Day-of-week headers */}
+          <div className="grid grid-cols-7 border-b pb-2 text-center text-xs font-medium text-muted-foreground">
+            {DAY_LABELS.map((label) => (
+              <div key={label}>{label}</div>
+            ))}
+          </div>
+
+          {/* Calendar grid — fill available space */}
+          <div className="grid flex-1 grid-cols-7 grid-rows-6">
+            {cells.map((day, i) => {
+              if (day === null) {
+                return <div key={`empty-${i}`} className="border-b border-r border-border/30" />;
+              }
+
+              const dateKey = `${year}-${pad(month + 1)}-${pad(day)}`;
+              const isToday = dateKey === todayKey;
+              const isSelected = dateKey === selectedDate;
+              const dayEvents = eventsByDate.get(dateKey) ?? [];
+
+              return (
+                <button
+                  key={dateKey}
+                  type="button"
+                  onClick={() => setSelectedDate(dateKey)}
+                  className={`relative flex flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden ${
+                    isSelected ? 'bg-accent' : ''
+                  }`}
+                >
+                  <span
+                    className={`mb-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full text-xs shrink-0 ${
+                      isToday
+                        ? 'bg-primary text-primary-foreground font-bold'
+                        : 'text-foreground'
+                    }`}
+                  >
+                    {day}
+                  </span>
+                  {/* Event list */}
+                  {dayEvents.length > 0 && (
+                    <div className="flex min-h-0 flex-1 flex-col gap-px overflow-hidden">
+                      {dayEvents.slice(0, 3).map((evt) => {
+                        const source = sourceMap.get(evt.sourceId);
+                        const color = source?.color ?? '#3b82f6';
+                        return (
+                          <div
+                            key={evt.id}
+                            className="flex items-center gap-1 truncate rounded px-1 py-px text-[10px] leading-tight"
+                            style={{ backgroundColor: `${color}20`, borderLeft: `2px solid ${color}` }}
+                          >
+                            <span className="truncate">{evt.title}</span>
+                          </div>
+                        );
+                      })}
+                      {dayEvents.length > 3 && (
+                        <span className="px-1 text-[9px] text-muted-foreground">+{dayEvents.length - 3} more</span>
+                      )}
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Day detail sidebar */}
+        <div className="w-full sm:w-80 shrink-0 overflow-y-auto border-t sm:border-t-0 sm:border-l p-4">
+          <h3 className="mb-3 text-sm font-semibold">{selectedDateFormatted}</h3>
+          {selectedEvents.length === 0 ? (
+            <div className="flex flex-col items-center justify-center gap-2 py-8 text-muted-foreground">
+              <Calendar className="h-6 w-6" />
+              <p className="text-sm">No events on this day</p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {selectedEvents.map((event) => {
+                const source = sourceMap.get(event.sourceId);
+                const color = source?.color ?? '#3b82f6';
+                return (
+                  <div
+                    key={event.id}
+                    className="widget-panel flex items-start gap-2.5 rounded-lg border px-3 py-2.5 transition-colors hover:bg-card/75"
+                  >
+                    {/* Colored dot */}
+                    <div
+                      className="mt-1.5 h-2 w-2 shrink-0 rounded-full"
+                      style={{ backgroundColor: color, boxShadow: `0 0 8px ${color}60` }}
+                    />
+                    {/* Event info */}
+                    <div className="flex-1 min-w-0">
+                      <p className="truncate text-sm font-medium text-foreground">{event.title}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {event.isAllDay
+                          ? 'All Day'
+                          : formatTimeRange(event.startAt, event.endAt, hour12, event.startTz ?? undefined)}
+                      </p>
+                      {event.location && (
+                        <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground/70 truncate">
+                          <MapPin className="h-3 w-3 shrink-0" />
+                          <span className="truncate">{event.location}</span>
+                        </p>
+                      )}
+                    </div>
+                    {/* Source badge — uses configured name from settings */}
+                    {source?.name && (
+                      <span
+                        className="shrink-0 mt-0.5 text-[10px] px-2 py-0.5 rounded-full border border-white/[0.1]"
+                        style={{ color }}
+                      >
+                        {source.name}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+      </div>
+    </div>
+  );
+}
+function pad(value: number): string {
+  return String(value).padStart(2, '0');
+}
+
+/**
+ * Date-only calendar events are persisted at UTC midnight. Use UTC components for
+ * those events so a browser west of UTC never renders the previous day.
+ */
+export function toCalendarDateKey(startAt: string, isAllDay: boolean): string {
+  const date = new Date(startAt);
+  const year = isAllDay ? date.getUTCFullYear() : date.getFullYear();
+  const month = isAllDay ? date.getUTCMonth() + 1 : date.getMonth() + 1;
+  const day = isAllDay ? date.getUTCDate() : date.getDate();
+  return `${year}-${pad(month)}-${pad(day)}`;
+}
+
+export function toLocalDateKey(date: Date): string {
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+/**
+ * T049 (US1): Role guard helpers for route handlers.
+ * T005 (012-RBAC): Permission-based guard added.
+ * Use these at the start of route handlers that require authentication or admin access.
+ */
+
+import type { FastifyRequest, FastifyReply } from 'fastify';
+import { Errors } from '../lib/errors.js';
+import {
+  hasPermission,
+  type PermissionCategory,
+  type PermissionLevel,
+} from '../lib/permissions.js';
+
+/**
+ * Assert the request is from an authenticated user.
+ * Throws 401 if not authenticated.
+ */
+export function requireAuth(request: FastifyRequest, _reply: FastifyReply): void {
+  if (!request.user) {
+    throw Errors.unauthorized('Authentication required');
+  }
+}
+
+/**
+ * `requireAuth` as a Fastify `preHandler`.
+ *
+ * **Must be async.** Fastify's hook runner treats a two-argument hook that
+ * returns a non-thenable as callback-style and waits for a `done` that a void
+ * function never calls — the request hangs forever instead of proceeding.
+ * `requireAuth` itself stays synchronous because most callers invoke it inline
+ * inside a handler.
+ */
+// eslint-disable-next-line @typescript-eslint/require-await
+export async function requireAuthHook(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+  requireAuth(request, reply);
+}
+
+/**
+ * Assert the request is from an authenticated admin user.
+ * Checks RBAC `isAdmin` flag (membership in Administrators group).
+ * Falls back to legacy `role` column during migration bridge.
+ * Throws 401 if not authenticated; 403 if authenticated but not admin.
+ * Must be async for Fastify preHandler compatibility.
+ */
+// eslint-disable-next-line @typescript-eslint/require-await
+export async function requireAdmin(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+  requireAuth(request, reply);
+  const user = request.user!;
+  // RBAC-aware: prefer isAdmin (group-based), fall back to legacy role
+  const isAdmin = user.isAdmin ?? user.role === 'admin';
+  if (!isAdmin) {
+    throw Errors.forbidden('Admin access required');
+  }
+}
+
+/**
+ * Factory: returns a Fastify preHandler that requires a specific permission.
+ * Usage: `{ preHandler: [requirePermission('dashboards', 'manage')] }`
+ *
+ * The outer function is synchronous — it returns the async handler.
+ */
+export function requirePermission(
+  category: PermissionCategory,
+  level: PermissionLevel,
+): (request: FastifyRequest, reply: FastifyReply) => Promise<void> {
+  return async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
+    requireAuth(request, reply);
+    const user = request.user!;
+    // Admins bypass all permission checks
+    const isAdmin = user.isAdmin ?? user.role === 'admin';
+    if (isAdmin) return;
+
+    if (!user.permissions || !hasPermission(user.permissions, category, level)) {
+      throw Errors.forbidden(`Permission required: ${category}:${level}`);
+    }
+  };
+}
+31:const PublicWidgetParamsSchema = z.object({ widgetId: z.string().uuid() });
+32:const PUBLIC_NOT_FOUND = { error: 'NOT_FOUND', message: 'Public widget not found' } as const;
+36:    '/api/public/widgets/:widgetId',
+43:      const widget = resolvePublicWidget(detectDeviceContext(request), params.data.widgetId);
+44:      if (!widget) return reply.status(404).send(PUBLIC_NOT_FOUND);
+48:          `${widget.type}:${widget.id}:snapshot`,
+49:          publicSnapshotCachePolicy(widget),
+50:          () => loadPublicWidgetSnapshot(widget),
+56:            event: 'public_widget_snapshot_unavailable',
+57:            widgetId: widget.id,
+58:            widgetType: widget.type,
+62:          'Public widget snapshot unavailable',
+157:    // Return full nested dashboard view (placeholders → widgets → links)

@@ -1,0 +1,48 @@
+# Command: pnpm --filter backend exec vitest run tests/unit/collectionService.test.ts tests/unit/collectionWidgetConfig.test.ts tests/integration/collectionMigration.test.ts tests/integration/collectionBackup.test.ts tests/integration/backup.test.ts tests/integration/restore.test.ts
+# Phase:   07-phase-foundational
+# Run:     1
+# Time:    2026-10-10T00:35:49+00:00
+# Exit:    1
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/restore.test.ts  (7 tests) 1168ms
+ ❯ tests/integration/backup.test.ts  (8 tests | 1 failed) 259ms
+   ❯ tests/integration/backup.test.ts > GET /api/admin/backup > returns 200 with valid JSON backup envelope
+     → expected 2 to be 1 // Object.is equality
+ ✓ tests/unit/collectionService.test.ts  (6 tests) 44ms
+ ✓ tests/integration/collectionBackup.test.ts  (2 tests) 29ms
+ ✓ tests/integration/collectionMigration.test.ts  (2 tests) 28ms
+ ✓ tests/unit/collectionWidgetConfig.test.ts  (2 tests) 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/backup.test.ts > GET /api/admin/backup > returns 200 with valid JSON backup envelope
+AssertionError: expected 2 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ tests/integration/backup.test.ts:130:31
+    128|     const backup = res.body as Record<string, unknown>;
+    129|     expect(backup['format']).toBe('homedash-backup');
+    130|     expect(backup['version']).toBe(1);
+       |                               ^
+    131|     expect(backup).toHaveProperty('appVersion');
+    132|     expect(typeof backup['appVersion']).toBe('string');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 26 passed (27)
+   Start at  11:35:46
+   Duration  2.89s (transform 344ms, setup 283ms, collect 918ms, tests 1.53s, environment 0ms, prepare 45ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/collectionService.test.ts tests/unit/collectionWidgetConfig.test.ts tests/integration/collectionMigration.test.ts tests/integration/collectionBackup.test.ts tests/integration/backup.test.ts tests/integration/restore.test.ts

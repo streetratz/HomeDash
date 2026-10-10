@@ -1,0 +1,722 @@
+# Command: cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/publicWidgetProjection.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/publicVisibility.ts; rg -n "calendar|sourceIds|snapshot|widget-data" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/widget-data.ts /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/widget-data* /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts; find /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth -maxdepth 1 -type f; rg -n "calendar|auth|public" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/server.ts; sed -n "320,448p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/backupService.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/integration.json; find /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/workflows -type f; sed -n "364,510p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/update-agent-context.sh
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:52:08 +1100
+# Exit:    0
+---
+import { fetchStats, fetchSystemHealth } from './pihole-service.js';
+import { fetchUnifiStats } from './unifi-service.js';
+import {
+  getGroups,
+  getGroupVolume,
+  getPlaybackMetadata,
+  getPlaybackState,
+  getSonosMode,
+} from './sonos-adapter.js';
+import { getFxRate, getMarketStatus, getQuotes } from './stock-service.js';
+import { listShortcuts } from './appShortcutService.js';
+import type { ResolvedPublicWidget } from './publicVisibility.js';
+import type {
+  PublicWidgetSnapshot,
+  SnapshotCachePolicy,
+} from './publicWidgetSnapshotCache.js';
+
+const FAILURE_BACKOFF_MS = 15_000;
+
+export function publicSnapshotCachePolicy(widget: ResolvedPublicWidget): SnapshotCachePolicy {
+  const pollIntervalMs =
+    typeof widget.config['pollIntervalSec'] === 'number'
+      ? widget.config['pollIntervalSec'] * 1000
+      : 0;
+  switch (widget.type) {
+    case 'pihole':
+      return {
+        freshMs: Math.max(pollIntervalMs, 10_000),
+        staleMs: 120_000,
+        failureBackoffMs: FAILURE_BACKOFF_MS,
+      };
+    case 'unifi':
+      return {
+        freshMs: Math.max(pollIntervalMs, 30_000),
+        staleMs: 300_000,
+        failureBackoffMs: FAILURE_BACKOFF_MS,
+      };
+    case 'sonos_music':
+      return { freshMs: 5_000, staleMs: 30_000, failureBackoffMs: FAILURE_BACKOFF_MS };
+    case 'stocks':
+      return { freshMs: 60_000, staleMs: 900_000, failureBackoffMs: FAILURE_BACKOFF_MS };
+    case 'app_shortcuts':
+      return { freshMs: 60_000, staleMs: 300_000, failureBackoffMs: FAILURE_BACKOFF_MS };
+  }
+}
+
+function stringValue(value: unknown): string | null {
+  return typeof value === 'string' && value.length > 0 ? value : null;
+}
+
+async function loadSonos(widget: ResolvedPublicWidget): Promise<unknown> {
+  const mode = getSonosMode();
+  const userId = widget.publicSourceUserId ?? '';
+  if (mode === 'cloud' && !userId) throw new Error('Sonos source principal unavailable');
+
+  const householdId = stringValue(widget.config['householdId']) ?? (mode === 'local' ? 'local' : null);
+  if (!householdId) throw new Error('Sonos household unavailable');
+
+  const groupsData = await getGroups(userId, householdId);
+  const configuredGroupId = stringValue(widget.config['defaultGroupId']);
+  const activeGroup =
+    groupsData.groups.find((group) => group.id === configuredGroupId) ??
+    groupsData.groups.find((group) => group.playbackState === 'PLAYBACK_STATE_PLAYING') ??
+    groupsData.groups[0] ??
+    null;
+
+  const [playback, metadata, volume] = activeGroup
+    ? await Promise.all([
+        getPlaybackState(userId, activeGroup.id),
+        getPlaybackMetadata(userId, activeGroup.id),
+        getGroupVolume(userId, activeGroup.id),
+      ])
+    : [null, null, null];
+
+  const track = metadata?.currentItem?.track;
+  return {
+    groups: groupsData.groups.map((group) => ({
+      id: group.id,
+      name: group.name,
+      coordinatorId: group.coordinatorId,
+      playbackState: group.playbackState ?? '',
+      playerIds: group.playerIds,
+    })),
+    players: groupsData.players.map((player) => ({
+      id: player.id,
+      name: player.name,
+      ...(player.capabilities ? { capabilities: player.capabilities } : {}),
+    })),
+    activeGroupId: activeGroup?.id ?? null,
+    playback,
+    metadata: metadata
+      ? {
+          currentItem: track
+            ? {
+                track: {
+                  name: track.name,
+                  artist: track.artist,
+                  album: track.album,
+                  imageUrl: track.imageUrl,
+                  durationMillis: track.durationMillis,
+                  type: track.type,
+                  ...(track.service?.name ? { service: { name: track.service.name } } : {}),
+                },
+              }
+            : undefined,
+        }
+      : null,
+    volume,
+  };
+}
+
+async function loadStocks(widget: ResolvedPublicWidget): Promise<unknown> {
+  const groups = Array.isArray(widget.config['groups'])
+    ? (widget.config['groups'] as Array<Record<string, unknown>>)
+    : [];
+  const displayCurrency = stringValue(widget.config['displayCurrency']) ?? 'AUD';
+  const symbols = [
+    ...new Set(
+      groups.flatMap((group) =>
+        Array.isArray(group['tickers'])
+          ? (group['tickers'] as Array<Record<string, unknown>>)
+              .map((ticker) => stringValue(ticker['symbol']))
+              .filter((symbol): symbol is string => symbol !== null)
+          : [],
+      ),
+    ),
+  ];
+  const currencies = [
+    ...new Set(
+      groups
+        .map((group) => stringValue(group['currency']))
+        .filter((currency): currency is string => currency !== null),
+    ),
+  ];
+  const quotes = symbols.length > 0 ? await getQuotes(symbols) : [];
+  const fxRates: Record<string, number> = {};
+  await Promise.all(
+    currencies
+      .filter((currency) => currency !== displayCurrency)
+      .map(async (currency) => {
+        fxRates[`${currency}${displayCurrency}`] = await getFxRate(currency, displayCurrency);
+      }),
+  );
+  return {
+    quotes,
+    fxRates,
+    displayCurrency,
+    markets: symbols.length > 0 ? await getMarketStatus(symbols) : {},
+  };
+}
+
+export async function loadPublicWidgetSnapshot(
+  widget: ResolvedPublicWidget,
+): Promise<PublicWidgetSnapshot> {
+  let data: unknown;
+  switch (widget.type) {
+    case 'pihole': {
+      const [stats, system] = await Promise.all([
+        fetchStats(widget.id),
+        fetchSystemHealth(widget.id),
+      ]);
+      data = { stats, system };
+      break;
+    }
+    case 'unifi':
+      data = await fetchUnifiStats(widget.id);
+      break;
+    case 'sonos_music':
+      data = await loadSonos(widget);
+      break;
+    case 'stocks':
+      data = await loadStocks(widget);
+      break;
+    case 'app_shortcuts':
+      data = {
+        shortcuts: listShortcuts(widget.id).map((shortcut) => ({
+          id: shortcut.id,
+          groupId: shortcut.groupId,
+          name: shortcut.name,
+          url: shortcut.url,
+          iconKey: shortcut.iconKey,
+          iconUrl: shortcut.iconUrl,
+          orderIndex: shortcut.orderIndex,
+        })),
+      };
+      break;
+  }
+
+  return {
+    widgetId: widget.id,
+    type: widget.type,
+    data,
+    refreshedAt: new Date().toISOString(),
+  };
+}
+import { and, eq } from 'drizzle-orm';
+import { getDb } from '../db/drizzle.js';
+import { appWidgetInstances, placeholderWidgets } from '../db/schema/index.js';
+import type { DeviceContext } from '../lib/deviceContext.js';
+import { selectUnauthDashboard } from './dashboardSelection.js';
+import type {
+  DashboardView,
+  PublicVisibility,
+  WidgetView,
+} from './dashboardService.js';
+
+export const INTRINSIC_PUBLIC_WIDGET_TYPES = new Set([
+  'clock',
+  'weather',
+  'calendar',
+  'links_list',
+  'single_link',
+  'markdown',
+  'iframe',
+  'photo_frame',
+]);
+
+export const EXPLICIT_PUBLIC_WIDGET_TYPES = [
+  'pihole',
+  'unifi',
+  'sonos_music',
+  'stocks',
+  'app_shortcuts',
+] as const;
+
+export type PublicWidgetType = (typeof EXPLICIT_PUBLIC_WIDGET_TYPES)[number];
+
+const explicitPublicWidgetTypes = new Set<string>(EXPLICIT_PUBLIC_WIDGET_TYPES);
+
+export interface ResolvedPublicWidget {
+  id: string;
+  type: PublicWidgetType;
+  publicVisibility: Exclude<PublicVisibility, 'hidden'>;
+  config: Record<string, unknown>;
+  publicSourceUserId: string | null;
+}
+
+export function isExplicitPublicWidgetType(type: string): type is PublicWidgetType {
+  return explicitPublicWidgetTypes.has(type);
+}
+
+export function isWidgetVisibleInPublicBootstrap(
+  type: string,
+  publicVisibility: PublicVisibility,
+): boolean {
+  if (INTRINSIC_PUBLIC_WIDGET_TYPES.has(type)) return true;
+  return isExplicitPublicWidgetType(type) && publicVisibility !== 'hidden';
+}
+
+export function resolvePublicWidget(
+  deviceContext: DeviceContext,
+  widgetId: string,
+): ResolvedPublicWidget | null {
+  const selectedDashboard = selectUnauthDashboard(deviceContext);
+  if (!selectedDashboard) return null;
+
+  const db = getDb();
+  const row = db
+    .select({
+      id: appWidgetInstances.id,
+      type: appWidgetInstances.type,
+      configJson: appWidgetInstances.configJson,
+      publicVisibility: appWidgetInstances.publicVisibility,
+      publicSourceUserId: appWidgetInstances.publicSourceUserId,
+    })
+    .from(appWidgetInstances)
+    .innerJoin(
+      placeholderWidgets,
+      eq(appWidgetInstances.placeholderId, placeholderWidgets.id),
+    )
+    .where(
+      and(
+        eq(appWidgetInstances.id, widgetId),
+        eq(placeholderWidgets.dashboardId, selectedDashboard.id),
+      ),
+    )
+    .get();
+
+  if (
+    !row ||
+    row.publicVisibility === 'hidden' ||
+    !isExplicitPublicWidgetType(row.type)
+  ) {
+    return null;
+  }
+
+  let config: Record<string, unknown> = {};
+  try {
+    const parsed = JSON.parse(row.configJson) as unknown;
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+      config = parsed as Record<string, unknown>;
+    }
+  } catch {
+    return null;
+  }
+
+  return {
+    id: row.id,
+    type: row.type,
+    publicVisibility: row.publicVisibility,
+    config,
+    publicSourceUserId: row.publicSourceUserId ?? null,
+  };
+}
+
+const FORBIDDEN_PUBLIC_CONFIG_KEYS = new Set([
+  'baseurl',
+  'endpoint',
+  'connectionid',
+  'oauthaccountid',
+  'publicsourceuserid',
+]);
+
+function isForbiddenPublicConfigKey(key: string): boolean {
+  const normalized = key.toLowerCase().replaceAll(/[^a-z0-9]/g, '');
+  return (
+    FORBIDDEN_PUBLIC_CONFIG_KEYS.has(normalized) ||
+    normalized.includes('token') ||
+    normalized.includes('password') ||
+    normalized.includes('secret') ||
+    normalized.includes('credential') ||
+    normalized.includes('apikey')
+  );
+}
+
+function projectPublicConfig(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(projectPublicConfig);
+  if (!value || typeof value !== 'object') return value;
+
+  const projected: Record<string, unknown> = {};
+  for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
+    if (isForbiddenPublicConfigKey(key)) continue;
+    projected[key] = projectPublicConfig(child);
+  }
+  return projected;
+}
+
+function projectPublicWidget(widget: WidgetView): Omit<WidgetView, 'publicVisibility'> {
+  return {
+    id: widget.id,
+    type: widget.type,
+    orderIndex: widget.orderIndex,
+    config: projectPublicConfig(widget.config),
+    links: widget.links,
+  };
+}
+
+export function projectPublicDashboard(
+  dashboard: DashboardView,
+): Omit<DashboardView, 'placeholders'> & {
+  placeholders: Array<
+    Omit<DashboardView['placeholders'][number], 'widgets'> & {
+      widgets: Array<Omit<WidgetView, 'publicVisibility'>>;
+    }
+  >;
+} {
+  return {
+    ...dashboard,
+    placeholders: dashboard.placeholders
+      .map((placeholder) => ({
+        ...placeholder,
+        widgets: placeholder.widgets
+          .filter((widget) =>
+            isWidgetVisibleInPublicBootstrap(widget.type, widget.publicVisibility),
+          )
+          .map(projectPublicWidget),
+      }))
+      .filter((placeholder) => placeholder.widgets.length > 0),
+  };
+}
+rg: /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/widget-data.ts: No such file or directory (os error 2)
+rg: /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/widget-data*: No such file or directory (os error 2)
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:2: * 004 Phase 5: TanStack Query hooks for calendar data.
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:4: * Provides hooks for calendar sources, events, OAuth accounts,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:43:  calendarName: string | null;
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:102:export const calendarKeys = {
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:103:  sources: ['calendar-sources'] as const,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:104:  events: (sourceIds: string[], from: string, to: string) =>
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:105:    ['calendar-events', sourceIds, from, to] as const,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:108:  birthdays: (sourceId: string) => ['calendar-birthdays', sourceId] as const,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:115:    queryKey: calendarKeys.sources,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:116:    queryFn: () => apiClient.get<CalendarSource[]>('/api/user/calendar/sources'),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:120:export function useCalendarEvents(sourceIds: string[], from: string, to: string) {
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:122:    queryKey: calendarKeys.events(sourceIds, from, to),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:125:        `/api/public/calendar/events?sourceIds=${sourceIds.join(',')}&from=${from}&to=${to}`,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:127:    enabled: sourceIds.length > 0,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:134:    queryKey: calendarKeys.oauthAccounts,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:141:    queryKey: calendarKeys.oauthProviders,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:148:    queryKey: calendarKeys.birthdays(sourceId ?? ''),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:150:      apiClient.get<BirthdayRecord[]>(`/api/admin/calendar/sources/${sourceId}/birthdays`),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:162:      void qc.invalidateQueries({ queryKey: calendarKeys.oauthAccounts });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:163:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:177:    }) => apiClient.post<CalendarSource>('/api/admin/calendar/sources', data),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:179:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:188:      apiClient.post<CalendarSource>('/api/admin/calendar/birthday-sources', data),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:190:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:199:      apiClient.post<BirthdayRecord>(`/api/admin/calendar/sources/${sourceId}/birthdays`, data),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:201:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(birthday.sourceId) });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:202:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:216:        `/api/admin/calendar/sources/${sourceId}/birthdays/${birthdayId}`,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:220:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(birthday.sourceId) });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:221:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:230:      apiClient.delete(`/api/admin/calendar/sources/${sourceId}/birthdays/${birthdayId}`),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:232:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(variables.sourceId) });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:233:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:241:      apiClient.post<BirthdayCsvPreview>('/api/admin/calendar/birthdays/preview', {
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:260:        `/api/admin/calendar/sources/${sourceId}/birthdays/import`,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:264:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(variables.sourceId) });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:265:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:274:        `/api/admin/calendar/sources/${sourceId}/birthdays/export?format=${format}`,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:293:        ? apiClient.post<CalendarSource>(`/api/admin/calendar/sources/${id}/import`, data)
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:294:        : apiClient.post<CalendarSource>('/api/admin/calendar/sources/import', data),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:296:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:297:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:315:    }) => apiClient.put<CalendarSource>(`/api/admin/calendar/sources/${id}`, data),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:317:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:318:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:326:    mutationFn: (id: string) => apiClient.delete(`/api/admin/calendar/sources/${id}`),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:328:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:329:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:337:    mutationFn: (id: string) => apiClient.post(`/api/admin/calendar/sources/${id}/sync`, {}),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:339:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/requireRole.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/password.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/rateLimit.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/sessionStore.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/authMiddleware.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/csrf.ts
+22:import { registerAuthMiddleware } from './auth/authMiddleware.js';
+33:        'req.headers.authorization',
+72:  // ── Cookie parsing (required before auth middleware) ─────────────────────────
+  getAppLogger().info({ component: 'backup' }, 'Restore preview requested');
+  const result = backupFileSchema.safeParse(raw);
+  if (!result.success) {
+    throw Errors.badRequest(
+      `Invalid backup file: ${result.error.errors.map((e) => e.message).join(', ')}`,
+    );
+  }
+  const backup = result.data;
+
+  if (backup.version > BACKUP_VERSION) {
+    throw Errors.badRequest(
+      `Backup version ${backup.version} is newer than supported version ${BACKUP_VERSION}. Please upgrade HomeDash.`,
+    );
+  }
+
+  const warnings: string[] = [];
+
+  if (backup.data.oauthAccounts.length > 0) {
+    warnings.push(
+      'OAuth tokens are excluded from backups — integrations will need re-authentication after restore.',
+    );
+  }
+  if (backup.data.caldavAccounts.length > 0) {
+    warnings.push(
+      'CalDAV passwords are excluded — CalDAV accounts will need passwords re-entered after restore.',
+    );
+  }
+  if (
+    backup.data.piholeInstances.length > 0 ||
+    backup.data.unifiInstances.length > 0 ||
+    backup.data.integrationConfigs.some(
+      (row) =>
+        typeof row['key'] === 'string' &&
+        SENSITIVE_INTEGRATION_CONFIG_KEYS.has(row['key']),
+    )
+  ) {
+    warnings.push(
+      'Integration credentials are excluded — Pi-hole, UniFi, Spotify, and Sonos may require reconfiguration.',
+    );
+  }
+  if (
+    backup.data.appShellSettings.some((row) => hasString(row, 'logoAssetId')) ||
+    backup.data.dashboards.some((row) => hasString(row, 'backgroundAssetId')) ||
+    backup.data.appShortcuts.some(
+      (row) => hasString(row, 'iconAssetId') || hasString(row, 'iconOverrideAssetId'),
+    )
+  ) {
+    warnings.push(
+      'Uploaded assets are excluded — unavailable logos, backgrounds, and shortcut icons will be cleared.',
+    );
+  }
+  warnings.push(
+    'Your current administrator username and password will be preserved. Other restored users will require a password reset.',
+  );
+  warnings.push('All current sessions will be invalidated — all users will need to log in again.');
+  warnings.push('All existing data will be replaced with the backup contents.');
+
+  return {
+    summary: backup.summary,
+    appVersion: backup.appVersion,
+    exportedAt: backup.exportedAt,
+    warnings,
+  };
+}
+
+// ── Restore ──────────────────────────────────────────────────────────────────
+
+export function executeRestore(backup: BackupFile, restoringUserId: string): BackupSummary {
+  if (restoreInProgress) {
+    throw Errors.conflict('A restore operation is already in progress.');
+  }
+
+  restoreInProgress = true;
+  const log = getAppLogger();
+  log.info(
+    { component: 'restore', tableCount: Object.keys(backup.data).length },
+    'Restore started',
+  );
+  try {
+    const db = getDb();
+    const restoreData = prepareRestoreData(backup, restoringUserId);
+
+    db.transaction((tx) => {
+      // 1. Delete all sessions first (always excluded from backup)
+      tx.delete(schema.sessions).run();
+
+      // 2. Delete all data tables in FK-safe order
+      for (const key of DELETE_ORDER) {
+        const table = TABLE_MAP[key];
+        tx.delete(table).run();
+      }
+
+      // 3. Insert backup data in FK-safe order
+      for (const key of INSERT_ORDER) {
+        const rows = restoreData[key];
+        if (rows.length === 0) continue;
+        const table = TABLE_MAP[key];
+        for (const row of rows) {
+          tx.insert(table).values(row).run();
+        }
+        log.debug(
+          { component: 'restore', table: key, rowCount: rows.length },
+          'Restore table inserted',
+        );
+      }
+    });
+
+    log.info({ component: 'restore', summary: backup.summary }, 'Restore complete');
+    return backup.summary;
+  } catch (err) {
+    log.error({ component: 'restore', err }, 'Restore failed; transaction rolled back');
+    if (isSqliteConstraintError(err)) {
+      throw Errors.validationError(
+        'Backup data violates database integrity constraints and could not be restored.',
+      );
+    }
+    throw err;
+  } finally {
+    restoreInProgress = false;
+  }
+}
+{
+  "version": "0.8.7",
+  "integration_state_schema": 1,
+  "installed_integrations": [
+    "copilot"
+  ],
+  "integration_settings": {
+    "copilot": {
+      "script": "sh",
+      "invoke_separator": "."
+    }
+  },
+  "integration": "copilot",
+  "default_integration": "copilot"
+}
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/workflows/workflow-registry.json
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/workflows/speckit/workflow.yml
+update_existing_agent_file() {
+    local target_file="$1"
+    local current_date="$2"
+    
+    log_info "Updating existing agent context file..."
+    
+    # Use a single temporary file for atomic update
+    local temp_file
+    temp_file=$(mktemp) || {
+        log_error "Failed to create temporary file"
+        return 1
+    }
+    
+    # Process the file in one pass
+    local tech_stack=$(format_technology_stack "$NEW_LANG" "$NEW_FRAMEWORK")
+    local new_tech_entries=()
+    local new_change_entry=""
+    
+    # Prepare new technology entries
+    if [[ -n "$tech_stack" ]] && ! grep -q "$tech_stack" "$target_file"; then
+        new_tech_entries+=("- $tech_stack ($CURRENT_BRANCH)")
+    fi
+    
+    if [[ -n "$NEW_DB" ]] && [[ "$NEW_DB" != "N/A" ]] && [[ "$NEW_DB" != "NEEDS CLARIFICATION" ]] && ! grep -q "$NEW_DB" "$target_file"; then
+        new_tech_entries+=("- $NEW_DB ($CURRENT_BRANCH)")
+    fi
+    
+    # Prepare new change entry
+    if [[ -n "$tech_stack" ]]; then
+        new_change_entry="- $CURRENT_BRANCH: Added $tech_stack"
+    elif [[ -n "$NEW_DB" ]] && [[ "$NEW_DB" != "N/A" ]] && [[ "$NEW_DB" != "NEEDS CLARIFICATION" ]]; then
+        new_change_entry="- $CURRENT_BRANCH: Added $NEW_DB"
+    fi
+    
+    # Check if sections exist in the file
+    local has_active_technologies=0
+    local has_recent_changes=0
+    
+    if grep -q "^## Active Technologies" "$target_file" 2>/dev/null; then
+        has_active_technologies=1
+    fi
+    
+    if grep -q "^## Recent Changes" "$target_file" 2>/dev/null; then
+        has_recent_changes=1
+    fi
+    
+    # Process file line by line
+    local in_tech_section=false
+    local in_changes_section=false
+    local tech_entries_added=false
+    local changes_entries_added=false
+    local existing_changes_count=0
+    local file_ended=false
+    
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        # Handle Active Technologies section
+        if [[ "$line" == "## Active Technologies" ]]; then
+            echo "$line" >> "$temp_file"
+            in_tech_section=true
+            continue
+        elif [[ $in_tech_section == true ]] && [[ "$line" =~ ^##[[:space:]] ]]; then
+            # Add new tech entries before closing the section
+            if [[ $tech_entries_added == false ]] && [[ ${#new_tech_entries[@]} -gt 0 ]]; then
+                printf '%s\n' "${new_tech_entries[@]}" >> "$temp_file"
+                tech_entries_added=true
+            fi
+            echo "$line" >> "$temp_file"
+            in_tech_section=false
+            continue
+        elif [[ $in_tech_section == true ]] && [[ -z "$line" ]]; then
+            # Add new tech entries before empty line in tech section
+            if [[ $tech_entries_added == false ]] && [[ ${#new_tech_entries[@]} -gt 0 ]]; then
+                printf '%s\n' "${new_tech_entries[@]}" >> "$temp_file"
+                tech_entries_added=true
+            fi
+            echo "$line" >> "$temp_file"
+            continue
+        fi
+        
+        # Handle Recent Changes section
+        if [[ "$line" == "## Recent Changes" ]]; then
+            echo "$line" >> "$temp_file"
+            # Add new change entry right after the heading
+            if [[ -n "$new_change_entry" ]]; then
+                echo "$new_change_entry" >> "$temp_file"
+            fi
+            in_changes_section=true
+            changes_entries_added=true
+            continue
+        elif [[ $in_changes_section == true ]] && [[ "$line" =~ ^##[[:space:]] ]]; then
+            echo "$line" >> "$temp_file"
+            in_changes_section=false
+            continue
+        elif [[ $in_changes_section == true ]] && [[ "$line" == "- "* ]]; then
+            # Keep only first 2 existing changes
+            if [[ $existing_changes_count -lt 2 ]]; then
+                echo "$line" >> "$temp_file"
+                ((existing_changes_count++))
+            fi
+            continue
+        fi
+        
+        # Update timestamp
+        if [[ "$line" =~ \*\*Last\ updated\*\*:.*[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] ]]; then
+            echo "$line" | sed "s/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/$current_date/" >> "$temp_file"
+        else
+            echo "$line" >> "$temp_file"
+        fi
+    done < "$target_file"
+    
+    # Post-loop check: if we're still in the Active Technologies section and haven't added new entries
+    if [[ $in_tech_section == true ]] && [[ $tech_entries_added == false ]] && [[ ${#new_tech_entries[@]} -gt 0 ]]; then
+        printf '%s\n' "${new_tech_entries[@]}" >> "$temp_file"
+        tech_entries_added=true
+    fi
+    
+    # If sections don't exist, add them at the end of the file
+    if [[ $has_active_technologies -eq 0 ]] && [[ ${#new_tech_entries[@]} -gt 0 ]]; then
+        echo "" >> "$temp_file"
+        echo "## Active Technologies" >> "$temp_file"
+        printf '%s\n' "${new_tech_entries[@]}" >> "$temp_file"
+        tech_entries_added=true
+    fi
+    
+    if [[ $has_recent_changes -eq 0 ]] && [[ -n "$new_change_entry" ]]; then
+        echo "" >> "$temp_file"
+        echo "## Recent Changes" >> "$temp_file"
+        echo "$new_change_entry" >> "$temp_file"
+        changes_entries_added=true
+    fi
+    
+    # Move temp file to target atomically
+    if ! mv "$temp_file" "$target_file"; then
+        log_error "Failed to update target file"
+        rm -f "$temp_file"
+        return 1
+    fi
+    
+    return 0
+}
+#==============================================================================
+# Main Agent File Update Function
+#==============================================================================
+
+update_agent_file() {
+    local target_file="$1"
+    local agent_name="$2"

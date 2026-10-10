@@ -1,0 +1,8 @@
+# Command: pnpm exec prettier --write backend/tests/helpers/collectionFixtures.ts frontend/tests/e2e/helpers/collections.ts
+# Phase:   06-phase-setup
+# Run:     1
+# Time:    2026-10-10T00:30:57+00:00
+# Exit:    0
+---
+backend/tests/helpers/collectionFixtures.ts 22ms
+frontend/tests/e2e/helpers/collections.ts 8ms

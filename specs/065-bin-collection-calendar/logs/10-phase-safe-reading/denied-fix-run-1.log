@@ -1,0 +1,20 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/collectionHooks.test.tsx tests/unit/collectionRefresh.test.tsx tests/unit/collectionCalendar.test.tsx && pnpm --filter frontend typecheck && pnpm lint
+# Phase:   10-phase-safe-reading
+# Run:     1
+# Time:    2026-10-10T01:10:44+00:00
+# Exit:    0
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 12ms
+ ✓ tests/unit/collectionCalendar.test.tsx  (4 tests) 72ms
+ ✓ tests/unit/collectionHooks.test.tsx  (7 tests) 3294ms
+
+ Test Files  3 passed (3)
+      Tests  12 passed (12)
+   Start at  12:10:20
+   Duration  3.88s (transform 87ms, setup 0ms, collect 262ms, tests 3.38s, environment 844ms, prepare 94ms)
+
+$ tsc --noEmit
+$ eslint . --max-warnings=0

@@ -4,7 +4,7 @@
  * Source selection, view mode, days ahead, max events, show location toggle.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Pencil, Check } from 'lucide-react';
 import { toast } from 'sonner';
@@ -14,9 +14,12 @@ import { Switch } from '../ui/switch.js';
 import { ColorPicker } from '../ui/color-picker.js';
 import type { WidgetConfigFormProps } from './registry.js';
 import { useCalendarSources, useUpdateCalendarSource, type CalendarSource } from '../../state/calendarHooks.js';
+import { useCollectionConfig } from '../../state/collectionHooks.js';
 
 interface CalendarConfigValues {
   sourceIds: string[];
+  collectionStreamIds: string[];
+  publicCollectionStreamIds: string[];
   viewMode: 'compact' | 'expanded';
   daysAhead: number;
   maxEvents: number;
@@ -28,6 +31,8 @@ function parseConfig(config: unknown): CalendarConfigValues {
   const raw = (config ?? {}) as Partial<CalendarConfigValues>;
   return {
     sourceIds: raw.sourceIds ?? [],
+    collectionStreamIds: raw.collectionStreamIds ?? [],
+    publicCollectionStreamIds: raw.publicCollectionStreamIds ?? [],
     viewMode: raw.viewMode === 'compact' ? 'compact' : 'expanded',
     daysAhead: raw.daysAhead ?? 7,
     maxEvents: raw.maxEvents ?? 25,
@@ -58,10 +63,21 @@ const TYPE_LABELS: Record<string, string> = {
 export function CalendarConfigForm({ config, onChange }: WidgetConfigFormProps) {
   const c = parseConfig(config);
   const sourcesQuery = useCalendarSources();
+  const collections = useCollectionConfig();
   const updateSourceMutation = useUpdateCalendarSource();
   const sources = sourcesQuery.data ?? [];
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
+  useEffect(() => {
+    if (!collections.data) return;
+    const previous = parseConfig(config);
+    const available = new Set(collections.data.streams.map(s => s.id));
+    const selected = previous.collectionStreamIds.filter(id => available.has(id));
+    const published = previous.publicCollectionStreamIds.filter(id => selected.includes(id));
+    if (selected.length !== previous.collectionStreamIds.length || published.length !== previous.publicCollectionStreamIds.length) {
+      onChange({ ...previous, collectionStreamIds: selected, publicCollectionStreamIds: published });
+    }
+  }, [collections.data, config, onChange]);
 
   function update(patch: Partial<CalendarConfigValues>) {
     onChange({ ...c, ...patch });
@@ -106,21 +122,31 @@ export function CalendarConfigForm({ config, onChange }: WidgetConfigFormProps) 
     );
   }
 
-  if (sources.length === 0 && !sourcesQuery.isLoading) {
-    return (
-      <div className="flex flex-col gap-2 text-sm text-muted-foreground">
-        <p>No calendar sources connected.</p>
-        <Link to="/settings" className="text-primary underline hover:text-primary/80">
-          Go to Settings to add calendars
-        </Link>
-      </div>
-    );
-  }
-
   const grouped = groupByType(sources);
 
   return (
     <div className="flex flex-col gap-4">
+      <fieldset className="space-y-2">
+        <legend className="text-sm font-medium">Household collection streams</legend>
+        <p className="text-xs text-muted-foreground">Public selections are separate. They are shown only on the designated public web/mobile dashboard, never published automatically.</p>
+        {collections.isError && <p role="alert" className="text-sm">Collections unavailable. <button type="button" className="min-h-11 underline" onClick={() => void collections.refetch()}>Retry</button></p>}
+        {collections.data?.streams.map(stream => (
+          <div key={stream.id} className="space-y-1 rounded-md border border-border p-2">
+            <label className="flex min-h-11 items-center gap-2 text-sm">
+              <input type="checkbox" checked={c.collectionStreamIds.includes(stream.id)} onChange={e => {
+                const ids = e.target.checked ? [...c.collectionStreamIds, stream.id] : c.collectionStreamIds.filter(id => id !== stream.id);
+                update({ collectionStreamIds: ids, publicCollectionStreamIds: c.publicCollectionStreamIds.filter(id => ids.includes(id)) });
+              }} />
+              <span className="min-w-0 break-words">{stream.name}{!stream.enabled ? ' (disabled)' : ''}</span>
+            </label>
+            <label className="flex min-h-11 items-center gap-2 text-xs">
+              <input type="checkbox" disabled={!c.collectionStreamIds.includes(stream.id)} checked={c.publicCollectionStreamIds.includes(stream.id)} onChange={e => update({ publicCollectionStreamIds: e.target.checked ? [...c.publicCollectionStreamIds, stream.id] : c.publicCollectionStreamIds.filter(id => id !== stream.id) })} />
+              Show {stream.name} on the public dashboard
+            </label>
+          </div>
+        ))}
+        {!collections.data?.streams.length && <Link to="/settings" className="text-sm text-primary underline">Set up household collections in Settings → Integrations → Calendars</Link>}
+      </fieldset>
       {/* Source selection */}
       <div className="flex flex-col gap-1.5">
         <Label>Calendar Sources</Label>

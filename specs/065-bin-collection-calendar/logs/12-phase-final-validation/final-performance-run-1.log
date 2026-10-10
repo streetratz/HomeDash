@@ -1,0 +1,18 @@
+# Command: pnpm --filter backend exec vitest run tests/integration/collectionPerformance.test.ts
+# Phase:   12-phase-final-validation
+# Run:     1
+# Time:    2026-10-10T01:38:43+00:00
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+Collection display service: warm 90-day p95=10.01ms; 32-stream/731-day=58.76ms; 30 samples; HTTP/browser overhead excluded
+ ✓ tests/integration/collectionPerformance.test.ts  (2 tests) 458ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  12:38:41
+   Duration  1.58s (transform 305ms, setup 253ms, collect 730ms, tests 458ms, environment 0ms, prepare 42ms)
+

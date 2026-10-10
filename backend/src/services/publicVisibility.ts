@@ -3,6 +3,8 @@ import { getDb } from '../db/drizzle.js';
 import { appWidgetInstances, placeholderWidgets } from '../db/schema/index.js';
 import type { DeviceContext } from '../lib/deviceContext.js';
 import { selectUnauthDashboard } from './dashboardSelection.js';
+import { CalendarConfigSchema } from '../lib/validation.js';
+import { resolveCollectionWidget } from './collectionService.js';
 import type {
   DashboardView,
   PublicVisibility,
@@ -108,6 +110,17 @@ export function resolvePublicWidget(
   };
 }
 
+/** Collection visibility is additional explicit selection, not intrinsic
+ * Calendar visibility or the unrelated snapshot resolver.
+ */
+export function resolvePublicCollectionWidget(deviceContext: DeviceContext, widgetId: string) {
+  const selected = selectUnauthDashboard(deviceContext);
+  if (!selected) return null;
+  const widget = resolveCollectionWidget(widgetId);
+  if (!widget || widget.dashboardId !== selected.id || !widget.config.publicCollectionStreamIds.length) return null;
+  return { widgetId: widget.id, streamIds: widget.config.publicCollectionStreamIds };
+}
+
 const FORBIDDEN_PUBLIC_CONFIG_KEYS = new Set([
   'baseurl',
   'endpoint',
@@ -141,11 +154,22 @@ function projectPublicConfig(value: unknown): unknown {
 }
 
 function projectPublicWidget(widget: WidgetView): Omit<WidgetView, 'publicVisibility'> {
+  let config = projectPublicConfig(widget.config);
+  if (widget.type === 'calendar') {
+    const parsed = CalendarConfigSchema.safeParse(widget.config);
+    // Strict allowlist: no rules, public-selection field or hidden IDs.
+    config = parsed.success
+      ? { ...parsed.data, collectionStreamIds: parsed.data.publicCollectionStreamIds }
+      : { collectionStreamIds: [] };
+    if (config && typeof config === 'object') {
+      delete (config as Record<string, unknown>)['publicCollectionStreamIds'];
+    }
+  }
   return {
     id: widget.id,
     type: widget.type,
     orderIndex: widget.orderIndex,
-    config: projectPublicConfig(widget.config),
+    config,
     links: widget.links,
   };
 }

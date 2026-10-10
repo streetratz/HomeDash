@@ -1,0 +1,21 @@
+# Command: pnpm --filter frontend exec playwright test tests/e2e/collections-irregular.spec.ts tests/e2e/collections-irregular.mobile.spec.ts --project=chromium --project=mobile-safari
+# Phase:   11-phase-irregular-dates
+# Run:     1
+# Time:    2026-10-10T01:15:21+00:00
+# Exit:    0
+---
+[2m[WebServer] [22m[2m$ node scripts/start-e2e-server.mjs[22m
+[2m[WebServer] [22m[2m$ tsc --noEmit && vite build[22m
+[2m[WebServer] [22m[33m
+[2m[WebServer] [22m(!) Some chunks are larger than 500 kB after minification. Consider:
+[2m[WebServer] [22m- Using dynamic import() to code-split the application
+[2m[WebServer] [22m- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[2m[WebServer] [22m- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+
+Running 3 tests using 1 worker
+
+  ✓  1 [setup] › tests/e2e/auth.setup.ts:17:3 › Authenticated E2E setup › completes first-run and stores the admin session (795ms)
+  ✓  2 [chromium] › tests/e2e/collections-irregular.spec.ts:3:1 › holiday move followed by deliberate explicit switch persists only finite dates (1.2s)
+  ✓  3 [mobile-safari] › tests/e2e/collections-irregular.mobile.spec.ts:3:1 › 360px WebKit holiday move and explicit dates with destructive confirmation (1.9s)
+
+  3 passed (14.0s)

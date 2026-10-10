@@ -293,6 +293,11 @@ export const DashboardImportSchema = z.object({
 
 // ─── Calendar widget config schema (004-calendar-widget Phase 6) ─────────────
 
+const CollectionSelectionSchema = z
+  .array(z.string().uuid())
+  .max(32)
+  .refine((ids) => new Set(ids).size === ids.length, 'Collection selections must be unique')
+  .default([]);
 export const CalendarConfigSchema = z
   .object({
     sourceIds: z.array(z.string().uuid()).min(0).max(20).default([]),
@@ -301,8 +306,18 @@ export const CalendarConfigSchema = z
     maxEvents: z.number().int().min(5).max(100).default(25),
     showLocation: z.boolean().default(true),
     showPrivateEvents: z.boolean().default(false),
+    collectionStreamIds: CollectionSelectionSchema,
+    publicCollectionStreamIds: CollectionSelectionSchema,
   })
-  .strict();
+  .strict()
+  .refine(
+    (config) =>
+      config.publicCollectionStreamIds.every((id) => config.collectionStreamIds.includes(id)),
+    {
+      message: 'Public collections must also be selected for normal display',
+      path: ['publicCollectionStreamIds'],
+    },
+  );
 
 /** Maps widget type → config Zod schema for server-side validation */
 export const widgetConfigSchemas: Record<string, z.ZodSchema> = {

@@ -8,7 +8,8 @@ import {
   type TestApp,
 } from '../helpers/http.js';
 import { getDb } from '../../src/db/drizzle.js';
-import { appShellSettings } from '../../src/db/schema/index.js';
+import { appShellSettings, appWidgetInstances } from '../../src/db/schema/index.js';
+import { collectionIds } from '../helpers/collectionFixtures.js';
 
 describe('GET /api/public/bootstrap widget projection', () => {
   let testApp: TestApp;
@@ -149,5 +150,27 @@ describe('GET /api/public/bootstrap widget projection', () => {
       }
     ).placeholders.flatMap((placeholder) => placeholder.widgets.map((widget) => widget.type));
     expect(types).toEqual(expect.arrayContaining(['clock', 'pihole', 'unifi', 'docker', 'todo']));
+  });
+  it('projects only public collection IDs while preserving intrinsic provider selection', async () => {
+    const detail = await testApp.request.get(`/api/admin/dashboards/${webDashboardId}`).set('Cookie', sessionCookie);
+    const placeholderId = (detail.body as { placeholders: { id: string }[] }).placeholders[0]!.id;
+    const now = '2026-10-10T00:00:00.000Z';
+    getDb().insert(appWidgetInstances).values({
+      id: collectionIds.widget, placeholderId, type: 'calendar',
+      configJson: JSON.stringify({ sourceIds: [collectionIds.provider], collectionStreamIds: [collectionIds.general, collectionIds.recycling], publicCollectionStreamIds: [collectionIds.recycling] }),
+      createdAt: now, updatedAt: now,
+    }).run();
+    const response = await testApp.request.get('/api/public/bootstrap');
+    const serialized = JSON.stringify(response.body);
+    expect(serialized).toContain(collectionIds.recycling);
+    expect(serialized).not.toContain(collectionIds.general);
+    expect(serialized).not.toContain('publicCollectionStreamIds');
+    expect(serialized).toContain(collectionIds.provider);
+    const privateResponse = await testApp.request.get(`/api/admin/dashboards/${webDashboardId}`).set('Cookie', sessionCookie);
+    expect(JSON.stringify(privateResponse.body)).toContain(collectionIds.general);
+    getDb().update(appWidgetInstances).set({ configJson: '{"collectionStreamIds":"malformed"}' }).where(eq(appWidgetInstances.id, collectionIds.widget)).run();
+    const malformed = await testApp.request.get('/api/public/bootstrap');
+    expect(JSON.stringify(malformed.body)).not.toContain('malformed');
+    expect(JSON.stringify(malformed.body)).not.toContain(collectionIds.recycling);
   });
 });

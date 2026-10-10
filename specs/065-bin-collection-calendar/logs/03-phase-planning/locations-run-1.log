@@ -1,0 +1,205 @@
+# Command: find /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src -iname "*access*" -o -iname "*widget*"; find /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/workflows -type f; rg -n "calendar|sourceIds" /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts; rg -n "canAccess|assert.*Access|dashboard.*Access|requirePermission|owner" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/widgets.ts /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/integration.json; sed -n "320,365p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/backupService.ts; sed -n "364,445p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/update-agent-context.sh
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:52:50 +1100
+# Exit:    0
+---
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dockerWidgetAdoption.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/publicWidgetSnapshotCache.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/publicWidgetProjection.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/workflows/workflow-registry.json
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/workflows/speckit/workflow.yml
+2: * 004 Phase 5: TanStack Query hooks for calendar data.
+4: * Provides hooks for calendar sources, events, OAuth accounts,
+43:  calendarName: string | null;
+102:export const calendarKeys = {
+103:  sources: ['calendar-sources'] as const,
+104:  events: (sourceIds: string[], from: string, to: string) =>
+105:    ['calendar-events', sourceIds, from, to] as const,
+108:  birthdays: (sourceId: string) => ['calendar-birthdays', sourceId] as const,
+115:    queryKey: calendarKeys.sources,
+116:    queryFn: () => apiClient.get<CalendarSource[]>('/api/user/calendar/sources'),
+120:export function useCalendarEvents(sourceIds: string[], from: string, to: string) {
+122:    queryKey: calendarKeys.events(sourceIds, from, to),
+125:        `/api/public/calendar/events?sourceIds=${sourceIds.join(',')}&from=${from}&to=${to}`,
+127:    enabled: sourceIds.length > 0,
+134:    queryKey: calendarKeys.oauthAccounts,
+141:    queryKey: calendarKeys.oauthProviders,
+148:    queryKey: calendarKeys.birthdays(sourceId ?? ''),
+150:      apiClient.get<BirthdayRecord[]>(`/api/admin/calendar/sources/${sourceId}/birthdays`),
+162:      void qc.invalidateQueries({ queryKey: calendarKeys.oauthAccounts });
+163:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+177:    }) => apiClient.post<CalendarSource>('/api/admin/calendar/sources', data),
+179:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+188:      apiClient.post<CalendarSource>('/api/admin/calendar/birthday-sources', data),
+190:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+199:      apiClient.post<BirthdayRecord>(`/api/admin/calendar/sources/${sourceId}/birthdays`, data),
+201:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(birthday.sourceId) });
+202:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+216:        `/api/admin/calendar/sources/${sourceId}/birthdays/${birthdayId}`,
+220:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(birthday.sourceId) });
+221:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+230:      apiClient.delete(`/api/admin/calendar/sources/${sourceId}/birthdays/${birthdayId}`),
+232:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(variables.sourceId) });
+233:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+241:      apiClient.post<BirthdayCsvPreview>('/api/admin/calendar/birthdays/preview', {
+260:        `/api/admin/calendar/sources/${sourceId}/birthdays/import`,
+264:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(variables.sourceId) });
+265:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+274:        `/api/admin/calendar/sources/${sourceId}/birthdays/export?format=${format}`,
+293:        ? apiClient.post<CalendarSource>(`/api/admin/calendar/sources/${id}/import`, data)
+294:        : apiClient.post<CalendarSource>('/api/admin/calendar/sources/import', data),
+296:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+297:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+315:    }) => apiClient.put<CalendarSource>(`/api/admin/calendar/sources/${id}`, data),
+317:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+318:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+326:    mutationFn: (id: string) => apiClient.delete(`/api/admin/calendar/sources/${id}`),
+328:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+329:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+337:    mutationFn: (id: string) => apiClient.post(`/api/admin/calendar/sources/${id}/sync`, {}),
+339:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+rg: /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/widgets.ts: No such file or directory (os error 2)
+{
+  "version": "0.8.7",
+  "integration_state_schema": 1,
+  "installed_integrations": [
+    "copilot"
+  ],
+  "integration_settings": {
+    "copilot": {
+      "script": "sh",
+      "invoke_separator": "."
+    }
+  },
+  "integration": "copilot",
+  "default_integration": "copilot"
+}
+  getAppLogger().info({ component: 'backup' }, 'Restore preview requested');
+  const result = backupFileSchema.safeParse(raw);
+  if (!result.success) {
+    throw Errors.badRequest(
+      `Invalid backup file: ${result.error.errors.map((e) => e.message).join(', ')}`,
+    );
+  }
+  const backup = result.data;
+
+  if (backup.version > BACKUP_VERSION) {
+    throw Errors.badRequest(
+      `Backup version ${backup.version} is newer than supported version ${BACKUP_VERSION}. Please upgrade HomeDash.`,
+    );
+  }
+
+  const warnings: string[] = [];
+
+  if (backup.data.oauthAccounts.length > 0) {
+    warnings.push(
+      'OAuth tokens are excluded from backups — integrations will need re-authentication after restore.',
+    );
+  }
+  if (backup.data.caldavAccounts.length > 0) {
+    warnings.push(
+      'CalDAV passwords are excluded — CalDAV accounts will need passwords re-entered after restore.',
+    );
+  }
+  if (
+    backup.data.piholeInstances.length > 0 ||
+    backup.data.unifiInstances.length > 0 ||
+    backup.data.integrationConfigs.some(
+      (row) =>
+        typeof row['key'] === 'string' &&
+        SENSITIVE_INTEGRATION_CONFIG_KEYS.has(row['key']),
+    )
+  ) {
+    warnings.push(
+      'Integration credentials are excluded — Pi-hole, UniFi, Spotify, and Sonos may require reconfiguration.',
+    );
+  }
+  if (
+    backup.data.appShellSettings.some((row) => hasString(row, 'logoAssetId')) ||
+    backup.data.dashboards.some((row) => hasString(row, 'backgroundAssetId')) ||
+    backup.data.appShortcuts.some(
+      (row) => hasString(row, 'iconAssetId') || hasString(row, 'iconOverrideAssetId'),
+    )
+update_existing_agent_file() {
+    local target_file="$1"
+    local current_date="$2"
+    
+    log_info "Updating existing agent context file..."
+    
+    # Use a single temporary file for atomic update
+    local temp_file
+    temp_file=$(mktemp) || {
+        log_error "Failed to create temporary file"
+        return 1
+    }
+    
+    # Process the file in one pass
+    local tech_stack=$(format_technology_stack "$NEW_LANG" "$NEW_FRAMEWORK")
+    local new_tech_entries=()
+    local new_change_entry=""
+    
+    # Prepare new technology entries
+    if [[ -n "$tech_stack" ]] && ! grep -q "$tech_stack" "$target_file"; then
+        new_tech_entries+=("- $tech_stack ($CURRENT_BRANCH)")
+    fi
+    
+    if [[ -n "$NEW_DB" ]] && [[ "$NEW_DB" != "N/A" ]] && [[ "$NEW_DB" != "NEEDS CLARIFICATION" ]] && ! grep -q "$NEW_DB" "$target_file"; then
+        new_tech_entries+=("- $NEW_DB ($CURRENT_BRANCH)")
+    fi
+    
+    # Prepare new change entry
+    if [[ -n "$tech_stack" ]]; then
+        new_change_entry="- $CURRENT_BRANCH: Added $tech_stack"
+    elif [[ -n "$NEW_DB" ]] && [[ "$NEW_DB" != "N/A" ]] && [[ "$NEW_DB" != "NEEDS CLARIFICATION" ]]; then
+        new_change_entry="- $CURRENT_BRANCH: Added $NEW_DB"
+    fi
+    
+    # Check if sections exist in the file
+    local has_active_technologies=0
+    local has_recent_changes=0
+    
+    if grep -q "^## Active Technologies" "$target_file" 2>/dev/null; then
+        has_active_technologies=1
+    fi
+    
+    if grep -q "^## Recent Changes" "$target_file" 2>/dev/null; then
+        has_recent_changes=1
+    fi
+    
+    # Process file line by line
+    local in_tech_section=false
+    local in_changes_section=false
+    local tech_entries_added=false
+    local changes_entries_added=false
+    local existing_changes_count=0
+    local file_ended=false
+    
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        # Handle Active Technologies section
+        if [[ "$line" == "## Active Technologies" ]]; then
+            echo "$line" >> "$temp_file"
+            in_tech_section=true
+            continue
+        elif [[ $in_tech_section == true ]] && [[ "$line" =~ ^##[[:space:]] ]]; then
+            # Add new tech entries before closing the section
+            if [[ $tech_entries_added == false ]] && [[ ${#new_tech_entries[@]} -gt 0 ]]; then
+                printf '%s\n' "${new_tech_entries[@]}" >> "$temp_file"
+                tech_entries_added=true
+            fi
+            echo "$line" >> "$temp_file"
+            in_tech_section=false
+            continue
+        elif [[ $in_tech_section == true ]] && [[ -z "$line" ]]; then
+            # Add new tech entries before empty line in tech section
+            if [[ $tech_entries_added == false ]] && [[ ${#new_tech_entries[@]} -gt 0 ]]; then
+                printf '%s\n' "${new_tech_entries[@]}" >> "$temp_file"
+                tech_entries_added=true
+            fi
+            echo "$line" >> "$temp_file"
+            continue
+        fi
+        
+        # Handle Recent Changes section
+        if [[ "$line" == "## Recent Changes" ]]; then
+            echo "$line" >> "$temp_file"

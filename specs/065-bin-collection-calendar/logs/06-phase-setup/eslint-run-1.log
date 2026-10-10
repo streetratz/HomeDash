@@ -1,0 +1,8 @@
+# Command: node --version && pnpm lint
+# Phase:   06-phase-setup
+# Run:     1
+# Time:    2026-10-10T00:31:21+00:00
+# Exit:    0
+---
+v24.18.0
+$ eslint . --max-warnings=0

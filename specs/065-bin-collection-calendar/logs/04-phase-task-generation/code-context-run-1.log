@@ -1,0 +1,321 @@
+# Command: rg -n 'Calendar|calendar|projectWidget|project.*Config|BACKUP_VERSION|INSERT_ORDER|TABLE_MAP|restore|requireAdmin|assertCsrf|refetchInterval|useWidgetVisibility' backend/src/lib/validation.ts backend/src/services/publicWidgetProjection.ts backend/src/services/publicVisibility.ts backend/src/services/backupTypes.ts backend/src/services/backupService.ts backend/src/api/admin-calendar.ts frontend/src/components/widgets/CalendarConfigForm.tsx frontend/src/hooks/useWidgetVisibility.ts frontend/src/components/settings/IntegrationsTab.tsx frontend/package.json
+# Phase:   04 — Task Generation
+# Run:     1
+# Time:    2026-10-10T11:04:05.475694+11:00
+# Exit:    0
+---
+backend/src/lib/validation.ts:79:// ─── iCal / Calendar source schemas (004-calendar-widget Phase 4) ────────────
+backend/src/lib/validation.ts:105:/** Create an iCal calendar source */
+backend/src/lib/validation.ts:106:export const CalendarSourceCreateSchema = z.object({
+backend/src/lib/validation.ts:114:/** Update an existing calendar source */
+backend/src/lib/validation.ts:115:export const CalendarSourceUpdateSchema = z.object({
+backend/src/lib/validation.ts:123:/** Create or replace a static iCalendar file source. */
+backend/src/lib/validation.ts:124:export const CalendarFileImportSchema = z.object({
+backend/src/lib/validation.ts:294:// ─── Calendar widget config schema (004-calendar-widget Phase 6) ─────────────
+backend/src/lib/validation.ts:296:export const CalendarConfigSchema = z
+backend/src/lib/validation.ts:315:  calendar: CalendarConfigSchema,
+backend/src/lib/validation.ts:782:    .refine(isValidStockTradeDate, 'Trade date must be a valid calendar date'),
+frontend/src/components/settings/IntegrationsTab.tsx:12:  Calendar,
+frontend/src/components/settings/IntegrationsTab.tsx:44:import { CalendarSourceList } from './CalendarSourceList.js';
+frontend/src/components/settings/IntegrationsTab.tsx:66:type ServiceId = 'pihole' | 'spotify' | 'sonos' | 'photos' | 'calendars' | 'todo' | 'docker' | 'accounts';
+frontend/src/components/settings/IntegrationsTab.tsx:98:      { id: 'calendars', label: 'Calendars', icon: <Calendar className="h-4 w-4" /> },
+frontend/src/components/settings/IntegrationsTab.tsx:1017:// ─── Calendars panel ────────────────────────────────────────────────────────
+frontend/src/components/settings/IntegrationsTab.tsx:1019:function CalendarsPanel() {
+frontend/src/components/settings/IntegrationsTab.tsx:1023:        <h3 className="text-lg font-medium">Calendars</h3>
+frontend/src/components/settings/IntegrationsTab.tsx:1024:        <p className="text-sm text-muted-foreground">Manage calendar feeds and synced sources</p>
+frontend/src/components/settings/IntegrationsTab.tsx:1029:          <CardTitle className="text-base">Calendar Sources</CardTitle>
+frontend/src/components/settings/IntegrationsTab.tsx:1030:          <CardDescription>iCal feeds and synced calendars.</CardDescription>
+frontend/src/components/settings/IntegrationsTab.tsx:1033:          <CalendarSourceList />
+frontend/src/components/settings/IntegrationsTab.tsx:1597:    case 'calendars': return <CalendarsPanel />;
+frontend/src/hooks/useWidgetVisibility.ts:2: * useWidgetVisibility — Combines Page Visibility API + IntersectionObserver
+frontend/src/hooks/useWidgetVisibility.ts:10:export function useWidgetVisibility(ref: RefObject<HTMLElement | null>): boolean {
+backend/src/services/backupTypes.ts:10:export const BACKUP_VERSION = 1;
+backend/src/services/backupTypes.ts:27:  'calendarSources',
+backend/src/services/backupTypes.ts:28:  'calendarBirthdays',
+backend/src/services/backupTypes.ts:47:  'calendarEvents',
+backend/src/services/backupTypes.ts:73:  calendarSources: number;
+backend/src/services/backupTypes.ts:88:  calendarSources: Record<string, unknown>[];
+backend/src/services/backupTypes.ts:89:  calendarBirthdays: Record<string, unknown>[];
+backend/src/services/backupTypes.ts:133:  calendarSources: z.number(),
+backend/src/services/backupTypes.ts:148:  calendarSources: z.array(z.record(z.unknown())),
+backend/src/services/backupTypes.ts:149:  calendarBirthdays: z.array(z.record(z.unknown())).optional().default([]),
+backend/src/services/backupTypes.ts:171:  version: z.number().int().min(1).max(BACKUP_VERSION),
+frontend/src/components/widgets/CalendarConfigForm.tsx:2: * 004 Phase 6 (T029): Calendar widget configuration form.
+frontend/src/components/widgets/CalendarConfigForm.tsx:16:import { useCalendarSources, useUpdateCalendarSource, type CalendarSource } from '../../state/calendarHooks.js';
+frontend/src/components/widgets/CalendarConfigForm.tsx:18:interface CalendarConfigValues {
+frontend/src/components/widgets/CalendarConfigForm.tsx:27:function parseConfig(config: unknown): CalendarConfigValues {
+frontend/src/components/widgets/CalendarConfigForm.tsx:28:  const raw = (config ?? {}) as Partial<CalendarConfigValues>;
+frontend/src/components/widgets/CalendarConfigForm.tsx:39:function groupByType(sources: CalendarSource[]): Map<string, CalendarSource[]> {
+frontend/src/components/widgets/CalendarConfigForm.tsx:40:  const map = new Map<string, CalendarSource[]>();
+frontend/src/components/widgets/CalendarConfigForm.tsx:58:export function CalendarConfigForm({ config, onChange }: WidgetConfigFormProps) {
+frontend/src/components/widgets/CalendarConfigForm.tsx:60:  const sourcesQuery = useCalendarSources();
+frontend/src/components/widgets/CalendarConfigForm.tsx:61:  const updateSourceMutation = useUpdateCalendarSource();
+frontend/src/components/widgets/CalendarConfigForm.tsx:66:  function update(patch: Partial<CalendarConfigValues>) {
+frontend/src/components/widgets/CalendarConfigForm.tsx:77:  function startRename(source: CalendarSource) {
+frontend/src/components/widgets/CalendarConfigForm.tsx:112:        <p>No calendar sources connected.</p>
+frontend/src/components/widgets/CalendarConfigForm.tsx:114:          Go to Settings to add calendars
+frontend/src/components/widgets/CalendarConfigForm.tsx:126:        <Label>Calendar Sources</Label>
+frontend/src/components/widgets/CalendarConfigForm.tsx:138:                  id={`calendar-source-${source.id}`}
+frontend/src/components/widgets/CalendarConfigForm.tsx:171:                      htmlFor={`calendar-source-${source.id}`}
+frontend/src/components/widgets/CalendarConfigForm.tsx:196:        <div className="flex gap-2" role="group" aria-label="Calendar view mode">
+frontend/src/components/widgets/CalendarConfigForm.tsx:226:        <Label htmlFor="calendar-days-ahead">Days Ahead</Label>
+frontend/src/components/widgets/CalendarConfigForm.tsx:228:          id="calendar-days-ahead"
+frontend/src/components/widgets/CalendarConfigForm.tsx:239:        <Label htmlFor="calendar-max-events">Max Events</Label>
+frontend/src/components/widgets/CalendarConfigForm.tsx:241:          id="calendar-max-events"
+frontend/src/components/widgets/CalendarConfigForm.tsx:252:        <Label htmlFor="calendar-show-location">Show Location</Label>
+frontend/src/components/widgets/CalendarConfigForm.tsx:254:          id="calendar-show-location"
+frontend/src/components/widgets/CalendarConfigForm.tsx:262:        <Label htmlFor="calendar-show-private">Show Private Events</Label>
+frontend/src/components/widgets/CalendarConfigForm.tsx:264:          id="calendar-show-private"
+backend/src/services/publicVisibility.ts:15:  'calendar',
+backend/src/services/publicVisibility.ts:131:function projectPublicConfig(value: unknown): unknown {
+backend/src/services/publicVisibility.ts:132:  if (Array.isArray(value)) return value.map(projectPublicConfig);
+backend/src/services/publicVisibility.ts:138:    projected[key] = projectPublicConfig(child);
+backend/src/services/publicVisibility.ts:148:    config: projectPublicConfig(widget.config),
+backend/src/api/admin-calendar.ts:2: * T018 (004): Calendar source CRUD routes (admin).
+backend/src/api/admin-calendar.ts:3: * T019 (004): Calendar events read route (user).
+backend/src/api/admin-calendar.ts:9:import { requireAdmin } from '../auth/requireRole.js';
+backend/src/api/admin-calendar.ts:10:import { assertCsrf } from '../auth/csrf.js';
+backend/src/api/admin-calendar.ts:13:  CalendarSourceCreateSchema,
+backend/src/api/admin-calendar.ts:14:  CalendarSourceUpdateSchema,
+backend/src/api/admin-calendar.ts:15:  CalendarFileImportSchema,
+backend/src/api/admin-calendar.ts:26:  calendarBirthdays,
+backend/src/api/admin-calendar.ts:27:  calendarSources,
+backend/src/api/admin-calendar.ts:28:  calendarEvents,
+backend/src/api/admin-calendar.ts:31:import { syncSource } from '../services/calendar-sync-service.js';
+backend/src/api/admin-calendar.ts:39:} from '../services/birthday-calendar-service.js';
+backend/src/api/admin-calendar.ts:41:const calendarSourceResponseFields = {
+backend/src/api/admin-calendar.ts:42:  id: calendarSources.id,
+backend/src/api/admin-calendar.ts:43:  oauthAccountId: calendarSources.oauthAccountId,
+backend/src/api/admin-calendar.ts:44:  type: calendarSources.type,
+backend/src/api/admin-calendar.ts:45:  name: calendarSources.name,
+backend/src/api/admin-calendar.ts:46:  url: calendarSources.url,
+backend/src/api/admin-calendar.ts:47:  fileName: calendarSources.fileName,
+backend/src/api/admin-calendar.ts:48:  color: calendarSources.color,
+backend/src/api/admin-calendar.ts:49:  syncIntervalSeconds: calendarSources.syncIntervalSeconds,
+backend/src/api/admin-calendar.ts:50:  lastSyncAt: calendarSources.lastSyncAt,
+backend/src/api/admin-calendar.ts:51:  lastSyncError: calendarSources.lastSyncError,
+backend/src/api/admin-calendar.ts:52:  enabled: calendarSources.enabled,
+backend/src/api/admin-calendar.ts:53:  createdAt: calendarSources.createdAt,
+backend/src/api/admin-calendar.ts:54:  updatedAt: calendarSources.updatedAt,
+backend/src/api/admin-calendar.ts:57:function enableSourceInCalendarWidgets(sourceId: string, now: string): void {
+backend/src/api/admin-calendar.ts:59:  const calendarWidgets = db
+backend/src/api/admin-calendar.ts:62:    .where(eq(appWidgetInstances.type, 'calendar'))
+backend/src/api/admin-calendar.ts:65:  for (const widget of calendarWidgets) {
+backend/src/api/admin-calendar.ts:91:      error instanceof Error ? error.message : 'Invalid iCalendar content',
+backend/src/api/admin-calendar.ts:98:  const source = db.select().from(calendarSources).where(eq(calendarSources.id, sourceId)).get();
+backend/src/api/admin-calendar.ts:100:  if (!source) throw Errors.notFound('Calendar source not found');
+backend/src/api/admin-calendar.ts:102:    throw Errors.forbidden('Calendar source does not belong to this user');
+backend/src/api/admin-calendar.ts:105:    throw Errors.validationError('Calendar source is not a local birthday source');
+backend/src/api/admin-calendar.ts:139:function fetchCalendarEvents(query: Record<string, string | undefined>, userId?: string) {
+backend/src/api/admin-calendar.ts:164:    ? and(eq(calendarSources.userId, userId), inArray(calendarSources.id, sourceIds))
+backend/src/api/admin-calendar.ts:165:    : inArray(calendarSources.id, sourceIds);
+backend/src/api/admin-calendar.ts:168:    .select({ id: calendarSources.id, color: calendarSources.color, name: calendarSources.name })
+backend/src/api/admin-calendar.ts:169:    .from(calendarSources)
+backend/src/api/admin-calendar.ts:177:        throw Errors.forbidden(`Calendar source ${sid} does not belong to this user`);
+backend/src/api/admin-calendar.ts:188:      id: calendarEvents.id,
+backend/src/api/admin-calendar.ts:189:      sourceId: calendarEvents.sourceId,
+backend/src/api/admin-calendar.ts:190:      title: calendarEvents.title,
+backend/src/api/admin-calendar.ts:191:      description: calendarEvents.description,
+backend/src/api/admin-calendar.ts:192:      location: calendarEvents.location,
+backend/src/api/admin-calendar.ts:193:      startAt: calendarEvents.startAt,
+backend/src/api/admin-calendar.ts:194:      endAt: calendarEvents.endAt,
+backend/src/api/admin-calendar.ts:195:      startTz: calendarEvents.startTz,
+backend/src/api/admin-calendar.ts:196:      endTz: calendarEvents.endTz,
+backend/src/api/admin-calendar.ts:197:      isAllDay: calendarEvents.isAllDay,
+backend/src/api/admin-calendar.ts:198:      isPrivate: calendarEvents.isPrivate,
+backend/src/api/admin-calendar.ts:199:      calendarName: calendarEvents.calendarName,
+backend/src/api/admin-calendar.ts:201:    .from(calendarEvents)
+backend/src/api/admin-calendar.ts:204:        inArray(calendarEvents.sourceId, validSourceIds),
+backend/src/api/admin-calendar.ts:205:        gte(calendarEvents.startAt, from),
+backend/src/api/admin-calendar.ts:206:        lte(calendarEvents.startAt, to),
+backend/src/api/admin-calendar.ts:209:    .orderBy(calendarEvents.startAt)
+backend/src/api/admin-calendar.ts:225:export function registerCalendarRoutes(app: FastifyInstance): void {
+backend/src/api/admin-calendar.ts:226:  // ── T018: GET /api/user/calendar/sources ─────────────────────────────────
+backend/src/api/admin-calendar.ts:227:  app.get('/api/user/calendar/sources', async (request, reply) => {
+backend/src/api/admin-calendar.ts:232:      .select(calendarSourceResponseFields)
+backend/src/api/admin-calendar.ts:233:      .from(calendarSources)
+backend/src/api/admin-calendar.ts:234:      .where(eq(calendarSources.userId, request.user!.id))
+backend/src/api/admin-calendar.ts:240:  // ── T018: POST /api/admin/calendar/sources ───────────────────────────────
+backend/src/api/admin-calendar.ts:241:  app.post('/api/admin/calendar/sources', async (request, reply) => {
+backend/src/api/admin-calendar.ts:242:    await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:243:    await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:245:    const body = validate(CalendarSourceCreateSchema, request.body);
+backend/src/api/admin-calendar.ts:250:    db.insert(calendarSources)
+backend/src/api/admin-calendar.ts:270:    enableSourceInCalendarWidgets(id, now);
+backend/src/api/admin-calendar.ts:273:      .select(calendarSourceResponseFields)
+backend/src/api/admin-calendar.ts:274:      .from(calendarSources)
+backend/src/api/admin-calendar.ts:275:      .where(eq(calendarSources.id, id))
+backend/src/api/admin-calendar.ts:281:  // ── POST /api/admin/calendar/sources/import ──────────────────────────────
+backend/src/api/admin-calendar.ts:283:    '/api/admin/calendar/sources/import',
+backend/src/api/admin-calendar.ts:286:      await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:287:      await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:289:      const body = validate(CalendarFileImportSchema, request.body);
+backend/src/api/admin-calendar.ts:296:      db.insert(calendarSources)
+backend/src/api/admin-calendar.ts:315:        db.delete(calendarSources).where(eq(calendarSources.id, id)).run();
+backend/src/api/admin-calendar.ts:319:      enableSourceInCalendarWidgets(id, now);
+backend/src/api/admin-calendar.ts:322:        .select(calendarSourceResponseFields)
+backend/src/api/admin-calendar.ts:323:        .from(calendarSources)
+backend/src/api/admin-calendar.ts:324:        .where(eq(calendarSources.id, id))
+backend/src/api/admin-calendar.ts:330:  // ── POST /api/admin/calendar/sources/:id/import ──────────────────────────
+backend/src/api/admin-calendar.ts:332:    '/api/admin/calendar/sources/:id/import',
+backend/src/api/admin-calendar.ts:335:      await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:336:      await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:340:      const body = validate(CalendarFileImportSchema, request.body);
+backend/src/api/admin-calendar.ts:346:          userId: calendarSources.userId,
+backend/src/api/admin-calendar.ts:347:          type: calendarSources.type,
+backend/src/api/admin-calendar.ts:349:        .from(calendarSources)
+backend/src/api/admin-calendar.ts:350:        .where(eq(calendarSources.id, sourceId))
+backend/src/api/admin-calendar.ts:353:      if (!existing) throw Errors.notFound('Calendar source not found');
+backend/src/api/admin-calendar.ts:355:        throw Errors.forbidden('Calendar source does not belong to this user');
+backend/src/api/admin-calendar.ts:358:        throw Errors.validationError('Only uploaded iCalendar sources can be re-imported');
+backend/src/api/admin-calendar.ts:373:        .select(calendarSourceResponseFields)
+backend/src/api/admin-calendar.ts:374:        .from(calendarSources)
+backend/src/api/admin-calendar.ts:375:        .where(eq(calendarSources.id, sourceId))
+backend/src/api/admin-calendar.ts:383:  app.post('/api/admin/calendar/birthday-sources', async (request, reply) => {
+backend/src/api/admin-calendar.ts:384:    await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:385:    await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:392:    db.insert(calendarSources)
+backend/src/api/admin-calendar.ts:408:      db.delete(calendarSources).where(eq(calendarSources.id, id)).run();
+backend/src/api/admin-calendar.ts:411:    enableSourceInCalendarWidgets(id, now);
+backend/src/api/admin-calendar.ts:414:      .select(calendarSourceResponseFields)
+backend/src/api/admin-calendar.ts:415:      .from(calendarSources)
+backend/src/api/admin-calendar.ts:416:      .where(eq(calendarSources.id, id))
+backend/src/api/admin-calendar.ts:422:    '/api/admin/calendar/birthdays/preview',
+backend/src/api/admin-calendar.ts:425:      await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:426:      await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:433:  app.get('/api/admin/calendar/sources/:id/birthdays', async (request: FastifyRequest, reply) => {
+backend/src/api/admin-calendar.ts:434:    await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:441:      .from(calendarBirthdays)
+backend/src/api/admin-calendar.ts:442:      .where(eq(calendarBirthdays.sourceId, sourceId))
+backend/src/api/admin-calendar.ts:444:        calendarBirthdays.month,
+backend/src/api/admin-calendar.ts:445:        calendarBirthdays.day,
+backend/src/api/admin-calendar.ts:446:        calendarBirthdays.firstName,
+backend/src/api/admin-calendar.ts:447:        calendarBirthdays.lastName,
+backend/src/api/admin-calendar.ts:453:  app.post('/api/admin/calendar/sources/:id/birthdays', async (request: FastifyRequest, reply) => {
+backend/src/api/admin-calendar.ts:454:    await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:455:    await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:464:      .from(calendarBirthdays)
+backend/src/api/admin-calendar.ts:465:      .where(eq(calendarBirthdays.sourceId, sourceId))
+backend/src/api/admin-calendar.ts:478:    db.insert(calendarBirthdays)
+backend/src/api/admin-calendar.ts:494:    const birthday = db.select().from(calendarBirthdays).where(eq(calendarBirthdays.id, id)).get();
+backend/src/api/admin-calendar.ts:499:    '/api/admin/calendar/sources/:id/birthdays/:birthdayId',
+backend/src/api/admin-calendar.ts:501:      await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:502:      await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:514:        .from(calendarBirthdays)
+backend/src/api/admin-calendar.ts:515:        .where(eq(calendarBirthdays.sourceId, sourceId))
+backend/src/api/admin-calendar.ts:528:      db.update(calendarBirthdays)
+backend/src/api/admin-calendar.ts:538:        .where(and(eq(calendarBirthdays.id, birthdayId), eq(calendarBirthdays.sourceId, sourceId)))
+backend/src/api/admin-calendar.ts:544:        .from(calendarBirthdays)
+backend/src/api/admin-calendar.ts:545:        .where(eq(calendarBirthdays.id, birthdayId))
+backend/src/api/admin-calendar.ts:552:    '/api/admin/calendar/sources/:id/birthdays/:birthdayId',
+backend/src/api/admin-calendar.ts:554:      await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:555:      await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:564:        .delete(calendarBirthdays)
+backend/src/api/admin-calendar.ts:565:        .where(and(eq(calendarBirthdays.id, birthdayId), eq(calendarBirthdays.sourceId, sourceId)))
+backend/src/api/admin-calendar.ts:574:    '/api/admin/calendar/sources/:id/birthdays/import',
+backend/src/api/admin-calendar.ts:577:      await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:578:      await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:592:        .from(calendarBirthdays)
+backend/src/api/admin-calendar.ts:593:        .where(eq(calendarBirthdays.sourceId, sourceId))
+backend/src/api/admin-calendar.ts:601:          db.delete(calendarBirthdays).where(eq(calendarBirthdays.sourceId, sourceId)).run();
+backend/src/api/admin-calendar.ts:611:          db.insert(calendarBirthdays)
+backend/src/api/admin-calendar.ts:636:    '/api/admin/calendar/sources/:id/birthdays/export',
+backend/src/api/admin-calendar.ts:638:      await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:645:        .from(calendarBirthdays)
+backend/src/api/admin-calendar.ts:646:        .where(eq(calendarBirthdays.sourceId, sourceId))
+backend/src/api/admin-calendar.ts:648:          calendarBirthdays.month,
+backend/src/api/admin-calendar.ts:649:          calendarBirthdays.day,
+backend/src/api/admin-calendar.ts:650:          calendarBirthdays.firstName,
+backend/src/api/admin-calendar.ts:651:          calendarBirthdays.lastName,
+backend/src/api/admin-calendar.ts:658:        mimeType: isCsv ? 'text/csv;charset=utf-8' : 'text/calendar;charset=utf-8',
+backend/src/api/admin-calendar.ts:664:  // ── T018: PUT /api/admin/calendar/sources/:id ────────────────────────────
+backend/src/api/admin-calendar.ts:665:  app.put('/api/admin/calendar/sources/:id', async (request: FastifyRequest, reply) => {
+backend/src/api/admin-calendar.ts:666:    await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:667:    await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:672:    const body = validate(CalendarSourceUpdateSchema, request.body);
+backend/src/api/admin-calendar.ts:678:        id: calendarSources.id,
+backend/src/api/admin-calendar.ts:679:        userId: calendarSources.userId,
+backend/src/api/admin-calendar.ts:680:        type: calendarSources.type,
+backend/src/api/admin-calendar.ts:682:      .from(calendarSources)
+backend/src/api/admin-calendar.ts:683:      .where(eq(calendarSources.id, sourceId))
+backend/src/api/admin-calendar.ts:687:      throw Errors.notFound('Calendar source not found');
+backend/src/api/admin-calendar.ts:690:      throw Errors.forbidden('Calendar source does not belong to this user');
+backend/src/api/admin-calendar.ts:695:    db.update(calendarSources)
+backend/src/api/admin-calendar.ts:697:      .where(eq(calendarSources.id, sourceId))
+backend/src/api/admin-calendar.ts:705:      .select(calendarSourceResponseFields)
+backend/src/api/admin-calendar.ts:706:      .from(calendarSources)
+backend/src/api/admin-calendar.ts:707:      .where(eq(calendarSources.id, sourceId))
+backend/src/api/admin-calendar.ts:713:  // ── T018: DELETE /api/admin/calendar/sources/:id ─────────────────────────
+backend/src/api/admin-calendar.ts:714:  app.delete('/api/admin/calendar/sources/:id', async (request: FastifyRequest, reply) => {
+backend/src/api/admin-calendar.ts:715:    await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:716:    await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:723:      .select({ userId: calendarSources.userId })
+backend/src/api/admin-calendar.ts:724:      .from(calendarSources)
+backend/src/api/admin-calendar.ts:725:      .where(eq(calendarSources.id, sourceId))
+backend/src/api/admin-calendar.ts:728:    if (!source) throw Errors.notFound('Calendar source not found');
+backend/src/api/admin-calendar.ts:730:      throw Errors.forbidden('Calendar source does not belong to this user');
+backend/src/api/admin-calendar.ts:732:    db.delete(calendarSources).where(eq(calendarSources.id, sourceId)).run();
+backend/src/api/admin-calendar.ts:737:  // ── T018: POST /api/admin/calendar/sources/:id/sync ──────────────────────
+backend/src/api/admin-calendar.ts:738:  app.post('/api/admin/calendar/sources/:id/sync', async (request: FastifyRequest, reply) => {
+backend/src/api/admin-calendar.ts:739:    await requireAdmin(request, reply);
+backend/src/api/admin-calendar.ts:740:    await assertCsrf(request, reply);
+backend/src/api/admin-calendar.ts:746:      .select({ userId: calendarSources.userId })
+backend/src/api/admin-calendar.ts:747:      .from(calendarSources)
+backend/src/api/admin-calendar.ts:748:      .where(eq(calendarSources.id, sourceId))
+backend/src/api/admin-calendar.ts:750:    if (!source) throw Errors.notFound('Calendar source not found');
+backend/src/api/admin-calendar.ts:752:      throw Errors.forbidden('Calendar source does not belong to this user');
+backend/src/api/admin-calendar.ts:759:  // ── T019: GET /api/user/calendar/events (auth'd — validates source ownership)
+backend/src/api/admin-calendar.ts:760:  app.get('/api/user/calendar/events', async (request: FastifyRequest, reply) => {
+backend/src/api/admin-calendar.ts:762:    const result = fetchCalendarEvents(
+backend/src/api/admin-calendar.ts:769:  // ── Public: GET /api/public/calendar/sources (read-only, for widget rendering)
+backend/src/api/admin-calendar.ts:770:  app.get('/api/public/calendar/sources', async (_request, reply) => {
+backend/src/api/admin-calendar.ts:774:        id: calendarSources.id,
+backend/src/api/admin-calendar.ts:775:        type: calendarSources.type,
+backend/src/api/admin-calendar.ts:776:        name: calendarSources.name,
+backend/src/api/admin-calendar.ts:777:        color: calendarSources.color,
+backend/src/api/admin-calendar.ts:778:        enabled: calendarSources.enabled,
+backend/src/api/admin-calendar.ts:780:      .from(calendarSources)
+backend/src/api/admin-calendar.ts:785:  // ── Public: GET /api/public/calendar/events (read-only, for widget rendering)
+backend/src/api/admin-calendar.ts:786:  app.get('/api/public/calendar/events', async (request: FastifyRequest, reply) => {
+backend/src/api/admin-calendar.ts:787:    const result = fetchCalendarEvents(request.query as Record<string, string | undefined>);
+backend/src/services/backupService.ts:2: * T009/T014/T015: Backup & restore service.
+backend/src/services/backupService.ts:3: * Handles full system backup export and atomic restore.
+backend/src/services/backupService.ts:9:  BACKUP_VERSION,
+backend/src/services/backupService.ts:57:let restoreInProgress = false;
+backend/src/services/backupService.ts:62:const TABLE_MAP: Record<keyof BackupData, SQLiteTable> = {
+backend/src/services/backupService.ts:71:  calendarSources: schema.calendarSources,
+backend/src/services/backupService.ts:72:  calendarBirthdays: schema.calendarBirthdays,
+backend/src/services/backupService.ts:93:const INSERT_ORDER: (keyof BackupData)[] = [
+backend/src/services/backupService.ts:116:  'calendarSources',
+backend/src/services/backupService.ts:117:  'calendarBirthdays',
+backend/src/services/backupService.ts:124:const DELETE_ORDER: (keyof BackupData)[] = [...INSERT_ORDER].reverse();
+backend/src/services/backupService.ts:126:const REAUTH_REQUIRED_MESSAGE = 'Re-authentication required after portable restore';
+backend/src/services/backupService.ts:166:  const restoredUsers = backup.data.users.map((row) => ({ ...row }));
+backend/src/services/backupService.ts:167:  if (restoredUsers.length === 0) {
+backend/src/services/backupService.ts:171:  let restoringAdminIndex = restoredUsers.findIndex(
+backend/src/services/backupService.ts:175:    restoringAdminIndex = restoredUsers.findIndex((row) => row['role'] === 'admin');
+backend/src/services/backupService.ts:181:  const disabledPasswordHash = `restore-required:${crypto.randomUUID()}`;
+backend/src/services/backupService.ts:182:  const restoringAdminUserId = restoredUsers[restoringAdminIndex]!['id'];
+backend/src/services/backupService.ts:195:  const users = restoredUsers.map((row, index) =>
+backend/src/services/backupService.ts:286:  for (const [key, table] of Object.entries(TABLE_MAP)) {
+backend/src/services/backupService.ts:299:    calendarSources: backupData.calendarSources.length,
+backend/src/services/backupService.ts:309:    version: BACKUP_VERSION,
+backend/src/services/backupService.ts:329:  if (backup.version > BACKUP_VERSION) {
+backend/src/services/backupService.ts:331:      `Backup version ${backup.version} is newer than supported version ${BACKUP_VERSION}. Please upgrade HomeDash.`,
+backend/src/services/backupService.ts:339:      'OAuth tokens are excluded from backups — integrations will need re-authentication after restore.',
+backend/src/services/backupService.ts:344:      'CalDAV passwords are excluded — CalDAV accounts will need passwords re-entered after restore.',
+backend/src/services/backupService.ts:372:    'Your current administrator username and password will be preserved. Other restored users will require a password reset.',
+backend/src/services/backupService.ts:388:  if (restoreInProgress) {
+backend/src/services/backupService.ts:389:    throw Errors.conflict('A restore operation is already in progress.');
+backend/src/services/backupService.ts:392:  restoreInProgress = true;
+backend/src/services/backupService.ts:395:    { component: 'restore', tableCount: Object.keys(backup.data).length },
+backend/src/services/backupService.ts:400:    const restoreData = prepareRestoreData(backup, restoringUserId);
+backend/src/services/backupService.ts:408:        const table = TABLE_MAP[key];
+backend/src/services/backupService.ts:413:      for (const key of INSERT_ORDER) {
+backend/src/services/backupService.ts:414:        const rows = restoreData[key];
+backend/src/services/backupService.ts:416:        const table = TABLE_MAP[key];
+backend/src/services/backupService.ts:421:          { component: 'restore', table: key, rowCount: rows.length },
+backend/src/services/backupService.ts:427:    log.info({ component: 'restore', summary: backup.summary }, 'Restore complete');
+backend/src/services/backupService.ts:430:    log.error({ component: 'restore', err }, 'Restore failed; transaction rolled back');
+backend/src/services/backupService.ts:433:        'Backup data violates database integrity constraints and could not be restored.',
+backend/src/services/backupService.ts:438:    restoreInProgress = false;

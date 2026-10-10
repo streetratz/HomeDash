@@ -1,0 +1,74 @@
+# Command: pnpm --filter frontend exec playwright test tests/e2e/collections-reading.spec.ts tests/e2e/collections-reading.mobile.spec.ts --project=chromium --project=mobile-safari
+# Phase:   10-phase-safe-reading
+# Run:     1
+# Time:    2026-10-10T01:07:01+00:00
+# Exit:    1
+---
+[2m[WebServer] [22m[2m$ node scripts/start-e2e-server.mjs[22m
+[2m[WebServer] [22m[2m$ tsc --noEmit && vite build[22m
+[2m[WebServer] [22m[33m
+[2m[WebServer] [22m(!) Some chunks are larger than 500 kB after minification. Consider:
+[2m[WebServer] [22m- Using dynamic import() to code-split the application
+[2m[WebServer] [22m- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[2m[WebServer] [22m- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+
+Running 3 tests using 1 worker
+
+  ✓  1 [setup] › tests/e2e/auth.setup.ts:17:3 › Authenticated E2E setup › completes first-run and stores the admin session (929ms)
+  ✘  2 [chromium] › tests/e2e/collections-reading.spec.ts:4:1 › foreign visitor sees all 32 complete named collections and restored dialog focus (466ms)
+  ✘  3 [mobile-safari] › tests/e2e/collections-reading.mobile.spec.ts:4:1 › 360px WebKit crowded names, keyboard and light-dark reduced motion (1.1s)
+
+
+  1) [chromium] › tests/e2e/collections-reading.spec.ts:4:1 › foreign visitor sees all 32 complete named collections and restored dialog focus 
+
+    Error: Save crowded Calendar failed (400): {"error":"Invalid config for widget type \"calendar\"","details":[{"path":"maxEvents","message":"Number must be greater than or equal to 5"}]}
+
+       at support/admin.ts:13
+
+      11 |
+      12 |   const body = await response.text();
+    > 13 |   throw new Error(`${operation} failed (${response.status()}): ${body}`);
+         |         ^
+      14 | }
+      15 |
+      16 | export async function getAdminCsrf(request: APIRequestContext): Promise<string> {
+        at expectApiOk (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/support/admin.ts:13:9)
+        at collectionReadingSmoke (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/helpers/collectionReadingSmoke.ts:22:3)
+        at /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/collections-reading.spec.ts:5:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/collections-reading-foreig-5c544-s-and-restored-dialog-focus-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/collections-reading-foreig-5c544-s-and-restored-dialog-focus-chromium/error-context.md
+
+  2) [mobile-safari] › tests/e2e/collections-reading.mobile.spec.ts:4:1 › 360px WebKit crowded names, keyboard and light-dark reduced motion 
+
+    Error: Save crowded Calendar failed (400): {"error":"Invalid config for widget type \"calendar\"","details":[{"path":"maxEvents","message":"Number must be greater than or equal to 5"}]}
+
+       at support/admin.ts:13
+
+      11 |
+      12 |   const body = await response.text();
+    > 13 |   throw new Error(`${operation} failed (${response.status()}): ${body}`);
+         |         ^
+      14 | }
+      15 |
+      16 | export async function getAdminCsrf(request: APIRequestContext): Promise<string> {
+        at expectApiOk (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/support/admin.ts:13:9)
+        at collectionReadingSmoke (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/helpers/collectionReadingSmoke.ts:22:3)
+        at /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/collections-reading.mobile.spec.ts:6:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/collections-reading.mobile-248c2-d-light-dark-reduced-motion-mobile-safari/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/collections-reading.mobile-248c2-d-light-dark-reduced-motion-mobile-safari/error-context.md
+
+  2 failed
+    [chromium] › tests/e2e/collections-reading.spec.ts:4:1 › foreign visitor sees all 32 complete named collections and restored dialog focus 
+    [mobile-safari] › tests/e2e/collections-reading.mobile.spec.ts:4:1 › 360px WebKit crowded names, keyboard and light-dark reduced motion 
+  1 passed (12.8s)
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test tests/e2e/collections-reading.spec.ts tests/e2e/collections-reading.mobile.spec.ts '--project=chromium' '--project=mobile-safari'

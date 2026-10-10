@@ -13,6 +13,8 @@ Auto-generated from all feature plans. Last updated: 2026-02-21
 - SQLite via Drizzle ORM; file uploads in `$HOMEDASH_DATA_DIR/uploads/` (013-app-shortcuts)
 - TypeScript 5.x (Node.js backend, Vite/React frontend) + Fastify, Drizzle ORM, better-sqlite3, Zod (backend); React 18, Vite, Tailwind CSS, shadcn/ui, TanStack Query (frontend) (023-full-backup-restore)
 - SQLite via Drizzle ORM (`backend/src/db/schema/index.ts`, 29 tables) (023-full-backup-restore)
+- TypeScript 5.x strict; Node.js 24; pnpm 11 (root pins pnpm@11.1.3) + Fastify 5 (^5.12.4), Drizzle ORM 0.45.2 / drizzle-kit 0.31.10, better-sqlite3 ^11.3.0, Zod ^3.23.8; React ^18.3.1, Vite ^5.3.3, TanStack Query v5, Tailwind 3, shadcn/Radix, lucide-reac (065-bin-collection-calendar)
+- SQLite WAL under `HOMEDASH_DATA_DIR/db/homedash.sqlite`; additive Drizzle-generated tables; existing widget `configJson` for selections only (065-bin-collection-calendar)
 
 - Node.js 20 LTS + TypeScript (backend and frontend) (001-homelab-dashboard)
 
@@ -32,9 +34,9 @@ npm test && npm run lint
 Node.js 20 LTS + TypeScript (backend and frontend): Follow standard conventions
 
 ## Recent Changes
+- 065-bin-collection-calendar: Added TypeScript 5.x strict; Node.js 24; pnpm 11 (root pins pnpm@11.1.3) + Fastify 5 (^5.12.4), Drizzle ORM 0.45.2 / drizzle-kit 0.31.10, better-sqlite3 ^11.3.0, Zod ^3.23.8; React ^18.3.1, Vite ^5.3.3, TanStack Query v5, Tailwind 3, shadcn/Radix, lucide-reac
 - 023-full-backup-restore: Added TypeScript 5.x (Node.js backend, Vite/React frontend) + Fastify, Drizzle ORM, better-sqlite3, Zod (backend); React 18, Vite, Tailwind CSS, shadcn/ui, TanStack Query (frontend)
 - 013-app-shortcuts: Added TypeScript 5+ (Node.js backend, React 18 frontend) + Fastify + Drizzle ORM + better-sqlite3 + Zod (backend); React 18 + Vite + Tailwind + shadcn/ui + TanStack Query + react-grid-layout (frontend)
-- 012-rbac-permissions: Added TypeScript 5.x (Node.js backend, React 18 frontend) + Fastify (HTTP), Drizzle ORM (DB), better-sqlite3 (SQLite), Zod (validation), React 18, Vite, Tailwind CSS, shadcn/ui, TanStack Query
 
 
 <!-- MANUAL ADDITIONS START -->

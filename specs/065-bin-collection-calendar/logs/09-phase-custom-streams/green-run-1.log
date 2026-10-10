@@ -1,0 +1,51 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/CollectionStreamEditor.test.tsx tests/unit/CollectionManager.test.tsx && pnpm --filter backend exec vitest run tests/integration/collectionCustom.test.ts && pnpm --filter backend typecheck && pnpm --filter frontend typecheck
+# Phase:   09-phase-custom-streams
+# Run:     1
+# Time:    2026-10-10T01:03:02+00:00
+# Exit:    2
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/CollectionStreamEditor.test.tsx  (2 tests) 29ms
+ ✓ tests/unit/CollectionManager.test.tsx  (3 tests) 151ms
+
+ Test Files  2 passed (2)
+      Tests  5 passed (5)
+   Start at  12:02:51
+   Duration  753ms (transform 79ms, setup 0ms, collect 226ms, tests 180ms, environment 519ms, prepare 62ms)
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/collectionCustom.test.ts  (3 tests) 191ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  12:02:52
+   Duration  1.07s (transform 277ms, setup 224ms, collect 532ms, tests 191ms, environment 0ms, prepare 29ms)
+
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+$ tsc --noEmit
+src/components/settings/CollectionStreamEditor.tsx(26,270): error TS2345: Argument of type '{ schedule: { weekdays: number[]; mode: "regular"; intervalWeeks: number; anchorDate: string; }; id: string; name: string; color: string; enabled: boolean; exceptions: CollectionException[]; } | { ...; }' is not assignable to parameter of type 'CollectionStream'.
+  Type '{ schedule: { weekdays: number[]; mode: "regular"; intervalWeeks: number; anchorDate: string; }; id: string; name: string; color: string; enabled: boolean; }' is not assignable to type 'CollectionStream'.
+    Type '{ schedule: { weekdays: number[]; mode: "regular"; intervalWeeks: number; anchorDate: string; }; id: string; name: string; color: string; enabled: boolean; }' is not assignable to type '{ id: string; name: string; color: string; enabled: boolean; } & { schedule: { mode: "explicit"; dates: string[]; }; }'.
+      Type '{ schedule: { weekdays: number[]; mode: "regular"; intervalWeeks: number; anchorDate: string; }; id: string; name: string; color: string; enabled: boolean; }' is not assignable to type '{ schedule: { mode: "explicit"; dates: string[]; }; }'.
+        Types of property 'schedule' are incompatible.
+          Property 'dates' is missing in type '{ weekdays: number[]; mode: "regular"; intervalWeeks: number; anchorDate: string; }' but required in type '{ mode: "explicit"; dates: string[]; }'.
+src/components/settings/CollectionStreamEditor.tsx(30,294): error TS2345: Argument of type '{ schedule: { intervalWeeks: number; mode: "regular"; weekdays: number[]; anchorDate: string; }; id: string; name: string; color: string; enabled: boolean; exceptions: CollectionException[]; } | { ...; }' is not assignable to parameter of type 'CollectionStream'.
+  Type '{ schedule: { intervalWeeks: number; mode: "regular"; weekdays: number[]; anchorDate: string; }; id: string; name: string; color: string; enabled: boolean; }' is not assignable to type 'CollectionStream'.
+    Type '{ schedule: { intervalWeeks: number; mode: "regular"; weekdays: number[]; anchorDate: string; }; id: string; name: string; color: string; enabled: boolean; }' is not assignable to type '{ id: string; name: string; color: string; enabled: boolean; } & { schedule: { mode: "explicit"; dates: string[]; }; }'.
+      Type '{ schedule: { intervalWeeks: number; mode: "regular"; weekdays: number[]; anchorDate: string; }; id: string; name: string; color: string; enabled: boolean; }' is not assignable to type '{ schedule: { mode: "explicit"; dates: string[]; }; }'.
+        Types of property 'schedule' are incompatible.
+          Property 'dates' is missing in type '{ intervalWeeks: number; mode: "regular"; weekdays: number[]; anchorDate: string; }' but required in type '{ mode: "explicit"; dates: string[]; }'.
+src/components/settings/CollectionStreamEditor.tsx(31,224): error TS2345: Argument of type '{ schedule: { anchorDate: string; mode: "regular"; weekdays: number[]; intervalWeeks: number; }; id: string; name: string; color: string; enabled: boolean; exceptions: CollectionException[]; } | { ...; }' is not assignable to parameter of type 'CollectionStream'.
+  Type '{ schedule: { anchorDate: string; mode: "regular"; weekdays: number[]; intervalWeeks: number; }; id: string; name: string; color: string; enabled: boolean; }' is not assignable to type 'CollectionStream'.
+    Type '{ schedule: { anchorDate: string; mode: "regular"; weekdays: number[]; intervalWeeks: number; }; id: string; name: string; color: string; enabled: boolean; }' is not assignable to type '{ id: string; name: string; color: string; enabled: boolean; } & { schedule: { mode: "explicit"; dates: string[]; }; }'.
+      Type '{ schedule: { anchorDate: string; mode: "regular"; weekdays: number[]; intervalWeeks: number; }; id: string; name: string; color: string; enabled: boolean; }' is not assignable to type '{ schedule: { mode: "explicit"; dates: string[]; }; }'.
+        Types of property 'schedule' are incompatible.
+          Property 'dates' is missing in type '{ anchorDate: string; mode: "regular"; weekdays: number[]; intervalWeeks: number; }' but required in type '{ mode: "explicit"; dates: string[]; }'.
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] frontend@0.1.0 typecheck: `tsc --noEmit`
+Exit status 2

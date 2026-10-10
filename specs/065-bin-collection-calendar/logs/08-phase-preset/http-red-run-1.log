@@ -1,0 +1,107 @@
+# Command: pnpm --filter backend exec vitest run tests/contract/collections.test.ts tests/integration/collectionPublic.test.ts
+# Phase:   08-phase-preset
+# Run:     1
+# Time:    2026-10-10T00:43:08+00:00
+# Exit:    1
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ❯ tests/contract/collections.test.ts  (3 tests | 3 failed) 287ms
+   ❯ tests/contract/collections.test.ts > collection private HTTP contract > denies anonymous/invalid-session before malformed private diagnostics and missing/wrong CSRF
+     → expected 404 to be 401 // Object.is equality
+   ❯ tests/contract/collections.test.ts > collection private HTTP contract > returns private config, rejects strict syntax, previews without writes and saves exact oracle
+     → expected 404 to be 200 // Object.is equality
+   ❯ tests/contract/collections.test.ts > collection private HTTP contract > maps scoped size and injected storage failure safely without partial save
+     → expected 500 to be 413 // Object.is equality
+ ❯ tests/integration/collectionPublic.test.ts  (3 tests | 1 failed) 156ms
+   ❯ tests/integration/collectionPublic.test.ts > public collection widget scope > returns exact saved public subset, no private keys, no-store and strict window validation
+     → expected 404 to be 200 // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/contract/collections.test.ts > collection private HTTP contract > denies anonymous/invalid-session before malformed private diagnostics and missing/wrong CSRF
+AssertionError: expected 404 to be 401 // Object.is equality
+
+- Expected
++ Received
+
+- 401
++ 404
+
+ ❯ tests/contract/collections.test.ts:30:50
+     28|   };
+     29|   it('denies anonymous/invalid-session before malformed private diagno…
+     30|     expect((await app.request.get(root)).status).toBe(401);
+       |                                                  ^
+     31|     expect((await app.request.get(root).set('Cookie', 'homedash_sessio…
+     32|     for (const token of ['', 'wrong']) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/contract/collections.test.ts > collection private HTTP contract > returns private config, rejects strict syntax, previews without writes and saves exact oracle
+AssertionError: expected 404 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 404
+
+ ❯ tests/contract/collections.test.ts:41:27
+     39|   it('returns private config, rejects strict syntax, previews without …
+     40|     const config = await app.request.get(root).set('Cookie', cookie);
+     41|     expect(config.status).toBe(200);
+       |                           ^
+     42|     expect(config.body).toMatchObject({ configured: false, revision: 0…
+     43|     const invalid = await app.request.post(`${root}/preview`).set('Coo…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/contract/collections.test.ts > collection private HTTP contract > maps scoped size and injected storage failure safely without partial save
+AssertionError: expected 500 to be 413 // Object.is equality
+
+- Expected
++ Received
+
+- 413
++ 500
+
+ ❯ tests/contract/collections.test.ts:64:29
+     62|   it('maps scoped size and injected storage failure safely without par…
+     63|     const tooLarge = await app.request.put(root).set('Cookie', cookie)…
+     64|     expect(tooLarge.status).toBe(413);
+       |                             ^
+     65|     const before = getCollectionConfig();
+     66|     const input = draft();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/integration/collectionPublic.test.ts > public collection widget scope > returns exact saved public subset, no private keys, no-store and strict window validation
+AssertionError: expected 404 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 404
+
+ ❯ tests/integration/collectionPublic.test.ts:23:27
+     21|   it('returns exact saved public subset, no private keys, no-store and…
+     22|     const result = await app.request.get(`${url}?from=2026-10-14&to=20…
+     23|     expect(result.status).toBe(200);
+       |                           ^
+     24|     expect(result.headers['cache-control']).toBe('no-store');
+     25|     expect(result.body.groups.map((g: { date: string }) => g.date)).to…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+ Test Files  2 failed (2)
+      Tests  4 failed | 2 passed (6)
+   Start at  11:43:07
+   Duration  1.32s (transform 267ms, setup 215ms, collect 542ms, tests 443ms, environment 0ms, prepare 28ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/contract/collections.test.ts tests/integration/collectionPublic.test.ts

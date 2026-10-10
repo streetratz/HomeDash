@@ -1,0 +1,10 @@
+# Command: pnpm test:upgrade
+# Phase:   12-phase-final-validation
+# Run:     2
+# Time:    2026-10-10T01:40:06+00:00
+# Exit:    1
+---
+$ bash .github/skills/pre-pr-upgrade-gate/run.sh
+Building baseline image from main...
+Building candidate image from current worktree...
+[ELIFECYCLE] Command failed with exit code 1.

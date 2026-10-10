@@ -1,0 +1,427 @@
+# Command: cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/workflows/speckit/workflow.yml; rg -n "assert.*Access|canAccess|dashboardAccessRules|requirePermission" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib | head -90; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/migrate.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/sqlite.ts; sed -n "255,440p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/specs/065-bin-collection-calendar/logs/03-phase-planning/security-run-1.log; find /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e -iname "*calendar*" -o -iname "*backup*" -o -iname "*public*" -o -iname "*birthday*"
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:52:58 +1100
+# Exit:    0
+---
+schema_version: "1.0"
+workflow:
+  id: "speckit"
+  name: "Full SDD Cycle"
+  version: "1.0.0"
+  author: "GitHub"
+  description: "Runs specify → plan → tasks → implement with review gates"
+
+requires:
+  speckit_version: ">=0.7.2"
+  integrations:
+    any: ["copilot", "claude", "gemini"]
+
+inputs:
+  spec:
+    type: string
+    required: true
+    prompt: "Describe what you want to build"
+  integration:
+    type: string
+    default: "copilot"
+    prompt: "Integration to use (e.g. claude, copilot, gemini)"
+  scope:
+    type: string
+    default: "full"
+    enum: ["full", "backend-only", "frontend-only"]
+
+steps:
+  - id: specify
+    command: speckit.specify
+    integration: "{{ inputs.integration }}"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: review-spec
+    type: gate
+    message: "Review the generated spec before planning."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: plan
+    command: speckit.plan
+    integration: "{{ inputs.integration }}"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: review-plan
+    type: gate
+    message: "Review the plan before generating tasks."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: tasks
+    command: speckit.tasks
+    integration: "{{ inputs.integration }}"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: implement
+    command: speckit.implement
+    integration: "{{ inputs.integration }}"
+    input:
+      args: "{{ inputs.spec }}"
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-group-members.ts:12:import { requirePermission } from '../auth/requireRole.js';
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-group-members.ts:32:    { preHandler: [requirePermission('users', 'view')] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-group-members.ts:43:    { preHandler: [requirePermission('users', 'manage'), assertCsrf] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-group-members.ts:55:    { preHandler: [requirePermission('users', 'manage'), assertCsrf] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-group-members.ts:66:    { preHandler: [requirePermission('users', 'view')] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-groups.ts:13:import { requirePermission } from '../auth/requireRole.js';
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-groups.ts:32:    { preHandler: [requirePermission('users', 'view')] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-groups.ts:42:    { preHandler: [requirePermission('users', 'manage'), assertCsrf] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-groups.ts:57:    { preHandler: [requirePermission('users', 'view')] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-groups.ts:68:    { preHandler: [requirePermission('users', 'manage'), assertCsrf] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-groups.ts:84:    { preHandler: [requirePermission('users', 'manage'), assertCsrf] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-users.ts:16:import { requirePermission } from '../auth/requireRole.js';
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-users.ts:85:    { preHandler: [requirePermission('users', 'manage')] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-users.ts:128:    { preHandler: [requirePermission('users', 'manage'), assertCsrf] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-users.ts:196:    { preHandler: [requirePermission('users', 'manage'), assertCsrf] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-users.ts:319:    { preHandler: [requirePermission('users', 'manage'), assertCsrf] },
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin-users.ts:359:    { preHandler: [requirePermission('users', 'manage'), assertCsrf] },
+/**
+ * T025: DB migration runner invoked on startup.
+ * Uses Drizzle Kit migrations from backend/drizzle/ directory.
+ */
+
+import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
+import { readMigrationFiles } from 'drizzle-orm/migrator';
+import path from 'node:path';
+import { getSqliteDb } from './sqlite.js';
+import { getDb } from './drizzle.js';
+import type { FastifyBaseLogger } from 'fastify';
+
+/**
+ * Resolved path to the Drizzle migration files.
+ * Works in both compiled CJS output (dist/db/ → ../../drizzle = drizzle/)
+ * and when Vitest runs TypeScript source directly (src/db/ → ../../drizzle = drizzle/).
+ */
+const MIGRATIONS_DIR = path.resolve(__dirname, '../../drizzle');
+
+/**
+ * Run all pending Drizzle migrations.
+ * Throws on failure — caller should abort startup.
+ */
+export function runMigrations(log?: FastifyBaseLogger): void {
+  log?.info({ migrationsDir: MIGRATIONS_DIR }, 'Running DB migrations…');
+
+  const raw = getSqliteDb();
+  const foreignKeysWereEnabled = raw.pragma('foreign_keys', { simple: true }) === 1;
+  const latestAppliedMigration = getLatestAppliedMigrationTimestamp(raw);
+  const pendingMigrations = readMigrationFiles({ migrationsFolder: MIGRATIONS_DIR }).filter(
+    (migration) => migration.folderMillis > latestAppliedMigration,
+  );
+  const requiresForeignKeysDisabled = pendingMigrations.some((migration) =>
+    migration.sql.some((statement) =>
+      /^\s*PRAGMA\s+foreign_keys\s*=\s*OFF\s*;?\s*$/i.test(statement),
+    ),
+  );
+
+  // Drizzle wraps all pending migrations in BEGIN before executing their SQL.
+  // SQLite ignores PRAGMA foreign_keys changes inside a transaction, so the
+  // guards generated around table rebuilds would otherwise be ineffective and
+  // DROP TABLE could cascade-delete child rows (#209).
+  if (requiresForeignKeysDisabled) {
+    raw.pragma('foreign_keys = OFF');
+  }
+  try {
+    migrate(getDb(), { migrationsFolder: MIGRATIONS_DIR });
+  } finally {
+    if (requiresForeignKeysDisabled) {
+      raw.pragma(`foreign_keys = ${foreignKeysWereEnabled ? 'ON' : 'OFF'}`);
+    }
+  }
+
+  if (pendingMigrations.length > 0) {
+    const violations: unknown = raw.pragma('foreign_key_check');
+    if (Array.isArray(violations) && violations.length > 0) {
+      throw new Error(
+        `Database migrations introduced ${violations.length} foreign key violation(s)`,
+      );
+    }
+  }
+
+  log?.info('DB migrations complete');
+}
+
+function getLatestAppliedMigrationTimestamp(raw: ReturnType<typeof getSqliteDb>): number {
+  const migrationTableExists = raw
+    .prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = '__drizzle_migrations'")
+    .get();
+  if (migrationTableExists === undefined) return 0;
+
+  const row: unknown = raw
+    .prepare('SELECT created_at FROM __drizzle_migrations ORDER BY created_at DESC LIMIT 1')
+    .get();
+  if (row === undefined) return 0;
+  if (
+    typeof row !== 'object' ||
+    row === null ||
+    !('created_at' in row) ||
+    typeof row.created_at !== 'number'
+  ) {
+    throw new Error('Could not read the latest database migration timestamp');
+  }
+  return row.created_at;
+}
+
+/**
+ * Check whether migrations have run successfully by querying a known table.
+ * Returns true if the DB is usable, false otherwise.
+ * Used by /readyz to determine readiness.
+ */
+export function isMigrationHealthy(): boolean {
+  try {
+    const raw = getSqliteDb();
+    // Query drizzle migrations table which is created by the migrate() call
+    raw.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='users'").get();
+    return true;
+  } catch {
+    return false;
+  }
+}
+/**
+ * T022: SQLite connection factory.
+ * Returns a singleton better-sqlite3 Database instance.
+ */
+
+import Database from 'better-sqlite3';
+import path from 'node:path';
+import { getDataSubDir } from '../config/dataDir.js';
+
+let _db: Database.Database | undefined;
+
+/** Returns the singleton SQLite database connection, creating it if needed. */
+export function getSqliteDb(): Database.Database {
+  if (_db) return _db;
+
+  const dbPath = path.join(getDataSubDir('db'), 'homedash.sqlite');
+
+  _db = new Database(dbPath);
+
+  // Performance and reliability pragmas
+  _db.pragma('journal_mode = WAL');
+  _db.pragma('synchronous = NORMAL');
+  _db.pragma('foreign_keys = ON');
+  _db.pragma('busy_timeout = 5000');
+
+  return _db;
+}
+
+/**
+ * Close the database connection (used in tests and graceful shutdown).
+ */
+export function closeSqliteDb(): void {
+  if (_db) {
+    _db.close();
+    _db = undefined;
+  }
+}
+
+/** Override the db instance — only for tests. */
+export function _setSqliteDbForTest(db: Database.Database): void {
+  _db = db;
+}
+ * widget", which is the ambiguity FR-010 exists to remove.
+ */
+export const DockerErrors = {
+  invalidEndpoint: (msg: string, details?: unknown) =>
+    new AppError(ErrorCode.DOCKER_INVALID_ENDPOINT, msg, 400, details),
+  notConfigured: (msg = 'This widget has no Docker connection configured.') =>
+    new AppError(ErrorCode.DOCKER_ENDPOINT_NOT_CONFIGURED, msg, 409),
+  unreachable: (msg: string) => new AppError(ErrorCode.DOCKER_ENDPOINT_UNREACHABLE, msg, 502),
+  sshAuthFailed: (msg: string) => new AppError(ErrorCode.DOCKER_SSH_AUTH_FAILED, msg, 502),
+  sshHostKeyFailed: (msg: string) => new AppError(ErrorCode.DOCKER_SSH_HOST_KEY_FAILED, msg, 502),
+  sshClientMissing: (msg: string) => new AppError(ErrorCode.DOCKER_SSH_CLIENT_MISSING, msg, 500),
+  remoteUnavailable: (msg: string) => new AppError(ErrorCode.DOCKER_REMOTE_UNAVAILABLE, msg, 502),
+  apiVersionUnsupported: (msg: string) =>
+    new AppError(ErrorCode.DOCKER_API_VERSION_UNSUPPORTED, msg, 502),
+} as const;
+
+/** Send a typed error response. */
+export function sendError(
+  reply: FastifyReply,
+  code: ErrorCode,
+  message: string,
+  statusCode: number,
+  details?: unknown,
+): void {
+  const body: ApiErrorBody = { error: code, message };
+  if (details !== undefined) body.details = details;
+  void reply.status(statusCode).send(body);
+}
+
+/**
+ * Register the global error handler on the Fastify instance.
+ * Catches AppError, Zod errors, and unexpected errors.
+ */
+export function registerErrorHandler(app: FastifyInstance): void {
+  app.setErrorHandler(
+    (error: FastifyError | AppError | Error, request: FastifyRequest, reply: FastifyReply) => {
+      // AppError: known domain errors
+      if (error instanceof AppError) {
+        if (error.statusCode >= 500) {
+          request.log.error({ err: error }, 'AppError (server)');
+        } else {
+          request.log.warn({ err: error }, 'AppError (client)');
+        }
+        return sendError(reply, error.code, error.message, error.statusCode, error.details);
+      }
+
+      // Fastify validation errors (FST_ERR_VALIDATION)
+      const fastifyError = error as FastifyError;
+      if (fastifyError.validation) {
+        return sendError(
+          reply,
+          ErrorCode.VALIDATION_ERROR,
+          'Request validation failed',
+          400,
+          fastifyError.validation,
+        );
+      }
+
+      // Fastify 404
+      if (fastifyError.statusCode === 404) {
+        return sendError(reply, ErrorCode.NOT_FOUND, 'Route not found', 404);
+      }
+
+      // Rate limit errors from @fastify/rate-limit
+      if (fastifyError.statusCode === 429) {
+        return sendError(reply, ErrorCode.TOO_MANY_REQUESTS, error.message, 429);
+      }
+
+      // CSRF errors
+      if (fastifyError.statusCode === 403 && fastifyError.message?.includes('csrf')) {
+        return sendError(reply, ErrorCode.CSRF_INVALID, 'CSRF token invalid or missing', 403);
+      }
+
+      // Unexpected errors — log full stack, return safe message
+      request.log.error({ err: error }, 'Unhandled error');
+      return sendError(reply, ErrorCode.INTERNAL, 'An unexpected error occurred', 500);
+    },
+  );
+}
+
+/**
+ * Detect SQLite unique-constraint violations from better-sqlite3.
+ * The driver throws a SqliteError with code 'SQLITE_CONSTRAINT_UNIQUE'.
+ */
+export function isUniqueConstraintError(err: unknown): boolean {
+  return (
+    err instanceof Error &&
+    'code' in err &&
+    (err as { code: string }).code === 'SQLITE_CONSTRAINT_UNIQUE'
+  );
+}
+/**
+ * useAdaptivePoll — Returns polling intervals based on playback state and view mode.
+ *
+ * View modes:
+ *   compact    — only metadata + playback (no volume/queue/playMode shown)
+ *   expanded   — all endpoints, Tier 2 slowed to 30s fallback
+ *   fullscreen — all endpoints, groups slowed to 60s
+ *
+ * Playback tiers:
+ *   PLAYING  → aggressive metadata/playback (5s)
+ *   PAUSED   → moderate   (15s)
+ *   IDLE     → lazy       (30s)
+ *
+ * When `isVisible` is false all intervals return `false` (polling disabled).
+ */
+
+export type SonosViewMode = 'compact' | 'expanded' | 'fullscreen';
+
+export interface AdaptiveIntervals {
+  metadataInterval: number | false;
+  playbackInterval: number | false;
+  groupsInterval: number | false;
+  volumeInterval: number | false;
+  playModeInterval: number | false;
+  queueInterval: number | false;
+}
+
+type PlaybackStateString = string | undefined;
+
+const DISABLED: AdaptiveIntervals = {
+  metadataInterval: false,
+  playbackInterval: false,
+  groupsInterval: false,
+  volumeInterval: false,
+  playModeInterval: false,
+  queueInterval: false,
+};
+
+// Tier 1: metadata + playback — always fast, these change constantly
+const TIER1 = {
+  PLAYING: { metadata: 5_000, playback: 5_000 },
+  PAUSED:  { metadata: 15_000, playback: 15_000 },
+  IDLE:    { metadata: 30_000, playback: 30_000 },
+} as const;
+
+// Tier 2: volume, playMode, queue — only change on user action (30s fallback)
+const TIER2 = {
+  PLAYING: { volume: 30_000, playMode: 30_000, queue: 30_000 },
+  PAUSED:  { volume: 30_000, playMode: 30_000, queue: 30_000 },
+  IDLE:    { volume: 60_000, playMode: 60_000, queue: 60_000 },
+} as const;
+
+// Tier 3: groups/rooms — rarely changes (60s fallback + manual refresh)
+const TIER3 = {
+  PLAYING: { groups: 60_000 },
+  PAUSED:  { groups: 60_000 },
+  IDLE:    { groups: 120_000 },
+} as const;
+
+function resolveState(playbackState: PlaybackStateString): 'PLAYING' | 'PAUSED' | 'IDLE' {
+  if (!playbackState) return 'IDLE';
+  if (playbackState.includes('PLAYING') || playbackState.includes('BUFFERING')) return 'PLAYING';
+  if (playbackState.includes('PAUSED')) return 'PAUSED';
+  return 'IDLE';
+}
+
+export function useAdaptivePoll(
+  playbackState: PlaybackStateString,
+  isVisible: boolean,
+  mode: SonosViewMode = 'expanded',
+): AdaptiveIntervals {
+  if (!isVisible) return DISABLED;
+
+  const state = resolveState(playbackState);
+  const t1 = TIER1[state];
+  const t2 = TIER2[state];
+  const t3 = TIER3[state];
+
+  if (mode === 'compact') {
+    // Compact: only metadata + playback (no volume/queue/playMode shown)
+    return {
+      metadataInterval: t1.metadata,
+      playbackInterval: t1.playback,
+      groupsInterval: t3.groups,
+      volumeInterval: false,
+      playModeInterval: false,
+      queueInterval: false,
+    };
+  }
+
+  // Expanded and fullscreen get all tiers
+  return {
+    metadataInterval: t1.metadata,
+    playbackInterval: t1.playback,
+    groupsInterval: t3.groups,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/unit/birthdayCalendar.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/unit/publicWidgetSnapshotCache.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/integration/google-calendar.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/integration/birthdayCalendar.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/integration/calendar-phase7.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/integration/publicVisibility.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/integration/publicBootstrapProjection.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/integration/publicBootstrap.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/integration/microsoft-calendar.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/integration/publicWidgets.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/integration/backup.test.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/publicWidgetVisibility.spec.ts

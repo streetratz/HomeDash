@@ -1,0 +1,18 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/restore.test.ts  (7 tests) 1127ms
+ ✓ tests/integration/collectionMigration.test.ts  (4 tests) 223ms
+ ✓ tests/integration/backup.test.ts  (8 tests) 258ms
+ ✓ tests/integration/collectionBackup.test.ts  (4 tests) 186ms
+ ✓ tests/integration/migrationIntegrity.test.ts  (11 tests) 11ms
+ ✓ tests/integration/collectionPublic.test.ts  (5 tests) 237ms
+ ✓ tests/integration/publicWidgets.test.ts  (3 tests) 363ms
+ ✓ tests/integration/dockerConnectionUpgrade.test.ts  (7 tests) 27ms
+
+ Test Files  8 passed (8)
+      Tests  49 passed (49)
+   Start at  15:51:24
+   Duration  3.91s (transform 379ms, setup 290ms, collect 1.02s, tests 2.43s, environment 0ms, prepare 45ms)
+

@@ -1,0 +1,7 @@
+# Command: node --input-type=module (scope assertions) and git diff --check
+# Phase:   02 — Owner-confirmed calendar presentation
+# Run:     1
+# Time:    2026-10-10 10:47 UTC+11
+# Exit:    0
+---
+PASS: existing-widget scope, icons plus visible text, confirmed assumptions, CH-02, checklist, and tracked diff whitespace.

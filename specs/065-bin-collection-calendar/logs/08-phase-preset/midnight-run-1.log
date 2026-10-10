@@ -1,0 +1,51 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/collectionHooks.test.tsx && pnpm lint
+# Phase:   08-phase-preset
+# Run:     1
+# Time:    2026-10-10T01:00:02+00:00
+# Exit:    1
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ❯ tests/unit/collectionHooks.test.tsx  (5 tests | 1 failed) 181ms
+   ❯ tests/unit/collectionHooks.test.tsx > collection query separation > rolls household date and range over on the single foreground 30-second query poll
+     → expected { householdToday: '2026-10-14', …(2) } to deeply equal { householdToday: '2026-10-15', …(2) }
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/collectionHooks.test.tsx > collection query separation > rolls household date and range over on the single foreground 30-second query poll
+AssertionError: expected { householdToday: '2026-10-14', …(2) } to deeply equal { householdToday: '2026-10-15', …(2) }
+
+- Expected
++ Received
+
+  Object {
+    "groups": Array [],
+-   "householdToday": "2026-10-15",
++   "householdToday": "2026-10-14",
+    "range": Object {
+-     "from": "2026-10-15",
+-     "to": "2026-11-12",
++     "from": "2026-10-14",
++     "to": "2026-11-11",
+    },
+  }
+
+ ❯ tests/unit/collectionHooks.test.tsx:74:40
+     72|     try {
+     73|       await act(async () => { await vi.advanceTimersByTimeAsync(30_100…
+     74|       expect(hook.result.current.data).toEqual(after);
+       |                                        ^
+     75|       expect(mocks.get).toHaveBeenCalledTimes(2);
+     76|     } finally { vi.useRealTimers(); }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  12:00:01
+   Duration  719ms (transform 27ms, setup 0ms, collect 74ms, tests 181ms, environment 249ms, prepare 28ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/collectionHooks.test.tsx

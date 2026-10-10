@@ -1,0 +1,100 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/CollectionManager.test.tsx
+# Phase:   08-phase-preset
+# Run:     1
+# Time:    2026-10-10T00:46:25+00:00
+# Exit:    1
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ❯ tests/unit/CollectionManager.test.tsx  (2 tests | 2 failed) 5ms
+   ❯ tests/unit/CollectionManager.test.tsx > household preset draft > builds independent weekly/A/B schedules anchored on the normal Recycling date
+     → expected [] to deeply equal [ [ 'General waste', …(2) ], …(2) ]
+   ❯ tests/unit/CollectionManager.test.tsx > household preset draft > rejects mismatched weekday without silently changing normal dates
+     → expected [Function] to throw an error
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/CollectionManager.test.tsx > household preset draft > builds independent weekly/A/B schedules anchored on the normal Recycling date
+AssertionError: expected [] to deeply equal [ [ 'General waste', …(2) ], …(2) ]
+
+- Expected
++ Received
+
+- Array [
+-   Array [
+-     "General waste",
+-     "#EF4444",
+-     Object {
+-       "anchorDate": "2026-10-14",
+-       "intervalWeeks": 1,
+-       "mode": "regular",
+-       "weekdays": Array [
+-         3,
+-       ],
+-     },
+-   ],
+-   Array [
+-     "Recycling",
+-     "#EAB308",
+-     Object {
+-       "anchorDate": "2026-10-14",
+-       "intervalWeeks": 2,
+-       "mode": "regular",
+-       "weekdays": Array [
+-         3,
+-       ],
+-     },
+-   ],
+-   Array [
+-     "Garden",
+-     "#22C55E",
+-     Object {
+-       "anchorDate": "2026-10-21",
+-       "intervalWeeks": 2,
+-       "mode": "regular",
+-       "weekdays": Array [
+-         3,
+-       ],
+-     },
+-   ],
+- ]
++ Array []
+
+ ❯ tests/unit/CollectionManager.test.tsx:7:61
+      5|   it('builds independent weekly/A/B schedules anchored on the normal R…
+      6|     const streams = buildCollectionPreset(3, '2026-10-14');
+      7|     expect(streams.map(s => [s.name, s.color, s.schedule])).toEqual([
+       |                                                             ^
+      8|       ['General waste', '#EF4444', { mode: 'regular', weekdays: [3], i…
+      9|       ['Recycling', '#EAB308', { mode: 'regular', weekdays: [3], inter…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/unit/CollectionManager.test.tsx > household preset draft > rejects mismatched weekday without silently changing normal dates
+AssertionError: expected [Function] to throw an error
+
+- Expected: 
+null
+
++ Received: 
+undefined
+
+ ❯ tests/unit/CollectionManager.test.tsx:15:58
+     13|   });
+     14|   it('rejects mismatched weekday without silently changing normal date…
+     15|     expect(() => buildCollectionPreset(3, '2026-10-15')).toThrow(/week…
+       |                                                          ^
+     16|   });
+     17| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  11:46:25
+   Duration  485ms (transform 17ms, setup 0ms, collect 15ms, tests 5ms, environment 259ms, prepare 28ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/CollectionManager.test.tsx

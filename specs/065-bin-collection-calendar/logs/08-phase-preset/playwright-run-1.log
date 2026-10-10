@@ -1,0 +1,84 @@
+# Command: pnpm --filter frontend exec playwright test tests/e2e/collections-preset.spec.ts tests/e2e/collections-preset.mobile.spec.ts --project=chromium --project=mobile-safari
+# Phase:   08-phase-preset
+# Run:     1
+# Time:    2026-10-10T00:52:10+00:00
+# Exit:    1
+---
+[2m[WebServer] [22m[2m$ node scripts/start-e2e-server.mjs[22m
+[2m[WebServer] [22m[2m$ tsc --noEmit && vite build[22m
+[2m[WebServer] [22m[33m
+[2m[WebServer] [22m(!) Some chunks are larger than 500 kB after minification. Consider:
+[2m[WebServer] [22m- Using dynamic import() to code-split the application
+[2m[WebServer] [22m- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[2m[WebServer] [22m- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+
+Running 3 tests using 1 worker
+
+  ✓  1 [setup] › tests/e2e/auth.setup.ts:17:3 › Authenticated E2E setup › completes first-run and stores the admin session (832ms)
+  ✘  2 [chromium] › tests/e2e/collections-preset.spec.ts:3:1 › preset setup, existing Calendar, month detail and reload offline (693ms)
+  ✘  3 [mobile-safari] › tests/e2e/collections-preset.mobile.spec.ts:3:1 › 360px WebKit preset reading and complete month detail (1.7s)
+
+
+  1) [chromium] › tests/e2e/collections-preset.spec.ts:3:1 › preset setup, existing Calendar, month detail and reload offline 
+
+    Error: locator.fill: Error: strict mode violation: getByRole('region', { name: 'Household collections' }).getByLabel('Household timezone') resolved to 2 elements:
+        1) <input value="" maxlength="100" placeholder="Australia/Sydney" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"/> aka getByRole('textbox', { name: 'Household timezone' })
+        2) <input type="checkbox"/> aka getByRole('checkbox', { name: 'I confirm the household' })
+
+    Call log:
+    [2m  - waiting for getByRole('region', { name: 'Household collections' }).getByLabel('Household timezone')[22m
+
+
+       at helpers/collectionPresetSmoke.ts:19
+
+      17 |   const config = await configResponse.json() as { configured: boolean; streams: { id: string }[] };
+      18 |   if (!config.configured) {
+    > 19 |     await manager.getByLabel('Household timezone').fill('Australia/Sydney');
+         |                                                    ^
+      20 |     await manager.getByLabel('Normal Recycling collection date').fill('2026-10-14');
+      21 |     await manager.getByLabel('I confirm the household timezone and normal provider date').check();
+      22 |     await manager.getByRole('button', { name: 'Use weekly / alternating preset' }).click();
+        at collectionPresetSmoke (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/helpers/collectionPresetSmoke.ts:19:52)
+        at /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/collections-preset.spec.ts:4:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/collections-preset-preset--69ea9-h-detail-and-reload-offline-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/collections-preset-preset--69ea9-h-detail-and-reload-offline-chromium/error-context.md
+
+  2) [mobile-safari] › tests/e2e/collections-preset.mobile.spec.ts:3:1 › 360px WebKit preset reading and complete month detail 
+
+    Error: locator.fill: Error: strict mode violation: getByRole('region', { name: 'Household collections' }).getByLabel('Household timezone') resolved to 2 elements:
+        1) <input value="" maxlength="100" placeholder="Australia/Sydney" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"/> aka getByRole('textbox', { name: 'Household timezone' })
+        2) <input type="checkbox"/> aka getByRole('checkbox', { name: 'I confirm the household' })
+
+    Call log:
+    [2m  - waiting for getByRole('region', { name: 'Household collections' }).getByLabel('Household timezone')[22m
+
+
+       at helpers/collectionPresetSmoke.ts:19
+
+      17 |   const config = await configResponse.json() as { configured: boolean; streams: { id: string }[] };
+      18 |   if (!config.configured) {
+    > 19 |     await manager.getByLabel('Household timezone').fill('Australia/Sydney');
+         |                                                    ^
+      20 |     await manager.getByLabel('Normal Recycling collection date').fill('2026-10-14');
+      21 |     await manager.getByLabel('I confirm the household timezone and normal provider date').check();
+      22 |     await manager.getByRole('button', { name: 'Use weekly / alternating preset' }).click();
+        at collectionPresetSmoke (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/helpers/collectionPresetSmoke.ts:19:52)
+        at /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/collections-preset.mobile.spec.ts:5:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/collections-preset.mobile--9cddf-g-and-complete-month-detail-mobile-safari/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/collections-preset.mobile--9cddf-g-and-complete-month-detail-mobile-safari/error-context.md
+
+  2 failed
+    [chromium] › tests/e2e/collections-preset.spec.ts:3:1 › preset setup, existing Calendar, month detail and reload offline 
+    [mobile-safari] › tests/e2e/collections-preset.mobile.spec.ts:3:1 › 360px WebKit preset reading and complete month detail 
+  1 passed (16.9s)
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test tests/e2e/collections-preset.spec.ts tests/e2e/collections-preset.mobile.spec.ts '--project=chromium' '--project=mobile-safari'

@@ -10,9 +10,11 @@ import {
   Plus,
   FileUp,
   CakeSlice,
+  CalendarClock,
   Clock3,
   Link2,
   FileText,
+  ChevronDown,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '../ui/button.js';
@@ -40,6 +42,8 @@ import {
 import { ICalSourceForm } from './ICalSourceForm.js';
 import { ICalFileSourceForm } from './ICalFileSourceForm.js';
 import { BirthdaySourceDialog } from './BirthdaySourceDialog.js';
+import { CollectionManager } from './CollectionManager.js';
+import { useAuthMe } from '../../state/bootstrap.js';
 import { SettingsErrorState, SettingsLoadingState } from './SettingsDataState.js';
 
 const TYPE_LABELS: Record<string, string> = {
@@ -88,6 +92,8 @@ function getSourceDetail(source: CalendarSource): {
 
 export function CalendarSourceList() {
   const sourcesQuery = useCalendarSources();
+  const authMe = useAuthMe();
+  const isAdmin = authMe.data?.user.isAdmin ?? false;
   const deleteMutation = useDeleteCalendarSource();
   const syncMutation = useSyncCalendarSource();
   const updateMutation = useUpdateCalendarSource();
@@ -95,6 +101,7 @@ export function CalendarSourceList() {
   const [urlFormOpen, setUrlFormOpen] = useState(false);
   const [fileFormOpen, setFileFormOpen] = useState(false);
   const [birthdayFormOpen, setBirthdayFormOpen] = useState(false);
+  const [customEventsOpen, setCustomEventsOpen] = useState(false);
   const [editSource, setEditSource] = useState<CalendarSource | undefined>(undefined);
 
   const sources = sourcesQuery.data ?? [];
@@ -192,6 +199,22 @@ export function CalendarSourceList() {
             <CakeSlice className="mr-1 h-3.5 w-3.5" />
             Add Birthdays
           </Button>
+          {isAdmin && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCustomEventsOpen((open) => !open)}
+              aria-expanded={customEventsOpen}
+              aria-controls="custom-events-panel"
+            >
+              <CalendarClock className="mr-1 h-3.5 w-3.5" />
+              Custom Events
+              <ChevronDown
+                className={`ml-1 h-3.5 w-3.5 transition-transform ${customEventsOpen ? 'rotate-180' : ''}`}
+                aria-hidden="true"
+              />
+            </Button>
+          )}
         </div>
       </div>
 
@@ -203,8 +226,7 @@ export function CalendarSourceList() {
         {sources.map((source) => {
           const detail = getSourceDetail(source);
           const DetailIcon = detail.icon;
-          const editLabel =
-            source.type === 'birthday_local' ? 'Manage' : 'Edit';
+          const editLabel = source.type === 'birthday_local' ? 'Manage' : 'Edit';
           const canEdit =
             source.type === 'ical' ||
             source.type === 'ical_file' ||
@@ -319,6 +341,32 @@ export function CalendarSourceList() {
           );
         })}
       </div>
+
+      {isAdmin && customEventsOpen && (
+        <section
+          id="custom-events-panel"
+          className="rounded-xl border border-border/70 bg-card/30 p-4"
+        >
+          <div className="mb-3 flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h4 className="text-sm font-semibold">Custom events</h4>
+              <p className="text-xs text-muted-foreground">
+                Local one-off and recurring events — bin days, chores, reminders — shown in your
+                Calendar widgets.
+              </p>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="shrink-0"
+              onClick={() => setCustomEventsOpen(false)}
+            >
+              Close
+            </Button>
+          </div>
+          <CollectionManager />
+        </section>
+      )}
 
       <ICalSourceForm
         open={urlFormOpen}

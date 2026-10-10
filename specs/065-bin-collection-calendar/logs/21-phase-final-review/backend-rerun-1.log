@@ -1,0 +1,176 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/publicWidgets.test.ts  (3 tests) 893ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  15:49:59
+   Duration  3.07s (transform 677ms, setup 533ms, collect 1.43s, tests 893ms, environment 0ms, prepare 47ms)
+
+$ vitest run
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/dashboardImport.test.ts  (22 tests) 688ms
+ ✓ tests/integration/dashboards.test.ts  (43 tests) 1293ms
+stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+[calendar-sync] Failed to update error status for source a2e785e7-a245-4dd7-b3e1-441e520a691a: TypeError: The database connection is not open
+    at Database.prepare (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/calendar-sync-service.ts:203:12)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+[calendar-sync] Error syncing source a2e785e7-a245-4dd7-b3e1-441e520a691a: iCal fetch failed: HTTP 404
+
+stderr | tests/integration/ical-parser.test.ts > Calendar events read route
+[calendar-sync] Failed to update error status for source 381fc9cc-50c5-4687-911b-abf902965de8: TypeError: The database connection is not open
+    at Database.prepare (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/calendar-sync-service.ts:203:12)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+[calendar-sync] Error syncing source 381fc9cc-50c5-4687-911b-abf902965de8: iCal fetch failed: HTTP 404
+
+ ✓ tests/integration/ical-parser.test.ts  (26 tests) 475ms
+ ✓ tests/integration/calendar-phase7.test.ts  (22 tests) 826ms
+ ✓ tests/integration/todoSyncMicrosoft.test.ts  (16 tests) 525ms
+ ✓ tests/integration/appShortcuts.test.ts  (24 tests) 726ms
+ ✓ tests/integration/restore.test.ts  (7 tests) 1111ms
+ ✓ tests/integration/rbac.test.ts  (23 tests) 288ms
+ ✓ tests/integration/oauth-flow.test.ts  (15 tests) 959ms
+ ✓ tests/unit/collectionService.test.ts  (7 tests) 221ms
+stderr | tests/unit/dockerSshTransport.test.ts > process cleanup (FR-037, SC-011) > kills a hung dial and leaves no child process
+[calendar-sync] Failed to update error status for source fc1dc670-edc4-4ff5-89e9-cb5fb56086c5: TypeError: The database connection is not open
+    at Database.prepare (/Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/better-sqlite3@11.10.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/better-sqlite3/session.ts:60:28)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/session.ts:250:15)
+    at QueryPromise._prepare (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:425:78)
+    at QueryPromise.run (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/drizzle-orm@0.45.2_@opentelemetry+api@1.9.0_@types+better-sqlite3@7.6.13_better-sqlite3@11.10.0/node_modules/src/sqlite-core/query-builders/update.ts:443:15)
+    at Module.syncSource (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/calendar-sync-service.ts:203:12)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+[calendar-sync] Error syncing source fc1dc670-edc4-4ff5-89e9-cb5fb56086c5: fetch failed
+
+ ✓ tests/unit/dockerSshTransport.test.ts  (36 tests) 16627ms
+ ✓ tests/integration/dashboardExport.test.ts  (8 tests) 291ms
+ ✓ tests/integration/collectionCustomEvents.test.ts  (11 tests) 172ms
+ ✓ tests/integration/todoItems.test.ts  (17 tests) 329ms
+stderr | tests/integration/microsoft-calendar.test.ts > syncSource (Microsoft) > sets lastSyncError on fetch failure
+[calendar-sync] Error syncing source d6cb5147-1e3b-425d-9966-10394c0d637e: Microsoft Graph API error 500: Internal Server Error
+
+ ✓ tests/integration/microsoft-calendar.test.ts  (8 tests) 160ms
+ ✓ tests/integration/widgetDataPermissions.test.ts  (65 tests) 610ms
+stderr | tests/integration/logoUpload.test.ts > POST /api/admin/assets/logo – valid upload > updates logoAssetId in shell settings after upload
+[assetService] Failed to generate favicon variants: Error: Input buffer has corrupt header: VipsJpeg: premature end of JPEG image
+VipsJpeg: Invalid JPEG file structure: missing SOS marker
+VipsJpeg: premature end of JPEG image
+VipsJpeg: Invalid JPEG file structure: missing SOS marker
+VipsJpeg: premature end of JPEG image
+    at Sharp.toFile (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/sharp@0.35.4_@types+node@20.19.41/node_modules/sharp/dist/output.mjs:90:19)
+    at generateFaviconVariants (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/assetService.ts:302:8)
+    at Module.uploadLogo (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/assetService.ts:196:3)
+    at Object.<anonymous> (/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/admin.ts:127:19)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+ ✓ tests/integration/logoUpload.test.ts  (9 tests) 1142ms
+ ✓ tests/unit/sonosDiscovery.test.ts  (14 tests) 2ms
+ ✓ tests/integration/collectionMigration.test.ts  (4 tests) 257ms
+ ✓ tests/integration/todoSecurity.test.ts  (24 tests) 444ms
+ ✓ tests/unit/dockerApiVersion.test.ts  (16 tests) 12ms
+ ✓ tests/integration/adminShell.test.ts  (14 tests) 1523ms
+ ✓ tests/unit/dockerEndpoint.test.ts  (44 tests) 1ms
+ ✓ tests/integration/google-calendar.test.ts  (5 tests) 141ms
+ ✓ tests/integration/collectionExceptions.test.ts  (4 tests) 48ms
+ ✓ tests/integration/backup.test.ts  (8 tests) 318ms
+ ✓ tests/contract/collections.test.ts  (4 tests) 420ms
+ ✓ tests/contract/openapi.test.ts  (28 tests) 70ms
+ ✓ tests/integration/dockerAuth.test.ts  (15 tests) 518ms
+ ✓ tests/integration/birthdayCalendar.test.ts  (5 tests) 280ms
+ ✓ tests/integration/publicBootstrapProjection.test.ts  (4 tests) 290ms
+ ✓ tests/integration/collectionBackup.test.ts  (4 tests) 183ms
+ ✓ tests/integration/dockerMultiHost.test.ts  (7 tests) 507ms
+ ✓ tests/integration/todoLists.test.ts  (12 tests) 269ms
+ ✓ tests/integration/migrationIntegrity.test.ts  (11 tests) 12ms
+ ✓ tests/unit/detectService.test.ts  (22 tests) 2ms
+ ✓ tests/integration/collectionCustom.test.ts  (4 tests) 166ms
+ ✓ tests/integration/userPreferences.test.ts  (11 tests) 1279ms
+ ✓ tests/integration/auth.test.ts  (13 tests) 964ms
+ ❯ tests/integration/collectionPublic.test.ts  (5 tests | 1 failed) 240ms
+   ❯ tests/integration/collectionPublic.test.ts > public collection widget scope > returns exact saved public subset, no private keys, no-store and strict window validation
+     → socket hang up
+ ✓ tests/unit/sonosServices.test.ts  (7 tests) 3ms
+ ✓ tests/integration/statusCheck.test.ts  (7 tests) 262ms
+ ✓ tests/integration/publicWidgets.test.ts  (3 tests) 346ms
+ ✓ tests/integration/dockerAdoption.test.ts  (7 tests) 30ms
+ ✓ tests/integration/scheduledJobs.test.ts  (8 tests) 263ms
+ ✓ tests/integration/dockerContainers.test.ts  (9 tests) 273ms
+ ✓ tests/integration/publicVisibility.test.ts  (4 tests) 275ms
+ ✓ tests/unit/sonosLibrary.test.ts  (9 tests) 1ms
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback 1x1 PNG on fetch failure
+[artCache] Art fetch error: https://example.com/broken.jpg Error: network
+    at /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/tests/unit/artCacheService.test.ts:68:53
+    at file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:781:17)
+    at runSuite (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:958:5)
+    at startTests (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:967:3)
+    at file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:116:7
+    at withEnv (file:///Users/streetratz/Personal/MyGH-Personal/HomeDash/node_modules/.pnpm/vitest@1.6.1_@types+node@20.19.41_jsdom@29.1.1_@noble+hashes@1.8.0_/node_modules/vitest/dist/chunks/runtime-runBaseTests.oAvMKtQC.js:83:5)
+
+stderr | tests/unit/artCacheService.test.ts > getArt > returns fallback on non-200 response
+[artCache] Art fetch failed: https://example.com/missing.jpg (404)
+
+ ✓ tests/unit/artCacheService.test.ts  (9 tests) 57ms
+ ✓ tests/unit/url-validator.test.ts  (17 tests) 3ms
+ ✓ tests/integration/dockerAction.test.ts  (8 tests) 533ms
+ ✓ tests/unit/env.test.ts  (8 tests) 5ms
+ ✓ tests/integration/sonosArtProxy.test.ts  (5 tests) 262ms
+ ✓ tests/unit/birthdayCalendar.test.ts  (8 tests) 4ms
+Collection display service: warm 90-day p95=10.20ms; 32-stream/731-day=60.29ms; 30 samples; HTTP/browser overhead excluded
+ ✓ tests/integration/collectionPerformance.test.ts  (2 tests) 407ms
+ ✓ tests/unit/sonosLabels.test.ts  (11 tests) 1ms
+ ✓ tests/integration/firstRun.test.ts  (5 tests) 160ms
+ ✓ tests/integration/rememberMe.test.ts  (4 tests) 585ms
+ ✓ tests/integration/publicBootstrap.test.ts  (8 tests) 165ms
+ ✓ tests/integration/restorePreview.test.ts  (4 tests) 268ms
+ ✓ tests/integration/dockerConnectionUpgrade.test.ts  (7 tests) 28ms
+ ✓ tests/integration/scheduledJobService.test.ts  (6 tests) 25ms
+ ✓ tests/integration/collectionPreset.test.ts  (1 test) 140ms
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 25ms
+ ✓ tests/unit/publicWidgetSnapshotCache.test.ts  (3 tests) 1ms
+ ✓ tests/integration/rateLimit.test.ts  (2 tests) 1252ms
+ ✓ tests/integration/timezone.test.ts  (4 tests) 262ms
+ ✓ tests/integration/tokenEncryption.test.ts  (6 tests) 1ms
+ ✓ tests/integration/staticAssets.test.ts  (5 tests) 44ms
+ ✓ tests/unit/collectionWidgetConfig.test.ts  (2 tests)
+ ✓ tests/unit/timezone-validation.test.ts  (4 tests)
+ ✓ tests/unit/stocksValidation.test.ts  (7 tests) 1ms
+ ✓ tests/unit/spotifySearch.test.ts  (1 test) 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/collectionPublic.test.ts > public collection widget scope > returns exact saved public subset, no private keys, no-store and strict window validation
+Error: socket hang up
+ ❯ Socket.socketOnEnd node:_http_client:617:25
+ ❯ Socket.emit node:events:521:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'ECONNRESET', response: undefined }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 72 passed (73)
+      Tests  1 failed | 834 passed (835)
+   Start at  15:50:03
+   Duration  43.85s (transform 585ms, setup 547ms, collect 2.73s, tests 40.07s, environment 0ms, prepare 58ms)
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] backend@0.1.0 test: `vitest run`
+Exit status 1

@@ -55,7 +55,18 @@ import {
 } from '../../hooks/useConnections.js';
 import type { PiholeConnection, DockerConnection } from '../../hooks/useConnections.js';
 import { useSpotifyStatus, useSpotifyDisconnect } from '../../hooks/useSpotify.js';
-import { useSonosStatus, useSonosDisconnect, useSonosConfig, useSonosHouseholds, useSonosMode, useSetSonosMode, useSonosDiscover, useSonosServices, useServiceLabels, useUpdateServiceLabels } from '../../hooks/useSonos.js';
+import {
+  useSonosStatus,
+  useSonosDisconnect,
+  useSonosConfig,
+  useSonosHouseholds,
+  useSonosMode,
+  useSetSonosMode,
+  useSonosDiscover,
+  useSonosServices,
+  useServiceLabels,
+  useUpdateServiceLabels,
+} from '../../hooks/useSonos.js';
 import { apiClient } from '../../lib/apiClient.js';
 import { queryClient } from '../../state/queryClient.js';
 import { MobileSectionSelect } from './MobileSectionSelect.js';
@@ -63,7 +74,15 @@ import { SettingsErrorState, SettingsLoadingState } from './SettingsDataState.js
 
 // ─── Service nav items ──────────────────────────────────────────────────────
 
-type ServiceId = 'pihole' | 'spotify' | 'sonos' | 'photos' | 'calendars' | 'todo' | 'docker' | 'accounts';
+type ServiceId =
+  | 'pihole'
+  | 'spotify'
+  | 'sonos'
+  | 'photos'
+  | 'calendars'
+  | 'todo'
+  | 'docker'
+  | 'accounts';
 
 interface ServiceNavItem {
   id: ServiceId;
@@ -101,9 +120,7 @@ const serviceGroups: ServiceGroup[] = [
   },
   {
     label: 'Connections',
-    items: [
-      { id: 'accounts', label: 'Accounts', icon: <ExternalLink className="h-4 w-4" /> },
-    ],
+    items: [{ id: 'accounts', label: 'Accounts', icon: <ExternalLink className="h-4 w-4" /> }],
   },
 ];
 const serviceItems = serviceGroups.flatMap((group) => group.items);
@@ -115,9 +132,8 @@ function PiholePanel() {
   const { data: connections } = connectionsQuery;
   const [showForm, setShowForm] = useState<string | null>(null);
 
-  const editingConnection = showForm && showForm !== 'new'
-    ? connections?.find((c) => c.id === showForm)
-    : undefined;
+  const editingConnection =
+    showForm && showForm !== 'new' ? connections?.find((c) => c.id === showForm) : undefined;
 
   if (connectionsQuery.isLoading) {
     return <SettingsLoadingState label="Loading Pi-hole connections…" />;
@@ -139,7 +155,9 @@ function PiholePanel() {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-medium">Pi-hole</h3>
-          <p className="text-sm text-muted-foreground">DNS-level ad blocking and network monitoring</p>
+          <p className="text-sm text-muted-foreground">
+            DNS-level ad blocking and network monitoring
+          </p>
         </div>
         <Button size="sm" variant="outline" onClick={() => setShowForm('new')}>
           <Plus className="mr-1.5 h-3.5 w-3.5" />
@@ -166,9 +184,7 @@ function PiholePanel() {
         {!connections?.length && !showForm && (
           <div className="rounded-lg border border-dashed border-border p-6 text-center">
             <Shield className="mx-auto mb-2 h-8 w-8 text-muted-foreground/40" />
-            <p className="text-sm text-muted-foreground">
-              No Pi-hole connections configured.
-            </p>
+            <p className="text-sm text-muted-foreground">No Pi-hole connections configured.</p>
             <Button size="sm" variant="outline" className="mt-3" onClick={() => setShowForm('new')}>
               <Plus className="mr-1.5 h-3.5 w-3.5" />
               Add Pi-hole
@@ -300,7 +316,10 @@ function SpotifyPanel() {
   // Spotify app credentials config
   const configQuery = useQuery({
     queryKey: ['spotify', 'config'],
-    queryFn: () => apiClient.get<{ configured: boolean; clientId: string | null; redirectUri: string | null }>('/api/spotify/config'),
+    queryFn: () =>
+      apiClient.get<{ configured: boolean; clientId: string | null; redirectUri: string | null }>(
+        '/api/spotify/config',
+      ),
   });
 
   const [clientId, setClientId] = useState('');
@@ -370,7 +389,8 @@ function SpotifyPanel() {
             <div className="flex items-center justify-between gap-3 rounded-md border border-border p-3">
               <div className="min-w-0 flex-1">
                 <p className="text-sm text-muted-foreground">
-                  Client ID: <span className="font-mono text-foreground">{configQuery.data?.clientId}</span>
+                  Client ID:{' '}
+                  <span className="font-mono text-foreground">{configQuery.data?.clientId}</span>
                 </p>
                 {configQuery.data?.redirectUri && (
                   <p className="truncate text-xs text-muted-foreground">
@@ -386,7 +406,9 @@ function SpotifyPanel() {
           ) : (
             <div className="space-y-3">
               <div>
-                <label className="mb-1 block text-xs font-medium text-muted-foreground">Client ID</label>
+                <label className="mb-1 block text-xs font-medium text-muted-foreground">
+                  Client ID
+                </label>
                 <Input
                   value={clientId}
                   onChange={(e) => setClientId(e.target.value)}
@@ -395,7 +417,9 @@ function SpotifyPanel() {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-medium text-muted-foreground">Client Secret</label>
+                <label className="mb-1 block text-xs font-medium text-muted-foreground">
+                  Client Secret
+                </label>
                 <Input
                   type="password"
                   value={clientSecret}
@@ -405,7 +429,9 @@ function SpotifyPanel() {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-medium text-muted-foreground">Redirect URI</label>
+                <label className="mb-1 block text-xs font-medium text-muted-foreground">
+                  Redirect URI
+                </label>
                 <Input
                   value={redirectUri}
                   onChange={(e) => setRedirectUri(e.target.value)}
@@ -413,10 +439,13 @@ function SpotifyPanel() {
                   className="font-mono text-sm"
                 />
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Add this exact URI to your Spotify app&apos;s Redirect URIs: <code className="rounded bg-muted px-1">{defaultRedirect}</code>
+                  Add this exact URI to your Spotify app&apos;s Redirect URIs:{' '}
+                  <code className="rounded bg-muted px-1">{defaultRedirect}</code>
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Spotify requires HTTPS, or HTTP with <code className="rounded bg-muted px-1">127.0.0.1</code> / <code className="rounded bg-muted px-1">[::1]</code>.{' '}
+                  Spotify requires HTTPS, or HTTP with{' '}
+                  <code className="rounded bg-muted px-1">127.0.0.1</code> /{' '}
+                  <code className="rounded bg-muted px-1">[::1]</code>.{' '}
                   <code className="rounded bg-muted px-1">localhost</code> is not allowed.
                 </p>
               </div>
@@ -503,7 +532,8 @@ function SpotifyPanel() {
       </Card>
 
       <p className="text-xs text-muted-foreground">
-        Spotify Premium is required for playback control. Free accounts can view what&apos;s playing.
+        Spotify Premium is required for playback control. Free accounts can view what&apos;s
+        playing.
       </p>
     </div>
   );
@@ -570,9 +600,7 @@ function SonosPanel() {
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Connection Mode</CardTitle>
-          <CardDescription>
-            Choose how to communicate with your Sonos speakers
-          </CardDescription>
+          <CardDescription>Choose how to communicate with your Sonos speakers</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex gap-3">
@@ -590,7 +618,8 @@ function SonosPanel() {
               </p>
               {currentMode === 'local' && discoverData && (
                 <p className="mt-1 text-xs text-primary">
-                  {discoverData.speakers.length} speaker{discoverData.speakers.length !== 1 ? 's' : ''} found
+                  {discoverData.speakers.length} speaker
+                  {discoverData.speakers.length !== 1 ? 's' : ''} found
                 </p>
               )}
             </button>
@@ -612,204 +641,205 @@ function SonosPanel() {
       </Card>
 
       {/* Cloud-only: App Credentials + OAuth */}
-      {currentMode === 'cloud' && (<>
-
-      {/* ── App Credentials ───────────────────────────────────────────── */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="text-base">App Credentials</CardTitle>
-              <CardDescription>
-                Create a Control Integration at{' '}
-                <a
-                  href="https://developer.sonos.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:text-foreground"
-                >
-                  developer.sonos.com
-                </a>
-                , set the redirect URI, then enter the credentials below.
-              </CardDescription>
-            </div>
-            {configured && !showForm && (
-              <span className="flex items-center gap-1.5 text-xs text-green-500">
-                <CheckCircle2 className="h-3.5 w-3.5" />
-                Configured
-              </span>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent>
-          {configured && !showForm ? (
-            <div className="flex items-center justify-between gap-3 rounded-md border border-border p-3">
-              <div className="min-w-0 flex-1">
-                <p className="text-sm text-muted-foreground">
-                  Client ID:{' '}
-                  <span className="font-mono text-foreground">{configQuery.data?.clientId}</span>
-                </p>
-                {configQuery.data?.redirectUri && (
-                  <p className="truncate text-xs text-muted-foreground">
-                    Redirect: {configQuery.data.redirectUri}
-                  </p>
-                )}
-              </div>
-              <Button variant="outline" size="sm" onClick={() => setShowForm(true)}>
-                <Pencil className="mr-1.5 h-3.5 w-3.5" />
-                Edit
-              </Button>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              <div>
-                <label className="mb-1 block text-xs font-medium text-muted-foreground">
-                  Client ID (Key)
-                </label>
-                <Input
-                  value={clientId}
-                  onChange={(e) => setClientId(e.target.value)}
-                  placeholder="e.g. a1b2c3d4-e5f6-7890-…"
-                  className="font-mono text-sm"
-                />
-              </div>
-              <div>
-                <label className="mb-1 block text-xs font-medium text-muted-foreground">
-                  Client Secret
-                </label>
-                <Input
-                  type="password"
-                  value={clientSecret}
-                  onChange={(e) => setClientSecret(e.target.value)}
-                  placeholder="Enter client secret"
-                  className="font-mono text-sm"
-                />
-              </div>
-              <div>
-                <label className="mb-1 block text-xs font-medium text-muted-foreground">
-                  Redirect URI
-                </label>
-                <Input
-                  value={redirectUri}
-                  onChange={(e) => setRedirectUri(e.target.value)}
-                  placeholder={defaultRedirect}
-                  className="font-mono text-sm"
-                />
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Add this exact URI to your Sonos app&apos;s Redirect URIs:{' '}
-                  <code className="rounded bg-muted px-1">{defaultRedirect}</code>
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Sonos requires HTTPS for redirect URIs. Use a reverse proxy or tunnel for
-                  development.
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  size="sm"
-                  onClick={() => saveConfig.mutate()}
-                  disabled={!clientId.trim() || !clientSecret.trim() || saveConfig.isPending}
-                >
-                  {saveConfig.isPending && (
-                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                  )}
-                  Save Credentials
-                </Button>
-                {showForm && (
-                  <Button variant="ghost" size="sm" onClick={() => setShowForm(false)}>
-                    Cancel
-                  </Button>
-                )}
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* ── Connection Status ─────────────────────────────────────────── */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-base">Connection Status</CardTitle>
-            {isLoading ? (
-              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-            ) : status?.connected ? (
-              <span className="flex items-center gap-1.5 text-xs text-green-500">
-                <CheckCircle2 className="h-3.5 w-3.5" />
-                Connected
-              </span>
-            ) : (
-              <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                <XCircle className="h-3.5 w-3.5" />
-                Not connected
-              </span>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent>
-          {status?.connected ? (
-            <div className="space-y-3">
-              <div className="flex items-center justify-between gap-3 rounded-md border border-border p-3">
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium">Sonos Account</p>
-                  {householdsData?.households && (
-                    <p className="text-xs text-muted-foreground">
-                      {householdsData.households.length} household
-                      {householdsData.households.length !== 1 ? 's' : ''} found
-                    </p>
-                  )}
+      {currentMode === 'cloud' && (
+        <>
+          {/* ── App Credentials ───────────────────────────────────────────── */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-base">App Credentials</CardTitle>
+                  <CardDescription>
+                    Create a Control Integration at{' '}
+                    <a
+                      href="https://developer.sonos.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:text-foreground"
+                    >
+                      developer.sonos.com
+                    </a>
+                    , set the redirect URI, then enter the credentials below.
+                  </CardDescription>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => disconnect.mutate()}
-                  disabled={disconnect.isPending}
-                >
-                  {disconnect.isPending && (
-                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                  )}
-                  Disconnect
-                </Button>
+                {configured && !showForm && (
+                  <span className="flex items-center gap-1.5 text-xs text-green-500">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    Configured
+                  </span>
+                )}
               </div>
-            </div>
-          ) : configured ? (
-            <div className="flex flex-col items-start gap-3">
-              <p className="text-sm text-muted-foreground">
-                Connect your Sonos account to control speakers, volume, and room grouping.
-              </p>
-              <a
-                href="/api/sonos/login"
-                className="inline-flex items-center gap-1.5 rounded-md bg-orange-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-orange-500"
-              >
-                <ExternalLink className="h-3 w-3" />
-                Connect Sonos
-              </a>
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              Enter your Sonos app credentials above to enable account linking.
-            </p>
-          )}
-        </CardContent>
-      </Card>
+            </CardHeader>
+            <CardContent>
+              {configured && !showForm ? (
+                <div className="flex items-center justify-between gap-3 rounded-md border border-border p-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm text-muted-foreground">
+                      Client ID:{' '}
+                      <span className="font-mono text-foreground">
+                        {configQuery.data?.clientId}
+                      </span>
+                    </p>
+                    {configQuery.data?.redirectUri && (
+                      <p className="truncate text-xs text-muted-foreground">
+                        Redirect: {configQuery.data.redirectUri}
+                      </p>
+                    )}
+                  </div>
+                  <Button variant="outline" size="sm" onClick={() => setShowForm(true)}>
+                    <Pencil className="mr-1.5 h-3.5 w-3.5" />
+                    Edit
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-muted-foreground">
+                      Client ID (Key)
+                    </label>
+                    <Input
+                      value={clientId}
+                      onChange={(e) => setClientId(e.target.value)}
+                      placeholder="e.g. a1b2c3d4-e5f6-7890-…"
+                      className="font-mono text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-muted-foreground">
+                      Client Secret
+                    </label>
+                    <Input
+                      type="password"
+                      value={clientSecret}
+                      onChange={(e) => setClientSecret(e.target.value)}
+                      placeholder="Enter client secret"
+                      className="font-mono text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-muted-foreground">
+                      Redirect URI
+                    </label>
+                    <Input
+                      value={redirectUri}
+                      onChange={(e) => setRedirectUri(e.target.value)}
+                      placeholder={defaultRedirect}
+                      className="font-mono text-sm"
+                    />
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Add this exact URI to your Sonos app&apos;s Redirect URIs:{' '}
+                      <code className="rounded bg-muted px-1">{defaultRedirect}</code>
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Sonos requires HTTPS for redirect URIs. Use a reverse proxy or tunnel for
+                      development.
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      onClick={() => saveConfig.mutate()}
+                      disabled={!clientId.trim() || !clientSecret.trim() || saveConfig.isPending}
+                    >
+                      {saveConfig.isPending && (
+                        <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                      )}
+                      Save Credentials
+                    </Button>
+                    {showForm && (
+                      <Button variant="ghost" size="sm" onClick={() => setShowForm(false)}>
+                        Cancel
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-      <p className="text-xs text-muted-foreground">
-        Sonos integration uses the official Cloud Control API. Speaker control works over the
-        internet — no local network access needed from the server.
-      </p>
-      <p className="text-xs text-muted-foreground mt-1">
-        Switch to local mode for full speaker details including model, version, serial, and
-        stereo pairs.
-      </p>
-      </>)}
+          {/* ── Connection Status ─────────────────────────────────────────── */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-base">Connection Status</CardTitle>
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                ) : status?.connected ? (
+                  <span className="flex items-center gap-1.5 text-xs text-green-500">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    Connected
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <XCircle className="h-3.5 w-3.5" />
+                    Not connected
+                  </span>
+                )}
+              </div>
+            </CardHeader>
+            <CardContent>
+              {status?.connected ? (
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between gap-3 rounded-md border border-border p-3">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium">Sonos Account</p>
+                      {householdsData?.households && (
+                        <p className="text-xs text-muted-foreground">
+                          {householdsData.households.length} household
+                          {householdsData.households.length !== 1 ? 's' : ''} found
+                        </p>
+                      )}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => disconnect.mutate()}
+                      disabled={disconnect.isPending}
+                    >
+                      {disconnect.isPending && (
+                        <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                      )}
+                      Disconnect
+                    </Button>
+                  </div>
+                </div>
+              ) : configured ? (
+                <div className="flex flex-col items-start gap-3">
+                  <p className="text-sm text-muted-foreground">
+                    Connect your Sonos account to control speakers, volume, and room grouping.
+                  </p>
+                  <a
+                    href="/api/sonos/login"
+                    className="inline-flex items-center gap-1.5 rounded-md bg-orange-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-orange-500"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    Connect Sonos
+                  </a>
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Enter your Sonos app credentials above to enable account linking.
+                </p>
+              )}
+            </CardContent>
+          </Card>
+
+          <p className="text-xs text-muted-foreground">
+            Sonos integration uses the official Cloud Control API. Speaker control works over the
+            internet — no local network access needed from the server.
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Switch to local mode for full speaker details including model, version, serial, and
+            stereo pairs.
+          </p>
+        </>
+      )}
 
       {currentMode === 'local' && (
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Discovered Speakers</CardTitle>
-            <CardDescription>
-              Speakers found on your local network via UPnP
-            </CardDescription>
+            <CardDescription>Speakers found on your local network via UPnP</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {discoverData && discoverData.speakers.length > 0 ? (
@@ -829,7 +859,8 @@ function SonosPanel() {
                             )}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            {s.ip}{s.model ? ` · ${s.model}` : ''}
+                            {s.ip}
+                            {s.model ? ` · ${s.model}` : ''}
                           </p>
                         </div>
                       </div>
@@ -842,20 +873,23 @@ function SonosPanel() {
                       {s.hardwareVersion && <p>Hardware: {s.hardwareVersion}</p>}
                       {s.stereoPair && (
                         <p>
-                          Stereo partner:{' '}
-                          {s.stereoPair.partnerName ?? s.stereoPair.partnerUuid}
+                          Stereo partner: {s.stereoPair.partnerName ?? s.stereoPair.partnerUuid}
                         </p>
                       )}
-                      {!s.modelNumber && !s.softwareVersion && !s.serialNumber && !s.hardwareVersion && (
-                        <p className="italic">No extended details available</p>
-                      )}
+                      {!s.modelNumber &&
+                        !s.softwareVersion &&
+                        !s.serialNumber &&
+                        !s.hardwareVersion && (
+                          <p className="italic">No extended details available</p>
+                        )}
                     </div>
                   </details>
                 ))}
               </div>
             ) : (
               <p className="text-sm text-muted-foreground">
-                No speakers discovered yet. Ensure HomeDash is on the same network as your Sonos speakers.
+                No speakers discovered yet. Ensure HomeDash is on the same network as your Sonos
+                speakers.
               </p>
             )}
             <div className="border-t border-border pt-4">
@@ -901,17 +935,15 @@ function SonosPanel() {
         <CardHeader>
           <CardTitle className="text-base">Account Labels</CardTitle>
           <CardDescription>
-            Name your streaming accounts (e.g. &ldquo;Dad&apos;s Spotify&rdquo;). Labels appear on now-playing badges.
+            Name your streaming accounts (e.g. &ldquo;Dad&apos;s Spotify&rdquo;). Labels appear on
+            now-playing badges.
           </CardDescription>
         </CardHeader>
         <CardContent>
           {(() => {
             const savedLabels = labelsData?.labels ?? {};
             const labels = editingLabels ?? savedLabels;
-            const accountDetails = new Map<
-              string,
-              { serviceName: string; nickname?: string }
-            >();
+            const accountDetails = new Map<string, { serviceName: string; nickname?: string }>();
             for (const service of servicesData?.services ?? []) {
               for (const account of service.accounts) {
                 accountDetails.set(`sn:${account.serialNumber}`, {
@@ -943,7 +975,10 @@ function SonosPanel() {
                   const snNum = key.replace('sn:', '');
                   const details = accountDetails.get(key);
                   return (
-                    <div key={key} className="grid gap-2 sm:grid-cols-[minmax(9rem,1fr)_minmax(12rem,2fr)] sm:items-center">
+                    <div
+                      key={key}
+                      className="grid gap-2 sm:grid-cols-[minmax(9rem,1fr)_minmax(12rem,2fr)] sm:items-center"
+                    >
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium">
                           {details?.serviceName ?? `Account ${snNum}`}
@@ -956,7 +991,9 @@ function SonosPanel() {
                       <Input
                         value={labels[key] ?? ''}
                         aria-label={`Label for ${details?.serviceName ?? 'Sonos'} account ${snNum}`}
-                        placeholder={details?.nickname ?? `${details?.serviceName ?? 'Sonos'} account`}
+                        placeholder={
+                          details?.nickname ?? `${details?.serviceName ?? 'Sonos'} account`
+                        }
                         maxLength={100}
                         className="h-8 text-sm"
                         onChange={(e) => {
@@ -996,11 +1033,7 @@ function SonosPanel() {
                       )}
                       Save Labels
                     </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => setEditingLabels(null)}
-                    >
+                    <Button size="sm" variant="ghost" onClick={() => setEditingLabels(null)}>
                       Cancel
                     </Button>
                   </div>
@@ -1067,9 +1100,8 @@ function DockerPanel() {
   const { data: connections } = connectionsQuery;
   const [showForm, setShowForm] = useState<string | null>(null);
 
-  const editingConnection = showForm && showForm !== 'new'
-    ? connections?.find((c) => c.id === showForm)
-    : undefined;
+  const editingConnection =
+    showForm && showForm !== 'new' ? connections?.find((c) => c.id === showForm) : undefined;
 
   if (connectionsQuery.isLoading) {
     return <SettingsLoadingState label="Loading Docker connections…" />;
@@ -1118,9 +1150,7 @@ function DockerPanel() {
         {!connections?.length && !showForm && (
           <div className="rounded-lg border border-dashed border-border p-6 text-center">
             <Container className="mx-auto mb-2 h-8 w-8 text-muted-foreground/40" />
-            <p className="text-sm text-muted-foreground">
-              No Docker connections configured.
-            </p>
+            <p className="text-sm text-muted-foreground">No Docker connections configured.</p>
             <Button size="sm" variant="outline" className="mt-3" onClick={() => setShowForm('new')}>
               <Plus className="mr-1.5 h-3.5 w-3.5" />
               Add Docker Host
@@ -1318,12 +1348,16 @@ function PhotoSourcesPanel() {
     void browseFolder();
   }, [browseFolder]);
 
-  const handleSelectFolder = useCallback((dir: string) => {
-    const nextPath = browsePath === browseResult?.basePath
-      ? dir
-      : `${browsePath.replace(browseResult?.basePath ?? '', '').replace(/^\//, '')}/${dir}`;
-    void browseFolder(nextPath);
-  }, [browsePath, browseResult, browseFolder]);
+  const handleSelectFolder = useCallback(
+    (dir: string) => {
+      const nextPath =
+        browsePath === browseResult?.basePath
+          ? dir
+          : `${browsePath.replace(browseResult?.basePath ?? '', '').replace(/^\//, '')}/${dir}`;
+      void browseFolder(nextPath);
+    },
+    [browsePath, browseResult, browseFolder],
+  );
 
   const handlePickCurrent = useCallback(() => {
     setNewPath(browsePath);
@@ -1339,7 +1373,11 @@ function PhotoSourcesPanel() {
   }, [browsePath, browseResult, browseFolder]);
 
   const addSource = useMutation({
-    mutationFn: async (data: { name: string; type: string; config: { path: string; recursive: boolean } }) => {
+    mutationFn: async (data: {
+      name: string;
+      type: string;
+      config: { path: string; recursive: boolean };
+    }) => {
       await apiClient.post('/api/admin/photos/sources', data);
     },
     onSuccess: () => {
@@ -1459,9 +1497,7 @@ function PhotoSourcesPanel() {
           {(sources ?? []).length === 0 && (
             <div className="rounded-lg border border-dashed border-border p-6 text-center">
               <ImageIcon className="mx-auto mb-2 h-8 w-8 text-muted-foreground/40" />
-              <p className="text-sm text-muted-foreground">
-                No photo sources configured.
-              </p>
+              <p className="text-sm text-muted-foreground">No photo sources configured.</p>
             </div>
           )}
 
@@ -1505,13 +1541,25 @@ function PhotoSourcesPanel() {
                     {browsePath}
                   </p>
                   <div className="flex gap-1">
-                    <Button variant="ghost" size="sm" onClick={handleBrowseUp} disabled={browsePath === browseResult?.basePath}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBrowseUp}
+                      disabled={browsePath === browseResult?.basePath}
+                    >
                       ↑ Up
                     </Button>
                     <Button variant="ghost" size="sm" onClick={handlePickCurrent}>
                       Select this folder
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={() => { setShowBrowser(false); setBrowseResult(null); }}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setShowBrowser(false);
+                        setBrowseResult(null);
+                      }}
+                    >
                       ✕
                     </Button>
                   </div>
@@ -1524,7 +1572,9 @@ function PhotoSourcesPanel() {
                 ) : browseResult ? (
                   <div className="space-y-1">
                     {browseResult.imageCount > 0 && (
-                      <p className="text-xs text-muted-foreground">{browseResult.imageCount} images in this folder</p>
+                      <p className="text-xs text-muted-foreground">
+                        {browseResult.imageCount} images in this folder
+                      </p>
                     )}
                     {browseResult.directories.length === 0 ? (
                       <p className="text-xs text-muted-foreground italic">No subdirectories</p>
@@ -1574,7 +1624,9 @@ function AccountsPanel() {
     <div className="space-y-4">
       <div>
         <h3 className="text-lg font-medium">Accounts</h3>
-        <p className="text-sm text-muted-foreground">OAuth and service accounts for all integrations</p>
+        <p className="text-sm text-muted-foreground">
+          OAuth and service accounts for all integrations
+        </p>
       </div>
 
       <Card>
@@ -1590,14 +1642,22 @@ function AccountsPanel() {
 
 function ServicePanel({ serviceId }: { serviceId: ServiceId }) {
   switch (serviceId) {
-    case 'pihole': return <PiholePanel />;
-    case 'spotify': return <SpotifyPanel />;
-    case 'sonos': return <SonosPanel />;
-    case 'photos': return <PhotoSourcesPanel />;
-    case 'calendars': return <CalendarsPanel />;
-    case 'todo': return <TodoPanel />;
-    case 'docker': return <DockerPanel />;
-    case 'accounts': return <AccountsPanel />;
+    case 'pihole':
+      return <PiholePanel />;
+    case 'spotify':
+      return <SpotifyPanel />;
+    case 'sonos':
+      return <SonosPanel />;
+    case 'photos':
+      return <PhotoSourcesPanel />;
+    case 'calendars':
+      return <CalendarsPanel />;
+    case 'todo':
+      return <TodoPanel />;
+    case 'docker':
+      return <DockerPanel />;
+    case 'accounts':
+      return <AccountsPanel />;
   }
 }
 
@@ -1616,7 +1676,10 @@ export function IntegrationsTab() {
       />
 
       {/* Service nav — desktop */}
-      <nav className="hidden shrink-0 md:block md:w-44 md:border-r md:border-border md:pr-4" aria-label="Integration sections">
+      <nav
+        className="hidden shrink-0 md:block md:w-44 md:border-r md:border-border md:pr-4"
+        aria-label="Integration sections"
+      >
         <div className="flex flex-col gap-4">
           {serviceGroups.map((group) => (
             <div key={group.label} className="flex flex-col gap-0.5 shrink-0">

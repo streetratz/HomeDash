@@ -1,0 +1,75 @@
+v24.18.0
+$ vitest run src tests/unit
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/useVisibility.test.ts  (5 tests) 14ms
+ ✓ src/hooks/__tests__/useDocker.test.ts  (17 tests) 79ms
+ ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (12 tests) 410ms
+ ✓ tests/unit/collectionCalendar.test.tsx  (8 tests) 421ms
+ ✓ tests/unit/CollectionStreamEditor.test.tsx  (5 tests) 466ms
+ ✓ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (2 tests) 387ms
+ ✓ src/components/settings/__tests__/CalendarSourceEditing.test.tsx  (3 tests) 337ms
+ ✓ src/components/widgets/__tests__/publicWidgetMode.test.tsx  (2 tests) 81ms
+ ✓ tests/unit/CollectionManager.test.tsx  (5 tests) 571ms
+ ✓ src/hooks/__tests__/useTextOverflow.test.ts  (7 tests) 20ms
+ ✓ src/components/widgets/__tests__/DockerWidget.test.tsx  (2 tests) 28ms
+ ✓ src/hooks/__tests__/useIdleDetection.test.ts  (6 tests) 20ms
+ ✓ src/components/__tests__/PlaceholderConfigDialog.test.tsx  (3 tests) 251ms
+ ✓ src/state/__tests__/appShortcutHooks.test.ts  (1 test) 13ms
+ ✓ src/components/widgets/__tests__/DockerConnectionPicker.test.tsx  (2 tests) 112ms
+stderr | src/pages/LoginPage.test.tsx > LoginPage password visibility > reveals and re-masks the password without changing its value
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/pages/LoginPage.test.tsx  (12 tests) 94ms
+ ✓ src/components/sonos/__tests__/QueuePanel.test.tsx  (2 tests) 142ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.ui.test.tsx  (1 test) 197ms
+ ✓ src/components/settings/__tests__/ManagementActionAccessibility.test.tsx  (2 tests) 230ms
+ ✓ src/components/settings/__tests__/MobileSectionSelect.test.tsx  (1 test) 233ms
+ ✓ src/components/__tests__/widgetVisibility.test.tsx  (3 tests) 113ms
+ ✓ src/components/widgets/__tests__/ClockWidget.test.tsx  (1 test) 21ms
+ ✓ tests/unit/CollectionExplicitDatesEditor.test.tsx  (1 test) 111ms
+ ✓ tests/unit/CollectionExceptionEditor.test.tsx  (1 test) 145ms
+stderr | src/components/__tests__/EmptyDashboard.test.tsx > EmptyDashboard > gives administrators a direct path to dashboard settings
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/components/__tests__/EmptyDashboard.test.tsx  (2 tests) 101ms
+ ✓ src/hooks/__tests__/useAdaptivePoll.test.ts  (9 tests) 4ms
+ ✓ tests/unit/collectionVisibility.test.tsx  (1 test) 4ms
+ ✓ tests/unit/polling.test.ts  (12 tests) 4ms
+ ✓ src/components/settings/__tests__/WidgetsTab.test.tsx  (1 test) 121ms
+ ✓ tests/unit/collectionRestoreWarning.test.tsx  (1 test) 30ms
+ ✓ tests/unit/browseServices.test.ts  (10 tests) 5ms
+ ✓ src/components/sonos/__tests__/selectPreferredSonosGroup.test.ts  (5 tests) 2ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.ui.test.tsx  (1 test) 224ms
+ ✓ tests/unit/collectionDates.test.ts  (5 tests) 3ms
+ ✓ src/components/widgets/__tests__/WidgetConfigControls.test.tsx  (1 test) 266ms
+ ✓ src/components/settings/__tests__/SettingsDataState.test.tsx  (2 tests) 85ms
+ ✓ src/lib/parse-yahoo-csv.test.ts  (4 tests) 2ms
+ ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 3ms
+ ✓ src/lib/calendarDates.test.ts  (1 test) 3ms
+ ✓ src/components/settings/__tests__/GroupsTab.test.ts  (1 test) 1ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.test.ts  (6 tests) 1ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.test.ts  (3 tests) 2ms
+ ✓ tests/unit/collectionHooks.test.tsx  (7 tests) 3304ms
+
+ Test Files  43 passed (43)
+      Tests  177 passed (177)
+   Start at  13:41:50
+   Duration  4.32s (transform 2.11s, setup 4ms, collect 9.90s, tests 8.66s, environment 14.49s, prepare 2.13s)
+
+$ pnpm -r run typecheck
+Scope: 2 of 3 workspace projects
+backend typecheck$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+frontend typecheck$ tsc --noEmit
+frontend typecheck: src/components/settings/CollectionStreamEditor.tsx(59,12): error TS2375: Type '{ value: string; ariaLabel: string; ariaInvalid: boolean; ariaDescribedBy: string | undefined; className: string; disabled: boolean; onChange: (color: string) => void; }' is not assignable to type 'ColorPickerProps' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+frontend typecheck:   Types of property 'ariaDescribedBy' are incompatible.
+frontend typecheck:     Type 'string | undefined' is not assignable to type 'string'.
+frontend typecheck:       Type 'undefined' is not assignable to type 'string'.
+frontend typecheck: Failed
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] frontend@0.1.0 typecheck: `tsc --noEmit`
+Exit status 2
+[ELIFECYCLE] Command failed with exit code 2.

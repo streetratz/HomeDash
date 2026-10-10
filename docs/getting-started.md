@@ -41,6 +41,48 @@ suites. No separately running HomeDash instance is required. To target a fresh,
 disposable server managed outside Playwright instead, set
 `PLAYWRIGHT_BASE_URL` to its origin.
 
+## Custom events in Calendar
+
+An administrator opens **Settings → Integrations → Calendars** and clicks
+**Custom Events** (beside **Add Birthdays**; the button is admin-only). This
+opens a compact manager for local one-off and recurring events — bin days,
+chores, reminders — shown in the existing Calendar widget. It is not a new
+widget or calendar provider. No additional environment variable, dependency or
+service is required, and no council lookup, cloud call or external icon request
+is made; events work entirely offline.
+
+- Confirm the named household timezone. Each event has its own **title**,
+  **icon** (chosen from a bundled offline set — no external icons), **colour**
+  (shared colour picker), and enabled state.
+- New events default to a single all-day date (**Repeat Off**). Switch **Repeat**
+  to Weekly, Fortnightly, or Custom **every N weeks** (1–52) on a Monday-first
+  weekday subset. A new repeat starts at its first date and never generates
+  earlier dates; an optional inclusive end date bounds it (Never or a date).
+- The optional **bin preset** is an additive shortcut: enter a normal Recycling
+  date and matching weekday, preview, then append red weekly General waste,
+  yellow fortnightly Recycling and alternate-week green Garden as three
+  independent, individually editable events. It never replaces or deletes your
+  other events.
+- Advanced single-occurrence controls let you reversibly skip a scheduled date,
+  move it to an actual date, or add an extra — distinct from editing the series
+  title/icon/colour/rule. Preview checks the whole exception set; moves do not
+  shift later cycles. Optional explicit date lists generate only entered dates.
+- One editor is expanded at a time. Preview, resolve any blockers, then **Save
+  events**. Select events in an existing Calendar widget; new events are not
+  selected or published automatically. A separate public subset must be chosen
+  for an intentionally public Calendar on the designated public dashboard.
+
+The Calendar agenda shows the full weekday/date, household Today/Tomorrow, and
+every due event's coloured icon **and visible name**; colour is not the sole
+identifier. Expand Calendar for complete month/day details. Household dates
+remain the same for visitors in other timezones; provider events retain their
+existing timezone behavior. Names and dates wrap on narrow screens.
+
+Safety limits reject rather than truncate: 32 streams; 2,048 explicit dates per
+stream; 512 exceptions per regular stream; 8,192 explicit dates plus exceptions
+per household; Gregorian dates 1900–2199; request windows up to 731 days;
+Calendar days-ahead 1–90; administrator request bodies up to 2 MiB.
+
 ## Docker Deployment
 
 ### Build and Run

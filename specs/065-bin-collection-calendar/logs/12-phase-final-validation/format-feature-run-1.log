@@ -1,0 +1,50 @@
+# Command: pnpm exec prettier --write $(git diff main --name-only --diff-filter=A -- "*.ts" "*.tsx") backend/tests/integration/collectionPerformance.test.ts
+# Phase:   12-phase-final-validation
+# Run:     1
+# Time:    2026-10-10T01:28:10+00:00
+# Exit:    0
+---
+backend/src/api/admin-collections.ts 32ms
+backend/src/services/collectionDates.ts 13ms
+backend/src/services/collectionService.ts 69ms
+backend/tests/contract/collections.test.ts 13ms
+backend/tests/helpers/collectionFixtures.ts 6ms
+backend/tests/integration/collectionBackup.test.ts 7ms
+backend/tests/integration/collectionCustom.test.ts 12ms
+backend/tests/integration/collectionExceptions.test.ts 9ms
+backend/tests/integration/collectionMigration.test.ts 5ms
+backend/tests/integration/collectionPreset.test.ts 4ms
+backend/tests/integration/collectionPublic.test.ts 8ms
+backend/tests/unit/collectionDates.test.ts 4ms
+backend/tests/unit/collectionService.test.ts 16ms
+backend/tests/unit/collectionWidgetConfig.test.ts 1ms
+frontend/src/components/calendar/CollectionGroup.tsx 5ms
+frontend/src/components/settings/CollectionExceptionEditor.tsx 6ms
+frontend/src/components/settings/CollectionExplicitDatesEditor.tsx 3ms
+frontend/src/components/settings/CollectionManager.tsx 21ms
+frontend/src/components/settings/CollectionStreamEditor.tsx 8ms
+frontend/src/lib/collectionDates.ts 2ms
+frontend/src/state/collectionHooks.ts 7ms
+frontend/tests/e2e/collections-custom.mobile.spec.ts 2ms
+frontend/tests/e2e/collections-custom.spec.ts 3ms
+frontend/tests/e2e/collections-irregular.mobile.spec.ts 1ms
+frontend/tests/e2e/collections-irregular.spec.ts 1ms
+frontend/tests/e2e/collections-preset.mobile.spec.ts 1ms (unchanged)
+frontend/tests/e2e/collections-preset.spec.ts 1ms
+frontend/tests/e2e/collections-reading.mobile.spec.ts 1ms
+frontend/tests/e2e/collections-reading.spec.ts 1ms
+frontend/tests/e2e/helpers/collectionIrregularSmoke.ts 4ms
+frontend/tests/e2e/helpers/collectionPresetSmoke.ts 8ms
+frontend/tests/e2e/helpers/collectionReadingSmoke.ts 6ms
+frontend/tests/e2e/helpers/collections.ts 2ms (unchanged)
+frontend/tests/unit/CollectionExceptionEditor.test.tsx 2ms
+frontend/tests/unit/CollectionExplicitDatesEditor.test.tsx 1ms
+frontend/tests/unit/CollectionManager.test.tsx 4ms
+frontend/tests/unit/CollectionStreamEditor.test.tsx 2ms
+frontend/tests/unit/collectionCalendar.test.tsx 4ms
+frontend/tests/unit/collectionDates.test.ts 1ms
+frontend/tests/unit/collectionHooks.test.tsx 6ms
+frontend/tests/unit/collectionRefresh.test.tsx 1ms (unchanged)
+frontend/tests/unit/collectionRestoreWarning.test.tsx 1ms (unchanged)
+frontend/tests/unit/collectionVisibility.test.tsx 1ms
+backend/tests/integration/collectionPerformance.test.ts 4ms

@@ -1,0 +1,46 @@
+# Command: pnpm --filter backend exec vitest run tests/unit/collectionService.test.ts tests/integration/publicBootstrapProjection.test.ts
+# Phase:   07-phase-foundational
+# Run:     4
+# Time:    2026-10-10T00:39:25+00:00
+# Exit:    1
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ❯ tests/unit/collectionService.test.ts  (7 tests | 1 failed) 255ms
+   ❯ tests/unit/collectionService.test.ts > strict collection aggregate and atomic diff > resolves actual Calendar/designated context and emits only allowlisted selected groups
+     → expected [ Array(1) ] to deeply equal [ Array(1) ]
+ ✓ tests/integration/publicBootstrapProjection.test.ts  (4 tests) 309ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/unit/collectionService.test.ts > strict collection aggregate and atomic diff > resolves actual Calendar/designated context and emits only allowlisted selected groups
+AssertionError: expected [ Array(1) ] to deeply equal [ Array(1) ]
+
+- Expected
++ Received
+
+  Array [
+-   "06500000-0000-4000-8000-000000000001",
++   "06500000-0000-4000-8000-000000000002",
+  ]
+
+ ❯ tests/unit/collectionService.test.ts:126:83
+    124|     expect(resolveCollectionWidget(collectionIds.widget)?.config.sourc…
+    125|     expect(resolveCollectionWidget(collectionIds.general)).toBeNull();
+    126|     expect(resolvePublicCollectionWidget('web', collectionIds.widget)?…
+       |                                                                                   ^
+    127|     expect(resolvePublicCollectionWidget('mobile', collectionIds.widge…
+    128|     const display = readCollectionDisplay([collectionIds.recycling], {…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 10 passed (11)
+   Start at  11:39:24
+   Duration  1.68s (transform 331ms, setup 245ms, collect 723ms, tests 564ms, environment 0ms, prepare 34ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/unit/collectionService.test.ts tests/integration/publicBootstrapProjection.test.ts

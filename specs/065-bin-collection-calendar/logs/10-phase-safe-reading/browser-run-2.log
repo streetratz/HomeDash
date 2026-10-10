@@ -1,0 +1,96 @@
+# Command: pnpm --filter frontend exec playwright test tests/e2e/collections-reading.spec.ts tests/e2e/collections-reading.mobile.spec.ts --project=chromium --project=mobile-safari
+# Phase:   10-phase-safe-reading
+# Run:     2
+# Time:    2026-10-10T01:07:35+00:00
+# Exit:    1
+---
+[2m[WebServer] [22m[2m$ node scripts/start-e2e-server.mjs[22m
+[2m[WebServer] [22m[2m$ tsc --noEmit && vite build[22m
+[2m[WebServer] [22m[33m
+[2m[WebServer] [22m(!) Some chunks are larger than 500 kB after minification. Consider:
+[2m[WebServer] [22m- Using dynamic import() to code-split the application
+[2m[WebServer] [22m- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[2m[WebServer] [22m- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+
+Running 3 tests using 1 worker
+
+  ✓  1 [setup] › tests/e2e/auth.setup.ts:17:3 › Authenticated E2E setup › completes first-run and stores the admin session (891ms)
+  ✘  2 [chromium] › tests/e2e/collections-reading.spec.ts:4:1 › foreign visitor sees all 32 complete named collections and restored dialog focus (5.6s)
+  ✘  3 [mobile-safari] › tests/e2e/collections-reading.mobile.spec.ts:4:1 › 360px WebKit crowded names, keyboard and light-dark reduced motion (6.5s)
+
+
+  1) [chromium] › tests/e2e/collections-reading.spec.ts:4:1 › foreign visitor sees all 32 complete named collections and restored dialog focus 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: getByRole('dialog').locator('[data-date="2026-10-14"]')
+    Expected substring: [32m"+29 more"[39m
+    Received string:    [31m"1401 same colour collection same colour collection same colour collection same col02 same colour collection same colour collection same colour collection same col+30 more collections"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('dialog').locator('[data-date="2026-10-14"]')[22m
+    [2m    14 × locator resolved to <button type="button" data-date="2026-10-14" aria-label="2026-10-14: 0 provider events, 32 collection streams. Open complete day detail" class="relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring ">…</button>[22m
+    [2m       - unexpected value "1401 same colour collection same colour collection same colour collection same col02 same colour collection same colour collection same colour collection same col+30 more collections"[22m
+
+
+       at helpers/collectionReadingSmoke.ts:34
+
+      32 |     await expect(dialog.getByRole('button', { name: 'Previous month' })).toBeFocused();
+      33 |     const date = dialog.locator('[data-date="2026-10-14"]');
+    > 34 |     await expect(date).toContainText('+29 more');
+         |                        ^
+      35 |     await date.click();
+      36 |     await expect(dialog.getByRole('list', { name: 'Next collection' }).getByRole('listitem')).toHaveCount(32);
+      37 |     for (const scheme of ['light', 'dark'] as const) {
+        at collectionReadingSmoke (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/helpers/collectionReadingSmoke.ts:34:24)
+        at /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/collections-reading.spec.ts:5:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/collections-reading-foreig-5c544-s-and-restored-dialog-focus-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/collections-reading-foreig-5c544-s-and-restored-dialog-focus-chromium/error-context.md
+
+  2) [mobile-safari] › tests/e2e/collections-reading.mobile.spec.ts:4:1 › 360px WebKit crowded names, keyboard and light-dark reduced motion 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: getByRole('dialog').locator('[data-date="2026-10-14"]')
+    Expected substring: [32m"+29 more"[39m
+    Received string:    [31m"1401 same colour collection same colour collection same colour collection same col02 same colour collection same colour collection same colour collection same col+30 more collections"[39m
+    Timeout: 5000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('dialog').locator('[data-date="2026-10-14"]')[22m
+    [2m    14 × locator resolved to <button type="button" data-date="2026-10-14" aria-label="2026-10-14: 0 provider events, 32 collection streams. Open complete day detail" class="relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring ">…</button>[22m
+    [2m       - unexpected value "1401 same colour collection same colour collection same colour collection same col02 same colour collection same colour collection same colour collection same col+30 more collections"[22m
+
+
+       at helpers/collectionReadingSmoke.ts:34
+
+      32 |     await expect(dialog.getByRole('button', { name: 'Previous month' })).toBeFocused();
+      33 |     const date = dialog.locator('[data-date="2026-10-14"]');
+    > 34 |     await expect(date).toContainText('+29 more');
+         |                        ^
+      35 |     await date.click();
+      36 |     await expect(dialog.getByRole('list', { name: 'Next collection' }).getByRole('listitem')).toHaveCount(32);
+      37 |     for (const scheme of ['light', 'dark'] as const) {
+        at collectionReadingSmoke (/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/helpers/collectionReadingSmoke.ts:34:24)
+        at /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/tests/e2e/collections-reading.mobile.spec.ts:6:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/collections-reading.mobile-248c2-d-light-dark-reduced-motion-mobile-safari/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/collections-reading.mobile-248c2-d-light-dark-reduced-motion-mobile-safari/error-context.md
+
+  2 failed
+    [chromium] › tests/e2e/collections-reading.spec.ts:4:1 › foreign visitor sees all 32 complete named collections and restored dialog focus 
+    [mobile-safari] › tests/e2e/collections-reading.mobile.spec.ts:4:1 › 360px WebKit crowded names, keyboard and light-dark reduced motion 
+  1 passed (23.3s)
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: playwright test tests/e2e/collections-reading.spec.ts tests/e2e/collections-reading.mobile.spec.ts '--project=chromium' '--project=mobile-safari'
