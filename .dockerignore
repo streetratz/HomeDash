@@ -10,3 +10,9 @@ data
 *.sqlite
 .vscode
 .idea
+dist/
+build/
+coverage/
+*.log*
+Dockerfile*
+.dockerignore

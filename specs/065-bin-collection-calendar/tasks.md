@@ -4,7 +4,7 @@
 **Prerequisites**: `plan.md`, `spec.md` (CH-02), `research.md`, `data-model.md`,
 `contracts/collection-api.md`, `contracts/calendar-ui.md`, `quickstart.md`;
 root/scoped `AGENTS.md` and `.specify/memory/constitution.md` v2.4.0.  
-**Status**: **ALL TASKS PENDING — implementation has not started.**  
+**Status**: **Implementation authorised; setup in progress.**  
 **Tests**: Required by the specification, requested behavior coverage and
 constitution. Write focused tests before the corresponding implementation,
 observe meaningful failing assertions, then make them green; infrastructure
@@ -54,10 +54,11 @@ requires contemporaneous CH-03 (or next available CH-NN).
 **Purpose**: Establish isolated fixtures and an auditable execution baseline in
 the existing project, without reinitializing it or installing new dependencies.
 
-- [ ] T001 Open the execution audit in `specs/065-bin-collection-calendar/logs/06-phase-setup.md` and index it in `specs/065-bin-collection-calendar/logs/readme.md`, preserving branch065 dirty artifacts and recording implementation authorization/scope exclusions (Prerequisites: separate implementation authorization).
-- [ ] T002 Record Node 24/pnpm 11, current scripts, scoped instructions, baseline focused calendar/backup tests and known formatter findings in `specs/065-bin-collection-calendar/logs/06-phase-setup.md`; consult `frontend/playwright.config.ts` and its managed E2E server rather than the stale “server commented out” note, and leave PRs #2/#18 unchanged (Prerequisites: T001).
-- [ ] T003 [P] Create synthetic isolated household/provider/birthday/widget/public-web/mobile fixtures with independent expected dates in `backend/tests/helpers/collectionFixtures.ts`, using existing test DB helpers and stable UUIDs without live data (Prerequisites: T002).
-- [ ] T004 [P] Create deterministic admin/resident/public collection setup helpers in `frontend/tests/e2e/helpers/collections.ts`, using the existing auth setup and local E2E server with no external accounts (Prerequisites: T002).
+ in `specs/065-bin-collection-calendar/logs/06-phase-setup.md` and index it in `specs/065-bin-collection-calendar/logs/readme.md`, preserving branch065 dirty artifacts and recording implementation authorization/scope exclusions (Prerequisites: separate implementation authorization).
+- [X] T001 Open the execution audit in `specs/065-bin-collection-calendar/logs/06-phase-setup.md` and index it in `specs/065-bin-collection-calendar/logs/readme.md`, preserving branch065 dirty artifacts and recording implementation authorization/scope exclusions (Prerequisites: separate implementation authorization).
+- [X] T002 Record Node 24/pnpm 11, current scripts, scoped instructions, baseline focused calendar/backup tests and known formatter findings in `specs/065-bin-collection-calendar/logs/06-phase-setup.md`; consult `frontend/playwright.config.ts` and its managed E2E server rather than the stale “server commented out” note, and leave PRs #2/#18 unchanged (Prerequisites: T001).
+- [X] T003 [P] Create synthetic isolated household/provider/birthday/widget/public-web/mobile fixtures with independent expected dates in `backend/tests/helpers/collectionFixtures.ts`, using existing test DB helpers and stable UUIDs without live data (Prerequisites: T002).
+- [X] T004 [P] Create deterministic admin/resident/public collection setup helpers in `frontend/tests/e2e/helpers/collections.ts`, using the existing auth setup and local E2E server with no external accounts (Prerequisites: T002).
 
 **Checkpoint**: Environment/baseline understood; test helpers isolated; no
 unrelated dependency changes or household database access.

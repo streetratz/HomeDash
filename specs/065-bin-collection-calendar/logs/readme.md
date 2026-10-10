@@ -9,8 +9,13 @@
 | 03 | Technical planning | Complete — design and planning validation only | [03-phase-planning.md](03-phase-planning.md) |
 | 04 | Task generation | Complete — task artifact validation only; implementation pending | [04-phase-task-generation.md](04-phase-task-generation.md) |
 | 05 | Plan and task consistency review | Complete — corrected artifact validation passed | [05-phase-plan-review.md](05-phase-plan-review.md) |
+| 06 | Implementation setup | Complete — baseline/typechecks/lint pass | [06-phase-setup.md](06-phase-setup.md) |
 
 ## Overall Status
+
+Current execution: implementation and local phase commits authorised on
+2026-10-10; no push/PR/release/version preparation. Earlier notes below are
+historical planning boundaries, not current execution restrictions.
 
 Planning and task generation are authorised; phase 05 records consistency review
 and artifact corrections only. Phase 04's counts below describe its initial output.
