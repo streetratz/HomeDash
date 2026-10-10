@@ -1,0 +1,245 @@
+# Command: rg -n "access|Access|requireAuth|userId|groupIds" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/user-dashboards.ts /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/app-widgets.ts /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/rbac.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/hooks/useWidgetVisibility.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/lib/apiClient.ts; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/.github/agents/copilot-instructions.md; rg -n "task_generation|prerequisite" /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify /Users/streetratz/Personal/MyGH-Personal/HomeDash/.github/prompts/speckit.tasks.prompt.md
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:53:06 +1100
+# Exit:    0
+---
+rg: /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/user-dashboards.ts: No such file or directory (os error 2)
+rg: /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/app-widgets.ts: No such file or directory (os error 2)
+rg: /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/rbac.ts: No such file or directory (os error 2)
+/**
+ * useWidgetVisibility — Combines Page Visibility API + IntersectionObserver
+ * to determine if a widget is "active" (tab visible AND element in viewport).
+ *
+ * Returns `isActive` boolean: true only when both conditions are met.
+ */
+
+import { useState, useEffect, useRef, type RefObject } from 'react';
+
+export function useWidgetVisibility(ref: RefObject<HTMLElement | null>): boolean {
+  const [isPageVisible, setIsPageVisible] = useState(
+    () => typeof document !== 'undefined' && document.visibilityState === 'visible',
+  );
+  const [isIntersecting, setIsIntersecting] = useState(true);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // Track page visibility
+  useEffect(() => {
+    const handler = () => {
+      setIsPageVisible(document.visibilityState === 'visible');
+    };
+    document.addEventListener('visibilitychange', handler);
+    return () => document.removeEventListener('visibilitychange', handler);
+  }, []);
+
+  // Track intersection with viewport
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    observerRef.current = new IntersectionObserver(
+      ([entry]) => {
+        if (entry) {
+          setIsIntersecting(entry.isIntersecting);
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    observerRef.current.observe(element);
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
+  }, [ref]);
+
+  return isPageVisible && isIntersecting;
+}
+/**
+ * T037: Frontend API client wrapper.
+ * Thin fetch wrapper adding JSON content-type, error parsing,
+ * and CSRF token forwarding for state-changing requests.
+ */
+
+export interface ApiError {
+  error: string;
+  message: string;
+  details?: unknown;
+}
+
+export class ApiRequestError extends Error {
+  constructor(
+    public readonly status: number,
+    public readonly body: ApiError,
+  ) {
+    super(body.message);
+    this.name = 'ApiRequestError';
+  }
+}
+
+/** Base URL for API calls. Vite dev server proxies /api → backend. */
+const API_BASE = '';
+
+/** CSRF token storage (populated after login or bootstrap). */
+let _csrfToken: string | null = null;
+
+export function setCsrfToken(token: string | null): void {
+  _csrfToken = token;
+}
+
+export function getCsrfToken(): string | null {
+  return _csrfToken;
+}
+
+/**
+ * Core request function. Handles JSON serialisation, CSRF headers,
+ * and typed error parsing.
+ */
+async function request<T = unknown>(
+  method: string,
+  path: string,
+  body?: unknown,
+  options?: RequestInit,
+): Promise<T> {
+  const url = `${API_BASE}${path}`;
+
+  const headers: Record<string, string> = {};
+
+  // Only set Content-Type for requests that have a body
+  if (body !== undefined) {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  // Forward CSRF token for state-changing methods
+  const stateMutating = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase());
+  if (stateMutating && _csrfToken) {
+    headers['X-CSRF-Token'] = _csrfToken;
+  }
+
+  const response = await fetch(url, {
+    method,
+    credentials: 'same-origin',
+    headers,
+    ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
+    ...options,
+  });
+
+  if (!response.ok) {
+    let errorBody: ApiError;
+    try {
+      errorBody = (await response.json()) as ApiError;
+    } catch {
+      errorBody = {
+        error: 'UNKNOWN',
+        message: `HTTP ${response.status} ${response.statusText}`,
+      };
+    }
+    throw new ApiRequestError(response.status, errorBody);
+  }
+
+  // 204 No Content
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
+  return response.json() as Promise<T>;
+}
+
+export const apiClient = {
+  get: <T = unknown>(path: string, options?: RequestInit) =>
+    request<T>('GET', path, undefined, options),
+
+  post: <T = unknown>(path: string, body?: unknown, options?: RequestInit) =>
+    request<T>('POST', path, body, options),
+
+  put: <T = unknown>(path: string, body?: unknown, options?: RequestInit) =>
+    request<T>('PUT', path, body, options),
+
+  patch: <T = unknown>(path: string, body?: unknown, options?: RequestInit) =>
+    request<T>('PATCH', path, body, options),
+
+  delete: <T = unknown>(path: string, options?: RequestInit) =>
+    request<T>('DELETE', path, undefined, options),
+
+  /** Upload a file (multipart) — sets CSRF header but not Content-Type. */
+  upload: async <T = unknown>(path: string, formData: FormData): Promise<T> => {
+    const headers: Record<string, string> = {};
+    if (_csrfToken) headers['X-CSRF-Token'] = _csrfToken;
+
+    const response = await fetch(`${API_BASE}${path}`, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers,
+      body: formData,
+    });
+
+    if (!response.ok) {
+      let errorBody: ApiError;
+      try {
+        errorBody = (await response.json()) as ApiError;
+      } catch {
+        errorBody = {
+          error: 'UNKNOWN',
+          message: `HTTP ${response.status} ${response.statusText}`,
+        };
+      }
+      throw new ApiRequestError(response.status, errorBody);
+    }
+
+    if (response.status === 204) return undefined as T;
+    return response.json() as Promise<T>;
+  },
+};
+# HomeDash Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2026-02-21
+
+## Active Technologies
+- TypeScript 5.5+ on Node.js ≥ 20 (pnpm 8+ monorepo) (002-widget-management)
+- SQLite via better-sqlite3 / Drizzle ORM — no new tables; all config in `app_widget_instances.configJson` (002-widget-management)
+- TypeScript 5.x (strict mode) — pnpm monorepo + Fastify 4.28, Drizzle ORM 0.45.2, better-sqlite3 11.3, Zod 3.23, React 18, Vite, TanStack Query, shadcn/ui, Tailwind CSS, react-grid-layou (011-dashboard-duplication)
+- SQLite (WAL mode) via better-sqlite3 + Drizzle ORM; data at `HOMEDASH_DATA_DIR/db/homedash.sqlite` (011-dashboard-duplication)
+- TypeScript 5.x (Node.js backend, React 18 frontend) + Fastify (HTTP), Drizzle ORM (DB), better-sqlite3 (SQLite), Zod (validation), React 18, Vite, Tailwind CSS, shadcn/ui, TanStack Query (012-rbac-permissions)
+- SQLite via better-sqlite3 + Drizzle ORM; migrations in `backend/drizzle/` (012-rbac-permissions)
+- TypeScript 5+ (Node.js backend, React 18 frontend) + Fastify + Drizzle ORM + better-sqlite3 + Zod (backend); React 18 + Vite + Tailwind + shadcn/ui + TanStack Query + react-grid-layout (frontend) (013-app-shortcuts)
+- SQLite via Drizzle ORM; file uploads in `$HOMEDASH_DATA_DIR/uploads/` (013-app-shortcuts)
+- TypeScript 5.x (Node.js backend, Vite/React frontend) + Fastify, Drizzle ORM, better-sqlite3, Zod (backend); React 18, Vite, Tailwind CSS, shadcn/ui, TanStack Query (frontend) (023-full-backup-restore)
+- SQLite via Drizzle ORM (`backend/src/db/schema/index.ts`, 29 tables) (023-full-backup-restore)
+
+- Node.js 20 LTS + TypeScript (backend and frontend) (001-homelab-dashboard)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+npm test && npm run lint
+
+## Code Style
+
+Node.js 20 LTS + TypeScript (backend and frontend): Follow standard conventions
+
+## Recent Changes
+- 023-full-backup-restore: Added TypeScript 5.x (Node.js backend, Vite/React frontend) + Fastify, Drizzle ORM, better-sqlite3, Zod (backend); React 18, Vite, Tailwind CSS, shadcn/ui, TanStack Query (frontend)
+- 013-app-shortcuts: Added TypeScript 5+ (Node.js backend, React 18 frontend) + Fastify + Drizzle ORM + better-sqlite3 + Zod (backend); React 18 + Vite + Tailwind + shadcn/ui + TanStack Query + react-grid-layout (frontend)
+- 012-rbac-permissions: Added TypeScript 5.x (Node.js backend, React 18 frontend) + Fastify (HTTP), Drizzle ORM (DB), better-sqlite3 (SQLite), Zod (validation), React 18, Vite, Tailwind CSS, shadcn/ui, TanStack Query
+
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/integrations/speckit.manifest.json:9:    ".specify/scripts/bash/check-prerequisites.sh": "aff361639c504b95a2901493f5022788adc01a6792fd37f132de8f57782e4b80",
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh:3:# Consolidated prerequisite checking script
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh:5:# This script provides unified prerequisite checking for Spec-Driven Development workflow.
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh:8:# Usage: ./check-prerequisites.sh [OPTIONS]
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh:46:Usage: check-prerequisites.sh [OPTIONS]
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh:48:Consolidated prerequisite checking for Spec-Driven Development workflow.
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh:54:  --paths-only        Only output path variables (no prerequisite validation)
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh:58:  # Check task prerequisites (plan.md required)
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh:59:  ./check-prerequisites.sh --json
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh:61:  # Check implementation prerequisites (plan.md + tasks.md required)
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh:62:  ./check-prerequisites.sh --json --require-tasks --include-tasks
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh:65:  ./check-prerequisites.sh --paths-only

@@ -1,0 +1,147 @@
+# Command: bash /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/check-prerequisites.sh --json; git --no-pager diff --check; git --no-pager diff --stat; git --no-pager status --short; git --no-pager diff -- /Users/streetratz/Personal/MyGH-Personal/HomeDash/.github/agents/copilot-instructions.md /Users/streetratz/Personal/MyGH-Personal/HomeDash/.github/copilot-instructions.md; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/setup-tasks.sh
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:59:45 +1100
+# Exit:    0
+---
+{"FEATURE_DIR":"/Users/streetratz/Personal/MyGH-Personal/HomeDash/specs/065-bin-collection-calendar","AVAILABLE_DOCS":["research.md","data-model.md","contracts/","quickstart.md"]}
+ .github/agents/copilot-instructions.md | 4 +++-
+ .github/copilot-instructions.md        | 2 +-
+ .specify/feature.json                  | 2 +-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
+ M .github/agents/copilot-instructions.md
+ M .github/copilot-instructions.md
+ M .specify/feature.json
+?? specs/065-bin-collection-calendar/
+diff --git a/.github/agents/copilot-instructions.md b/.github/agents/copilot-instructions.md
+index 4c8398f..be69944 100644
+--- a/.github/agents/copilot-instructions.md
++++ b/.github/agents/copilot-instructions.md
+@@ -13,6 +13,8 @@ Auto-generated from all feature plans. Last updated: 2026-02-21
+ - SQLite via Drizzle ORM; file uploads in `$HOMEDASH_DATA_DIR/uploads/` (013-app-shortcuts)
+ - TypeScript 5.x (Node.js backend, Vite/React frontend) + Fastify, Drizzle ORM, better-sqlite3, Zod (backend); React 18, Vite, Tailwind CSS, shadcn/ui, TanStack Query (frontend) (023-full-backup-restore)
+ - SQLite via Drizzle ORM (`backend/src/db/schema/index.ts`, 29 tables) (023-full-backup-restore)
++- TypeScript 5.x strict; Node.js 24; pnpm 11 (root pins pnpm@11.1.3) + Fastify 5 (^5.12.4), Drizzle ORM 0.45.2 / drizzle-kit 0.31.10, better-sqlite3 ^11.3.0, Zod ^3.23.8; React ^18.3.1, Vite ^5.3.3, TanStack Query v5, Tailwind 3, shadcn/Radix, lucide-reac (065-bin-collection-calendar)
++- SQLite WAL under `HOMEDASH_DATA_DIR/db/homedash.sqlite`; additive Drizzle-generated tables; existing widget `configJson` for selections only (065-bin-collection-calendar)
+ 
+ - Node.js 20 LTS + TypeScript (backend and frontend) (001-homelab-dashboard)
+ 
+@@ -32,9 +34,9 @@ npm test && npm run lint
+ Node.js 20 LTS + TypeScript (backend and frontend): Follow standard conventions
+ 
+ ## Recent Changes
++- 065-bin-collection-calendar: Added TypeScript 5.x strict; Node.js 24; pnpm 11 (root pins pnpm@11.1.3) + Fastify 5 (^5.12.4), Drizzle ORM 0.45.2 / drizzle-kit 0.31.10, better-sqlite3 ^11.3.0, Zod ^3.23.8; React ^18.3.1, Vite ^5.3.3, TanStack Query v5, Tailwind 3, shadcn/Radix, lucide-reac
+ - 023-full-backup-restore: Added TypeScript 5.x (Node.js backend, Vite/React frontend) + Fastify, Drizzle ORM, better-sqlite3, Zod (backend); React 18, Vite, Tailwind CSS, shadcn/ui, TanStack Query (frontend)
+ - 013-app-shortcuts: Added TypeScript 5+ (Node.js backend, React 18 frontend) + Fastify + Drizzle ORM + better-sqlite3 + Zod (backend); React 18 + Vite + Tailwind + shadcn/ui + TanStack Query + react-grid-layout (frontend)
+-- 012-rbac-permissions: Added TypeScript 5.x (Node.js backend, React 18 frontend) + Fastify (HTTP), Drizzle ORM (DB), better-sqlite3 (SQLite), Zod (validation), React 18, Vite, Tailwind CSS, shadcn/ui, TanStack Query
+ 
+ 
+ <!-- MANUAL ADDITIONS START -->
+diff --git a/.github/copilot-instructions.md b/.github/copilot-instructions.md
+index 18bb1f9..93318df 100644
+--- a/.github/copilot-instructions.md
++++ b/.github/copilot-instructions.md
+@@ -2,6 +2,6 @@
+ 
+ For additional context about technologies to be used, project structure,
+ shell commands, and other important information, read the current plan
+-at specs/059-sonos-library-mobile/plan.md
++at specs/065-bin-collection-calendar/plan.md
+ 
+ <!-- SPECKIT END -->
+#!/usr/bin/env bash
+
+set -e
+
+# Parse command line arguments
+JSON_MODE=false
+
+for arg in "$@"; do
+    case "$arg" in
+        --json) JSON_MODE=true ;;
+        --help|-h)
+            echo "Usage: $0 [--json]"
+            echo "  --json    Output results in JSON format"
+            echo "  --help    Show this help message"
+            exit 0
+            ;;
+        *) echo "ERROR: Unknown option '$arg'" >&2; exit 1 ;;
+    esac
+done
+
+# Source common functions
+SCRIPT_DIR="$(CDPATH="" cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/common.sh"
+
+# Get feature paths
+_paths_output=$(get_feature_paths) || { echo "ERROR: Failed to resolve feature paths" >&2; exit 1; }
+eval "$_paths_output"
+unset _paths_output
+
+# Validate branch
+# If feature.json pins an existing feature directory, branch naming is not required.
+if ! feature_json_matches_feature_dir "$REPO_ROOT" "$FEATURE_DIR"; then
+    check_feature_branch "$CURRENT_BRANCH" "$HAS_GIT" || exit 1
+fi
+
+if [[ ! -f "$IMPL_PLAN" ]]; then
+    echo "ERROR: plan.md not found in $FEATURE_DIR" >&2
+    echo "Run /speckit.plan first to create the implementation plan." >&2
+    exit 1
+fi
+
+if [[ ! -f "$FEATURE_SPEC" ]]; then
+    echo "ERROR: spec.md not found in $FEATURE_DIR" >&2
+    echo "Run /speckit.specify first to create the feature structure." >&2
+    exit 1
+fi
+
+# Build available docs list
+docs=()
+[[ -f "$RESEARCH" ]] && docs+=("research.md")
+[[ -f "$DATA_MODEL" ]] && docs+=("data-model.md")
+if [[ -d "$CONTRACTS_DIR" ]] && [[ -n "$(ls -A "$CONTRACTS_DIR" 2>/dev/null)" ]]; then
+    docs+=("contracts/")
+fi
+[[ -f "$QUICKSTART" ]] && docs+=("quickstart.md")
+
+# Resolve tasks template through override stack
+TASKS_TEMPLATE=$(resolve_template "tasks-template" "$REPO_ROOT") || true
+if [[ -z "$TASKS_TEMPLATE" ]] || [[ ! -f "$TASKS_TEMPLATE" ]]; then
+    echo "ERROR: Could not resolve required tasks-template from the template override stack for $REPO_ROOT" >&2
+    echo "Template 'tasks-template' was not found in any supported location (overrides, presets, extensions, or shared core). Add an override at .specify/templates/overrides/tasks-template.md, or run 'specify init' / reinstall shared infra to restore the core .specify/templates/tasks-template.md template." >&2
+    exit 1
+fi
+
+# Output results
+if $JSON_MODE; then
+    if has_jq; then
+        if [[ ${#docs[@]} -eq 0 ]]; then
+            json_docs="[]"
+        else
+            json_docs=$(printf '%s\n' "${docs[@]}" | jq -R . | jq -s .)
+        fi
+        jq -cn \
+            --arg feature_dir "$FEATURE_DIR" \
+            --argjson docs "$json_docs" \
+            --arg tasks_template "${TASKS_TEMPLATE:-}" \
+            '{FEATURE_DIR:$feature_dir,AVAILABLE_DOCS:$docs,TASKS_TEMPLATE:$tasks_template}'
+    else
+        if [[ ${#docs[@]} -eq 0 ]]; then
+            json_docs="[]"
+        else
+            json_docs=$(for d in "${docs[@]}"; do printf '"%s",' "$(json_escape "$d")"; done)
+            json_docs="[${json_docs%,}]"
+        fi
+        printf '{"FEATURE_DIR":"%s","AVAILABLE_DOCS":%s,"TASKS_TEMPLATE":"%s"}\n' \
+            "$(json_escape "$FEATURE_DIR")" "$json_docs" "$(json_escape "${TASKS_TEMPLATE:-}")"
+    fi
+else
+    echo "FEATURE_DIR: $FEATURE_DIR"
+    echo "TASKS_TEMPLATE: ${TASKS_TEMPLATE:-not found}"
+    echo "AVAILABLE_DOCS:"
+    check_file "$RESEARCH" "research.md"
+    check_file "$DATA_MODEL" "data-model.md"
+    check_dir "$CONTRACTS_DIR" "contracts/"
+    check_file "$QUICKSTART" "quickstart.md"
+fi

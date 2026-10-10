@@ -1,0 +1,314 @@
+# Command: rg -n "publicVisibility|calendar|isExplicitPublicWidgetType" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/validation.ts /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/widgetVisibility.ts; sed -n "1,125p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/.github/agents/speckit.tasks.agent.md; sed -n "390,465p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/specs/065-bin-collection-calendar/logs/03-phase-planning/projection-run-1.log; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/rateLimit.ts
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:53:33 +1100
+# Exit:    0
+---
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/validation.ts:79:// ─── iCal / Calendar source schemas (004-calendar-widget Phase 4) ────────────
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/validation.ts:105:/** Create an iCal calendar source */
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/validation.ts:114:/** Update an existing calendar source */
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/validation.ts:294:// ─── Calendar widget config schema (004-calendar-widget Phase 6) ─────────────
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/validation.ts:315:  calendar: CalendarConfigSchema,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/validation.ts:782:    .refine(isValidStockTradeDate, 'Trade date must be a valid calendar date'),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:115:  publicVisibility: PublicVisibility;
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:124:  publicVisibility?: PublicVisibility;
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:131:  publicVisibility?: PublicVisibility;
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:140:  publicVisibility: PublicVisibility;
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:215:  publicVisibility: PublicVisibility;
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:304:  publicVisibility?: PublicVisibility;
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:315:  publicVisibility: PublicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:320:  if (publicVisibility === 'hidden') return null;
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:464:      publicVisibility: w.publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1085:            const publicVisibility = wInput.publicVisibility ?? 'hidden';
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1093:                publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1095:                  publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1104:            if (publicVisibility !== 'hidden' && transactionVisibilityContext) {
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1109:                publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1165:      const nextVisibility = wInput.publicVisibility ?? existingWidget.publicVisibility;
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1171:          publicVisibility: nextVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1174:            existingWidget.publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1176:            wInput.publicVisibility !== undefined ? visibilityContext : undefined,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1183:        wInput.publicVisibility !== undefined &&
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1184:        nextVisibility !== existingWidget.publicVisibility &&
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1190:          previousVisibility: existingWidget.publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1191:          publicVisibility: nextVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1196:      const publicVisibility = wInput.publicVisibility ?? 'hidden';
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1205:          publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1207:            publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1216:      if (publicVisibility !== 'hidden' && visibilityContext) {
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1221:          publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1411:      publicVisibility: input.publicVisibility ?? 'hidden',
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1413:        input.publicVisibility ?? 'hidden',
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1423:  if (input.publicVisibility && input.publicVisibility !== 'hidden' && visibilityContext) {
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1428:      publicVisibility: input.publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1447:    publicVisibility: row.publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1468:  if (input.publicVisibility !== undefined) {
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1469:    updates['publicVisibility'] = input.publicVisibility;
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1471:      input.publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1472:      existing.publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1479:  if (input.configJson !== undefined || input.publicVisibility !== undefined) {
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1483:    input.publicVisibility !== undefined &&
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1484:    input.publicVisibility !== existing.publicVisibility &&
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1490:      previousVisibility: existing.publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1491:      publicVisibility: input.publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardService.ts:1563:      publicVisibility: r.publicVisibility,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/widgetVisibility.ts:14:  'calendar',
+---
+description: Generate an actionable, dependency-ordered tasks.md for the feature based on available design artifacts.
+handoffs: 
+  - label: Analyze For Consistency
+    agent: speckit.analyze
+    prompt: Run a project analysis for consistency
+    send: true
+  - label: Implement Project
+    agent: speckit.implement
+    prompt: Start the implementation in phases
+    send: true
+---
+
+## User Input
+
+```text
+$ARGUMENTS
+```
+
+You **MUST** consider the user input before proceeding (if not empty).
+
+## Pre-Execution Checks
+
+**Check for extension hooks (before tasks generation)**:
+- Check if `.specify/extensions.yml` exists in the project root.
+- If it exists, read it and look for entries under the `hooks.before_tasks` key
+- If the YAML cannot be parsed or is invalid, skip hook checking silently and continue normally
+- Filter out hooks where `enabled` is explicitly `false`. Treat hooks without an `enabled` field as enabled by default.
+- For each remaining hook, do **not** attempt to interpret or evaluate hook `condition` expressions:
+  - If the hook has no `condition` field, or it is null/empty, treat the hook as executable
+  - If the hook defines a non-empty `condition`, skip the hook and leave condition evaluation to the HookExecutor implementation
+- For each executable hook, output the following based on its `optional` flag:
+  - **Optional hook** (`optional: true`):
+    ```
+    ## Extension Hooks
+
+    **Optional Pre-Hook**: {extension}
+    Command: `/{command}`
+    Description: {description}
+
+    Prompt: {prompt}
+    To execute: `/{command}`
+    ```
+  - **Mandatory hook** (`optional: false`):
+    ```
+    ## Extension Hooks
+
+    **Automatic Pre-Hook**: {extension}
+    Executing: `/{command}`
+    EXECUTE_COMMAND: {command}
+    
+    Wait for the result of the hook command before proceeding to the Outline.
+    ```
+- If no hooks are registered or `.specify/extensions.yml` does not exist, skip silently
+
+## Outline
+
+1. **Setup**: Run `.specify/scripts/bash/setup-tasks.sh --json` from repo root and parse FEATURE_DIR, TASKS_TEMPLATE, and AVAILABLE_DOCS list. `FEATURE_DIR` and `TASKS_TEMPLATE` must be absolute paths when provided. `AVAILABLE_DOCS` is a list of document names/relative paths available under `FEATURE_DIR` (for example `research.md` or `contracts/`). For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+
+2. **Load design documents**: Read from FEATURE_DIR:
+   - **Required**: plan.md (tech stack, libraries, structure), spec.md (user stories with priorities)
+   - **Optional**: data-model.md (entities), contracts/ (interface contracts), research.md (decisions), quickstart.md (test scenarios)
+   - Note: Not all projects have all documents. Generate tasks based on what's available.
+
+3. **Execute task generation workflow**:
+   - Load plan.md and extract tech stack, libraries, project structure
+   - Load spec.md and extract user stories with their priorities (P1, P2, P3, etc.)
+   - If data-model.md exists: Extract entities and map to user stories
+   - If contracts/ exists: Map interface contracts to user stories
+   - If research.md exists: Extract decisions for setup tasks
+   - Generate tasks organized by user story (see Task Generation Rules below)
+   - Generate dependency graph showing user story completion order
+   - Create parallel execution examples per user story
+   - Validate task completeness (each user story has all needed tasks, independently testable)
+
+4. **Generate tasks.md**: Read the tasks template from TASKS_TEMPLATE (from the JSON output above) and use it as structure. If TASKS_TEMPLATE is empty, fall back to `.specify/templates/tasks-template.md`. Fill with:
+   - Correct feature name from plan.md
+   - Phase 1: Setup tasks (project initialization)
+   - Phase 2: Foundational tasks (blocking prerequisites for all user stories)
+   - Phase 3+: One phase per user story (in priority order from spec.md)
+   - Each phase includes: story goal, independent test criteria, tests (if requested), implementation tasks
+   - Final Phase: Polish & cross-cutting concerns
+   - All tasks must follow the strict checklist format (see Task Generation Rules below)
+   - Clear file paths for each task
+   - Dependencies section showing story completion order
+   - Parallel execution examples per story
+   - Implementation strategy section (MVP first, incremental delivery)
+
+5. **Report**: Output path to generated tasks.md and summary:
+   - Total task count
+   - Task count per user story
+   - Parallel opportunities identified
+   - Independent test criteria for each story
+   - Suggested MVP scope (typically just User Story 1)
+   - Format validation: Confirm ALL tasks follow the checklist format (checkbox, ID, labels, file paths)
+
+6. **Check for extension hooks**: After tasks.md is generated, check if `.specify/extensions.yml` exists in the project root.
+   - If it exists, read it and look for entries under the `hooks.after_tasks` key
+   - If the YAML cannot be parsed or is invalid, skip hook checking silently and continue normally
+   - Filter out hooks where `enabled` is explicitly `false`. Treat hooks without an `enabled` field as enabled by default.
+   - For each remaining hook, do **not** attempt to interpret or evaluate hook `condition` expressions:
+     - If the hook has no `condition` field, or it is null/empty, treat the hook as executable
+     - If the hook defines a non-empty `condition`, skip the hook and leave condition evaluation to the HookExecutor implementation
+   - For each executable hook, output the following based on its `optional` flag:
+     - **Optional hook** (`optional: true`):
+       ```
+       ## Extension Hooks
+
+       **Optional Hook**: {extension}
+       Command: `/{command}`
+       Description: {description}
+
+       Prompt: {prompt}
+       To execute: `/{command}`
+       ```
+     - **Mandatory hook** (`optional: false`):
+       ```
+       ## Extension Hooks
+
+       **Automatic Hook**: {extension}
+       Executing: `/{command}`
+       EXECUTE_COMMAND: {command}
+       ```
+   - If no hooks are registered or `.specify/extensions.yml` does not exist, skip silently
+
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:122:    queryKey: calendarKeys.events(sourceIds, from, to),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:125:        `/api/public/calendar/events?sourceIds=${sourceIds.join(',')}&from=${from}&to=${to}`,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:127:    enabled: sourceIds.length > 0,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:134:    queryKey: calendarKeys.oauthAccounts,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:141:    queryKey: calendarKeys.oauthProviders,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:148:    queryKey: calendarKeys.birthdays(sourceId ?? ''),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:150:      apiClient.get<BirthdayRecord[]>(`/api/admin/calendar/sources/${sourceId}/birthdays`),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:162:      void qc.invalidateQueries({ queryKey: calendarKeys.oauthAccounts });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:163:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:177:    }) => apiClient.post<CalendarSource>('/api/admin/calendar/sources', data),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:179:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:188:      apiClient.post<CalendarSource>('/api/admin/calendar/birthday-sources', data),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:190:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:199:      apiClient.post<BirthdayRecord>(`/api/admin/calendar/sources/${sourceId}/birthdays`, data),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:201:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(birthday.sourceId) });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:202:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:216:        `/api/admin/calendar/sources/${sourceId}/birthdays/${birthdayId}`,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:220:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(birthday.sourceId) });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:221:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:230:      apiClient.delete(`/api/admin/calendar/sources/${sourceId}/birthdays/${birthdayId}`),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:232:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(variables.sourceId) });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:233:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:241:      apiClient.post<BirthdayCsvPreview>('/api/admin/calendar/birthdays/preview', {
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:260:        `/api/admin/calendar/sources/${sourceId}/birthdays/import`,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:264:      void qc.invalidateQueries({ queryKey: calendarKeys.birthdays(variables.sourceId) });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:265:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:274:        `/api/admin/calendar/sources/${sourceId}/birthdays/export?format=${format}`,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:293:        ? apiClient.post<CalendarSource>(`/api/admin/calendar/sources/${id}/import`, data)
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:294:        : apiClient.post<CalendarSource>('/api/admin/calendar/sources/import', data),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:296:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:297:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:315:    }) => apiClient.put<CalendarSource>(`/api/admin/calendar/sources/${id}`, data),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:317:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:318:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:326:    mutationFn: (id: string) => apiClient.delete(`/api/admin/calendar/sources/${id}`),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:328:      void qc.invalidateQueries({ queryKey: calendarKeys.sources });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:329:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:337:    mutationFn: (id: string) => apiClient.post(`/api/admin/calendar/sources/${id}/sync`, {}),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/state/calendarHooks.ts:339:      void qc.invalidateQueries({ queryKey: ['calendar-events'] });
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/requireRole.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/password.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/rateLimit.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/sessionStore.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/authMiddleware.ts
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/auth/csrf.ts
+22:import { registerAuthMiddleware } from './auth/authMiddleware.js';
+33:        'req.headers.authorization',
+72:  // ── Cookie parsing (required before auth middleware) ─────────────────────────
+  getAppLogger().info({ component: 'backup' }, 'Restore preview requested');
+  const result = backupFileSchema.safeParse(raw);
+  if (!result.success) {
+    throw Errors.badRequest(
+      `Invalid backup file: ${result.error.errors.map((e) => e.message).join(', ')}`,
+    );
+  }
+  const backup = result.data;
+
+  if (backup.version > BACKUP_VERSION) {
+    throw Errors.badRequest(
+      `Backup version ${backup.version} is newer than supported version ${BACKUP_VERSION}. Please upgrade HomeDash.`,
+    );
+  }
+
+  const warnings: string[] = [];
+
+  if (backup.data.oauthAccounts.length > 0) {
+    warnings.push(
+      'OAuth tokens are excluded from backups — integrations will need re-authentication after restore.',
+    );
+  }
+  if (backup.data.caldavAccounts.length > 0) {
+    warnings.push(
+      'CalDAV passwords are excluded — CalDAV accounts will need passwords re-entered after restore.',
+    );
+  }
+  if (
+/**
+ * T118 (US1): Rate limiting configuration for auth entry points.
+ *
+ * Provides per-route rate limit configs for login and first-run admin creation.
+ * Uses @fastify/rate-limit plugin options (applied at route registration time).
+ *
+ * Limits are intentionally conservative to slow brute-force attacks.
+ * All responses use the standard 429 error code defined in errors.ts.
+ */
+
+import type { RateLimitOptions } from '@fastify/rate-limit';
+import { AppError, ErrorCode } from '../lib/errors.js';
+
+/**
+ * Rate limit config for POST /api/auth/login.
+ * Allows 10 attempts per IP per 15 minutes.
+ */
+export const loginRateLimit: RateLimitOptions = {
+  max: 10,
+  timeWindow: 15 * 60 * 1000, // 15 minutes in ms
+  keyGenerator: (request) => request.ip,
+  errorResponseBuilder: (_request, context) =>
+    new AppError(
+      ErrorCode.TOO_MANY_REQUESTS,
+      `Too many login attempts. Try again in ${Math.ceil(context.ttl / 1000)} seconds.`,
+      429,
+    ),
+};
+
+/**
+ * Rate limit config for POST /api/first-run/admin.
+ * Allows 5 attempts per IP per 1 hour.
+ * First-run is a once-ever operation so a tight limit is appropriate.
+ */
+export const firstRunRateLimit: RateLimitOptions = {
+  max: 5,
+  timeWindow: 60 * 60 * 1000, // 1 hour in ms
+  keyGenerator: (request) => request.ip,
+  errorResponseBuilder: (_request, context) =>
+    new AppError(
+      ErrorCode.TOO_MANY_REQUESTS,
+      `Too many first-run attempts. Try again in ${Math.ceil(context.ttl / 1000)} seconds.`,
+      429,
+    ),
+};
+
+/** Limits anonymous public widget polling without replacing the shared snapshot cache. */
+export const publicWidgetRateLimit: RateLimitOptions = {
+  max: 120,
+  timeWindow: 60 * 1000,
+  keyGenerator: (request) => request.ip,
+  errorResponseBuilder: (_request, context) =>
+    new AppError(
+      ErrorCode.TOO_MANY_REQUESTS,
+      `Too many public widget requests. Try again in ${Math.ceil(context.ttl / 1000)} seconds.`,
+      429,
+    ),
+};

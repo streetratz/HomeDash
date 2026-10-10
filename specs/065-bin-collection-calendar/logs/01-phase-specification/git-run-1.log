@@ -1,0 +1,11 @@
+# Command: git rev-parse --is-inside-work-tree; test "$(git branch --show-current)" = main && test -z "$(git status --porcelain)" && test "$(git rev-parse HEAD)" = c5bd8a1102cd2e7a1d22cbea93b68614be5903a5 && bash .specify/extensions/git/scripts/bash/create-new-feature.sh --json --short-name "bin-collection-calendar" "GitHub issue 19 Calendar Track recurring bin collection days with researched AU NZ preset and independently customisable local schedules"; git --no-pager status --short --branch; git rev-parse HEAD
+# Phase:   01 — Specification
+# Run:     1
+# Time:    2026-10-10 10:29 UTC+11 session start reference
+# Exit:    0
+---
+true
+# To persist: export SPECIFY_FEATURE=065-bin-collection-calendar
+{"BRANCH_NAME":"065-bin-collection-calendar","FEATURE_NUM":"065"}
+## 065-bin-collection-calendar
+c5bd8a1102cd2e7a1d22cbea93b68614be5903a5

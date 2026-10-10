@@ -1,0 +1,35 @@
+# Command: python3 /tmp/homedash-validate-065-tasks.py
+# Phase:   04 — Task Generation
+# Run:     4
+# Time:    2026-10-10T11:11:00.878748+11:00
+# Exit:    0
+---
+INPUT spec.md: sha256=9e8c818d146b80a54119800d6770a52da0d66df1b6055a294be5384fac99b5b0
+INPUT plan.md: sha256=4bfcefaea099c09bfbdea9338259ca7e062b82a16fa8bca6f2fa78ac0a0ad06b
+INPUT data-model.md: sha256=33aa34fea04154318a5cecf1b9b71f908bbe73e0a29672a8d3f2bd2dd02935e4
+INPUT research.md: sha256=6af11a97ddec15e509816d1db8bf9f340a29b818173a35b705c7253b1751f7d9
+INPUT quickstart.md: sha256=58112b0b1d2b316f9c02dca331b8648e87d872c0aabe87bc93780aba0c9d163f
+INPUT contracts/collection-api.md: sha256=2270a064d037a7cb86057646f62959a410d3b8f0721630a806efc78aa8c1f8fd
+INPUT contracts/calendar-ui.md: sha256=87e8109d3bf43fe9423d6c8a1bc57c6964da13234d000edae3c84561181cf31d
+AUDIT audit-run-1.log: headers OK
+AUDIT code-context-run-1.log: headers OK
+AUDIT context-run-1.log: headers OK
+AUDIT context-run-2.log: headers OK
+AUDIT diff-run-1.log: headers OK
+AUDIT execution-context-run-1.log: headers OK
+AUDIT instructions-run-1.log: headers OK
+AUDIT setup-run-1.log: headers OK
+AUDIT task-validator-run-1.log: headers OK
+AUDIT task-validator-run-2.log: headers OK
+AUDIT task-validator-run-3.log: headers OK
+AUDIT validator-source-run-1.log: headers OK
+AUDIT validator-source-run-2.log: headers OK
+SCOPE: existing instruction/feature-pointer dirt preserved; no tracked app changes
+FORMAT: 97/97 unchecked tasks; sequential IDs, exact target paths and correct story labels
+STORIES: US1=19 US2=11 US4=16 US3=14; Setup=4 Foundation=19 Polish=14
+DEPENDENCIES: 158 explicit edges; no unknown/forward/cyclic references
+PARALLEL: 25 tasks across 7 disjoint-file prerequisite batches
+PHASES: Setup -> Foundation -> US1(P1) -> US2(P1) -> US4(P1) -> US3(P2) -> Polish
+COVERAGE: all FR groups/SC IDs and critical API/UI/date/durability/gates manually mapped
+BOUNDARY: no application test/migration/gate/version/commit/PR result claimed
+PASS: task artifact consistency and audit structural validation only

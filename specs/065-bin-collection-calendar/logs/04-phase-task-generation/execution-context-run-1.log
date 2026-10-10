@@ -1,0 +1,222 @@
+# Command: cat package.json; cat frontend/playwright.config.ts; ls scripts; ls backend/tests/integration; ls backend/tests/contract; ls frontend/tests/unit; ls frontend/src/components/calendar; ls frontend/src/state; cat specs/065-bin-collection-calendar/changelog-spec.md
+# Phase:   04 — Task Generation
+# Run:     1
+# Time:    2026-10-10T11:09:41.542554+11:00
+# Exit:    0
+---
+{
+  "name": "homedash",
+  "private": true,
+  "version": "3.2.12",
+  "description": "Customizable Home Lab Dashboard",
+  "packageManager": "pnpm@11.1.3",
+  "engines": {
+    "node": ">=24.0.0 <25",
+    "pnpm": ">=11.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel -r run dev",
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "test:unit": "pnpm -r run test:unit",
+    "test:integration": "pnpm --filter backend run test:integration",
+    "test:e2e": "pnpm --filter frontend run test:e2e",
+    "version:check": "node scripts/version-state.mjs validate",
+    "version:bump-main": "node scripts/version-state.mjs bump-main",
+    "test:release-version": "node --test scripts/version-state.test.mjs",
+    "test:release-workflow": "node --test scripts/release-workflow.test.mjs",
+    "test:upgrade": "bash .github/skills/pre-pr-upgrade-gate/run.sh",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r run typecheck",
+    "clean": "pnpm -r run clean"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "eslint": "^9.39.0",
+    "eslint-config-prettier": "^10.1.0",
+    "eslint-plugin-react": "^7.37.0",
+    "eslint-plugin-react-hooks": "^7.1.0",
+    "globals": "^16.1.0",
+    "prettier": "^3.3.0",
+    "typescript": "^5.5.0",
+    "typescript-eslint": "^8.32.0"
+  }
+}
+import { defineConfig, devices } from '@playwright/test';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const frontendRoot = path.dirname(fileURLToPath(import.meta.url));
+const adminStorageState = path.join(frontendRoot, '.e2e', 'auth', 'admin.json');
+const externalServer = process.env['PLAYWRIGHT_BASE_URL'];
+
+export default defineConfig({
+  testDir: './tests/e2e',
+  fullyParallel: false,
+  forbidOnly: !!process.env['CI'],
+  retries: process.env['CI'] ? 2 : 0,
+  workers: 1,
+  reporter: process.env['CI'] ? [['github'], ['html', { open: 'never' }]] : 'list',
+  timeout: 30_000,
+  expect: { timeout: 5_000 },
+
+  use: {
+    baseURL: process.env['PLAYWRIGHT_BASE_URL'] ?? 'http://localhost:3000',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'on-first-retry',
+  },
+
+  projects: [
+    {
+      name: 'setup',
+      testMatch: /auth\.setup\.ts/,
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'chromium',
+      dependencies: ['setup'],
+      testIgnore: [/auth\.setup\.ts/, /\.mobile\.spec\.ts/],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: adminStorageState,
+      },
+    },
+    {
+      name: 'mobile-safari',
+      dependencies: ['setup'],
+      testMatch: /\.mobile\.spec\.ts/,
+      use: {
+        ...devices['iPhone 13'],
+        storageState: adminStorageState,
+      },
+    },
+  ],
+
+  ...(externalServer
+    ? {}
+    : {
+        webServer: {
+          command: 'pnpm test:e2e:server',
+          url: 'http://127.0.0.1:3000/readyz',
+          reuseExistingServer: false,
+          timeout: 120_000,
+        },
+      }),
+});
+release-workflow.test.mjs
+version-state.mjs
+version-state.test.mjs
+adminShell.test.ts
+appShortcuts.test.ts
+auth.test.ts
+backup.test.ts
+birthdayCalendar.test.ts
+calendar-phase7.test.ts
+dashboardExport.test.ts
+dashboardImport.test.ts
+dashboards.test.ts
+dockerAction.test.ts
+dockerAdoption.test.ts
+dockerAuth.test.ts
+dockerConnectionUpgrade.test.ts
+dockerContainers.test.ts
+dockerFixtures.ts
+dockerMultiHost.test.ts
+firstRun.test.ts
+google-calendar.test.ts
+ical-parser.test.ts
+logoUpload.test.ts
+microsoft-calendar.test.ts
+migrationIntegrity.test.ts
+oauth-flow.test.ts
+publicBootstrap.test.ts
+publicBootstrapProjection.test.ts
+publicVisibility.test.ts
+publicWidgets.test.ts
+rateLimit.test.ts
+rbac.test.ts
+rememberMe.test.ts
+restore.test.ts
+restorePreview.test.ts
+scheduledJobService.test.ts
+scheduledJobs.test.ts
+sonosArtProxy.test.ts
+staticAssets.test.ts
+statusCheck.test.ts
+timezone.test.ts
+todoItems.test.ts
+todoLists.test.ts
+todoSecurity.test.ts
+todoSyncMicrosoft.test.ts
+tokenEncryption.test.ts
+userPreferences.test.ts
+widgetDataPermissions.test.ts
+openapi.test.ts
+browseServices.test.ts
+polling.test.ts
+useVisibility.test.ts
+AgendaView.tsx
+FullScreenCalendar.tsx
+__tests__
+adminDashboards.ts
+appShortcutHooks.ts
+backupHooks.ts
+bootstrap.ts
+calendarHooks.ts
+dashboards.ts
+piholeHooks.ts
+publicView.tsx
+publicWidgets.ts
+queryClient.tsx
+rbac.ts
+scheduledJobHooks.ts
+settings.ts
+todoHooks.ts
+unifiHooks.ts
+useEditMode.ts
+users.ts
+widgetVisibility.ts
+# Spec Changelog — Bin Collection Calendar
+
+## Table of Contents
+
+- [CH-01 : Specify independent bin collection schedules](#ch-01--specify-independent-bin-collection-schedules--2026-oct-10-1033-utc11)
+- [CH-02 : Confirm existing calendar bin presentation](#ch-02--confirm-existing-calendar-bin-presentation--2026-oct-10-1047-utc11)
+
+---
+
+## CH-01 : Specify independent bin collection schedules : 2026-Oct-10 1033 UTC+11
+
+**Type**: New document / New FR / New SC  
+**Summary**: Create the issue #19 specification from the repository template,
+preserving the owner-requested preset and grounding independent schedules, date
+exceptions, and seasonal scope in official AU/NZ and international evidence.
+
+| ID | Description |
+| --- | --- |
+| US1 / FR-001–FR-004 | Define preset/custom entry, confirmed timezone, normal-date anchor, and four-week preview; distinguish owner's preference from council policy. |
+| US2 / FR-005–FR-008 | Define independently named/coloured/enabled streams and date-anchored weekly cycles supporting daily and multiple weekdays. |
+| US3 / FR-009–FR-013 | Include explicit dates and reversible skip/replace/add exceptions; prohibit silent seasonal extrapolation and monthly/four-week conflation. |
+| US4 / FR-014–FR-019 | Define existing-calendar presentation, household date semantics, accessible mobile flows, and honest empty/error states. |
+| US4 / FR-020–FR-023 | Preserve admin-only mutations, selected public visibility, safe validation, durable configuration, and offline operation. |
+| SC-001–SC-008 | Specify measurable setup/readability, calendar correctness, exception isolation, timezone, durability, permission, and offline outcomes. |
+| Assumptions / Key Entities | Bound single-household/calendar-only/manual scope as draft defaults, identify dependencies, and defer richer seasonal/monthly rules. |
+
+---
+
+## CH-02 : Confirm existing calendar bin presentation : 2026-Oct-10 1047 UTC+11
+
+**Type**: Revised  
+**Summary**: Record the owner's approval of existing Calendar widget integration
+and the proposed icon-and-text presentation; prohibit a separate Bin Days widget
+without treating unrelated draft defaults as confirmed.
+
+| ID | Description |
+| --- | --- |
+| US4 scenario 1 / FR-016 | Pair configured-colour bin icons with visible stream names, group by date, emphasise the next collection, and stack narrow-screen rows without hiding names. |
+| FR-014 | Explicitly exclude a separate Bin Days widget; retain existing agenda and fullscreen calendar integration. |
+| Assumptions | Promote calendar-only/icon-and-text scope to owner-confirmed; keep one-household and manual-entry scope as draft defaults. |

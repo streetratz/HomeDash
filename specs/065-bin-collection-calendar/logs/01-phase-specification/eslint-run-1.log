@@ -1,0 +1,7 @@
+# Command: bash -c 'PATH="$HOME/.nvm/versions/node/v24.18.0/bin:$PATH" pnpm lint'
+# Phase:   01 — Specification
+# Run:     1
+# Time:    2026-10-10 10:36 UTC+11
+# Exit:    0
+---
+$ eslint . --max-warnings=0

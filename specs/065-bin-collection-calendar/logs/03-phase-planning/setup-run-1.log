@@ -1,0 +1,8 @@
+# Command: bash /Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/scripts/bash/setup-plan.sh --json
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:51:08 +1100
+# Exit:    0
+---
+Copied plan template to /Users/streetratz/Personal/MyGH-Personal/HomeDash/specs/065-bin-collection-calendar/plan.md
+{"FEATURE_SPEC":"/Users/streetratz/Personal/MyGH-Personal/HomeDash/specs/065-bin-collection-calendar/spec.md","IMPL_PLAN":"/Users/streetratz/Personal/MyGH-Personal/HomeDash/specs/065-bin-collection-calendar/plan.md","SPECS_DIR":"/Users/streetratz/Personal/MyGH-Personal/HomeDash/specs/065-bin-collection-calendar","BRANCH":"065-bin-collection-calendar","HAS_GIT":"true"}

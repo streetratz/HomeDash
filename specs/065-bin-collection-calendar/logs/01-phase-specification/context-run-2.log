@@ -1,0 +1,11 @@
+# Command: bash -c 'printf '"'"'%s\n'"'"' '"'"'Calendar context header check'"'"'; git --no-pager status --short --branch; git ls-files .specify/feature.json; git check-ignore specs/065-bin-collection-calendar/logs/01-phase-specification/git-run-1.log || test "$?" -eq 1'
+# Phase:   01 — Specification
+# Run:     2
+# Time:    2026-10-10 10:36 UTC+11
+# Exit:    0
+---
+Calendar context header check
+## 065-bin-collection-calendar
+ M .specify/feature.json
+?? specs/065-bin-collection-calendar/
+.specify/feature.json

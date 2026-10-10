@@ -1,0 +1,3 @@
+# Markdown hard line breaks are intentional; retain exact raw audit output.
+*.md whitespace=-blank-at-eol
+logs/**/*.log -whitespace

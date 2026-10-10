@@ -1,0 +1,236 @@
+# Command: ls /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api; rg -n "access|Access|userId|groupIds|requireAuth" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/dashboards.ts; rg -n "dashboardAccess|can.*Dashboard|resolve.*Dashboard|access.*dashboard" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/.github/prompts/speckit.tasks.prompt.md; sed -n "200,320p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/pages/SettingsPage.tsx; sed -n "1,110p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/public.ts
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:53:12 +1100
+# Exit:    0
+---
+admin-app-shortcuts.ts
+admin-backup.ts
+admin-calendar.ts
+admin-group-members.ts
+admin-groups.ts
+admin-scheduled-jobs.ts
+admin-timezone.ts
+admin-todo-sync.ts
+admin-todo.ts
+admin-users.ts
+admin.ts
+adminDashboards.ts
+adminIcons.ts
+assets.ts
+auth-oauth.ts
+auth.ts
+connections.ts
+docker.ts
+index.ts
+ops.ts
+photos.ts
+pihole.ts
+public.ts
+sonos.ts
+spotify.ts
+stocks.ts
+system.ts
+unifi.ts
+user.ts
+rg: /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/dashboards.ts: IO error for operation on /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/dashboards.ts: No such file or directory (os error 2)
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:657:  dashboardAccessRules: many(dashboardAccessRules),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:711:export const dashboardAccessRules = sqliteTable(
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:725:    dashboardIdIdx: index('dashboard_access_rules_dashboard_id_idx').on(t.dashboardId),
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:734:export const dashboardAccessRulesRelations = relations(dashboardAccessRules, ({ one }) => ({
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:736:    fields: [dashboardAccessRules.dashboardId],
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/db/schema/index.ts:740:    fields: [dashboardAccessRules.groupId],
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/backupService.ts:78:  dashboardAccessRules: schema.dashboardAccessRules,
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/backupService.ts:104:  'dashboardAccessRules',
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/backupTypes.ts:22:  'dashboardAccessRules',
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/backupTypes.ts:95:  dashboardAccessRules: Record<string, unknown>[];
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/backupTypes.ts:155:  dashboardAccessRules: z.array(z.record(z.unknown())),
+---
+agent: speckit.tasks
+---
+          )}
+
+          {isAdmin && mountedTabs.has('dashboards') && (
+            <TabsContent
+              value="dashboards"
+              forceMount
+              className={activeTab === 'dashboards' ? undefined : 'hidden'}
+            >
+              <DashboardsTab />
+            </TabsContent>
+          )}
+
+          {isAdmin && mountedTabs.has('widgets') && (
+            <TabsContent
+              value="widgets"
+              forceMount
+              className={activeTab === 'widgets' ? undefined : 'hidden'}
+            >
+              <WidgetsTab />
+            </TabsContent>
+          )}
+
+          {isAdmin && mountedTabs.has('groups') && (
+            <TabsContent
+              value="groups"
+              forceMount
+              className={activeTab === 'groups' ? undefined : 'hidden'}
+            >
+              <GroupsTab />
+            </TabsContent>
+          )}
+
+          {isAdmin && mountedTabs.has('users') && (
+            <TabsContent
+              value="users"
+              forceMount
+              className={activeTab === 'users' ? undefined : 'hidden'}
+            >
+              <UsersTab />
+            </TabsContent>
+          )}
+
+          {isAdmin && mountedTabs.has('integrations') && (
+            <TabsContent
+              value="integrations"
+              forceMount
+              className={activeTab === 'integrations' ? undefined : 'hidden'}
+            >
+              <IntegrationsTab />
+            </TabsContent>
+          )}
+
+          {isAdmin && mountedTabs.has('system') && (
+            <TabsContent
+              value="system"
+              forceMount
+              className={activeTab === 'system' ? undefined : 'hidden'}
+            >
+              <SystemTab />
+            </TabsContent>
+          )}
+
+          {mountedTabs.has('about') && (
+            <TabsContent
+              value="about"
+              forceMount
+              className={activeTab === 'about' ? undefined : 'hidden'}
+            >
+              <AboutTab />
+            </TabsContent>
+          )}
+        </Tabs>
+      </div>
+    </ShellLayout>
+  );
+}
+/**
+ * T027 / T054 (US1): Public route registration.
+ * T125 (US2): Enforce "explicitly selected only" unauth defaults.
+ *
+ * All routes here are accessible without authentication.
+ * Returns only explicitly public, read-only data required for the unauthenticated experience.
+ */
+
+import type { FastifyInstance } from 'fastify';
+import { count, eq } from 'drizzle-orm';
+import { z } from 'zod';
+import { getDb } from '../db/drizzle.js';
+import { appShellSettings, uploadedAssets, users } from '../db/schema/index.js';
+import { detectDeviceContext } from '../lib/deviceContext.js';
+import { selectUnauthDashboard } from '../services/dashboardSelection.js';
+import { getDashboardWithChildren } from '../services/dashboardService.js';
+import { publicWidgetRateLimit } from '../auth/rateLimit.js';
+import {
+  projectPublicDashboard,
+  resolvePublicWidget,
+} from '../services/publicVisibility.js';
+import {
+  getOrRefreshPublicSnapshot,
+  PublicWidgetUnavailableError,
+} from '../services/publicWidgetSnapshotCache.js';
+import {
+  loadPublicWidgetSnapshot,
+  publicSnapshotCachePolicy,
+} from '../services/publicWidgetProjection.js';
+
+const PublicWidgetParamsSchema = z.object({ widgetId: z.string().uuid() });
+const PUBLIC_NOT_FOUND = { error: 'NOT_FOUND', message: 'Public widget not found' } as const;
+
+export function registerPublicRoutes(app: FastifyInstance): void {
+  app.get(
+    '/api/public/widgets/:widgetId',
+    { config: { rateLimit: publicWidgetRateLimit } },
+    async (request, reply) => {
+      void reply.header('Cache-Control', 'no-store');
+      const params = PublicWidgetParamsSchema.safeParse(request.params);
+      if (!params.success) return reply.status(404).send(PUBLIC_NOT_FOUND);
+
+      const widget = resolvePublicWidget(detectDeviceContext(request), params.data.widgetId);
+      if (!widget) return reply.status(404).send(PUBLIC_NOT_FOUND);
+
+      try {
+        const snapshot = await getOrRefreshPublicSnapshot(
+          `${widget.type}:${widget.id}:snapshot`,
+          publicSnapshotCachePolicy(widget),
+          () => loadPublicWidgetSnapshot(widget),
+        );
+        return reply.status(200).send(snapshot);
+      } catch (error) {
+        request.log.warn(
+          {
+            event: 'public_widget_snapshot_unavailable',
+            widgetId: widget.id,
+            widgetType: widget.type,
+            reason:
+              error instanceof PublicWidgetUnavailableError ? 'snapshot_unavailable' : 'unknown',
+          },
+          'Public widget snapshot unavailable',
+        );
+        return reply.status(404).send(PUBLIC_NOT_FOUND);
+      }
+    },
+  );
+
+  // T054 (US1): GET /api/public/bootstrap
+  app.get('/api/public/bootstrap', async (request, reply) => {
+    void reply.header('Cache-Control', 'no-store');
+    const db = getDb();
+
+    // Is this a first-run (no users in the DB)?
+    const userCountResult = db.select({ value: count() }).from(users).all();
+    const firstRunRequired = (userCountResult[0]?.value ?? 0) === 0;
+
+    // Shell settings (safe public subset — no admin-only fields like unauth dashboard IDs)
+    const shell = db.select().from(appShellSettings).where(eq(appShellSettings.id, 'global')).get();
+
+    let shellPayload = null;
+    if (shell) {
+      // Build clock list combining home timezone + extra timezones
+      interface StoredClock { label: string; timezone: string }
+      const extraClocks = (JSON.parse(shell.timezonesJson) as StoredClock[]).map((c) => ({
+        timezone: c.timezone,
+        label: c.label,
+        isHome: false as const,
+      }));
+
+      // Parse homeClockConfig for label override and global display settings
+      interface HomeClockConfig { label?: string; layout?: string; homeIconSide?: string; dayNightSide?: string; showOffset?: boolean }
+      let homeClockConfig: HomeClockConfig | null = null;
+      if (shell.homeClockConfig) {
+        try { homeClockConfig = JSON.parse(shell.homeClockConfig) as HomeClockConfig; } catch { /* ignore */ }
+      }
+      const homeLabel = homeClockConfig?.label ?? 'Home';
+
+      const clocks = shell.homeTimezone
+        ? [
+            {
+              timezone: shell.homeTimezone,
+              label: homeLabel,
+              isHome: true as const,
+              ...(homeClockConfig ? { config: homeClockConfig } : {}),
+            },
+            ...extraClocks,
+          ]
+        : extraClocks;
+

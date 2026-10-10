@@ -1,0 +1,13 @@
+# Command: python3 /tmp/homedash-validate-plan.py
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 11:01:07 +1100
+# Exit:    1
+---
+PASS required artifacts, unresolved-placeholder checks and local Markdown links
+PASS standard plan sections, latest CH-02 and no task generation
+Traceback (most recent call last):
+  File "/tmp/homedash-validate-plan.py", line 44, in <module>
+    assert not any(line.rstrip() != line for line in text.splitlines()), name
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: plan.md

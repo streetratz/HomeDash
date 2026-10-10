@@ -1,0 +1,9 @@
+# Command: python3 /tmp/homedash-finalize-065-audit.py
+# Phase:   04 — Task Generation
+# Run:     1
+# Time:    2026-10-10T11:09:41.548748+11:00
+# Exit:    0
+---
+Captured retained initial instructions/status, actual scripts/test context and validator source.
+Normalized exact command headers without changing original raw rg/helper output.
+No local environment contents, network, installs, application writes or Git mutations.

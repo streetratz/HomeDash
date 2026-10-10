@@ -1,0 +1,19 @@
+# Command: gh issue comment 19 --repo streetratz/HomeDash --body 'Specification prepared locally on 10 October 2026 (UTC+11).
+
+- Local feature branch: `065-bin-collection-calendar`, created from main at `c5bd8a1102cd2e7a1d22cbea93b68614be5903a5`.
+- Spec: `specs/065-bin-collection-calendar/spec.md`.
+- Supporting files: `research.md`, `constitution-check.md`, `changelog-spec.md` (CH-01), `checklists/requirements.md`, and spec-phase logs/raw sidecars in the same feature directory.
+
+The draft preserves the requested red weekly / yellow fortnightly week A / green fortnightly week B preset as an editable household preference, not universal council policy. Official AU/NZ examples inform independent stream names/colours/enabled state, weekday sets and date-anchored N-week schedules, and skip/replace/add exceptions that do not shift the base cycle. Explicit dates cover irregular/seasonal schedules; four weeks is not labelled monthly. Household timezone, DST/date-only correctness, accessible 360px display, admin-only changes, and selected read-only public visibility are specified.
+
+Calendar integration, one household, and manual entry are explicit **draft scope defaults**, not confirmed owner choices. No dedicated widget, multi-property manager, automatic seasonal/monthly rules, council lookup/scraping, cloud dependence, or push notifications are promised. Historical 2025/26 notices are not treated as confirmed 2026/27 service schedules.
+
+Specification checklist: 16/16; structural/date-fixture validation and full local lint passed. No app behaviour is implemented or claimed tested. The existing issue body/research is preserved.
+
+**Local and uncommitted/unpushed**: these paths are not yet browsable on GitHub. No plan/tasks, app changes, dependency PR actions, commit, push, or PR were made. Stopping after specification.'
+# Phase:   01 — Specification
+# Run:     1
+# Time:    2026-10-10 10:38 UTC+11
+# Exit:    0
+---
+https://github.com/streetratz/HomeDash/issues/19#issuecomment-6091113564

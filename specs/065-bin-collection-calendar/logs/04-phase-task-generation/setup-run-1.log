@@ -1,0 +1,7 @@
+# Command: bash .specify/scripts/bash/setup-tasks.sh --json
+# Phase:   04 — Task Generation
+# Run:     1
+# Time:    2026-10-10 11:02 UTC+11
+# Exit:    0
+---
+{"FEATURE_DIR":"/Users/streetratz/Personal/MyGH-Personal/HomeDash/specs/065-bin-collection-calendar","AVAILABLE_DOCS":["research.md","data-model.md","contracts/","quickstart.md"],"TASKS_TEMPLATE":"/Users/streetratz/Personal/MyGH-Personal/HomeDash/.specify/templates/tasks-template.md"}

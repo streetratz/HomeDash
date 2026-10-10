@@ -1,0 +1,11 @@
+# Command: python3 /tmp/homedash-validate-065-tasks.py
+# Phase:   04 — Task Generation
+# Run:     2
+# Time:    2026-10-10T11:08:55.592561+11:00
+# Exit:    1
+---
+Traceback (most recent call last):
+  File "/tmp/homedash-validate-065-tasks.py", line 26, in <module>
+    assert paths, f"Missing explicit file path: {task_id}"
+           ^^^^^
+AssertionError: Missing explicit file path: T091

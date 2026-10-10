@@ -1,0 +1,493 @@
+# Command: cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/services/dashboardSelection.ts; sed -n "1,200p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/user.ts; sed -n "1,160p" /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/api/adminDashboards.ts; rg -n "CalendarSourceList|calendar|Calendar" /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend/src/components/settings/IntegrationsTab.tsx; rg -n "task_generation|prerequisite|approval" /Users/streetratz/Personal/MyGH-Personal/HomeDash/.github/agents/speckit.tasks.agent.md; cat /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend/src/lib/validation.ts | tail -90
+# Phase:   03 — Technical Planning
+# Run:     1
+# Time:    2026-10-10 10:53:17 +1100
+# Exit:    0
+---
+/**
+ * T055 (US1): Dashboard selection logic.
+ *
+ * Determines which dashboard to show based on:
+ * - Device context (web vs mobile)
+ * - Auth state (authenticated vs unauthenticated)
+ * - User preferences (for authenticated users)
+ * - Admin-configured unauth defaults (for unauthenticated users)
+ *
+ * Rules:
+ * - Unauthenticated users ONLY see dashboards explicitly configured as defaults by admin.
+ *   If no default is set, no dashboard is selected (null).
+ * - Authenticated users see their personal preference, falling back to admin defaults,
+ *   falling back to null.
+ */
+
+import { eq } from 'drizzle-orm';
+import { getDb } from '../db/drizzle.js';
+import { appShellSettings, userPreferences, dashboards } from '../db/schema/index.js';
+import type { DeviceContext } from '../lib/deviceContext.js';
+
+export interface SelectedDashboard {
+  id: string;
+  name: string;
+  applicability: 'web' | 'mobile' | 'both';
+  backgroundType: 'solid' | 'image';
+  backgroundColor: string | null;
+  backgroundAssetId: string | null;
+  backgroundDisplayMode: 'fill' | 'stretch' | null;
+}
+
+/**
+ * Select the appropriate dashboard for an unauthenticated request.
+ * Returns null if no public default has been configured by an admin.
+ */
+export function selectUnauthDashboard(device: DeviceContext): SelectedDashboard | null {
+  const db = getDb();
+  const shell = db.select().from(appShellSettings).where(eq(appShellSettings.id, 'global')).get();
+  if (!shell) return null;
+
+  const dashboardId =
+    device === 'mobile' ? shell.unauthMobileDashboardId : shell.unauthWebDashboardId;
+
+  if (!dashboardId) return null;
+  return fetchDashboard(dashboardId);
+}
+
+/**
+ * Select the appropriate dashboard for an authenticated user.
+ * Falls back: user preference → admin unauth default → null.
+ */
+export function selectUserDashboard(
+  userId: string,
+  device: DeviceContext,
+): SelectedDashboard | null {
+  const db = getDb();
+
+  // Try user preferences first
+  const prefs = db.select().from(userPreferences).where(eq(userPreferences.userId, userId)).get();
+  const prefDashboardId = device === 'mobile' ? prefs?.mobileDashboardId : prefs?.webDashboardId;
+  if (prefDashboardId) {
+    const dashboard = fetchDashboard(prefDashboardId);
+    if (dashboard) return dashboard;
+  }
+
+  // Fall back to unauth defaults
+  return selectUnauthDashboard(device);
+}
+
+// ─── Internal ─────────────────────────────────────────────────────────────────
+
+function fetchDashboard(dashboardId: string): SelectedDashboard | null {
+  const db = getDb();
+  const row = db.select().from(dashboards).where(eq(dashboards.id, dashboardId)).get();
+  if (!row) return null;
+  return {
+    id: row.id,
+    name: row.name,
+    applicability: row.applicability,
+    backgroundType: row.backgroundType,
+    backgroundColor: row.backgroundColor ?? null,
+    backgroundAssetId: row.backgroundAssetId ?? null,
+    backgroundDisplayMode: row.backgroundDisplayMode ?? null,
+  };
+}
+/**
+ * T029 / T067 (US2): User route registration.
+ * Authenticated-user routes — preferences get/put, profile update, password change.
+ *
+ * All routes require a valid session cookie.
+ * State-changing routes (PUT) also require a valid CSRF token.
+ */
+
+import type { FastifyInstance, FastifyRequest } from 'fastify';
+import { eq } from 'drizzle-orm';
+import { z } from 'zod';
+import { requireAuth } from '../auth/requireRole.js';
+import { assertCsrf } from '../auth/csrf.js';
+import { validate, ThemeModeSchema, UuidSchema, DisplayNameSchema, PasswordSchema } from '../lib/validation.js';
+import {
+  getUserPreferences,
+  updateUserPreferences,
+  type UpdateUserPreferencesInput,
+} from '../services/userPreferencesService.js';
+import { getDashboardWithChildren } from '../services/dashboardService.js';
+import { getDb } from '../db/drizzle.js';
+import { users } from '../db/schema/index.js';
+import { hashPassword, verifyPassword } from '../auth/password.js';
+import { destroyUserSessions } from '../auth/sessionStore.js';
+import { ErrorCode } from '../lib/errors.js';
+
+// ── Zod schemas ───────────────────────────────────────────────────────────────
+
+const UserPreferencesUpdateSchema = z
+  .object({
+    themeMode: ThemeModeSchema.optional(),
+    webDashboardId: UuidSchema.nullable().optional(),
+    mobileDashboardId: UuidSchema.nullable().optional(),
+  })
+  .strict();
+
+const ProfileUpdateSchema = z.object({
+  displayName: DisplayNameSchema,
+}).strict();
+
+const PasswordChangeSchema = z.object({
+  currentPassword: z.string().min(1).max(256),
+  newPassword: PasswordSchema,
+}).strict();
+
+// ── Route registration ────────────────────────────────────────────────────────
+
+export function registerUserRoutes(app: FastifyInstance): void {
+  // ── T067 (US2): GET /api/user/preferences ─────────────────────────────────
+  app.get('/api/user/preferences', async (request, reply) => {
+    requireAuth(request, reply);
+
+    const prefs = getUserPreferences(request.user!.id);
+    return reply.status(200).send(prefs);
+  });
+
+  // ── T067 (US2): PUT /api/user/preferences ─────────────────────────────────
+  app.put('/api/user/preferences', async (request, reply) => {
+    requireAuth(request, reply);
+    await assertCsrf(request, reply);
+
+    const updates = validate(UserPreferencesUpdateSchema, request.body) as UpdateUserPreferencesInput;
+    const updated = updateUserPreferences(request.user!.id, updates);
+    return reply.status(200).send(updated);
+  });
+
+  // ── PUT /api/user/profile — update display name ───────────────────────────
+  app.put('/api/user/profile', async (request, reply) => {
+    requireAuth(request, reply);
+    await assertCsrf(request, reply);
+
+    const body = validate(ProfileUpdateSchema, request.body);
+    const trimmed = body.displayName.trim();
+    if (!trimmed) {
+      return reply.status(422).send({
+        error: ErrorCode.VALIDATION_ERROR,
+        message: 'Display name cannot be empty.',
+      });
+    }
+
+    const db = getDb();
+    const userId = request.user!.id;
+
+    db.update(users)
+      .set({ displayName: trimmed, updatedAt: new Date().toISOString() })
+      .where(eq(users.id, userId))
+      .run();
+
+    const updated = db.select({
+      id: users.id,
+      username: users.username,
+      displayName: users.displayName,
+      role: users.role,
+    }).from(users).where(eq(users.id, userId)).get();
+
+    return reply.status(200).send(updated);
+  });
+
+  // ── PUT /api/user/password — change own password ──────────────────────────
+  app.put('/api/user/password', async (request, reply) => {
+    requireAuth(request, reply);
+    await assertCsrf(request, reply);
+
+    const body = validate(PasswordChangeSchema, request.body);
+
+    const db = getDb();
+    const userId = request.user!.id;
+
+    const user = db.select({ passwordHash: users.passwordHash }).from(users).where(eq(users.id, userId)).get();
+    if (!user) {
+      return reply.status(401).send({ error: ErrorCode.UNAUTHORIZED, message: 'User not found.' });
+    }
+
+    const passwordOk = await verifyPassword(body.currentPassword, user.passwordHash);
+    if (!passwordOk) {
+      return reply.status(401).send({ error: ErrorCode.UNAUTHORIZED, message: 'Current password is incorrect.' });
+    }
+
+    const newHash = await hashPassword(body.newPassword);
+    db.update(users)
+      .set({ passwordHash: newHash, updatedAt: new Date().toISOString() })
+      .where(eq(users.id, userId))
+      .run();
+
+    // Invalidate all other sessions — keep current
+    destroyUserSessions(userId, request.sessionId!);
+
+    return reply.status(200).send({ message: 'Password changed successfully' });
+  });
+
+  // ── Phase R3: GET /api/dashboards/:dashboardId — authenticated read ─────
+  app.get('/api/dashboards/:dashboardId', async (request: FastifyRequest, reply) => {
+    requireAuth(request, reply);
+    const id = (request.params as Record<string, string>)['dashboardId'] ?? '';
+    const view = getDashboardWithChildren(id);
+    return reply.status(200).send(view);
+  });
+}
+/**
+ * Phase R3: Admin dashboard, placeholder, widget, and link CRUD routes.
+ *
+ * All routes require admin authentication and CSRF for mutations.
+ */
+
+import type { FastifyInstance, FastifyRequest } from 'fastify';
+import { z } from 'zod';
+import { requireAdmin } from '../auth/requireRole.js';
+import { assertCsrf } from '../auth/csrf.js';
+import {
+  validate,
+  UuidSchema,
+  ApplicabilitySchema,
+  BackgroundTypeSchema,
+  BackgroundDisplayModeSchema,
+  HexColorSchema,
+  OpacitySchema,
+  HttpUrlSchema,
+  widgetConfigSchemas,
+  DashboardImportSchema,
+} from '../lib/validation.js';
+import { executeChecks } from '../services/statusCheckService.js';
+import {
+  fetchWeather,
+  WeatherRequestSchema,
+} from '../services/weatherProxyService.js';
+import {
+  listDashboards,
+  createDashboard,
+  getDashboardWithChildren,
+  updateDashboard,
+  deleteDashboard,
+  updateLayout,
+  createPlaceholder,
+  updatePlaceholder,
+  deletePlaceholder,
+  createWidget,
+  updateWidget,
+  deleteWidget,
+  reorderWidgets,
+  createLink,
+  updateLink,
+  deleteLink,
+  reorderLinks,
+  exportDashboard,
+  importDashboard,
+  duplicateDashboard,
+  type CreateDashboardInput,
+  type UpdateDashboardInput,
+  type DashboardExport,
+  type CreatePlaceholderInput,
+  type UpdatePlaceholderInput,
+  type CreateWidgetInput,
+  type UpdateWidgetInput,
+  type CreateLinkInput,
+  type UpdateLinkInput,
+  type LayoutPlaceholderInput,
+  type VisibilityMutationContext,
+} from '../services/dashboardService.js';
+
+// ── Zod schemas ───────────────────────────────────────────────────────────────
+
+const CreateDashboardSchema = z
+  .object({
+    name: z.string().min(1).max(128),
+    applicability: ApplicabilitySchema.optional(),
+  })
+  .strict();
+
+const UpdateDashboardSchema = z
+  .object({
+    name: z.string().min(1).max(128).optional(),
+    applicability: ApplicabilitySchema.optional(),
+    backgroundType: BackgroundTypeSchema.optional(),
+    backgroundColor: HexColorSchema.nullable().optional(),
+    backgroundAssetId: UuidSchema.nullable().optional(),
+    backgroundDisplayMode: BackgroundDisplayModeSchema.nullable().optional(),
+  })
+  .strict();
+
+export const PublicVisibilitySchema = z.enum(['hidden', 'read-only', 'visible']);
+
+const LayoutWidgetInputSchema = z.object({
+  id: UuidSchema.optional(),
+  type: z.string().min(1).max(64),
+  orderIndex: z.number().int().min(0),
+  configJson: z.string().optional(),
+  publicVisibility: PublicVisibilitySchema.optional(),
+});
+
+const BreakpointLayoutSchema = z.object({
+  x: z.number().int().min(0),
+  y: z.number().int().min(0),
+  w: z.number().int().min(1).max(12),
+  h: z.number().int().min(1).max(20),
+});
+
+const LayoutPlaceholderInputSchema = z.object({
+  stableKey: UuidSchema,
+  x: z.number().int().min(0),
+  y: z.number().int().min(0),
+  w: z.number().int().min(1).max(12),
+  h: z.number().int().min(1).max(20),
+  borderColor: HexColorSchema.optional(),
+  borderSize: z.number().int().min(1).max(8).optional(),
+  showBorder: z.boolean().optional(),
+  showTitle: z.boolean().optional(),
+  titleStyle: z.enum(['header', 'pill']).optional(),
+  childLayout: z.enum(['stacked', 'side-by-side']).optional(),
+  title: z.string().max(64).nullable().optional(),
+  opacity: OpacitySchema.optional(),
+  backgroundStyle: z.enum(['solid', 'aurora', 'aurora-australis']).optional(),
+  backgroundColor: HexColorSchema.nullable().optional(),
+  widgets: z.array(LayoutWidgetInputSchema).optional(),
+  layouts: z.record(z.enum(['md', 'sm', 'xs', 'xxs']), BreakpointLayoutSchema).optional(),
+});
+
+const LayoutUpdateSchema = z
+  .object({
+    placeholders: z.array(LayoutPlaceholderInputSchema),
+  })
+  .strict();
+
+const CreatePlaceholderSchema = z
+  .object({
+    x: z.number().int().min(0),
+    y: z.number().int().min(0),
+    w: z.number().int().min(1).max(12),
+    h: z.number().int().min(1).max(20),
+    borderColor: HexColorSchema.optional(),
+    showBorder: z.boolean().optional(),
+    title: z.string().max(64).nullable().optional(),
+    opacity: OpacitySchema.optional(),
+  })
+  .strict();
+
+const UpdatePlaceholderSchema = z
+  .object({
+    x: z.number().int().min(0).optional(),
+    y: z.number().int().min(0).optional(),
+    w: z.number().int().min(1).max(12).optional(),
+    h: z.number().int().min(1).max(20).optional(),
+    borderColor: HexColorSchema.optional(),
+    borderSize: z.number().int().min(1).max(8).optional(),
+    showBorder: z.boolean().optional(),
+    title: z.string().max(64).nullable().optional(),
+    showTitle: z.boolean().optional(),
+    titleStyle: z.enum(['header', 'pill']).optional(),
+    opacity: OpacitySchema.optional(),
+  })
+  .strict();
+
+const CreateWidgetSchema = z
+  .object({
+    type: z.string().min(1).max(64),
+    orderIndex: z.number().int().min(0).optional(),
+    configJson: z.string().optional(),
+    publicVisibility: PublicVisibilitySchema.optional(),
+  })
+12:  Calendar,
+44:import { CalendarSourceList } from './CalendarSourceList.js';
+66:type ServiceId = 'pihole' | 'spotify' | 'sonos' | 'photos' | 'calendars' | 'todo' | 'docker' | 'accounts';
+98:      { id: 'calendars', label: 'Calendars', icon: <Calendar className="h-4 w-4" /> },
+1017:// ─── Calendars panel ────────────────────────────────────────────────────────
+1019:function CalendarsPanel() {
+1023:        <h3 className="text-lg font-medium">Calendars</h3>
+1024:        <p className="text-sm text-muted-foreground">Manage calendar feeds and synced sources</p>
+1029:          <CardTitle className="text-base">Calendar Sources</CardTitle>
+1030:          <CardDescription>iCal feeds and synced calendars.</CardDescription>
+1033:          <CalendarSourceList />
+1597:    case 'calendars': return <CalendarsPanel />;
+79:   - Phase 2: Foundational tasks (blocking prerequisites for all user stories)
+196:- **Phase 2**: Foundational (blocking prerequisites - MUST complete before user stories)
+
+export const UnifiDisplayConfigSchema = z
+  .object({
+    showDevice: z.boolean().default(true),
+    showWan: z.boolean().default(true),
+    showNetwork: z.boolean().default(true),
+    showClients: z.boolean().default(true),
+    showDevices: z.boolean().default(true),
+    showWifi: z.boolean().default(true),
+    showIps: z.boolean().default(true),
+    showHealth: z.boolean().default(true),
+    layout: z.enum(['stacked', 'grid']).default('stacked'),
+    sectionOrder: z
+      .array(z.enum(['device', 'wan', 'network']))
+      .default(['device', 'wan', 'network']),
+    ispDomain: z.string().optional(),
+  })
+  .strict();
+
+widgetConfigSchemas['unifi'] = UnifiDisplayConfigSchema;
+
+// ─── Sonos Music widget schema (018-sonos-widget) ───────────────────────────
+
+export const SonosMusicConfigSchema = z
+  .object({
+    householdId: z.string().optional(),
+    defaultGroupId: z.string().optional(),
+    showGrouping: z.boolean().default(true),
+    compactMode: z.boolean().default(false),
+  })
+  .strict();
+
+widgetConfigSchemas['sonos_music'] = SonosMusicConfigSchema;
+
+// ─── Stocks widget config schema (021-stocks-widget) ─────────────────────────
+
+function isValidStockTradeDate(value: string): boolean {
+  const match =
+    /^(\d{4})-(\d{2})-(\d{2})$/.exec(value) ??
+    /^(\d{4})\/(\d{2})\/(\d{2})$/.exec(value) ??
+    /^(\d{4})(\d{2})(\d{2})$/.exec(value);
+  if (!match) return false;
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return (
+    date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day
+  );
+}
+
+const StockLotSchema = z.object({
+  purchasePrice: z.number().finite().positive(),
+  quantity: z.number().finite().positive(),
+  // Preserve valid Yahoo formats accepted before 046 while rejecting malformed dates.
+  tradeDate: z
+    .string()
+    .max(32)
+    .refine(isValidStockTradeDate, 'Trade date must be a valid calendar date'),
+});
+
+const StockTickerSchema = z.object({
+  symbol: z.string().min(1).max(20),
+  lots: z.array(StockLotSchema).optional(),
+});
+
+const StockGroupSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1).max(100),
+  currency: z.string().length(3),
+  tickers: z.array(StockTickerSchema).max(30),
+  collapsed: z.boolean().default(false),
+  includeInTotal: z.boolean().default(true),
+  csvFilename: z.string().optional(),
+  lastImported: z.string().optional(),
+});
+
+export const StocksConfigSchema = z
+  .object({
+    groups: z.array(StockGroupSchema).default([]),
+    displayCurrency: z.string().length(3).default('AUD'),
+    refreshInterval: z.number().int().min(60).max(900).default(300),
+    displayMode: z.enum(['minimized', 'compact', 'expanded']).default('compact'),
+    showSparkline: z.boolean().default(false),
+    reduceOffHours: z.boolean().default(true),
+  })
+  .passthrough();
+
+widgetConfigSchemas['stocks'] = StocksConfigSchema;

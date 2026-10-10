@@ -1,0 +1,11 @@
+# Command: python3 /tmp/homedash-validate-065-tasks.py
+# Phase:   04 — Task Generation
+# Run:     1
+# Time:    2026-10-10T11:08:29.235813+11:00
+# Exit:    1
+---
+Traceback (most recent call last):
+  File "/tmp/homedash-validate-065-tasks.py", line 27, in <module>
+    assert any(re.search(r"\.(?:md|ts|tsx|json|sql|log)", p) for p in paths), task_id
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: T023
