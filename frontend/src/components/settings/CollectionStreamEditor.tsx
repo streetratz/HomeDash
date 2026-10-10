@@ -2,6 +2,7 @@ import { useId, useState } from 'react';
 import type { CollectionStream } from '../../state/collectionHooks.js';
 import { Input } from '../ui/input.js';
 import { Button } from '../ui/button.js';
+import { ColorPicker } from '../ui/color-picker.js';
 import {
   CollectionExplicitDatesEditor,
   validCollectionDate,
@@ -12,9 +13,11 @@ const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satur
 export function CollectionStreamEditor({
   stream,
   onChange,
+  disabled = false,
 }: {
   stream: CollectionStream;
   onChange: (stream: CollectionStream, confirmedRemoval?: boolean) => void;
+  disabled?: boolean;
 }) {
   const id = useId();
   const [modeChange, setModeChange] = useState(false);
@@ -40,7 +43,7 @@ export function CollectionStreamEditor({
     regular.intervalWeeks <= 52;
   return (
     <div className="min-w-0 space-y-3">
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
         <label className="text-sm">
           Stream name
           <Input
@@ -51,16 +54,18 @@ export function CollectionStreamEditor({
             onChange={(e) => onChange({ ...stream, name: e.target.value })}
           />
         </label>
-        <label className="text-sm">
-          Hex colour
-          <Input
+        <div className="space-y-1 text-sm">
+          <p>Colour</p>
+          <ColorPicker
             value={stream.color}
-            maxLength={7}
-            aria-invalid={!colorValid}
-            aria-describedby={!colorValid ? `${id}-color` : undefined}
-            onChange={(e) => onChange({ ...stream, color: e.target.value })}
+            ariaLabel={`Change colour for ${stream.name || 'collection stream'}`}
+            ariaInvalid={!colorValid}
+            ariaDescribedBy={!colorValid ? `${id}-color` : undefined}
+            className="h-11 w-11"
+            disabled={disabled}
+            onChange={(color) => onChange({ ...stream, color })}
           />
-        </label>
+        </div>
       </div>
       {!nameValid && (
         <p id={`${id}-name`} role="alert" className="text-sm text-destructive">
@@ -147,12 +152,14 @@ export function CollectionStreamEditor({
       )}
       {regular && (
         <fieldset className="space-y-3">
-          <legend className="text-sm font-medium">Active weekdays (Monday–Sunday week)</legend>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <legend className="text-sm font-medium">Collection days</legend>
+          <div className="grid grid-cols-7 gap-1">
             {weekdays.map((day, i) => (
-              <label key={day} className="flex min-h-11 items-center gap-2 text-sm">
+              <label key={day} title={day} className="min-w-0 cursor-pointer">
                 <input
                   type="checkbox"
+                  className="peer sr-only"
+                  aria-label={day}
                   checked={regular.weekdays.includes(i + 1)}
                   aria-describedby={!regular.weekdays.length ? `${id}-weekdays` : undefined}
                   onChange={(e) =>
@@ -168,7 +175,9 @@ export function CollectionStreamEditor({
                     })
                   }
                 />
-                {day}
+                <span className="flex min-h-11 items-center justify-center rounded-md border border-border text-sm font-medium text-muted-foreground peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring peer-disabled:cursor-not-allowed peer-disabled:opacity-50">
+                  {day[0]}
+                </span>
               </label>
             ))}
           </div>

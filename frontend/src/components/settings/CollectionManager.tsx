@@ -410,7 +410,7 @@ export function CollectionManager() {
               <legend className="max-w-full break-words px-1 text-sm font-semibold">
                 {s.name || `Stream ${index + 1}`}
               </legend>
-              <CollectionStreamEditor stream={s} onChange={updateStream} />
+              <CollectionStreamEditor stream={s} onChange={updateStream} disabled={busy} />
               <div className="flex flex-wrap gap-2">
                 <Button
                   variant="outline"

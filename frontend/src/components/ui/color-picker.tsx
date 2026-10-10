@@ -1,21 +1,49 @@
 import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from './popover.js';
+import { cn } from '../../lib/utils.js';
 
 const PRESET_COLORS = [
-  '#ef4444', '#f97316', '#f59e0b', '#eab308',
-  '#84cc16', '#22c55e', '#10b981', '#14b8a6',
-  '#06b6d4', '#0ea5e9', '#3b82f6', '#6366f1',
-  '#8b5cf6', '#a855f7', '#d946ef', '#ec4899',
-  '#f43f5e', '#78716c', '#64748b', '#ffffff',
+  '#ef4444',
+  '#f97316',
+  '#f59e0b',
+  '#eab308',
+  '#84cc16',
+  '#22c55e',
+  '#10b981',
+  '#14b8a6',
+  '#06b6d4',
+  '#0ea5e9',
+  '#3b82f6',
+  '#6366f1',
+  '#8b5cf6',
+  '#a855f7',
+  '#d946ef',
+  '#ec4899',
+  '#f43f5e',
+  '#78716c',
+  '#64748b',
+  '#ffffff',
 ];
 
 interface ColorPickerProps {
   value: string;
   onChange: (color: string) => void;
   disabled?: boolean;
+  ariaLabel?: string;
+  ariaInvalid?: boolean;
+  ariaDescribedBy?: string | undefined;
+  className?: string;
 }
 
-export function ColorPicker({ value, onChange, disabled }: ColorPickerProps) {
+export function ColorPicker({
+  value,
+  onChange,
+  disabled,
+  ariaLabel = 'Change color',
+  ariaInvalid,
+  ariaDescribedBy,
+  className = '',
+}: ColorPickerProps) {
   const [customColor, setCustomColor] = useState(value);
 
   function handleOpenChange(open: boolean) {
@@ -41,9 +69,15 @@ export function ColorPicker({ value, onChange, disabled }: ColorPickerProps) {
       <PopoverTrigger asChild disabled={disabled}>
         <button
           type="button"
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-border transition-colors hover:border-primary/50 disabled:opacity-50"
+          className={cn(
+            'flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-border transition-colors hover:border-primary/50 disabled:opacity-50',
+            className,
+          )}
           style={{ backgroundColor: value }}
-          title="Change color"
+          title={ariaLabel}
+          aria-label={ariaLabel}
+          aria-invalid={ariaInvalid}
+          aria-describedby={ariaDescribedBy}
         />
       </PopoverTrigger>
       <PopoverContent className="w-auto p-3" align="start">
@@ -53,8 +87,11 @@ export function ColorPicker({ value, onChange, disabled }: ColorPickerProps) {
               <button
                 key={color}
                 type="button"
+                aria-label={`Select colour ${color}`}
+                aria-pressed={value.toLowerCase() === color}
+                disabled={disabled}
                 className={`h-6 w-6 rounded-md border transition-[border-color,box-shadow] duration-150 ease-out ${
-                  value === color
+                  value.toLowerCase() === color
                     ? 'border-primary ring-2 ring-primary/30 scale-110'
                     : 'border-border/50 hover:scale-110'
                 }`}
@@ -66,6 +103,8 @@ export function ColorPicker({ value, onChange, disabled }: ColorPickerProps) {
           <div className="flex items-center gap-2">
             <input
               type="text"
+              aria-label="Custom hex colour"
+              disabled={disabled}
               value={customColor}
               onChange={(e) => handleCustomChange(e.target.value)}
               placeholder="#3b82f6"
@@ -74,6 +113,8 @@ export function ColorPicker({ value, onChange, disabled }: ColorPickerProps) {
             />
             <input
               type="color"
+              aria-label="Custom colour"
+              disabled={disabled}
               value={value}
               onChange={(e) => handlePreset(e.target.value)}
               className="h-7 w-7 cursor-pointer rounded border-0 bg-transparent p-0"

@@ -56,6 +56,9 @@ because this file exists.
 - Thursday fortnightly anchor `2026-12-31` gives `2027-01-14` and `2027-01-28`.
 - Rename/recolour one stream; dates/exceptions of it and others unchanged.
   Disable/re-enable retains its phase. Confirm removal only deletes that stream.
+- Collection days use a compact Monday-first **M T W T F S S** row; full day
+  names remain accessible and available as tooltips. Choose colours from the
+  shared palette picker or enter a custom hex colour inside it.
 - Explicit seasonal dates `2026-12-14`, `2027-01-18`, `2027-02-15` generate exactly
   those dates. No “monthly” inference; exhausted manager state after last date.
 

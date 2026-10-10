@@ -17,6 +17,7 @@
 | 11 | Irregular dates | Validated implementation increment — broader acceptance closure pending | [11-phase-irregular-dates.md](11-phase-irregular-dates.md) |
 | 12 | Final validation | Gates passed; 78/97 tasks checked, full outcome closure pending | [12-phase-final-validation.md](12-phase-final-validation.md) |
 | 13 | Fresh-context Opus 4.8 review | Scoped today-marker correction validated; owner validation pending | [13-phase-opus-review.md](13-phase-opus-review.md) |
+| 14 | Collection settings polish | Validated — compact weekdays and shared colour picker | [14-phase-settings-polish.md](14-phase-settings-polish.md) |
 
 ## Overall Status
 
