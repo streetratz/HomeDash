@@ -172,27 +172,29 @@ export function CollectionStreamEditor({
           Use a six-digit hex colour such as #DC2626.
         </p>
       )}
-      <label className="flex min-h-11 items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={stream.enabled}
-          onChange={(e) => onChange({ ...stream, enabled: e.target.checked })}
-        />
-        Enabled
-      </label>
-      <label className="block text-sm">
-        Repeat
-        <select
-          className="min-h-11 w-full rounded-md border border-border bg-background px-3"
-          value={repeat}
-          onChange={(e) => applyRepeat(e.target.value as Repeat)}
-        >
-          <option value="off">Off (single date)</option>
-          <option value="weekly">Weekly</option>
-          <option value="fortnightly">Every 2 weeks (fortnightly)</option>
-          <option value="custom">Custom (every N weeks)</option>
-        </select>
-      </label>
+      <div className="flex flex-wrap items-end gap-x-4 gap-y-2">
+        <label className="block w-full text-sm sm:w-64">
+          Repeat
+          <select
+            className="min-h-11 w-full rounded-md border border-border bg-background px-3"
+            value={repeat}
+            onChange={(e) => applyRepeat(e.target.value as Repeat)}
+          >
+            <option value="off">Off (single date)</option>
+            <option value="weekly">Weekly</option>
+            <option value="fortnightly">Every 2 weeks (fortnightly)</option>
+            <option value="custom">Custom (every N weeks)</option>
+          </select>
+        </label>
+        <label className="flex min-h-11 items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={stream.enabled}
+            onChange={(e) => onChange({ ...stream, enabled: e.target.checked })}
+          />
+          Enabled
+        </label>
+      </div>
       {pendingRepeat && (
         <div role="alert" className="space-y-2 text-sm">
           <p>
@@ -259,8 +261,8 @@ export function CollectionStreamEditor({
 
       {regular && (
         <fieldset className="space-y-3">
-          <legend className="text-sm font-medium">Collection days</legend>
-          <div className="grid grid-cols-7 gap-1">
+          <legend className="text-sm font-medium">Repeat on</legend>
+          <div className="grid max-w-sm grid-cols-7 gap-1">
             {weekdays.map((day, i) => (
               <label key={day} title={day} className="min-w-0 cursor-pointer">
                 <input
@@ -293,7 +295,7 @@ export function CollectionStreamEditor({
               Choose at least one weekday.
             </p>
           )}
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid items-start gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {repeat === 'custom' && (
               <label className="text-sm">
                 Every (weeks)
@@ -325,6 +327,7 @@ export function CollectionStreamEditor({
                 min="1900-01-01"
                 max="2199-12-31"
                 value={regular.anchorDate}
+                aria-label="Normal date (cycle anchor)"
                 aria-invalid={!anchorValid}
                 aria-describedby={`${id}-anchor`}
                 onChange={(e) =>
@@ -335,22 +338,15 @@ export function CollectionStreamEditor({
                   })
                 }
               />
+              <p
+                id={`${id}-anchor`}
+                className={`mt-1 text-xs ${anchorValid ? 'text-muted-foreground' : 'text-destructive'}`}
+              >
+                {anchorValid
+                  ? 'Sets the repeat cycle, not the start date.'
+                  : 'Choose a valid normal date on a selected weekday.'}
+              </p>
             </label>
-          </div>
-          {!intervalValid && (
-            <p id={`${id}-interval`} role="alert" className="text-sm text-destructive">
-              Choose an integer interval from 1 to 52 weeks.
-            </p>
-          )}
-          <p
-            id={`${id}-anchor`}
-            className={`text-sm ${anchorValid ? 'text-muted-foreground' : 'text-destructive'}`}
-          >
-            {anchorValid
-              ? `Every ${regular.intervalWeeks} week${regular.intervalWeeks === 1 ? '' : 's'}, on each selected weekday of the active week. The normal date anchors the cycle, not a start boundary.`
-              : 'Choose a valid normal date on a selected weekday.'}
-          </p>
-          <div className="grid gap-3 sm:grid-cols-2">
             <label className="text-sm">
               First date (optional)
               <Input
@@ -358,9 +354,13 @@ export function CollectionStreamEditor({
                 min="1900-01-01"
                 max="2199-12-31"
                 value={startDate ?? ''}
+                aria-label="First date (optional)"
                 aria-describedby={`${id}-first`}
                 onChange={(e) => setFirstDate(e.target.value)}
               />
+              <p id={`${id}-first`} className="mt-1 text-xs text-muted-foreground">
+                No events before this date. Blank means no start limit.
+              </p>
             </label>
             <div className="text-sm">
               <p className="mb-1">Ends</p>
@@ -411,10 +411,11 @@ export function CollectionStreamEditor({
               </div>
             </div>
           </div>
-          <p id={`${id}-first`} className="text-sm text-muted-foreground">
-            A first date stops this event generating dates before it. Leave blank to keep the
-            original unbounded cycle.
-          </p>
+          {!intervalValid && (
+            <p id={`${id}-interval`} role="alert" className="text-sm text-destructive">
+              Choose an integer interval from 1 to 52 weeks.
+            </p>
+          )}
           {!boundsValid && (
             <p role="alert" className="text-sm text-destructive">
               The end date must be on or after the first date.

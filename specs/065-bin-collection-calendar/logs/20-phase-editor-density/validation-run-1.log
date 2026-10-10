@@ -1,0 +1,22 @@
+v24.18.0
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/CollectionManager.test.tsx  (5 tests) 205ms
+ ✓ tests/unit/CollectionStreamEditor.test.tsx  (7 tests) 257ms
+
+ Test Files  2 passed (2)
+      Tests  12 passed (12)
+   Start at  15:39:32
+   Duration  1.13s (transform 109ms, setup 0ms, collect 404ms, tests 462ms, environment 767ms, prepare 72ms)
+
+$ tsc --noEmit
+tests/unit/CollectionStreamEditor.test.tsx(112,72): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(role: ByRoleMatcher, options?: ByRoleOptions | undefined): HTMLElement', gave the following error.
+    Object literal may only specify known properties, and 'exact' does not exist in type 'ByRoleOptions'.
+  Overload 2 of 2, '(role: ByRoleMatcher, options?: ByRoleOptions | undefined): HTMLElement', gave the following error.
+    Object literal may only specify known properties, and 'exact' does not exist in type 'ByRoleOptions'.
+tests/unit/CollectionStreamEditor.test.tsx(123,7): error TS2353: Object literal may only specify known properties, and 'exact' does not exist in type 'ByRoleOptions'.
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] frontend@0.1.0 typecheck: `tsc --noEmit`
+Exit status 2

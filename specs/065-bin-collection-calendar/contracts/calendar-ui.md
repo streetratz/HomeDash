@@ -18,6 +18,17 @@ available but collapsed until requested. Clearly distinguish series changes from
 one-occurrence date changes. Use Bin Collection Preset appends three events
 without replacing the current list; household timezone stays explicit.
 
+The expanded editor groups Repeat and Enabled on one desktop row, bounds the
+weekday strip rather than stretching it across the panel, and places cycle
+anchor, first date and end controls together on wide screens. Narrow screens
+stack fields without horizontal overflow. Helper text is concise and attached
+to its field; ordering uses labelled 44px arrow buttons. No schedule values or
+advanced capabilities are removed to achieve the compact layout.
+The bundled icon palette uses the existing anchored Popover primitive, like
+Colour, without reflowing the title row. Icon options are labelled buttons
+with selected state, 44px targets and disabled state while saving. Selection
+and Escape close the palette and return focus to its trigger.
+
 Public/display DTO adds only the allowlisted `icon` presentation field; no
 start/end rules or private config. Existing saved IDs and widget selection keys
 are preserved; UI labels become Custom events and Public custom events.

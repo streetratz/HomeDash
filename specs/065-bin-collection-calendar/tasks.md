@@ -5,7 +5,7 @@
 `contracts/collection-api.md`, `contracts/calendar-ui.md`, `quickstart.md`;
 root/scoped `AGENTS.md` and `.specify/memory/constitution.md` v2.4.0.  
 **Status**: **Custom event refactor implemented and independently reviewed;
-local owner validation pending.** R001-R014 below track the current scope.
+local owner validation pending.** R001-R015 below track the current scope.
 Original T tasks retain historical implementation and outstanding acceptance
 evidence; unchecked human-validation and PR tasks are not claimed complete.
 **Tests**: Required by the specification, requested behavior coverage and
@@ -311,6 +311,7 @@ candidate. Outstanding original matrices/human evidence are not marked complete.
 - [x] R012 Replace the Custom Events modal with an in-page expandable manager panel launched from the admin Calendar Sources controls (no popup/dialog overlay); remove `CustomEventsDialog` (Prerequisite: R009).
 - [x] R013 Make native date pickers theme-visible (dark-mode `color-scheme`) and touch-friendly (≥44px on coarse pointers) for all event date fields; align spec/UI contract/changelog (Prerequisite: R012).
 - [x] R014 Re-validate collections E2E (desktop + mobile-safari), unit suite, typecheck/build and full lint after the in-page refactor (Prerequisite: R013).
+- [x] R015 Compact the expanded event editor and replace the inline icon grid with the shared anchored Popover; validate desktop field alignment, 360px containment, no title-row reflow, selection/Escape focus return, disabled options and unchanged edit/save/delete flows (Prerequisite: R014). Evidence: `logs/20-phase-editor-density.md`.
 
 ### Phase and story graph
 

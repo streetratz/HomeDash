@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { ArrowDown, ArrowUp, Pencil, Plus, Trash2 } from 'lucide-react';
 import {
   useCollectionConfig,
   useCollectionPreview,
@@ -469,22 +469,31 @@ export function CollectionManager() {
                   {open && (
                     <div className="space-y-3 border-t border-border p-3">
                       <CollectionStreamEditor stream={s} onChange={updateStream} disabled={busy} />
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex items-center gap-1">
+                        <span className="mr-1 text-xs text-muted-foreground">Event order</span>
                         <Button
-                          variant="outline"
-                          className="min-h-11"
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="h-11 w-11"
+                          aria-label="Move up"
+                          title="Move up"
                           disabled={index === 0}
                           onClick={() => reorder(index, -1)}
                         >
-                          Move up
+                          <ArrowUp aria-hidden className="h-4 w-4" />
                         </Button>
                         <Button
-                          variant="outline"
-                          className="min-h-11"
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="h-11 w-11"
+                          aria-label="Move down"
+                          title="Move down"
                           disabled={index === draft.streams.length - 1}
                           onClick={() => reorder(index, 1)}
                         >
-                          Move down
+                          <ArrowDown aria-hidden className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>

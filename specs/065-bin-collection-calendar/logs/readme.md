@@ -23,6 +23,7 @@
 | 17 | Custom event UI refactor | Complete — admin dialog launcher, offline icons, generic labels; 177 unit / 9 collection E2E, typecheck/build/lint clean | [17-phase-custom-event-ui.md](17-phase-custom-event-ui.md) |
 | 18 | CH-04 in-page editor + date picker | Complete — modal replaced with in-page panel, theme-visible/touch date pickers; 177 unit / 9 collection E2E, typecheck/build/lint clean | [18-phase-inpage-datepicker.md](18-phase-inpage-datepicker.md) |
 | 19 | Independent custom event review | Validated — public identity correction, 835 backend / 5 targeted browser tests; owner validation pending | [19-phase-custom-event-review.md](19-phase-custom-event-review.md) |
+| 20 | Custom event editor density | Validated — compact controls, anchored icon palette; 12 unit / 3 browser tests, typecheck/build/full lint | [20-phase-editor-density.md](20-phase-editor-density.md) |
 
 ## Overall Status
 

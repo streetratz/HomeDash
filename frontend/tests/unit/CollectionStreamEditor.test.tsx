@@ -101,4 +101,28 @@ describe('independent regular stream editor', () => {
       screen.getByRole<HTMLInputElement>('textbox', { name: 'Custom hex colour' }).disabled,
     ).toBe(true);
   });
+  it('uses an anchored icon palette and closes it after selection', () => {
+    const change = vi.fn();
+    render(<CollectionStreamEditor stream={stream} onChange={change} />);
+    const trigger = screen.getByRole('button', { name: 'Change icon for Rubbish' });
+    fireEvent.click(trigger);
+    const palette = screen.getByRole('dialog', { name: 'Icon for Rubbish' });
+    expect(trigger.closest('[data-radix-popper-content-wrapper]')).toBeNull();
+    expect(palette.closest('[data-radix-popper-content-wrapper]')).not.toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'CalendarDays' }));
+    expect(change).toHaveBeenLastCalledWith({ ...stream, icon: 'CalendarDays' });
+    expect(screen.queryByRole('dialog', { name: 'Icon for Rubbish' })).toBeNull();
+  });
+  it('disables icon options in an already-open palette while saving', () => {
+    const change = vi.fn();
+    const view = render(<CollectionStreamEditor stream={stream} onChange={change} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Change icon for Rubbish' }));
+    view.rerender(<CollectionStreamEditor stream={stream} onChange={change} disabled />);
+    const option = screen.getByRole<HTMLButtonElement>('button', {
+      name: 'CalendarDays',
+    });
+    expect(option.disabled).toBe(true);
+    fireEvent.click(option);
+    expect(change).not.toHaveBeenCalled();
+  });
 });
