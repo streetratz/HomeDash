@@ -22,8 +22,12 @@ made public.
 
 Collection configuration is authoritative household data, separate from synced
 provider events and birthdays. The additive collection migration creates four
-initially empty tables; no preset is seeded. Existing Calendar/provider selections
-are preserved. Removing a stream prunes only its collection selections.
+initially empty tables; no preset is seeded. Later additive migrations extend
+`collection_streams` with a required bundled **icon** and optional inclusive
+first/last **start/end date** bounds; existing rows default to the `Trash2` icon
+and `null` (unbounded) bounds, so existing stream IDs, rules, exceptions and
+Calendar/provider selections are preserved. Removing a stream prunes only its
+collection selections.
 
 Preview/save is a whole-configuration transaction. A concurrent save or restore
 invalidates an older revision/runtime epoch and returns a conflict; retain the
@@ -33,14 +37,17 @@ retain entered fields. For diagnostics, capture the safe error code and request
 ID, not private provider labels, backup contents or credentials.
 
 Portable **v2** backups include all four collection tables, stable IDs/order,
-disabled streams, exceptions, explicit dates and widget/public selections.
-They store rules, not generated occurrences. The new reader accepts collection-free
-**v1**, with an explicit full-replacement warning: restoring it removes current
-collection configuration. An old v1-only reader cannot read v2. Full restore
-validates the complete input before deleting anything and rolls back failed
-inserts. Successful restore rotates the runtime epoch and invalidates sessions;
-log in again. Existing secret exclusions and provider OAuth reauthentication
-requirements remain in force.
+disabled streams, exceptions, explicit dates, per-event icon and bounds, and
+widget/public selections. They store rules, not generated occurrences. Older v2
+backups written before the icon/bounds columns normalise a missing icon to
+`Trash2` and missing bounds to `null` on restore, while fresh values are
+preserved; pre-refactor readers will not accept the extended rows. The new reader
+accepts collection-free **v1**, with an explicit full-replacement warning:
+restoring it removes current collection configuration. An old v1-only reader
+cannot read v2. Full restore validates the complete input before deleting
+anything and rolls back failed inserts. Successful restore rotates the runtime
+epoch and invalidates sessions; log in again. Existing secret exclusions and
+provider OAuth reauthentication requirements remain in force.
 
 Before upgrading, retain a consistent SQLite backup and the matching prior
 container image. On a disposable copy, check `PRAGMA foreign_key_check` after
@@ -49,8 +56,8 @@ with its matching older image, not attempting a down-migration or feeding a v2
 portable file to an older reader. Never test upgrade/restore against live data.
 
 Public collection reads expose only the selected widget's permitted names,
-colours and household date context. They do not expose rules, management state,
-provider labels, revisions or epochs. Revoking the public subset or designated
+colours, allowlisted icon and household date context. They do not expose rules,
+bounds, management state, provider labels, revisions or epochs. Revoking the public subset or designated
 dashboard denies subsequent reads; active views remove a denied cached payload
 on their next fetch (foreground polling is 30 seconds, resume refresh is immediate).
 

@@ -213,7 +213,11 @@ using differing visitor timezones and permitted/forbidden roles.
 ### Custom Event Revision Requirements
 
 - **FR-024**: Admin Calendar settings MUST expose Custom Events beside Birthdays;
-  editing MUST occur in a mobile-friendly dialog with one expanded event at a time.
+  editing MUST occur in a mobile-friendly **in-page** panel (no modal/popup
+  overlay) with one expanded event at a time. All date entry (one-off date,
+  recurrence first date, end date and occurrence dates) MUST use an actual
+  date-picker control, rendered so the picker is visible in both light and dark
+  themes and operable by keyboard and touch.
 - **FR-025**: Events MUST have a stable identity, title, validated bundled icon,
   colour picker and enabled state. No external image URL/icon fetch is required.
   Display MUST use the selected icon and visible title in agenda and fullscreen.

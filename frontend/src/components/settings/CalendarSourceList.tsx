@@ -14,6 +14,7 @@ import {
   Clock3,
   Link2,
   FileText,
+  ChevronDown,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '../ui/button.js';
@@ -41,7 +42,7 @@ import {
 import { ICalSourceForm } from './ICalSourceForm.js';
 import { ICalFileSourceForm } from './ICalFileSourceForm.js';
 import { BirthdaySourceDialog } from './BirthdaySourceDialog.js';
-import { CustomEventsDialog } from './CustomEventsDialog.js';
+import { CollectionManager } from './CollectionManager.js';
 import { useAuthMe } from '../../state/bootstrap.js';
 import { SettingsErrorState, SettingsLoadingState } from './SettingsDataState.js';
 
@@ -199,9 +200,19 @@ export function CalendarSourceList() {
             Add Birthdays
           </Button>
           {isAdmin && (
-            <Button variant="outline" size="sm" onClick={() => setCustomEventsOpen(true)}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCustomEventsOpen((open) => !open)}
+              aria-expanded={customEventsOpen}
+              aria-controls="custom-events-panel"
+            >
               <CalendarClock className="mr-1 h-3.5 w-3.5" />
               Custom Events
+              <ChevronDown
+                className={`ml-1 h-3.5 w-3.5 transition-transform ${customEventsOpen ? 'rotate-180' : ''}`}
+                aria-hidden="true"
+              />
             </Button>
           )}
         </div>
@@ -331,6 +342,32 @@ export function CalendarSourceList() {
         })}
       </div>
 
+      {isAdmin && customEventsOpen && (
+        <section
+          id="custom-events-panel"
+          className="rounded-xl border border-border/70 bg-card/30 p-4"
+        >
+          <div className="mb-3 flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h4 className="text-sm font-semibold">Custom events</h4>
+              <p className="text-xs text-muted-foreground">
+                Local one-off and recurring events — bin days, chores, reminders — shown in your
+                Calendar widgets.
+              </p>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="shrink-0"
+              onClick={() => setCustomEventsOpen(false)}
+            >
+              Close
+            </Button>
+          </div>
+          <CollectionManager />
+        </section>
+      )}
+
       <ICalSourceForm
         open={urlFormOpen}
         onOpenChange={setUrlFormOpen}
@@ -346,7 +383,6 @@ export function CalendarSourceList() {
         onOpenChange={setBirthdayFormOpen}
         source={editSource?.type === 'birthday_local' ? editSource : undefined}
       />
-      {isAdmin && <CustomEventsDialog open={customEventsOpen} onOpenChange={setCustomEventsOpen} />}
     </div>
   );
 }

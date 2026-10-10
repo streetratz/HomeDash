@@ -7,11 +7,14 @@ including owner-confirmed CH-02 Calendar-only icon-and-text scope.
 
 ## CH-03 Implementation Revision
 
-Use a Custom Events button alongside Birthdays in CalendarSourceList. It mounts
-a dialog manager with a compact event list and one expanded editor. Keep the
+Use a Custom Events button alongside Birthdays in CalendarSourceList. It expands
+an in-page manager panel (CH-04: no modal/popup — settings do not use dialog
+overlays for editing) with a compact event list and one expanded editor. Keep the
 existing collection engine/API/table/widget-key names as compatibility internals;
 do not duplicate scheduling into provider events or rewrite unrelated sources.
-UI wording becomes custom events, with Add Event and additive bin preset.
+UI wording becomes custom events, with Add Event and additive bin preset. Date
+fields use the repository's native date picker, rendered theme-aware so it is
+visible in dark mode and ≥44px on touch (CH-04).
 
 Extend stream storage with a bundled allowlisted icon (legacy default Trash2),
 nullable startDate and endDate for regular schedules. New events default to an

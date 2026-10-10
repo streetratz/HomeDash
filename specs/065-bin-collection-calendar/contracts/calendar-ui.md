@@ -5,10 +5,14 @@ CH-03 generalises collections to custom all-day events.
 
 ## CH-03 Manager Revision (supersedes bin-only presentation below)
 
-Custom Events button beside Birthdays opens a responsive dialog. Present event
+Custom Events button beside Birthdays expands an **in-page** manager panel
+(no modal/popup — settings never use dialog overlays for editing). Present event
 summaries and expand one editor at a time. Add Event defaults to one date/Repeat
 Off; Weekly/Fortnightly/Custom recurrence adds first date, weekday buttons and
-optional inclusive end date. Title, bundled icon, colour and enabled state are
+optional inclusive end date. All date fields (one-off date, first date, end date,
+occurrence dates) use the repository's native `<input type="date">` picker,
+rendered theme-aware so the picker is visible in dark mode and touch-friendly
+(≥44px) on coarse pointers. Title, bundled icon, colour and enabled state are
 editable. Advanced date lists and Skip/Move/Add occurrence editing remain
 available but collapsed until requested. Clearly distinguish series changes from
 one-occurrence date changes. Use Bin Collection Preset appends three events

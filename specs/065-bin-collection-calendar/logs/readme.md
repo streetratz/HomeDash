@@ -21,6 +21,7 @@
 | 15 | Custom event scope revision | Complete — CH-03 replaces bin-only UI boundary; planning aligned | [15-phase-custom-event-planning.md](15-phase-custom-event-planning.md) |
 | 16 | Custom event backend foundation | Complete — icon/bounds engine + migrations; 835 tests, lint clean | [16-phase-custom-event-foundation.md](16-phase-custom-event-foundation.md) |
 | 17 | Custom event UI refactor | Complete — admin dialog launcher, offline icons, generic labels; 177 unit / 9 collection E2E, typecheck/build/lint clean | [17-phase-custom-event-ui.md](17-phase-custom-event-ui.md) |
+| 18 | CH-04 in-page editor + date picker | Complete — modal replaced with in-page panel, theme-visible/touch date pickers; 177 unit / 9 collection E2E, typecheck/build/lint clean | [18-phase-inpage-datepicker.md](18-phase-inpage-datepicker.md) |
 
 ## Overall Status
 

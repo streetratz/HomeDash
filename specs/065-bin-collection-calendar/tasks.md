@@ -303,6 +303,12 @@ candidate. Outstanding original matrices/human evidence are not marked complete.
 - [ ] R010 Run desktop/mobile browser flows, unit suites, typecheck/build and full lint; update docs/audit and commit UI phase (Prerequisite: R009).
 - [ ] R011 Verify rebuilt isolated preview and final review; no push/PR or data wipe (Prerequisite: R010).
 
+### CH-04 Correction Tasks (owner review 2026-10-10 1507 UTC+11)
+
+- [x] R012 Replace the Custom Events modal with an in-page expandable manager panel launched from the admin Calendar Sources controls (no popup/dialog overlay); remove `CustomEventsDialog` (Prerequisite: R009).
+- [x] R013 Make native date pickers theme-visible (dark-mode `color-scheme`) and touch-friendly (≥44px on coarse pointers) for all event date fields; align spec/UI contract/changelog (Prerequisite: R012).
+- [x] R014 Re-validate collections E2E (desktop + mobile-safari), unit suite, typecheck/build and full lint after the in-page refactor (Prerequisite: R013).
+
 ### Phase and story graph
 
 ```text

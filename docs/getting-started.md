@@ -41,32 +41,39 @@ suites. No separately running HomeDash instance is required. To target a fresh,
 disposable server managed outside Playwright instead, set
 `PLAYWRIGHT_BASE_URL` to its origin.
 
-## Household collections in Calendar
+## Custom events in Calendar
 
-An administrator opens **Settings → Integrations → Calendars → Household
-collections**. This is part of the existing Calendar widget, not a new widget or
-calendar provider. No additional environment variable, dependency or service is
-required; manually entered collections work without internet access.
+An administrator opens **Settings → Integrations → Calendars** and clicks
+**Custom Events** (beside **Add Birthdays**; the button is admin-only). This
+opens a compact manager for local one-off and recurring events — bin days,
+chores, reminders — shown in the existing Calendar widget. It is not a new
+widget or calendar provider. No additional environment variable, dependency or
+service is required, and no council lookup, cloud call or external icon request
+is made; events work entirely offline.
 
-- Confirm the named household timezone and check the provider's actual calendar.
-  The preset is not an official council schedule: enter a normal Recycling date
-  and matching weekday, then preview at least four weeks. It creates red weekly
-  General waste, yellow alternating Recycling and green alternating Garden.
-- Alternatively start custom schedules. Each stream has its own name, colour,
-  enabled state, weekday set and **Every N weeks** rule (1–52). Weeks run
-  Monday–Sunday around the anchor week; a four-week cycle is not “monthly.”
-- Finite explicit lists generate only entered dates, including seasonal dates.
-  Past-only lists are exhausted, not extended automatically.
-- Skip a scheduled origin, move it to an actual date, or add an extra. Preview
-  checks the entire exception set. Moves do not shift subsequent cycles.
-  Remove/mode-switch confirmations affect the draft only until saved.
-- Preview, resolve blockers and save. Configure an existing Calendar widget's
-  selected collection streams. New streams are not selected automatically.
-  A separate public subset must also be chosen for an intentionally public
-  Calendar on the designated public web/mobile dashboard.
+- Confirm the named household timezone. Each event has its own **title**,
+  **icon** (chosen from a bundled offline set — no external icons), **colour**
+  (shared colour picker), and enabled state.
+- New events default to a single all-day date (**Repeat Off**). Switch **Repeat**
+  to Weekly, Fortnightly, or Custom **every N weeks** (1–52) on a Monday-first
+  weekday subset. A new repeat starts at its first date and never generates
+  earlier dates; an optional inclusive end date bounds it (Never or a date).
+- The optional **bin preset** is an additive shortcut: enter a normal Recycling
+  date and matching weekday, preview, then append red weekly General waste,
+  yellow fortnightly Recycling and alternate-week green Garden as three
+  independent, individually editable events. It never replaces or deletes your
+  other events.
+- Advanced single-occurrence controls let you reversibly skip a scheduled date,
+  move it to an actual date, or add an extra — distinct from editing the series
+  title/icon/colour/rule. Preview checks the whole exception set; moves do not
+  shift later cycles. Optional explicit date lists generate only entered dates.
+- One editor is expanded at a time. Preview, resolve any blockers, then **Save
+  events**. Select events in an existing Calendar widget; new events are not
+  selected or published automatically. A separate public subset must be chosen
+  for an intentionally public Calendar on the designated public dashboard.
 
-The next group shows the full weekday/date, household Today/Tomorrow, and every
-due stream's coloured bin icon **and visible name**; colour is not the sole
+The Calendar agenda shows the full weekday/date, household Today/Tomorrow, and
+every due event's coloured icon **and visible name**; colour is not the sole
 identifier. Expand Calendar for complete month/day details. Household dates
 remain the same for visitors in other timezones; provider events retain their
 existing timezone behavior. Names and dates wrap on narrow screens.

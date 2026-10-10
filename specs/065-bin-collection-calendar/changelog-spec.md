@@ -55,3 +55,21 @@ Supersede the bin-only UI without wiping saved data or changing external feeds.
 | FR-026–FR-027 | Default one-off, bounded N-week recurrence and legacy preservation. |
 | FR-028–FR-030 | Additive bin preset, occurrence/series distinction and unchanged safe access/atomicity. |
 | Historical US1–US4 / FR-005–FR-017 | Generalise streams to custom events; retain bin scenarios as regression coverage. Selected icons supersede fixed bin icons; new first-date bounds supersede unbounded anchor semantics only for new/bounded events. |
+
+---
+
+## CH-04 : In-page editor, no modal, visible date picker : 2026-Oct-10 1507 UTC+11
+
+**Type**: Revised  
+**Summary**: Owner correction after reviewing the preview: the Custom Events
+manager/editor MUST NOT use a popup/modal dialog (settings never use dialog
+overlays for editing), and the date fields MUST present an actual, visible,
+keyboard/touch-operable date picker rather than appearing as bare text entry.
+The compact button → list → one-expanded-editor UX and the standard colour
+picker palette are retained; only the modal container is replaced with an
+in-page expandable panel.
+
+| ID | Description |
+| --- | --- |
+| FR-024 | Replace "mobile-friendly dialog" with an in-page panel (no modal/popup) and require a real, theme-visible, keyboard/touch date picker for all date fields. |
+| UI contract / CH-03 Manager Revision | Custom Events button expands an in-page manager panel; native `<input type="date">` rendered theme-aware (dark-mode visible) and ≥44px touch target on coarse pointers. |
