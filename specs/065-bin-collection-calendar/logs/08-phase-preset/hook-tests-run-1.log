@@ -1,0 +1,17 @@
+# Command: pnpm --filter frontend exec vitest run tests/unit/collectionHooks.test.tsx && pnpm --filter frontend typecheck
+# Phase:   08-phase-preset
+# Run:     1
+# Time:    2026-10-10T00:58:03+00:00
+# Exit:    0
+---
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionHooks.test.tsx  (4 tests) 120ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  11:57:59
+   Duration  650ms (transform 27ms, setup 0ms, collect 73ms, tests 120ms, environment 259ms, prepare 31ms)
+
+$ tsc --noEmit

@@ -1,0 +1,19 @@
+# Command: node --version && pnpm --filter frontend exec vitest run tests/unit/collectionHooks.test.tsx tests/unit/CollectionManager.test.tsx && pnpm lint
+# Phase:   08-phase-preset
+# Run:     1
+# Time:    2026-10-10T00:59:47+00:00
+# Exit:    0
+---
+v24.18.0
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionHooks.test.tsx  (4 tests) 120ms
+ ✓ tests/unit/CollectionManager.test.tsx  (3 tests) 105ms
+
+ Test Files  2 passed (2)
+      Tests  7 passed (7)
+   Start at  11:59:30
+   Duration  718ms (transform 71ms, setup 0ms, collect 220ms, tests 225ms, environment 538ms, prepare 60ms)
+
+$ eslint . --max-warnings=0

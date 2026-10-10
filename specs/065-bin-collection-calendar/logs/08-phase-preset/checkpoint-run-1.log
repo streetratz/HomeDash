@@ -1,0 +1,52 @@
+# Command: pnpm --filter backend exec vitest run tests/contract/collections.test.ts tests/integration/collectionPublic.test.ts tests/integration/collectionPreset.test.ts tests/integration/collectionBackup.test.ts tests/unit/collectionDates.test.ts tests/unit/collectionService.test.ts tests/unit/publicVisibility.test.ts && pnpm --filter frontend exec vitest run tests/unit/CollectionManager.test.tsx tests/unit/collectionCalendar.test.tsx tests/unit/collectionHooks.test.tsx tests/unit/collectionDates.test.ts && pnpm --filter backend typecheck && pnpm --filter frontend typecheck && pnpm lint
+# Phase:   08-phase-preset
+# Run:     1
+# Time:    2026-10-10T00:55:07+00:00
+# Exit:    1
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/unit/collectionService.test.ts  (7 tests) 244ms
+ ✓ tests/contract/collections.test.ts  (4 tests) 349ms
+ ✓ tests/integration/collectionBackup.test.ts  (4 tests) 154ms
+ ❯ tests/integration/collectionPublic.test.ts  (4 tests | 1 failed) 203ms
+   ❯ tests/integration/collectionPublic.test.ts > public collection widget scope > revokes next fetch and fails closed on malformed config and missing designation
+     → socket hang up
+ ❯ tests/integration/collectionPreset.test.ts  (1 test | 1 failed) 24ms
+   ❯ tests/integration/collectionPreset.test.ts > offline preset persistence and provider isolation > rejects Thursday and persists exact four Wednesdays through closing/reopening SQLite
+     → Cannot read properties of undefined (reading 'id')
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 23ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/integration/collectionPreset.test.ts > offline preset persistence and provider isolation > rejects Thursday and persists exact four Wednesdays through closing/reopening SQLite
+TypeError: Cannot read properties of undefined (reading 'id')
+ ❯ tests/integration/collectionPreset.test.ts:15:32
+     13|   it('rejects Thursday and persists exact four Wednesdays through clos…
+     14|     const user = getDb().select().from(users).get()!;
+     15|     seedCollectionContext(user.id);
+       |                                ^
+     16|     const beforeProviders = getDb().select().from(calendarSources).all…
+     17|     const beforeBirthdays = getDb().select().from(calendarBirthdays).a…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/integration/collectionPublic.test.ts > public collection widget scope > revokes next fetch and fails closed on malformed config and missing designation
+Error: socket hang up
+ ❯ Socket.socketOnEnd node:_http_client:617:25
+ ❯ Socket.emit node:events:521:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'ECONNRESET', response: undefined }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  2 failed | 4 passed (6)
+      Tests  2 failed | 25 passed (27)
+   Start at  11:55:05
+   Duration  1.96s (transform 276ms, setup 219ms, collect 623ms, tests 997ms, environment 0ms, prepare 28ms)
+
+undefined
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command failed with exit code 1: vitest run tests/contract/collections.test.ts tests/integration/collectionPublic.test.ts tests/integration/collectionPreset.test.ts tests/integration/collectionBackup.test.ts tests/unit/collectionDates.test.ts tests/unit/collectionService.test.ts tests/unit/publicVisibility.test.ts

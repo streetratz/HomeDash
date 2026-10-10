@@ -1,0 +1,26 @@
+# Command: pnpm --filter backend exec vitest run tests/contract/collections.test.ts tests/integration/collectionPublic.test.ts && pnpm --filter backend typecheck && pnpm lint
+# Phase:   08-phase-preset
+# Run:     2
+# Time:    2026-10-10T00:45:13+00:00
+# Exit:    2
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/contract/collections.test.ts  (4 tests) 402ms
+ ✓ tests/integration/collectionPublic.test.ts  (4 tests) 202ms
+
+ Test Files  2 passed (2)
+      Tests  8 passed (8)
+   Start at  11:45:07
+   Duration  1.52s (transform 270ms, setup 213ms, collect 554ms, tests 604ms, environment 0ms, prepare 29ms)
+
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+tests/contract/collections.test.ts(55,47): error TS2322: Type 'string' is not assignable to type 'HTTPMethods | undefined'.
+tests/contract/collections.test.ts(56,23): error TS2339: Property 'statusCode' does not exist on type 'void & Promise<Response> & Chain'.
+tests/integration/collectionPublic.test.ts(35,47): error TS2322: Type 'string' is not assignable to type 'HTTPMethods | undefined'.
+tests/integration/collectionPublic.test.ts(36,23): error TS2339: Property 'statusCode' does not exist on type 'void & Promise<Response> & Chain'.
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/backend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] backend@0.1.0 typecheck: `tsc --noEmit && tsc --project tsconfig.test.json --noEmit`
+Exit status 2

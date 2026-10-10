@@ -110,10 +110,11 @@ export const calendarKeys = {
 
 // ── Queries ───────────────────────────────────────────────────────────────────
 
-export function useCalendarSources() {
+export function useCalendarSources(options?: { enabled?: boolean }) {
   return useQuery({
     queryKey: calendarKeys.sources,
     queryFn: () => apiClient.get<CalendarSource[]>('/api/user/calendar/sources'),
+    enabled: options?.enabled ?? true,
   });
 }
 

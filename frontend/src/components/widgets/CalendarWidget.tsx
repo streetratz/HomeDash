@@ -5,7 +5,7 @@
  * a full-screen month view overlay with prev/next month navigation.
  */
 
-import { useMemo, useState, useCallback, useEffect } from 'react';
+import { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Expand, AlertTriangle, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/button.js';
@@ -20,9 +20,12 @@ import { AgendaView } from '../calendar/AgendaView.js';
 import { FullScreenCalendar } from '../calendar/FullScreenCalendar.js';
 import { useClockFormat } from '../../state/bootstrap.js';
 import { toCalendarDateKey, toLocalDateKey } from '../../lib/calendarDates.js';
+import { useCollectionDisplay } from '../../state/collectionHooks.js';
+import { useWidgetVisibility } from '../../hooks/useWidgetVisibility.js';
 
 interface CalendarConfig {
   sourceIds: string[];
+  collectionStreamIds: string[];
   viewMode: 'compact' | 'expanded';
   daysAhead: number;
   maxEvents: number;
@@ -34,6 +37,7 @@ function parseConfig(widget: WidgetDisplayProps['widget']): CalendarConfig {
   const raw = (widget.config ?? {}) as Partial<CalendarConfig>;
   return {
     sourceIds: raw.sourceIds ?? [],
+    collectionStreamIds: raw.collectionStreamIds ?? [],
     viewMode: raw.viewMode === 'compact' ? 'compact' : 'expanded',
     daysAhead: raw.daysAhead ?? 7,
     maxEvents: raw.maxEvents ?? 25,
@@ -61,8 +65,12 @@ export function CalendarWidget({ widget }: WidgetDisplayProps) {
   const { hour12 } = useClockFormat();
   const syncMutation = useSyncCalendarSource();
   const [syncing, setSyncing] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const visible = useWidgetVisibility(containerRef);
+  const collectionEnabled = config.collectionStreamIds.length > 0;
+  const collectionQuery = useCollectionDisplay(widget.id, { daysAhead: config.daysAhead }, collectionEnabled && visible && !expanded);
 
-  const sourcesQuery = useCalendarSources();
+  const sourcesQuery = useCalendarSources({ enabled: config.sourceIds.length > 0 });
   const currentTime = useCurrentTime();
 
   // Compute most recent sync time across configured sources
@@ -113,10 +121,10 @@ export function CalendarWidget({ widget }: WidgetDisplayProps) {
   const eventsQuery = useCalendarEvents(config.sourceIds, from, to);
 
   // Loading (initial load only — don't show skeleton on refetch/sync)
-  if (
+  if (!collectionEnabled && (
     (!sourcesQuery.data && sourcesQuery.isLoading) ||
     (!eventsQuery.data && eventsQuery.isLoading)
-  ) {
+  )) {
     return (
       <div className="flex flex-col gap-2 p-3">
         <Skeleton className="h-4 w-24" />
@@ -128,7 +136,7 @@ export function CalendarWidget({ widget }: WidgetDisplayProps) {
   }
 
   // No sources configured
-  if (config.sourceIds.length === 0) {
+  if (config.sourceIds.length === 0 && !collectionEnabled) {
     return (
       <div className="flex h-full items-center justify-center p-4 text-center text-sm text-muted-foreground">
         Configure calendar sources in Settings
@@ -137,7 +145,7 @@ export function CalendarWidget({ widget }: WidgetDisplayProps) {
   }
 
   // Error
-  if (eventsQuery.isError) {
+  if (eventsQuery.isError && !collectionEnabled) {
     return (
       <div className="flex flex-col items-center justify-center gap-2 p-4 text-center">
         <AlertTriangle className="h-6 w-6 text-status-warning" />
@@ -163,19 +171,19 @@ export function CalendarWidget({ widget }: WidgetDisplayProps) {
   const sources = sourcesQuery.data ?? [];
 
   return (
-    <div className="flex h-full flex-col px-3 py-2">
+    <div ref={containerRef} className="flex h-full min-w-0 flex-col px-3 py-2">
       {/* Toolbar: expand left, sync right */}
       <div className="flex items-center justify-between shrink-0 pb-1">
         <Button
           variant="ghost"
           size="icon"
-          className="h-5 w-5"
+          className="min-h-11 min-w-11"
           title="Open month view"
           onClick={() => setExpanded(true)}
         >
           <Expand className="h-3 w-3" />
         </Button>
-        <div className="flex items-center gap-1">
+        {config.sourceIds.length > 0 && <div className="flex items-center gap-1">
           {lastSyncLabel && (
             <span className="text-[10px] text-muted-foreground/60">Synced {lastSyncLabel}</span>
           )}
@@ -189,17 +197,27 @@ export function CalendarWidget({ widget }: WidgetDisplayProps) {
           >
             <RefreshCw className={`h-3 w-3 ${syncing ? 'animate-spin' : ''}`} />
           </Button>
-        </div>
+        </div>}
       </div>
 
       {/* Agenda */}
       <div className="min-h-0 flex-1 overflow-y-auto scrollbar-thin">
+        {collectionEnabled && collectionQuery.isLoading && <p role="status" className="text-sm">Loading collections…</p>}
+        {collectionEnabled && collectionQuery.isError && <div role="alert" className="text-sm">
+          {collectionQuery.denied ? 'Collections unavailable for this view.' : collectionQuery.stale ? 'Collections may be out of date.' : 'Collections unavailable.'}
+          <Button variant="outline" className="min-h-11" onClick={() => void collectionQuery.refetch()}>Retry collections</Button>
+        </div>}
+        {collectionQuery.data && collectionQuery.data.state !== 'ready' && <p className="py-3 text-sm text-muted-foreground">
+          {({ unconfigured: 'Household collections have not been configured.', not_selected: 'No collection streams selected.', disabled: 'Selected collection streams are disabled.', no_dates_in_range: 'No collections in this date range.', exhausted: 'The explicit collection dates have ended.', no_dates: 'No collections to show.', ready: '' })[collectionQuery.data.state]}
+        </p>}
+        {eventsQuery.isError && <p role="alert" className="text-sm">Provider events unavailable. <Button className="min-h-11" variant="outline" onClick={() => void eventsQuery.refetch()}>Retry calendars</Button></p>}
         <AgendaView
           events={events}
           sources={sources}
           showLocation={config.viewMode === 'expanded' && config.showLocation}
           compact={config.viewMode === 'compact'}
           hour12={hour12}
+          collections={collectionQuery.data}
         />
       </div>
 
@@ -207,10 +225,12 @@ export function CalendarWidget({ widget }: WidgetDisplayProps) {
       {expanded &&
         createPortal(
           <FullScreenCalendar
-            sourceIds={sources.map((s) => s.id)}
+            sourceIds={collectionEnabled ? config.sourceIds : sources.map((s) => s.id)}
             sources={sources}
             showPrivateEvents={config.showPrivateEvents}
             onClose={() => setExpanded(false)}
+            collectionWidgetId={collectionEnabled ? widget.id : undefined}
+            householdToday={collectionQuery.data?.householdToday ?? undefined}
           />,
           document.body,
         )}

@@ -18,6 +18,7 @@ import { publicWidgetRateLimit } from '../auth/rateLimit.js';
 import {
   projectPublicDashboard,
   resolvePublicWidget,
+  resolvePublicCollectionWidget,
 } from '../services/publicVisibility.js';
 import {
   getOrRefreshPublicSnapshot,
@@ -27,11 +28,21 @@ import {
   loadPublicWidgetSnapshot,
   publicSnapshotCachePolicy,
 } from '../services/publicWidgetProjection.js';
+import { readCollectionDisplay } from '../services/collectionService.js';
 
 const PublicWidgetParamsSchema = z.object({ widgetId: z.string().uuid() });
 const PUBLIC_NOT_FOUND = { error: 'NOT_FOUND', message: 'Public widget not found' } as const;
 
 export function registerPublicRoutes(app: FastifyInstance): void {
+  app.get('/api/public/calendar/widgets/:widgetId/collections',
+    { config: { rateLimit: publicWidgetRateLimit } },
+    (request, reply) => {
+      void reply.header('Cache-Control', 'no-store');
+      const params = PublicWidgetParamsSchema.safeParse(request.params);
+      const widget = params.success ? resolvePublicCollectionWidget(detectDeviceContext(request), params.data.widgetId) : null;
+      if (!widget) return reply.status(404).send(PUBLIC_NOT_FOUND);
+      return reply.send(readCollectionDisplay(widget.streamIds, request.query, true));
+    });
   app.get(
     '/api/public/widgets/:widgetId',
     { config: { rateLimit: publicWidgetRateLimit } },

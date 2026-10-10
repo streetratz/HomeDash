@@ -11,6 +11,7 @@
 | 05 | Plan and task consistency review | Complete — corrected artifact validation passed | [05-phase-plan-review.md](05-phase-plan-review.md) |
 | 06 | Implementation setup | Complete — baseline/typechecks/lint pass | [06-phase-setup.md](06-phase-setup.md) |
 | 07 | Foundation | Complete | [07-phase-foundational.md](07-phase-foundational.md) |
+| 08 | Household preset | In progress | [08-phase-preset.md](08-phase-preset.md) | [07-phase-foundational.md](07-phase-foundational.md) |
 
 ## Overall Status
 

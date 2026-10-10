@@ -12,6 +12,8 @@ import type { CalendarEvent, CalendarSource } from '../../state/calendarHooks.js
 import { useCalendarEvents } from '../../state/calendarHooks.js';
 import { useClockFormat } from '../../state/bootstrap.js';
 import { toCalendarDateKey } from '../../lib/calendarDates.js';
+import { useCollectionDisplay } from '../../state/collectionHooks.js';
+import { CollectionGroup } from './CollectionGroup.js';
 
 export interface FullScreenCalendarProps {
   /** All configured source IDs to fetch events for (empty = use all sources passed) */
@@ -19,6 +21,8 @@ export interface FullScreenCalendarProps {
   sources: CalendarSource[];
   showPrivateEvents?: boolean;
   onClose: () => void;
+  collectionWidgetId?: string | undefined;
+  householdToday?: string | undefined;
 }
 
 const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -52,15 +56,20 @@ function formatTimeRange(startAt: string, endAt: string, hour12?: boolean, start
   return `${start} – ${end}`;
 }
 
-export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onClose }: FullScreenCalendarProps) {
+export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onClose, collectionWidgetId, householdToday }: FullScreenCalendarProps) {
   const todayKey = useMemo(() => toDateKey(new Date()), []);
   const { hour12 } = useClockFormat();
 
   const [currentMonth, setCurrentMonth] = useState(() => {
-    const now = new Date();
+    const now = householdToday ? new Date(`${householdToday}T12:00:00`) : new Date();
     return { year: now.getFullYear(), month: now.getMonth() };
   });
-  const [selectedDate, setSelectedDate] = useState<string>(todayKey);
+  const [selectedDate, setSelectedDate] = useState<string>(householdToday ?? todayKey);
+  const range = {
+    from: `${currentMonth.year}-${pad(currentMonth.month + 1)}-01`,
+    to: `${currentMonth.year}-${pad(currentMonth.month + 1)}-${pad(getDaysInMonth(currentMonth.year, currentMonth.month))}`,
+  };
+  const collectionQuery = useCollectionDisplay(collectionWidgetId ?? '', range, !!collectionWidgetId);
 
   // Fetch events for the full visible month range (includes overflow days from prev/next month)
   const [from, to] = useMemo(() => {
@@ -78,8 +87,8 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
   }, [currentMonth]);
 
   const allSourceIds = useMemo(
-    () => (sourceIds.length > 0 ? sourceIds : sources.map((s) => s.id)),
-    [sourceIds, sources],
+    () => (collectionWidgetId || sourceIds.length > 0 ? sourceIds : sources.map((s) => s.id)),
+    [sourceIds, sources, collectionWidgetId],
   );
 
   const eventsQuery = useCalendarEvents(allSourceIds, from, to);
@@ -168,23 +177,29 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
   })();
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+    <div role="dialog" aria-modal="true" aria-label="Calendar month view" className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
       <div className="flex h-full w-full sm:h-[85vh] sm:w-[85vw] max-w-[1400px] flex-col overflow-hidden rounded-none sm:rounded-xl border border-border bg-background/90 shadow-2xl backdrop-blur">
       {/* Top bar */}
-      <div className="flex items-center justify-between border-b px-4 py-3">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={prevMonth}>
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <Button aria-label="Previous month" variant="ghost" size="icon" onClick={prevMonth}>
             <ChevronLeft className="h-5 w-5" />
           </Button>
           <h2 className="text-lg font-semibold">{monthLabel}</h2>
-          <Button variant="ghost" size="icon" onClick={nextMonth}>
+          <Button aria-label="Next month" variant="ghost" size="icon" onClick={nextMonth}>
             <ChevronRight className="h-5 w-5" />
           </Button>
           <Button variant="outline" size="sm" className="ml-2" onClick={goToToday}>
-            Today
+            {collectionWidgetId ? 'Provider Today' : 'Today'}
           </Button>
+          {collectionWidgetId && <Button variant="outline" className="min-h-11" onClick={() => {
+            const key = collectionQuery.data?.householdToday ?? householdToday;
+            if (!key) return;
+            const [y, m] = key.split('-').map(Number);
+            setCurrentMonth({ year: y!, month: m! - 1 }); setSelectedDate(key);
+          }}>Household Today</Button>}
         </div>
-        <Button variant="ghost" size="icon" onClick={onClose}>
+        <Button aria-label="Close month view" variant="ghost" size="icon" onClick={onClose}>
           <X className="h-5 w-5" />
         </Button>
       </div>
@@ -211,12 +226,14 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
               const isToday = dateKey === todayKey;
               const isSelected = dateKey === selectedDate;
               const dayEvents = eventsByDate.get(dateKey) ?? [];
+              const collectionGroup = collectionQuery.data?.groups.find(g => g.date === dateKey);
 
               return (
                 <button
                   key={dateKey}
                   type="button"
                   onClick={() => setSelectedDate(dateKey)}
+                  aria-label={`${dateKey}: ${dayEvents.length} provider events, ${collectionGroup?.streams.length ?? 0} collection streams. Open complete day detail`}
                   className={`relative flex flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden ${
                     isSelected ? 'bg-accent' : ''
                   }`}
@@ -230,6 +247,10 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
                   >
                     {day}
                   </span>
+                  {collectionGroup && <div className="space-y-px text-[10px]">
+                    {collectionGroup.streams.slice(0, 2).map(s => <p key={s.key} className="truncate text-foreground">{s.name}</p>)}
+                    {collectionGroup.streams.length > 2 && <p className="text-muted-foreground">+{collectionGroup.streams.length - 2} more collections</p>}
+                  </div>}
                   {/* Event list */}
                   {dayEvents.length > 0 && (
                     <div className="flex min-h-0 flex-1 flex-col gap-px overflow-hidden">
@@ -260,6 +281,14 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
         {/* Day detail sidebar */}
         <div className="w-full sm:w-80 shrink-0 overflow-y-auto border-t sm:border-t-0 sm:border-l p-4">
           <h3 className="mb-3 text-sm font-semibold">{selectedDateFormatted}</h3>
+          {collectionQuery.isLoading && collectionWidgetId && <p role="status">Loading collections…</p>}
+          {collectionQuery.isError && collectionWidgetId && <div role="alert">
+            {collectionQuery.stale ? 'Collections may be out of date.' : 'Collections unavailable.'}
+            <Button className="min-h-11" variant="outline" onClick={() => void collectionQuery.refetch()}>Retry collections</Button>
+          </div>}
+          {collectionQuery.data?.timezone && collectionQuery.data.householdToday &&
+            collectionQuery.data.groups.filter(g => g.date === selectedDate).map(g =>
+              <CollectionGroup key={g.date} group={g} today={collectionQuery.data!.householdToday!} timezone={collectionQuery.data!.timezone!} next />)}
           {selectedEvents.length === 0 ? (
             <div className="flex flex-col items-center justify-center gap-2 py-8 text-muted-foreground">
               <Calendar className="h-6 w-6" />

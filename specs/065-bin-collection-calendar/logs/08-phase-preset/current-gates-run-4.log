@@ -1,0 +1,20 @@
+# Command: pnpm --filter backend typecheck && pnpm --filter frontend typecheck && pnpm --filter frontend exec vitest run tests/unit/CollectionManager.test.tsx tests/unit/collectionHooks.test.tsx tests/unit/collectionCalendar.test.tsx && pnpm lint
+# Phase:   08-phase-preset
+# Run:     4
+# Time:    2026-10-10T00:49:51+00:00
+# Exit:    2
+---
+$ tsc --noEmit && tsc --project tsconfig.test.json --noEmit
+$ tsc --noEmit
+tests/unit/collectionCalendar.test.tsx(26,49): error TS2322: Type '{ id: string; name: string; }[]' is not assignable to type 'CalendarSource[]'.
+  Type '{ id: string; name: string; }' is missing the following properties from type 'CalendarSource': oauthAccountId, type, url, fileName, and 7 more.
+tests/unit/collectionCalendar.test.tsx(27,37): error TS2493: Tuple type '[]' of length '0' has no element at index '0'.
+tests/unit/collectionCalendar.test.tsx(30,59): error TS2322: Type '{ id: string; name: string; }[]' is not assignable to type 'CalendarSource[]'.
+  Type '{ id: string; name: string; }' is missing the following properties from type 'CalendarSource': oauthAccountId, type, url, fileName, and 7 more.
+tests/unit/collectionCalendar.test.tsx(31,37): error TS2493: Tuple type '[]' of length '0' has no element at index '0'.
+tests/unit/collectionCalendar.test.tsx(34,49): error TS2322: Type '{ id: string; name: string; }[]' is not assignable to type 'CalendarSource[]'.
+  Type '{ id: string; name: string; }' is missing the following properties from type 'CalendarSource': oauthAccountId, type, url, fileName, and 7 more.
+tests/unit/collectionCalendar.test.tsx(35,37): error TS2493: Tuple type '[]' of length '0' has no element at index '0'.
+/Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] frontend@0.1.0 typecheck: `tsc --noEmit`
+Exit status 2

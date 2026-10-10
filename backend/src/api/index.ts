@@ -13,6 +13,7 @@ import { registerAdminRoutes } from './admin.js';
 import { registerAssetsRoutes } from './assets.js';
 import { registerAuthOAuthRoutes } from './auth-oauth.js';
 import { registerCalendarRoutes } from './admin-calendar.js';
+import { registerCollectionRoutes } from './admin-collections.js';
 import { registerAdminTodoRoutes } from './admin-todo.js';
 import { registerAdminTodoSyncRoutes } from './admin-todo-sync.js';
 import { registerDockerRoutes } from './docker.js';
@@ -56,6 +57,7 @@ export function registerAllRoutes(app: FastifyInstance): void {
 
   // Calendar source CRUD + events read API
   registerCalendarRoutes(app);
+  registerCollectionRoutes(app);
 
   // Todo list/item CRUD API
   registerAdminTodoRoutes(app);

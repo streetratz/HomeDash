@@ -28,6 +28,8 @@ import {
 import { toast } from 'sonner';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card.js';
 import { Button } from '../ui/button.js';
+import { useAuthMe } from '../../state/bootstrap.js';
+import { CollectionManager } from './CollectionManager.js';
 import { Input } from '../ui/input.js';
 import {
   AlertDialog,
@@ -1017,6 +1019,7 @@ function SonosPanel() {
 // ─── Calendars panel ────────────────────────────────────────────────────────
 
 function CalendarsPanel() {
+  const auth = useAuthMe();
   return (
     <div className="space-y-4">
       <div>
@@ -1024,6 +1027,7 @@ function CalendarsPanel() {
         <p className="text-sm text-muted-foreground">Manage calendar feeds and synced sources</p>
       </div>
 
+      {auth.isSuccess && auth.data.user.isAdmin && <CollectionManager />}
       <Card>
         <CardHeader>
           <CardTitle className="text-base">Calendar Sources</CardTitle>
