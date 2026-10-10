@@ -51,6 +51,7 @@ describe('SettingsRailToggle', () => {
 
     const collapse = screen.getByRole('button', { name: 'Collapse settings menu' });
     expect(collapse.getAttribute('aria-expanded')).toBe('true');
+    expect(collapse.getAttribute('aria-controls')).toBe('settings-primary-rail');
     fireEvent.click(collapse);
     expect(onToggle).toHaveBeenCalledTimes(1);
 

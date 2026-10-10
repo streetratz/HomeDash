@@ -151,15 +151,19 @@ describe('collection query separation', () => {
     await act(async () => {
       await hook.result.current.refetch();
     });
-    expect(hook.result.current.stale).toBe(true);
-    expect(hook.result.current.data).toEqual(payload);
+    await waitFor(() => {
+      expect(hook.result.current.stale).toBe(true);
+      expect(hook.result.current.data).toEqual(payload);
+    });
     mocks.get.mockRejectedValue(
       new ApiRequestError(404, { error: 'NOT_FOUND', message: 'Unavailable' }),
     );
     await act(async () => {
       await hook.result.current.refetch();
     });
-    expect(hook.result.current.denied).toBe(true);
-    expect(hook.result.current.data).toBeUndefined();
+    await waitFor(() => {
+      expect(hook.result.current.denied).toBe(true);
+      expect(hook.result.current.data).toBeUndefined();
+    });
   });
 });

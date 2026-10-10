@@ -15,6 +15,9 @@ import { Button } from '../ui/button.js';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet.js';
 import { getVisibleGroups, type SettingsGroup } from './settingsNavConfig.js';
 
+/** Shared id linking {@link SettingsRailToggle}'s `aria-controls` to the rail. */
+const SETTINGS_RAIL_ID = 'settings-primary-rail';
+
 interface SettingsNavProps {
   activeLeafId: string;
   isAdmin: boolean;
@@ -120,6 +123,7 @@ export function SettingsNav({
 
   return (
     <nav
+      id={SETTINGS_RAIL_ID}
       className={`hidden lg:block lg:shrink-0 lg:border-r lg:border-border ${
         collapsed ? 'lg:w-14 lg:pr-2' : 'lg:w-56 lg:pr-4'
       }`}
@@ -154,6 +158,7 @@ export function SettingsRailToggle({
       size="icon"
       onClick={onToggle}
       aria-expanded={!collapsed}
+      aria-controls={SETTINGS_RAIL_ID}
       aria-label={collapsed ? 'Expand settings menu' : 'Collapse settings menu'}
       className="hidden h-11 w-11 shrink-0 lg:inline-flex"
     >
