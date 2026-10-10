@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient, ApiRequestError } from '../lib/apiClient.js';
 import { useAuthMe } from './bootstrap.js';
 import type { CollectionDateGroup } from '../components/calendar/CollectionGroup.js';
+import { householdToday } from '../lib/collectionDates.js';
 
 export type CollectionWindow = { daysAhead: number } | { from: string; to: string };
 export type CollectionException = { id: string; kind: 'skip'; originalDate: string } |
@@ -64,6 +65,7 @@ export function useCollectionDisplay(widgetId: string, window: CollectionWindow,
   const auth = useAuthMe();
   const client = useQueryClient();
   const [foreground, setForeground] = useState(() => document.visibilityState !== 'hidden');
+  const [clock, setClock] = useState<{ serverNow: string; timezone: string | null; receivedAt: number; today: string | null } | null>(null);
   const authenticated = auth.isSuccess && !!auth.data;
   const mode = authenticated ? `auth:${auth.data.user.id}:${auth.dataUpdatedAt}` : 'public';
   const daysAhead = 'daysAhead' in window ? window.daysAhead : null;
@@ -72,10 +74,12 @@ export function useCollectionDisplay(widgetId: string, window: CollectionWindow,
   const key = useMemo(() => collectionKeys.display(mode, widgetId, daysAhead !== null ? { daysAhead } : { from, to }), [mode, widgetId, daysAhead, from, to]);
   const query = useQuery({
     queryKey: key,
-    queryFn: () => {
+    queryFn: async () => {
       const params = new URLSearchParams('daysAhead' in window
         ? { daysAhead: String(window.daysAhead) } : { from: window.from, to: window.to });
-      return apiClient.get<CollectionDisplay>(`/api/${authenticated ? 'user' : 'public'}/calendar/widgets/${widgetId}/collections?${params}`);
+      const result = await apiClient.get<CollectionDisplay>(`/api/${authenticated ? 'user' : 'public'}/calendar/widgets/${widgetId}/collections?${params}`);
+      setClock({ serverNow: result.serverNow, timezone: result.timezone, receivedAt: performance.now(), today: result.householdToday });
+      return result;
     },
     enabled: active && foreground && !auth.isLoading,
     staleTime: 0,
@@ -85,9 +89,26 @@ export function useCollectionDisplay(widgetId: string, window: CollectionWindow,
     retry: (count, error) => !collectionDenied(error) && count < 2,
   });
   const denied = collectionDenied(query.error);
+  useEffect(() => {
+    return client.getQueryCache().subscribe(event => {
+      if (!foreground || JSON.stringify(event.query.queryKey) !== JSON.stringify(key)) return;
+      setClock(previous => {
+        if (!previous?.timezone) return previous;
+        const today = householdToday(previous.serverNow, previous.timezone, performance.now() - previous.receivedAt);
+        return today === previous.today ? previous : { ...previous, today };
+      });
+    });
+  }, [foreground, client, key]);
+  const data = query.data && !denied ? {
+    ...query.data,
+    householdToday: clock && clock.serverNow === query.data.serverNow ? clock.today : query.data.householdToday,
+  } : undefined;
   const { refetch } = query;
   useEffect(() => {
-    if (denied) client.removeQueries({ queryKey: key, exact: true });
+    // Keep the denied error on the active observer while removing its payload.
+    // Removing the active Query object would reset denial and permit remount loops.
+    const cached = client.getQueryCache().find({ queryKey: key, exact: true });
+    if (denied && cached?.state.data !== undefined) cached?.setState({ data: undefined });
   }, [denied, client, key]);
   useEffect(() => {
     const resume = () => {
@@ -99,5 +120,5 @@ export function useCollectionDisplay(widgetId: string, window: CollectionWindow,
     globalThis.window.addEventListener('focus', resume);
     return () => { document.removeEventListener('visibilitychange', resume); globalThis.window.removeEventListener('focus', resume); };
   }, [active, refetch]);
-  return { ...query, data: denied ? undefined : query.data, denied, stale: query.isError && !denied && !!query.data };
+  return { ...query, data, denied, stale: query.isError && !denied && !!query.data };
 }

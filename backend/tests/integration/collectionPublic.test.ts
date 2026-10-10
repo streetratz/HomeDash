@@ -54,6 +54,20 @@ describe('public collection widget scope', () => {
     }
     expect(status).toBe(429);
   });
+  it('cannot broaden selection or designation using forged headers, and publishes only exact DTO fields', async () => {
+    const response = await app.app.inject({ method: 'GET', url: `${url}?from=2026-10-14&to=2026-11-10`,
+      headers: { 'x-dashboard-id': collectionIds.mobileDashboard, 'x-user-id': collectionIds.general, 'x-is-admin': 'true', 'x-context': 'web' } });
+    expect(response.statusCode).toBe(200);
+    const body = response.json();
+    expect(Object.keys(body).sort()).toEqual(['groups', 'householdToday', 'range', 'serverNow', 'state', 'timezone']);
+    expect(Object.keys(body.groups[0]).sort()).toEqual(['date', 'streams']);
+    expect(Object.keys(body.groups[0].streams[0]).sort()).toEqual(['color', 'key', 'name']);
+    const denied = await app.app.inject({ method: 'GET', url: `${url}?bad=true`, headers: {
+      'user-agent': 'Mozilla/5.0 (iPhone)', 'x-dashboard-id': collectionIds.webDashboard, 'x-context': 'web',
+    } });
+    expect(denied.statusCode).toBe(404);
+    expect(denied.body).not.toMatch(/bad|provider|stream|timezone/i);
+  });
   it('revokes next fetch and fails closed on malformed config and missing designation', async () => {
     const widget = getDb().select().from(appWidgetInstances).where(eq(appWidgetInstances.id, collectionIds.widget)).get()!;
     for (const configJson of ['{}', '{"collectionStreamIds":"bad"}']) {

@@ -61,6 +61,7 @@ export function AgendaView({ events, sources, showLocation = true, compact = fal
   const sourceMap = new Map(sources.map((s) => [s.id, s]));
 
   if (events.length === 0 && !collections?.groups.length) {
+    if (collections) return null; // The collection branch owns its permitted empty-state copy.
     return (
       <div className="flex flex-col items-center justify-center gap-2 py-8 text-muted-foreground">
         <Calendar className="h-8 w-8" />

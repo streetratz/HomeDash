@@ -15,7 +15,7 @@ vi.mock('../../src/lib/apiClient.js', async importOriginal => ({
   apiClient: { get: mocks.get },
 }));
 vi.mock('../../src/state/bootstrap.js', () => ({ useAuthMe: () => mocks.auth }));
-afterEach(() => { cleanup(); vi.clearAllMocks(); mocks.auth.data.user = { id: 'admin', isAdmin: true }; mocks.auth.dataUpdatedAt = 1; });
+afterEach(() => { cleanup(); vi.clearAllMocks(); mocks.auth.data.user = { id: 'admin', isAdmin: true }; mocks.auth.dataUpdatedAt = 1; mocks.auth.isSuccess = true; });
 function harness() {
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 } } });
   const wrapper = ({ children }: PropsWithChildren) => <QueryClientProvider client={client}>{children}</QueryClientProvider>;
@@ -75,5 +75,32 @@ describe('collection query separation', () => {
       expect(hook.result.current.data).toEqual(after);
       expect(mocks.get).toHaveBeenCalledTimes(2);
     } finally { vi.useRealTimers(); }
+  });
+  it('switches logout to public without exposing the authenticated last-good response', async () => {
+    mocks.get.mockResolvedValue({ groups: [{ date: '2026-10-14', streams: [{ name: 'Private name' }] }] });
+    const { wrapper } = harness();
+    const hook = renderHook(() => useCollectionDisplay('widget', { daysAhead: 28 }, true), { wrapper });
+    await waitFor(() => expect(hook.result.current.data?.groups).toHaveLength(1));
+    mocks.auth.isSuccess = false;
+    mocks.get.mockResolvedValue({ groups: [], state: 'no_dates' });
+    hook.rerender();
+    expect(hook.result.current.data).toBeUndefined();
+    await waitFor(() => expect(hook.result.current.data?.groups).toEqual([]));
+    expect(mocks.get.mock.calls.at(-1)?.[0]).toContain('/api/public/');
+  });
+  it('keeps last-good data explicitly stale for a transient 500, but clears it on subsequent revocation', async () => {
+    const payload = { groups: [], householdToday: null };
+    mocks.get.mockResolvedValue(payload);
+    const { wrapper } = harness();
+    const hook = renderHook(() => useCollectionDisplay('widget', { daysAhead: 28 }, true), { wrapper });
+    await waitFor(() => expect(hook.result.current.data).toEqual(payload));
+    mocks.get.mockRejectedValue(new ApiRequestError(500, { error: 'INTERNAL_ERROR', message: 'Unavailable' }));
+    await act(async () => { await hook.result.current.refetch(); });
+    expect(hook.result.current.stale).toBe(true);
+    expect(hook.result.current.data).toEqual(payload);
+    mocks.get.mockRejectedValue(new ApiRequestError(404, { error: 'NOT_FOUND', message: 'Unavailable' }));
+    await act(async () => { await hook.result.current.refetch(); });
+    expect(hook.result.current.denied).toBe(true);
+    expect(hook.result.current.data).toBeUndefined();
   });
 });

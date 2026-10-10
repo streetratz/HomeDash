@@ -1,0 +1,98 @@
+# Command: for zone in UTC Australia/Sydney Pacific/Auckland America/Los_Angeles; do TZ="$zone" pnpm --filter backend exec vitest run tests/unit/collectionDates.test.ts tests/integration/collectionPublic.test.ts || exit; TZ="$zone" pnpm --filter frontend exec vitest run tests/unit/collectionDates.test.ts tests/unit/collectionRefresh.test.tsx || exit; done
+# Phase:   10-phase-safe-reading
+# Run:     1
+# Time:    2026-10-10T01:10:04+00:00
+# Exit:    0
+---
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/collectionPublic.test.ts  (5 tests) 281ms
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 22ms
+
+ Test Files  2 passed (2)
+      Tests  12 passed (12)
+   Start at  01:09:54
+   Duration  1.18s (transform 269ms, setup 216ms, collect 525ms, tests 303ms, environment 0ms, prepare 30ms)
+
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionDates.test.ts  (5 tests) 11ms
+ ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 1ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  01:09:56
+   Duration  477ms (transform 23ms, setup 0ms, collect 26ms, tests 12ms, environment 253ms, prepare 63ms)
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/collectionPublic.test.ts  (5 tests) 273ms
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 24ms
+
+ Test Files  2 passed (2)
+      Tests  12 passed (12)
+   Start at  12:09:57
+   Duration  1.18s (transform 271ms, setup 219ms, collect 526ms, tests 297ms, environment 0ms, prepare 30ms)
+
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionDates.test.ts  (5 tests) 11ms
+ ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 2ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  12:09:58
+   Duration  491ms (transform 24ms, setup 0ms, collect 29ms, tests 13ms, environment 256ms, prepare 61ms)
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/collectionPublic.test.ts  (5 tests) 274ms
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 24ms
+
+ Test Files  2 passed (2)
+      Tests  12 passed (12)
+   Start at  14:09:59
+   Duration  1.18s (transform 271ms, setup 221ms, collect 526ms, tests 298ms, environment 0ms, prepare 29ms)
+
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionDates.test.ts  (5 tests) 11ms
+ ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 1ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  14:10:01
+   Duration  485ms (transform 24ms, setup 0ms, collect 25ms, tests 12ms, environment 256ms, prepare 61ms)
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/backend
+
+ ✓ tests/integration/collectionPublic.test.ts  (5 tests) 274ms
+ ✓ tests/unit/collectionDates.test.ts  (7 tests) 24ms
+
+ Test Files  2 passed (2)
+      Tests  12 passed (12)
+   Start at  18:10:02
+   Duration  1.18s (transform 271ms, setup 231ms, collect 520ms, tests 298ms, environment 0ms, prepare 29ms)
+
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/collectionDates.test.ts  (5 tests) 10ms
+ ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 1ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  18:10:04
+   Duration  478ms (transform 21ms, setup 0ms, collect 26ms, tests 11ms, environment 260ms, prepare 63ms)
+

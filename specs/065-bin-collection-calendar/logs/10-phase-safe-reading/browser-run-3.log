@@ -1,0 +1,21 @@
+# Command: pnpm --filter frontend exec playwright test tests/e2e/collections-reading.spec.ts tests/e2e/collections-reading.mobile.spec.ts --project=chromium --project=mobile-safari
+# Phase:   10-phase-safe-reading
+# Run:     3
+# Time:    2026-10-10T01:07:56+00:00
+# Exit:    0
+---
+[2m[WebServer] [22m[2m$ node scripts/start-e2e-server.mjs[22m
+[2m[WebServer] [22m[2m$ tsc --noEmit && vite build[22m
+[2m[WebServer] [22m[33m
+[2m[WebServer] [22m(!) Some chunks are larger than 500 kB after minification. Consider:
+[2m[WebServer] [22m- Using dynamic import() to code-split the application
+[2m[WebServer] [22m- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[2m[WebServer] [22m- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+
+Running 3 tests using 1 worker
+
+  ✓  1 [setup] › tests/e2e/auth.setup.ts:17:3 › Authenticated E2E setup › completes first-run and stores the admin session (758ms)
+  ✓  2 [chromium] › tests/e2e/collections-reading.spec.ts:4:1 › foreign visitor sees all 32 complete named collections and restored dialog focus (776ms)
+  ✓  3 [mobile-safari] › tests/e2e/collections-reading.mobile.spec.ts:4:1 › 360px WebKit crowded names, keyboard and light-dark reduced motion (1.3s)
+
+  3 passed (13.0s)

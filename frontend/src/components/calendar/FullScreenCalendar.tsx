@@ -5,7 +5,7 @@
  * prev/next navigation and a day detail panel on click.
  */
 
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { X, ChevronLeft, ChevronRight, MapPin, Calendar } from 'lucide-react';
 import { Button } from '../ui/button.js';
 import type { CalendarEvent, CalendarSource } from '../../state/calendarHooks.js';
@@ -14,6 +14,7 @@ import { useClockFormat } from '../../state/bootstrap.js';
 import { toCalendarDateKey } from '../../lib/calendarDates.js';
 import { useCollectionDisplay } from '../../state/collectionHooks.js';
 import { CollectionGroup } from './CollectionGroup.js';
+import { addCollectionDays } from '../../lib/collectionDates.js';
 
 export interface FullScreenCalendarProps {
   /** All configured source IDs to fetch events for (empty = use all sources passed) */
@@ -57,6 +58,9 @@ function formatTimeRange(startAt: string, endAt: string, hour12?: boolean, start
 }
 
 export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onClose, collectionWidgetId, householdToday }: FullScreenCalendarProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const navigated = useRef(false);
+  const previousHousehold = useRef(householdToday);
   const todayKey = useMemo(() => toDateKey(new Date()), []);
   const { hour12 } = useClockFormat();
 
@@ -70,6 +74,16 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
     to: `${currentMonth.year}-${pad(currentMonth.month + 1)}-${pad(getDaysInMonth(currentMonth.year, currentMonth.month))}`,
   };
   const collectionQuery = useCollectionDisplay(collectionWidgetId ?? '', range, !!collectionWidgetId);
+  const householdKey = collectionQuery.data?.householdToday ?? householdToday;
+  useEffect(() => {
+    if (!householdKey || householdKey === previousHousehold.current) return;
+    if (!navigated.current) {
+      const [y, m] = householdKey.split('-').map(Number);
+      setCurrentMonth({ year: y!, month: m! - 1 });
+      setSelectedDate(householdKey);
+    }
+    previousHousehold.current = householdKey;
+  }, [householdKey]);
 
   // Fetch events for the full visible month range (includes overflow days from prev/next month)
   const [from, to] = useMemo(() => {
@@ -97,13 +111,25 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
     return showPrivateEvents ? raw : raw.filter((ev) => !ev.isPrivate);
   }, [eventsQuery.data, showPrivateEvents]);
 
-  // Close on Escape key
+  // Trap focus while modal, restore its originating control on close.
   useEffect(() => {
+    const previous = document.activeElement;
+    dialogRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
     function handleKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') { e.preventDefault(); onClose(); }
+      if (e.key !== 'Tab') return;
+      const controls = dialogRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), [tabindex="0"]');
+      if (!controls?.length) return;
+      const first = controls[0]!;
+      const last = controls[controls.length - 1]!;
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
     document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      if (previous instanceof HTMLElement && previous.isConnected) previous.focus();
+    };
   }, [onClose]);
 
   const sourceMap = useMemo(() => new Map(sources.map((s) => [s.id, s])), [sources]);
@@ -133,6 +159,7 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
   }).format(new Date(year, month, 1));
 
   const prevMonth = useCallback(() => {
+    navigated.current = true;
     setCurrentMonth((prev) => {
       if (prev.month === 0) return { year: prev.year - 1, month: 11 };
       return { ...prev, month: prev.month - 1 };
@@ -140,6 +167,7 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
   }, []);
 
   const nextMonth = useCallback(() => {
+    navigated.current = true;
     setCurrentMonth((prev) => {
       if (prev.month === 11) return { year: prev.year + 1, month: 0 };
       return { ...prev, month: prev.month + 1 };
@@ -147,6 +175,7 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
   }, []);
 
   const goToToday = useCallback(() => {
+    navigated.current = true;
     const now = new Date();
     setCurrentMonth({ year: now.getFullYear(), month: now.getMonth() });
     setSelectedDate(todayKey);
@@ -177,29 +206,30 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
   })();
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Calendar month view" className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+    <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Calendar month view" className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
       <div className="flex h-full w-full sm:h-[85vh] sm:w-[85vw] max-w-[1400px] flex-col overflow-hidden rounded-none sm:rounded-xl border border-border bg-background/90 shadow-2xl backdrop-blur">
       {/* Top bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3">
         <div className="flex flex-wrap items-center gap-2">
-          <Button aria-label="Previous month" variant="ghost" size="icon" onClick={prevMonth}>
+          <Button aria-label="Previous month" className="min-h-11 min-w-11" disabled={collectionWidgetId ? year === 1900 && month === 0 : false} variant="ghost" size="icon" onClick={prevMonth}>
             <ChevronLeft className="h-5 w-5" />
           </Button>
           <h2 className="text-lg font-semibold">{monthLabel}</h2>
-          <Button aria-label="Next month" variant="ghost" size="icon" onClick={nextMonth}>
+          <Button aria-label="Next month" className="min-h-11 min-w-11" disabled={collectionWidgetId ? year === 2199 && month === 11 : false} variant="ghost" size="icon" onClick={nextMonth}>
             <ChevronRight className="h-5 w-5" />
           </Button>
-          <Button variant="outline" size="sm" className="ml-2" onClick={goToToday}>
+          <Button variant="outline" size="sm" className="ml-2 min-h-11" onClick={goToToday}>
             {collectionWidgetId ? 'Provider Today' : 'Today'}
           </Button>
           {collectionWidgetId && <Button variant="outline" className="min-h-11" onClick={() => {
             const key = collectionQuery.data?.householdToday ?? householdToday;
             if (!key) return;
             const [y, m] = key.split('-').map(Number);
+            navigated.current = false;
             setCurrentMonth({ year: y!, month: m! - 1 }); setSelectedDate(key);
           }}>Household Today</Button>}
         </div>
-        <Button aria-label="Close month view" variant="ghost" size="icon" onClick={onClose}>
+        <Button aria-label="Close month view" className="min-h-11 min-w-11" variant="ghost" size="icon" onClick={onClose}>
           <X className="h-5 w-5" />
         </Button>
       </div>
@@ -232,9 +262,21 @@ export function FullScreenCalendar({ sourceIds, sources, showPrivateEvents, onCl
                 <button
                   key={dateKey}
                   type="button"
-                  onClick={() => setSelectedDate(dateKey)}
+                  onClick={() => { navigated.current = true; setSelectedDate(dateKey); }}
+                  onKeyDown={e => {
+                    const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key];
+                    if (delta === undefined) return;
+                    e.preventDefault();
+                    const key = addCollectionDays(dateKey, delta);
+                    if (key < '1900-01-01' || key > '2199-12-31') return;
+                    navigated.current = true;
+                    const [y, m] = key.split('-').map(Number);
+                    setCurrentMonth({ year: y!, month: m! - 1 }); setSelectedDate(key);
+                    requestAnimationFrame(() => dialogRef.current?.querySelector<HTMLButtonElement>(`[data-date="${key}"]`)?.focus());
+                  }}
+                  data-date={dateKey}
                   aria-label={`${dateKey}: ${dayEvents.length} provider events, ${collectionGroup?.streams.length ?? 0} collection streams. Open complete day detail`}
-                  className={`relative flex flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden ${
+                  className={`relative flex min-h-11 min-w-0 flex-col border-b border-r border-border/30 p-1 text-left transition-colors hover:bg-accent overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring ${
                     isSelected ? 'bg-accent' : ''
                   }`}
                 >
