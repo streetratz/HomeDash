@@ -51,6 +51,8 @@ describe('public collection widget scope', () => {
     expect(JSON.stringify(result.body)).not.toMatch(
       /providerLabel|General waste|Garden|anchorDate|weekdays|revision|runtimeEpoch/,
     );
+    for (const id of [collectionIds.general, collectionIds.recycling, collectionIds.garden])
+      expect(JSON.stringify(result.body)).not.toContain(id);
     expect(
       (await app.request.get(`${url}?daysAhead=1&streamIds=${collectionIds.general}`)).status,
     ).toBe(422);

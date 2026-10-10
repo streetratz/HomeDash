@@ -1,4 +1,4 @@
-# Logs Index — Bin Collection Calendar
+# Logs Index — Custom Calendar Events
 
 ## Phases
 
@@ -22,6 +22,7 @@
 | 16 | Custom event backend foundation | Complete — icon/bounds engine + migrations; 835 tests, lint clean | [16-phase-custom-event-foundation.md](16-phase-custom-event-foundation.md) |
 | 17 | Custom event UI refactor | Complete — admin dialog launcher, offline icons, generic labels; 177 unit / 9 collection E2E, typecheck/build/lint clean | [17-phase-custom-event-ui.md](17-phase-custom-event-ui.md) |
 | 18 | CH-04 in-page editor + date picker | Complete — modal replaced with in-page panel, theme-visible/touch date pickers; 177 unit / 9 collection E2E, typecheck/build/lint clean | [18-phase-inpage-datepicker.md](18-phase-inpage-datepicker.md) |
+| 19 | Independent custom event review | Validated — public identity correction, 835 backend / 5 targeted browser tests; owner validation pending | [19-phase-custom-event-review.md](19-phase-custom-event-review.md) |
 
 ## Overall Status
 
@@ -30,17 +31,21 @@ Current execution: implementation and local phase commits authorised on
 historical planning boundaries, not current execution restrictions.
 
 Runtime implementation and isolated local demonstration are delivered.
-Latest evidence: 824 backend / 173 frontend unit / 36 browser tests passing;
-typechecks, build, lint and Docker main→candidate upgrade passing. Final audit
+Latest evidence: phase 19 passed 835 backend tests and 5 targeted browser tests
+(including setup), both typechecks, build and full lint. Phase 18 passed 177
+frontend unit / 9 collection browser tests and Docker main→candidate upgrade.
+Final audit
 records formatter baseline, intermittent harness reruns, remaining exact
 coverage tasks, unavailable human/assistive evidence and unauthorized T091.
-The independent fresh-context Opus 4.8 review found no Critical/High defects and
-one Medium today-marker inconsistency; phase 13 records correction and validation.
+The final fresh-context Opus 4.8 review found no Critical/High/Medium defects.
+Phase 19 fixes its Low public-key privacy mismatch; phase 13 preserves the
+earlier today-marker correction. Current UI is in-page, superseding phase 17's
+historical dialog. Human/device validation remains pending.
 
 Historically, planning and task generation were authorised; phase 05 records consistency review
 and artifact corrections only. Phase 04's counts below describe its initial output.
-Application implementation, commit/push/PR work and dependency PRs #2/#18 remain
-out of scope. Optional auto-commit hooks are skipped. Earlier phase outcomes
+At that historical stage, application implementation, commit/push/PR work and
+dependency PRs #2/#18 were out of scope. Earlier phase outcomes
 below describe their historical scope.
 
 Generated `../tasks.md`: 97 unchecked tasks in seven phases, with US1=19,

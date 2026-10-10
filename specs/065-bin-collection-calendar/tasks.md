@@ -1,10 +1,13 @@
-# Tasks: Bin Collection Calendar
+# Tasks: Custom Calendar Events
 
 **Input**: Design documents from `specs/065-bin-collection-calendar/`  
-**Prerequisites**: `plan.md`, `spec.md` (CH-02), `research.md`, `data-model.md`,
+**Prerequisites**: `plan.md`, `spec.md` (CH-04), `research.md`, `data-model.md`,
 `contracts/collection-api.md`, `contracts/calendar-ui.md`, `quickstart.md`;
 root/scoped `AGENTS.md` and `.specify/memory/constitution.md` v2.4.0.  
-**Status**: **Setup and foundation validated; US1 next.**
+**Status**: **Custom event refactor implemented and independently reviewed;
+local owner validation pending.** R001-R014 below track the current scope.
+Original T tasks retain historical implementation and outstanding acceptance
+evidence; unchecked human-validation and PR tasks are not claimed complete.
 **Tests**: Required by the specification, requested behavior coverage and
 constitution. Write focused tests before the corresponding implementation,
 observe meaningful failing assertions, then make them green; infrastructure
@@ -23,9 +26,9 @@ not work deferred until after publishing an unsafe MVP.
   never overrides prerequisites or permits concurrent edits to shared files.
 - New paths below are deliberate implementation targets, not claims of existing
   files. Never hand-edit generated Drizzle SQL, journals or snapshots.
-- Implement only after separate authorization. This invocation must not
-  implement, bump versions, commit, push, open a PR or touch dependency PRs #2/#18.
-  Optional Spec Kit auto-commit hooks remain skipped.
+- Implementation and local phase commits are authorized. Do not push, open a
+  PR, prepare versions or touch deferred dependency PRs #2/#18.
+  The original planning-only restriction is superseded.
 
 ## Path Conventions and Execution Rules
 
@@ -301,7 +304,7 @@ candidate. Outstanding original matrices/human evidence are not marked complete.
 - [x] R008 Update agenda/fullscreen icons and custom-event selection/empty labels without changing provider behavior (Prerequisite: R007).
 - [x] R009 Test one-off create/edit, recurrence stop, legacy rules, isolated delete, cancelled drafts and public icon selection (Prerequisite: R008).
 - [x] R010 Run desktop/mobile browser flows, unit suites, typecheck/build and full lint; update docs/audit and commit UI phase (Prerequisite: R009).
-- [ ] R011 Verify rebuilt isolated preview and final review; no push/PR or data wipe (Prerequisite: R010).
+- [x] R011 Verify rebuilt isolated preview and final review; no push/PR or data wipe (Prerequisite: R010).
 
 ### CH-04 Correction Tasks (owner review 2026-10-10 1507 UTC+11)
 

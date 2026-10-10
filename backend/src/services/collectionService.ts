@@ -717,6 +717,11 @@ export function readCollectionDisplay(
         : window;
     const selected = config.streams.filter((s) => selectedIds.includes(s.id));
     const groups = collectionGroups(selected, range);
+    if (publicRead)
+      for (const group of groups)
+        group.streams.forEach((stream, index) => {
+          stream.key = `event:${group.date}:${index}`;
+        });
     const enabled = selected.filter((s) => s.enabled);
     const exhausted =
       enabled.length > 0 &&
