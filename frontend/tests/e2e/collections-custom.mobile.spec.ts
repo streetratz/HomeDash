@@ -8,8 +8,9 @@ test('360px custom editor exposes seven keyboard-operable weekdays', async ({
   await resetCollectionsToEmpty(page.request, csrfToken);
   await page.setViewportSize({ width: 360, height: 780 });
   await page.goto('/settings?tab=integrations');
-  await page.getByRole('combobox', { name: 'Integration' }).click();
-  await page.getByRole('option', { name: 'Calendars', exact: true }).click();
+  const integrationNav = page.getByRole('navigation', { name: 'Integration sections' });
+  await integrationNav.getByRole('button', { expanded: false }).click();
+  await integrationNav.getByRole('button', { name: 'Calendars', exact: true }).click();
   await page.getByRole('button', { name: 'Custom Events' }).click();
   const manager = page.getByRole('region', { name: 'Custom events' });
   await manager.getByRole('button', { name: 'Manage custom events' }).click();

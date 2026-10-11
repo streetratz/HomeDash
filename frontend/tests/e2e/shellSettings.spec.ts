@@ -14,10 +14,16 @@
 import { test, expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
+const APPEARANCE_PANEL_LEAVES: Record<string, string> = {
+  Branding: 'branding',
+  'Header & Footer': 'header-footer',
+  'Clock Strip': 'clock-strip',
+  Screensaver: 'screensaver',
+};
+
 async function openAppearancePanel(page: Page, panelName: string) {
-  await page.goto('/settings?tab=appearance');
-  const navigation = page.getByRole('navigation', { name: 'Appearance sections' });
-  await navigation.getByRole('button', { name: panelName, exact: true }).click();
+  const leafId = APPEARANCE_PANEL_LEAVES[panelName] ?? panelName;
+  await page.goto(`/settings?tab=${leafId}`);
 }
 
 // ---------------------------------------------------------------------------

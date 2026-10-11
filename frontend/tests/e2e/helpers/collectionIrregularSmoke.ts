@@ -38,8 +38,9 @@ export async function collectionIrregularSmoke(page: Page, csrf: string, mobile:
   );
   await page.goto('/settings?tab=integrations');
   if (mobile) {
-    await page.getByRole('combobox', { name: 'Integration' }).click();
-    await page.getByRole('option', { name: 'Calendars', exact: true }).click();
+    const integrationNav = page.getByRole('navigation', { name: 'Integration sections' });
+    await integrationNav.getByRole('button', { expanded: false }).click();
+    await integrationNav.getByRole('button', { name: 'Calendars', exact: true }).click();
   } else await page.getByRole('button', { name: 'Calendars', exact: true }).click();
   await page.getByRole('button', { name: 'Custom Events' }).click();
   const manager = page.getByRole('region', { name: 'Custom events' });

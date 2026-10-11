@@ -1,27 +1,30 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('Settings navigation', () => {
-  test('mobile selectors expose primary and nested settings destinations', async ({ page }) => {
+  test('mobile drawer flattens appearance panels into direct destinations', async ({ page }) => {
     await page.goto('/settings');
 
-    const settingsSection = page.getByRole('combobox', { name: 'Settings section' });
-    await expect(settingsSection).toContainText('General');
-    await settingsSection.click();
-    await page.getByRole('option', { name: 'Appearance' }).click();
+    const trigger = page.getByRole('button', { name: 'Open settings navigation' });
+    await trigger.click();
 
-    await expect(page).toHaveURL(/\/settings\?tab=appearance$/);
-    const appearanceSection = page.getByRole('combobox', { name: 'Appearance section' });
-    await appearanceSection.click();
-    await page.getByRole('option', { name: 'Clock Strip' }).click();
-    await expect(appearanceSection).toContainText('Clock Strip');
+    const drawer = page.getByRole('navigation', { name: 'Settings sections' });
+    await drawer.getByRole('button', { name: 'Clock Strip' }).click();
 
-    await settingsSection.click();
-    await page.getByRole('option', { name: 'Integrations' }).click();
+    await expect(page).toHaveURL(/\/settings\?tab=clock-strip$/);
+    await expect(page.getByRole('heading', { name: 'Clock Strip', level: 3 })).toBeVisible();
+  });
 
-    await expect(page).toHaveURL(/\/settings\?tab=integrations$/);
-    const integrationSection = page.getByRole('combobox', { name: 'Integration' });
-    await integrationSection.click();
-    await page.getByRole('option', { name: 'Sonos' }).click();
-    await expect(integrationSection).toContainText('Sonos');
+  test('mobile integrations sub-panel selection persists in the URL', async ({ page }) => {
+    await page.goto('/settings?tab=integrations');
+
+    const integrationNav = page.getByRole('navigation', { name: 'Integration sections' });
+
+    // Mobile renders a grouped disclosure: open it before the grouped list is reachable.
+    await integrationNav.getByRole('button', { expanded: false }).click();
+    await integrationNav.getByRole('button', { name: 'Sonos', exact: true }).click();
+
+    await expect(page).toHaveURL(/\/settings\?tab=integrations&panel=sonos$/);
+    // Selecting collapses the disclosure; the trigger now reflects the active trail.
+    await expect(integrationNav.getByRole('button', { name: 'Media Sonos' })).toBeVisible();
   });
 });
