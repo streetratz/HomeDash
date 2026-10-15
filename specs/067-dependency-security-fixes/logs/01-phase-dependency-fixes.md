@@ -6,7 +6,7 @@
 
 **Phase**: 01 — Dependency Fixes
 **Task range**: T001–T005
-**Date/Time**: 2026-10-16
+**Date/Time**: 2026-10-16 (rerun after rebase onto `main` at `55d6730`)
 **Purpose**: Replace Dependabot PRs #2 and #18 with one change that removes every
 known-vulnerable `js-yaml` and `undici` version from the lockfile.
 
@@ -16,7 +16,9 @@ known-vulnerable `js-yaml` and `undici` version from the lockfile.
 | --- | --- |
 | `pnpm install` | Lockfile regenerated; `js-yaml` 4.3.2, `undici` 6.29.0 / 7.30.0 / 8.10.2 |
 | `pnpm -r why undici js-yaml --prod` | Production tree unchanged: only `undici` 8.10.2 (backend direct) |
-| `pnpm --filter backend test` | 831 passed, 4 failed (pre-existing, see below) |
+| `pnpm --filter backend test` | Pre-existing `artCacheService` failures (4) plus one intermittent socket reset per run (see below) |
+| `vitest run tests/contract/collections.test.ts` ×3 | 4 passed each run |
+| `vitest run tests/integration/scheduledJobs.test.ts` ×3 | 8 passed each run |
 | `pnpm --filter frontend test:unit` | 195 passed |
 | `pnpm typecheck` | Passed |
 | `pnpm build` | Passed |
@@ -32,6 +34,12 @@ known-vulnerable `js-yaml` and `undici` version from the lockfile.
   identically on a clean `main` checkout in the same environment, and the suite
   passes in GitHub Actions. The service uses Node's built-in `fetch`, not the
   `undici` package, so the failure is environmental and unrelated to this change.
+- After rebasing onto `release: v3.2.16`, two full backend runs each hit one
+  intermittent `ECONNRESET` / `socket hang up` from supertest
+  (`collections.test.ts` once, `scheduledJobs.test.ts` once, never both). Each
+  file passes 3/3 in isolation. Supertest uses `node:http`, not the `undici`
+  package, so these are load-related flakes rather than a regression; raw
+  output is in `validation.log` and `backend-rerun.log`.
 - `openapi:lint` reports the same 5 errors and 39 warnings on `main` and on this
   branch; the redocly upgrade introduces no new findings.
 - `@redocly/cli` 1.34.17 (Dependabot PR #2) still pulled `js-yaml` 4.2.0 and
