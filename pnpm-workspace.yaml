@@ -7,6 +7,9 @@ overrides:
   brace-expansion@5: 5.0.12
   fast-uri@3: 3.1.6
   sonos@1.14.3>ip: '-'
+  js-yaml@4: 4.3.2
+  undici@6: 6.29.0
+  undici@7: 7.30.0
 
 allowBuilds:
   argon2: true
