@@ -205,7 +205,7 @@ Serialized Error: { code: 'ECONNRESET', response: undefined }
  FAIL  tests/unit/artCacheService.test.ts > getArt > fetches from origin on cache miss and caches the result
 AssertionError: expected "fetch" to be called 1 times, but got 0 times
  ❯ tests/unit/artCacheService.test.ts:57:22
-     55| 
+     55|
      56|     const result = await getArt('https://example.com/art.png');
      57|     expect(fetchSpy).toHaveBeenCalledTimes(1);
        |                      ^
@@ -217,11 +217,11 @@ AssertionError: expected "fetch" to be called 1 times, but got 0 times
  FAIL  tests/unit/artCacheService.test.ts > getArt > evicts oldest entry when capacity exceeded
 AssertionError: expected "fetch" to be called 51 times, but got 0 times
  ❯ tests/unit/artCacheService.test.ts:103:23
-    101| 
+    101|
     102|     // 51 fetches so far
     103|     expect(fetchMock).toHaveBeenCalledTimes(51);
        |                       ^
-    104| 
+    104|
     105|     // The first entry (i=0) was evicted — next call must re-fetch
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
@@ -315,7 +315,7 @@ AssertionError: promise resolved "{ …(2) }" instead of rejecting
     127|     ).rejects.toMatchObject({ statusCode: 413, reason: 'art_response_t…
        |     ^
     128|   });
-    129| 
+    129|
 
 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
 
