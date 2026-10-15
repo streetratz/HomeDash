@@ -1,0 +1,12 @@
+$ docker build -t homedash:067-smoke .
+$ docker run -d -p 127.0.0.1:38067:3000 -v hd-067-smoke:/data homedash:067-smoke
+/healthz                 200 application/json; charset=utf-8
+/readyz                  200 application/json; charset=utf-8
+/api/public/bootstrap    200 application/json; charset=utf-8
+/                        200 text/html; charset=utf-8
+container health=healthy
+$ ls node_modules/.pnpm | grep -E "^(undici|js-yaml)@"
+js-yaml@4.3.2
+undici@6.29.0
+undici@7.30.0
+undici@8.10.2
