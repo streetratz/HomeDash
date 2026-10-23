@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **Calendar agenda Today highlight and timeline contrast** (#25) — The agenda now
+  gives Today the same bordered, tinted card treatment as the next bin
+  collection, marks it with `aria-current="date"`, and raises the contrast of
+  every day/date label, timeline rail, and event dot so later days no longer
+  look washed out.
+
+### Security
+
+- **Development dependency advisories** (#24) — Raised `@redocly/cli` to
+  `^1.34.20` and pinned transitive `js-yaml` 4.x to 4.3.2, `undici` 6.x to
+  6.29.0, and `undici` 7.x to 7.30.0. These packages were shipped in the
+  image's `node_modules`, clearing GHSA-2883-xcg3-v3hh, GHSA-5p4m-2wfm-xmqj,
+  GHSA-52cp-r559-cp3m, GHSA-rfgv-xxqx-mfg5, GHSA-3wwx-pv8p-q78v, and
+  GHSA-w293-vg96-wgc3. Runtime behaviour is unchanged.
+
+## [3.2.16] - 2026-10-11
+
+### Changed
+
+- **Unified Settings navigation** (#23) — The Settings tab strip is replaced
+  by a grouped navigation rail (collapsible to icons, with a persisted
+  preference) and a reusable second-level sub-navigation shared by
+  Integrations, scaling from phone to desktop.
+
+## [3.2.15] - 2026-10-10
+
+### Added
+
+- **Custom all-day calendar events and bin collection preset** (#21) —
+  Administrators can add custom all-day events and configure household bin
+  collection streams (weekly, fortnightly, or explicit dates with exceptions)
+  in a confirmed household timezone. Collections appear in the Calendar agenda
+  and fullscreen views with coloured bin icons and Today/Tomorrow labels.
+
+### Fixed
+
+- **Sonos prefers the active speaker group** (#17) — The Sonos widget and
+  screensaver share one group-selection rule: explicit selections are kept,
+  then playing, paused, and stable available groups are preferred, and
+  unavailable groups are never auto-selected.
+- **Deterministic Playwright E2E baseline** (#16) — Restored a
+  self-starting production-mode Playwright suite with separate desktop and
+  mobile coverage, and added it to the pull-request checks.
+
 ## [3.2.12] - 2026-09-24
 
 ### Fixed

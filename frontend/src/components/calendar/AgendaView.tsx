@@ -100,24 +100,33 @@ export function AgendaView({ events, sources, showLocation = true, compact = fal
           <div key={dateKey} className="flex flex-col gap-1.5">
             {collectionGroup && collections?.timezone && collections.householdToday &&
               <CollectionGroup group={collectionGroup} timezone={collections.timezone} today={collections.householdToday} next={dateKey === collections.groups[0]?.date} />}
+            {dayEvents.length > 0 && (
+            <section
+              aria-current={isToday ? 'date' : undefined}
+              className={`flex flex-col gap-2 rounded-lg border ${
+                isToday ? 'border-border bg-muted/40 p-3' : 'border-transparent px-3'
+              }`}
+            >
             {/* Date header row */}
-            {dayEvents.length > 0 && <div className="flex items-center gap-2">
-              <span className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-                {label}
-              </span>
+            <div className="flex items-center gap-2">
               <span
-                className={`text-sm font-semibold ${
-                  isToday
-                    ? 'flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs'
-                    : 'text-foreground'
+                className={`flex h-7 min-w-7 items-center justify-center rounded-full px-1.5 text-sm font-semibold tabular-nums ${
+                  isToday ? 'bg-primary text-primary-foreground' : 'text-foreground'
                 }`}
               >
                 {dayNum}
               </span>
-            </div>}
+              <span
+                className={`text-xs font-semibold uppercase tracking-wide ${
+                  isToday ? 'text-foreground' : 'text-foreground/75'
+                }`}
+              >
+                {label}
+              </span>
+            </div>
 
             {/* Timeline + events */}
-            <div className="relative flex flex-col gap-2 border-l-2 border-white/10 ml-3 pl-4">
+            <div className="relative ml-3 flex flex-col gap-2 border-l-2 border-foreground/20 pl-4">
               {dayEvents.map((event) => {
                 const source = sourceMap.get(event.sourceId);
                 const color = source?.color ?? '#3b82f6';
@@ -130,8 +139,8 @@ export function AgendaView({ events, sources, showLocation = true, compact = fal
                     >
                       {/* Timeline dot — centered on border line */}
                       <div
-                        className="absolute -left-[calc(1rem+4px)] top-1/2 -translate-y-1/2 h-2 w-2 rounded-full"
-                        style={{ backgroundColor: color, boxShadow: `0 0 8px ${color}60` }}
+                        className="absolute -left-[calc(1rem+6px)] top-1/2 -translate-y-1/2 h-2.5 w-2.5 rounded-full ring-2 ring-background"
+                        style={{ backgroundColor: color }}
                       />
                       <span className="text-xs text-muted-foreground whitespace-nowrap">
                         {event.isAllDay
@@ -150,8 +159,8 @@ export function AgendaView({ events, sources, showLocation = true, compact = fal
                   >
                     {/* Timeline dot — centered on border line */}
                     <div
-                      className="absolute -left-[calc(1rem+4px)] top-4 h-2 w-2 rounded-full"
-                      style={{ backgroundColor: color, boxShadow: `0 0 8px ${color}60` }}
+                      className="absolute -left-[calc(1rem+6px)] top-4 h-2.5 w-2.5 rounded-full ring-2 ring-background"
+                      style={{ backgroundColor: color }}
                     />
                     {/* Event info */}
                     <div className="flex-1 min-w-0">
@@ -178,6 +187,8 @@ export function AgendaView({ events, sources, showLocation = true, compact = fal
                 );
               })}
             </div>
+            </section>
+            )}
           </div>
         );
       })}
