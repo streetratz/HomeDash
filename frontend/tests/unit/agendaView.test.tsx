@@ -27,7 +27,7 @@ afterEach(() => {
 });
 
 describe('AgendaView day highlighting', () => {
-  it('marks only today as the current date with the highlighted card and primary date badge', () => {
+  it('marks only today as the current date with the primary date badge and no boxed card', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date(2026, 9, 24, 12));
     render(
@@ -45,13 +45,13 @@ describe('AgendaView day highlighting', () => {
     const today = current[0] as HTMLElement;
     expect(today.textContent).toContain('Today');
     expect(today.textContent).toContain("Ana's Birthday");
-    expect(today.className).toContain('bg-muted/40');
-    expect(today.className).toContain('border-border');
+    expect(today.className).not.toContain('border');
+    expect(today.className).not.toContain('bg-');
     expect(screen.getByText('24').className).toContain('bg-primary');
+    expect(screen.getByText('Today').className).toContain('text-foreground');
 
     const later = screen.getByText("Ben's Birthday").closest('section') as HTMLElement;
     expect(later.getAttribute('aria-current')).toBeNull();
-    expect(later.className).toContain('border-transparent');
     expect(screen.getByText('26').className).not.toContain('bg-primary');
     expect(screen.getByText('26').className).toContain('text-foreground');
   });
@@ -64,5 +64,6 @@ describe('AgendaView day highlighting', () => {
     );
     expect(container.querySelector('.border-white\\/10')).toBeNull();
     expect(container.querySelector('.border-foreground\\/20')).not.toBeNull();
+    expect(container.querySelector('.ring-2')).toBeNull();
   });
 });

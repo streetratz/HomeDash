@@ -5,12 +5,13 @@
 ## Summary
 
 Restyle the day groups in `AgendaView` only. Wrap each day's header and timeline
-in a `<section>`. Today gets `border-border bg-muted/40 p-3`, matching
-`CollectionGroup`'s `next` card, and `aria-current="date"`. Day labels move from
+in a `<section>`. Today gets `aria-current="date"`, the solid primary date badge,
+and a full-strength label, with no border or tinted box. `CollectionGroup`'s `next`
+group also drops its box. Day labels move from
 `text-[10px] text-muted-foreground` to `text-xs text-foreground/75`, after a
 larger tabular date number. The rail changes from `border-white/10` to
-`border-foreground/20`. Dots become 10px solid with a `ring-background` cut-out
-instead of a glow. Collection-only days no longer render an empty rail.
+`border-foreground/20`. Dots become 10px solid, centred on the rail, with no
+glow or ring. Collection-only days no longer render an empty rail.
 
 ## Constitution Check
 
@@ -27,5 +28,7 @@ instead of a glow. Collection-only days no longer render an empty rail.
 ## Source Impact
 
 - `frontend/src/components/calendar/AgendaView.tsx`
+- `frontend/src/components/calendar/CollectionGroup.tsx`
+- `frontend/tests/e2e/calendarAgendaResponsive.spec.ts` (new)
 - `frontend/tests/unit/agendaView.test.tsx` (new)
 - `CHANGELOG.md`, `versions.json`, `README.md` (Main Version)

@@ -103,9 +103,7 @@ export function AgendaView({ events, sources, showLocation = true, compact = fal
             {dayEvents.length > 0 && (
             <section
               aria-current={isToday ? 'date' : undefined}
-              className={`flex flex-col gap-2 rounded-lg border ${
-                isToday ? 'border-border bg-muted/40 p-3' : 'border-transparent px-3'
-              }`}
+              className="flex flex-col gap-2 px-3"
             >
             {/* Date header row */}
             <div className="flex items-center gap-2">
@@ -139,7 +137,7 @@ export function AgendaView({ events, sources, showLocation = true, compact = fal
                     >
                       {/* Timeline dot — centered on border line */}
                       <div
-                        className="absolute -left-[calc(1rem+6px)] top-1/2 -translate-y-1/2 h-2.5 w-2.5 rounded-full ring-2 ring-background"
+                        className="absolute -left-[calc(1rem+6px)] top-1/2 -translate-y-1/2 h-2.5 w-2.5 rounded-full"
                         style={{ backgroundColor: color }}
                       />
                       <span className="text-xs text-muted-foreground whitespace-nowrap">
@@ -159,7 +157,7 @@ export function AgendaView({ events, sources, showLocation = true, compact = fal
                   >
                     {/* Timeline dot — centered on border line */}
                     <div
-                      className="absolute -left-[calc(1rem+6px)] top-4 h-2.5 w-2.5 rounded-full ring-2 ring-background"
+                      className="absolute -left-[calc(1rem+6px)] top-4 h-2.5 w-2.5 rounded-full"
                       style={{ backgroundColor: color }}
                     />
                     {/* Event info */}

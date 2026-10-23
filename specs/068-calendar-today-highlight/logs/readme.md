@@ -5,6 +5,7 @@
 | # | Phase | Status | File |
 | --- | --- | --- | --- |
 | 01 | Agenda Styling | ✅ Complete | [01-phase-agenda-styling.md](01-phase-agenda-styling.md) |
+| 02 | Unboxed Refinement and Responsive E2E | ✅ Complete | [02-phase-unboxed-responsive.md](02-phase-unboxed-responsive.md) |
 
 ## Overall Status
 
