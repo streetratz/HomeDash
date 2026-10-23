@@ -8,4 +8,4 @@
 
 ## Overall Status
 
-Implementation and local validation are complete. The PR gates are pending.
+Implementation, unit, E2E, lint, and review gates pass. The Docker upgrade gate is blocked by host package-feed access and must be rerun before merge.

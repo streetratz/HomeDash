@@ -1,0 +1,4 @@
+$ bash .github/skills/pre-pr-upgrade-gate/run.sh
+Building baseline image from main...
+[ELIFECYCLE] Command failed.
+ERROR: failed to build: failed to solve: Canceled: context canceled
