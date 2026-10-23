@@ -20,7 +20,7 @@ timeline legible in both themes (#25).
 | `pnpm lint` | Passed, zero warnings | `lint.log` |
 | `pnpm version:bump-main` | Main 3.2.17 → 3.2.18 | — |
 | `pnpm --filter frontend test:e2e` | 39 passed, 1 skipped | `e2e.log` |
-| `pnpm test:upgrade` | ⛔ Blocked: the build host cannot reach the package feed (`ECONNRESET` / connect failure). This is not a code failure. | `upgrade-gate.log` |
+| `pnpm test:upgrade` | Passed: migrations 35 → 35, 32 tables preserved, 0 FK violations. The first attempt was blocked by host package-feed access (VPN) and passed on rerun. | `upgrade-gate.log` |
 
 ## PR Gates
 
@@ -30,10 +30,8 @@ timeline legible in both themes (#25).
 - **design-taste / emil-design-eng:** See Phase Checkpoint.
 - **lint-gate:** `pnpm lint` passed under Node 24. CI also runs `pnpm lint`
   (`pull-request.yml`) as supplemental evidence.
-- **pre-pr-upgrade-gate:** Blocked by host network access to the package feed.
-  This change is frontend-only, so no database changes are expected. The gate
-  must be rerun when the feed is reachable, and CI's Database Upgrade
-  Compatibility job runs it as well.
+- **pre-pr-upgrade-gate:** Passed. The candidate image upgraded a database created
+  by `main` with all 32 tables preserved and 0 FK violations.
 
 ## Visual Evidence
 

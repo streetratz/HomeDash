@@ -1,4 +1,4 @@
 $ bash .github/skills/pre-pr-upgrade-gate/run.sh
 Building baseline image from main...
-[ELIFECYCLE] Command failed.
-ERROR: failed to build: failed to solve: Canceled: context canceled
+Building candidate image from current worktree...
+Upgrade gate passed: migrations 35 -> 35; 32 tables preserved; 0 FK violations.

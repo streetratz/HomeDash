@@ -8,4 +8,4 @@
 
 ## Overall Status
 
-Implementation, unit, E2E, lint, and review gates pass. The Docker upgrade gate is blocked by host package-feed access and must be rerun before merge.
+Implementation complete. All mandatory PR gates pass: unit, E2E, lint, review, and the Docker upgrade gate.
