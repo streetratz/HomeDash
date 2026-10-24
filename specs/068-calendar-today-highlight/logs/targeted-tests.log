@@ -1,0 +1,10 @@
+
+ RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
+
+ ✓ tests/unit/agendaView.test.tsx  (3 tests) 123ms
+ ✓ tests/unit/collectionCalendar.test.tsx  (8 tests) 204ms
+
+ Test Files  2 passed (2)
+      Tests  11 passed (11)
+   Start at  11:11:44
+   Duration  1.29s (transform 124ms, setup 0ms, collect 419ms, tests 327ms, environment 964ms, prepare 103ms)

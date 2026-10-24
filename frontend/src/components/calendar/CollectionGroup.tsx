@@ -14,7 +14,7 @@ export interface CollectionGroupProps {
 export function CollectionGroup({ group, today, timezone, next = false }: CollectionGroupProps) {
   return (
     <section
-      className={`min-w-0 space-y-2 rounded-lg border p-3 ${next ? 'border-border bg-muted/40' : 'border-transparent'}`}
+      className="min-w-0 space-y-2 px-3 py-1"
     >
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <h4
