@@ -15,11 +15,11 @@ Running 45 tests using 1 worker
 [1A[2K[2/45] [chromium] › tests/e2e/auroraEffects.spec.ts:23:1 › Aurora surfaces use layered animated curtain gradients
 [1A[2K[3/45] [chromium] › tests/e2e/auroraEffects.spec.ts:46:3 › reduced motion › Aurora curtain movement is disabled
 [1A[2K[4/45] [chromium] › tests/e2e/backgroundSettings.spec.ts:37:3 › Background settings in DashboardDialog (T021) › solid color background: set, save, verify persistence, then reset to none
-[1A[2K[5/45] [chromium] › tests/e2e/calendarAgendaResponsive.spec.ts:97:5 › calendar agenda at phone-small (360x740) › highlights Today without boxes and keeps the timeline aligned in light and dark
-[1A[2K[6/45] [chromium] › tests/e2e/calendarAgendaResponsive.spec.ts:97:5 › calendar agenda at phone (390x844) › highlights Today without boxes and keeps the timeline aligned in light and dark
-[1A[2K[7/45] [chromium] › tests/e2e/calendarAgendaResponsive.spec.ts:97:5 › calendar agenda at tablet (768x1024) › highlights Today without boxes and keeps the timeline aligned in light and dark
-[1A[2K[8/45] [chromium] › tests/e2e/calendarAgendaResponsive.spec.ts:97:5 › calendar agenda at laptop (1280x800) › highlights Today without boxes and keeps the timeline aligned in light and dark
-[1A[2K[9/45] [chromium] › tests/e2e/calendarAgendaResponsive.spec.ts:97:5 › calendar agenda at desktop (1920x1080) › highlights Today without boxes and keeps the timeline aligned in light and dark
+[1A[2K[5/45] [chromium] › tests/e2e/calendarAgendaResponsive.spec.ts:104:5 › calendar agenda at phone-small (360x740) › highlights Today without boxes and keeps the timeline aligned in light and dark
+[1A[2K[6/45] [chromium] › tests/e2e/calendarAgendaResponsive.spec.ts:104:5 › calendar agenda at phone (390x844) › highlights Today without boxes and keeps the timeline aligned in light and dark
+[1A[2K[7/45] [chromium] › tests/e2e/calendarAgendaResponsive.spec.ts:104:5 › calendar agenda at tablet (768x1024) › highlights Today without boxes and keeps the timeline aligned in light and dark
+[1A[2K[8/45] [chromium] › tests/e2e/calendarAgendaResponsive.spec.ts:104:5 › calendar agenda at laptop (1280x800) › highlights Today without boxes and keeps the timeline aligned in light and dark
+[1A[2K[9/45] [chromium] › tests/e2e/calendarAgendaResponsive.spec.ts:104:5 › calendar agenda at desktop (1920x1080) › highlights Today without boxes and keeps the timeline aligned in light and dark
 [1A[2K[10/45] [chromium] › tests/e2e/collections-custom.spec.ts:4:1 › custom event supports weekly multiweekday repeat, disable and deliberate deletion
 [1A[2K[11/45] [chromium] › tests/e2e/collections-irregular.spec.ts:3:1 › holiday move followed by deliberate explicit switch persists only finite dates
 [1A[2K[12/45] [chromium] › tests/e2e/collections-preset.spec.ts:3:1 › preset setup, existing Calendar, month detail and reload offline
@@ -57,4 +57,4 @@ Running 45 tests using 1 worker
 [1A[2K[44/45] [mobile-safari] › tests/e2e/settingsNavigation.mobile.spec.ts:4:3 › Settings navigation › mobile drawer flattens appearance panels into direct destinations
 [1A[2K[45/45] [mobile-safari] › tests/e2e/settingsNavigation.mobile.spec.ts:17:3 › Settings navigation › mobile integrations sub-panel selection persists in the URL
 [1A[2K  1 skipped
-  44 passed (44.4s)
+  44 passed (50.2s)

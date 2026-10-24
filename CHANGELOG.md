@@ -9,12 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
-- **Calendar agenda Today highlight and timeline contrast** (#25) — The agenda now
-  emphasises Today with a solid date badge and full-strength label, marks it with
-  `aria-current="date"`, and raises the contrast of every day/date label,
-  timeline rail, and event dot so later days no longer look washed out. Today and
-  the next bin collection render without boxes, and dots sit on the rail
-  without a ring.
+- **Calendar agenda layout and Today highlight** (#25) — Today now stands out with
+  a larger date number and a "Today" label, marked `aria-current="date"`. Bin
+  collections appear inside their matching day, and bins and events share one
+  unboxed row style with an icon on a higher-contrast timeline. The timezone is
+  shown once below the agenda.
 
 ### Security
 

@@ -210,21 +210,41 @@ for (const viewport of VIEWPORTS) {
           await expect(today).toContainText('Synthetic birthday one');
           await expectUnboxed(today);
 
-          const badge = today.getByText(dateKey(0).slice(8).replace(/^0/, ''), { exact: true });
-          expect(alpha(await computed(badge, 'background-color'))).toBe(1);
+          const todayHeading = today.getByRole('heading');
+          await expect(todayHeading).toContainText(/· Today/);
+          expect(await computed(todayHeading.locator('.text-2xl'), 'font-size')).toBe('24px');
 
-          const nextCollection = page.getByRole('list', { name: 'Next collection' }).locator('..');
-          await expect(nextCollection).toContainText('General waste');
-          await expectUnboxed(nextCollection);
+          const binDay = page
+            .locator('section')
+            .filter({ has: page.getByRole('list', { name: 'Next collection' }) });
+          await expect(binDay).toHaveCount(1);
+          await expect(binDay).toContainText('General waste');
+          await expect(binDay).toContainText('Synthetic birthday two');
+          await expectUnboxed(binDay);
 
-          const laterLabel = page
+          const laterHeading = page
             .locator('section:not([aria-current])')
             .filter({ hasText: 'Synthetic grooming' })
-            .locator('span.uppercase');
-          expect(alpha(await computed(laterLabel, 'color'))).toBeGreaterThanOrEqual(0.7);
+            .getByRole('heading')
+            .locator('.text-lg');
+          expect(alpha(await computed(laterHeading, 'color'))).toBeGreaterThanOrEqual(0.75);
 
-          const rails = page.locator('section .border-l-2');
-          await expect(rails).toHaveCount(3);
+          for (const row of await page.locator('section:has(> h4) li').all()) {
+            expect((await row.boundingBox())!.height).toBeGreaterThanOrEqual(36);
+            expect(await computed(row, 'border-top-width')).toBe('0px');
+            expect(alpha(await computed(row, 'background-color'))).toBeLessThanOrEqual(0.1);
+            const title = row.locator('.text-\\[15px\\]').first();
+            expect(alpha(await computed(title, 'color'))).toBe(1);
+          }
+          for (const time of await page.locator('section:has(> h4) li .text-\\[13px\\]').all()) {
+            expect(alpha(await computed(time, 'color'))).toBeGreaterThanOrEqual(0.7);
+          }
+          await expect(page.getByText(/Australia\/Sydney/)).toHaveCount(1);
+
+          const days = page.locator('section:has(> h4)');
+          const rails = page.locator('section:has(> h4) > .border-l-2');
+          expect(await days.count()).toBeGreaterThanOrEqual(3);
+          await expect(rails).toHaveCount(await days.count());
           for (const rail of await rails.all()) {
             const railBox = (await rail.boundingBox())!;
             const railCenter = railBox.x + 1;
@@ -236,7 +256,7 @@ for (const viewport of VIEWPORTS) {
           }
 
           const todayBox = (await today.boundingBox())!;
-          for (const title of await today.getByText(/Synthetic birthday/).all()) {
+          for (const title of await today.locator('li p.truncate').all()) {
             const box = (await title.boundingBox())!;
             expect(box.x + box.width).toBeLessThanOrEqual(todayBox.x + todayBox.width + 1);
           }

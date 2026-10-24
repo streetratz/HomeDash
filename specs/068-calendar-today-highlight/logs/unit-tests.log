@@ -2,63 +2,63 @@ $ vitest run src tests/unit
 
  RUN  v1.6.1 /Users/streetratz/Personal/MyGH-Personal/HomeDash/frontend
 
- ✓ tests/unit/useVisibility.test.ts  (5 tests) 14ms
- ✓ src/hooks/__tests__/useDocker.test.ts  (17 tests) 82ms
- ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (12 tests) 427ms
- ✓ tests/unit/collectionCalendar.test.tsx  (8 tests) 493ms
- ✓ src/components/widgets/__tests__/publicWidgetMode.test.tsx  (2 tests) 81ms
- ✓ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (2 tests) 471ms
- ✓ src/components/settings/__tests__/CalendarSourceEditing.test.tsx  (3 tests) 349ms
- ✓ tests/unit/CollectionManager.test.tsx  (5 tests) 584ms
- ✓ tests/unit/CollectionStreamEditor.test.tsx  (7 tests) 763ms
- ✓ src/hooks/__tests__/useTextOverflow.test.ts  (7 tests) 13ms
- ✓ src/components/widgets/__tests__/DockerWidget.test.tsx  (2 tests) 33ms
- ✓ src/components/settings/__tests__/SettingsSubNav.test.tsx  (3 tests) 202ms
- ✓ src/hooks/__tests__/useIdleDetection.test.ts  (6 tests) 27ms
- ✓ src/components/__tests__/PlaceholderConfigDialog.test.tsx  (3 tests) 365ms
- ✓ tests/unit/agendaView.test.tsx  (2 tests) 49ms
- ✓ src/components/settings/__tests__/SettingsNav.test.tsx  (5 tests) 262ms
- ✓ src/components/widgets/__tests__/DockerConnectionPicker.test.tsx  (2 tests) 183ms
- ✓ src/components/settings/__tests__/ManagementActionAccessibility.test.tsx  (2 tests) 258ms
- ✓ src/components/widgets/__tests__/StocksConfigForm.ui.test.tsx  (1 test) 230ms
+ ✓ tests/unit/useVisibility.test.ts  (5 tests) 114ms
+ ✓ src/hooks/__tests__/useDocker.test.ts  (17 tests) 131ms
+ ✓ tests/unit/agendaView.test.tsx  (3 tests) 277ms
+ ✓ src/components/sonos/__tests__/FullScreenSonos.test.tsx  (2 tests) 414ms
+ ✓ src/components/sonos/__tests__/BrowsePanel.test.tsx  (12 tests) 632ms
+ ✓ tests/unit/collectionCalendar.test.tsx  (8 tests) 529ms
+ ✓ tests/unit/CollectionManager.test.tsx  (5 tests) 619ms
+ ✓ src/components/settings/__tests__/CalendarSourceEditing.test.tsx  (3 tests) 431ms
+ ✓ src/components/widgets/__tests__/publicWidgetMode.test.tsx  (2 tests) 110ms
+ ✓ tests/unit/CollectionStreamEditor.test.tsx  (7 tests) 798ms
+ ✓ src/hooks/__tests__/useTextOverflow.test.ts  (7 tests) 52ms
+ ✓ src/hooks/__tests__/useIdleDetection.test.ts  (6 tests) 45ms
+ ✓ src/components/widgets/__tests__/DockerWidget.test.tsx  (2 tests) 41ms
+ ✓ src/components/settings/__tests__/SettingsSubNav.test.tsx  (3 tests) 247ms
+ ✓ src/components/settings/__tests__/SettingsNav.test.tsx  (5 tests) 250ms
+ ✓ src/components/widgets/__tests__/DockerConnectionPicker.test.tsx  (2 tests) 248ms
+ ✓ src/components/settings/__tests__/ManagementActionAccessibility.test.tsx  (2 tests) 405ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.ui.test.tsx  (1 test) 432ms
+ ✓ tests/unit/collectionHooks.test.tsx  (7 tests) 3382ms
+ ✓ src/state/__tests__/appShortcutHooks.test.ts  (1 test) 13ms
+ ✓ src/components/__tests__/widgetVisibility.test.tsx  (3 tests) 182ms
+ ✓ tests/unit/CollectionExceptionEditor.test.tsx  (1 test) 209ms
+ ✓ src/components/__tests__/PlaceholderConfigDialog.test.tsx  (3 tests) 542ms
+ ✓ src/components/sonos/__tests__/QueuePanel.test.tsx  (2 tests) 313ms
 stderr | src/pages/LoginPage.test.tsx > LoginPage password visibility > reveals and re-masks the password without changing its value
 ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
 ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
 
- ✓ src/pages/LoginPage.test.tsx  (12 tests) 158ms
- ✓ src/state/__tests__/appShortcutHooks.test.ts  (1 test) 24ms
- ✓ src/components/__tests__/widgetVisibility.test.tsx  (3 tests) 119ms
- ✓ src/components/sonos/__tests__/QueuePanel.test.tsx  (2 tests) 202ms
- ✓ src/components/widgets/__tests__/ClockWidget.test.tsx  (1 test) 16ms
- ✓ tests/unit/CollectionExceptionEditor.test.tsx  (1 test) 220ms
+ ✓ src/pages/LoginPage.test.tsx  (12 tests) 196ms
 stderr | src/components/__tests__/EmptyDashboard.test.tsx > EmptyDashboard > gives administrators a direct path to dashboard settings
 ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
 ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
 
- ✓ src/components/__tests__/EmptyDashboard.test.tsx  (2 tests) 168ms
- ✓ tests/unit/CollectionExplicitDatesEditor.test.tsx  (1 test) 172ms
- ✓ tests/unit/collectionHooks.test.tsx  (7 tests) 3380ms
- ✓ src/components/widgets/__tests__/WidgetConfigControls.test.tsx  (1 test) 333ms
- ✓ src/hooks/__tests__/useAdaptivePoll.test.ts  (9 tests) 3ms
- ✓ tests/unit/collectionVisibility.test.tsx  (1 test) 2ms
- ✓ tests/unit/browseServices.test.ts  (10 tests) 4ms
- ✓ src/components/widgets/__tests__/WidgetPicker.ui.test.tsx  (1 test) 223ms
- ✓ src/components/settings/__tests__/SettingsDataState.test.tsx  (2 tests) 104ms
- ✓ src/components/settings/__tests__/WidgetsTab.test.tsx  (1 test) 102ms
- ✓ tests/unit/collectionRestoreWarning.test.tsx  (1 test) 30ms
- ✓ src/components/settings/__tests__/settingsNavConfig.test.ts  (9 tests) 5ms
- ✓ tests/unit/polling.test.ts  (12 tests) 2ms
+ ✓ src/components/__tests__/EmptyDashboard.test.tsx  (2 tests) 184ms
+ ✓ tests/unit/CollectionExplicitDatesEditor.test.tsx  (1 test) 216ms
+ ✓ src/components/widgets/__tests__/ClockWidget.test.tsx  (1 test) 35ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.ui.test.tsx  (1 test) 390ms
+ ✓ src/hooks/__tests__/useAdaptivePoll.test.ts  (9 tests) 5ms
  ✓ tests/unit/collectionRefresh.test.tsx  (1 test) 4ms
- ✓ src/components/sonos/__tests__/selectPreferredSonosGroup.test.ts  (5 tests) 1ms
- ✓ tests/unit/collectionDates.test.ts  (5 tests) 2ms
+ ✓ tests/unit/collectionVisibility.test.tsx  (1 test) 4ms
+ ✓ tests/unit/polling.test.ts  (12 tests) 1ms
+ ✓ tests/unit/browseServices.test.ts  (10 tests) 5ms
+ ✓ tests/unit/collectionRestoreWarning.test.tsx  (1 test) 47ms
+ ✓ src/components/settings/__tests__/settingsNavConfig.test.ts  (9 tests) 5ms
+ ✓ src/components/sonos/__tests__/selectPreferredSonosGroup.test.ts  (5 tests) 2ms
+ ✓ src/components/settings/__tests__/WidgetsTab.test.tsx  (1 test) 136ms
+ ✓ src/components/settings/__tests__/SettingsDataState.test.tsx  (2 tests) 138ms
+ ✓ tests/unit/collectionDates.test.ts  (5 tests) 3ms
  ✓ src/lib/parse-yahoo-csv.test.ts  (4 tests) 4ms
  ✓ src/lib/calendarDates.test.ts  (1 test) 2ms
- ✓ src/components/settings/__tests__/GroupsTab.test.ts  (1 test) 1ms
- ✓ src/components/widgets/__tests__/StocksConfigForm.test.ts  (6 tests) 2ms
- ✓ src/components/widgets/__tests__/WidgetPicker.test.ts  (3 tests) 2ms
+ ✓ src/components/widgets/__tests__/WidgetConfigControls.test.tsx  (1 test) 569ms
+ ✓ src/components/settings/__tests__/GroupsTab.test.ts  (1 test) 2ms
+ ✓ src/components/widgets/__tests__/StocksConfigForm.test.ts  (6 tests) 1ms
+ ✓ src/components/widgets/__tests__/WidgetPicker.test.ts  (3 tests) 3ms
 
  Test Files  46 passed (46)
-      Tests  197 passed (197)
-   Start at  10:44:13
-   Duration  5.83s (transform 3.64s, setup 2ms, collect 14.44s, tests 10.17s, environment 20.35s, prepare 2.95s)
+      Tests  198 passed (198)
+   Start at  11:14:09
+   Duration  8.14s (transform 3.57s, setup 6ms, collect 17.96s, tests 12.37s, environment 30.29s, prepare 4.18s)
 
